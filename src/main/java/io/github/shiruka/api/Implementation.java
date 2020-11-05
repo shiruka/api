@@ -66,7 +66,7 @@ final class Implementation {
    *
    * @param server the server to set.
    */
-  static void setServer(@NotNull final Server server) {
+  public static void setServer(@NotNull final Server server) {
     if (Implementation.server != null) {
       throw new UnsupportedOperationException("Cannot set the server after it initialized!");
     }
