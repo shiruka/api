@@ -67,4 +67,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: ${{ steps.bump-semver.outputs.new_version }}
           tag: ${{ steps.bump-semver.outputs.new_version }}
-          artifacts: "target/shiruka.jar"
