@@ -41,4 +41,14 @@ public interface Shiruka {
   static Server getServer() {
     return Implementation.getServer();
   }
+
+  /**
+   * sets the server to the given server instance.
+   *
+   * @param server the server to set.
+   */
+  @NotNull
+  static void setServer(@NotNull final Server server) {
+    Implementation.setServer(server);
+  }
 }
