@@ -47,7 +47,6 @@ public interface Shiruka {
    *
    * @param server the server to set.
    */
-  @NotNull
   static void setServer(@NotNull final Server server) {
     Implementation.setServer(server);
   }
