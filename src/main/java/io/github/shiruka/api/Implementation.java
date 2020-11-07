@@ -61,7 +61,7 @@ final class Implementation {
   /**
    * obtains the current {@link Server} singleton.
    *
-   * @return server instance being ran.
+   * @return the server instance being ran.
    */
   @NotNull
   static Server getServer() {
@@ -82,6 +82,16 @@ final class Implementation {
         Implementation.server = server;
       }
     }
+  }
+
+  /**
+   * obtains the current {@link FragmentManager} singleton.
+   *
+   * @return the fragment manager instance being ran.
+   */
+  @NotNull
+  static FragmentManager getFragmentManager() {
+    return Objects.requireNonNull(Implementation.fragmentManager, "Cannot get the Fragment manager before it initialized!");
   }
 
   /**

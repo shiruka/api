@@ -44,6 +44,16 @@ public interface Shiruka {
   }
 
   /**
+   * obtains the {@link FragmentManager} instance.
+   *
+   * @return a {@link FragmentManager} instance.
+   */
+  @NotNull
+  static FragmentManager getFragmentManager() {
+    return Implementation.getFragmentManager();
+  }
+
+  /**
    * initiates the server from the given parameters.
    *
    * @param server the server to initiate.
