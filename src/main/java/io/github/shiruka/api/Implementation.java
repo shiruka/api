@@ -50,7 +50,7 @@ final class Implementation {
    * the fragment manager instance.
    */
   @Nullable
-  private static FragmentManager FRAGMENT_MANAGER;
+  private static FragmentManager fragmentManager;
 
   /**
    * ctor.
@@ -90,12 +90,12 @@ final class Implementation {
    * @param manager the manager to set.
    */
   static void setFragmentManager(@NotNull final FragmentManager manager) {
-    if (Implementation.FRAGMENT_MANAGER != null) {
+    if (Implementation.fragmentManager != null) {
       throw new UnsupportedOperationException("Cannot set the fragment manager after it initialized!");
     }
     synchronized (Implementation.LOCK) {
-      if (Implementation.FRAGMENT_MANAGER == null) {
-        Implementation.FRAGMENT_MANAGER = manager;
+      if (Implementation.fragmentManager == null) {
+        Implementation.fragmentManager = manager;
       }
     }
   }
