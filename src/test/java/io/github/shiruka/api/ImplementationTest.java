@@ -32,12 +32,22 @@ import java.io.File;
 import java.io.OutputStream;
 import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.llorllale.cactoos.matchers.Throws;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 final class ImplementationTest {
 
+  private static final Server SERVER = new Server() {
+  };
+
+  private static final EmptyFragmentManager MANAGER = new EmptyFragmentManager();
+
   @Test
+  @Order(1)
   void getServer() {
     MatcherAssert.assertThat(
       "Server set somewhere!",
@@ -46,20 +56,20 @@ final class ImplementationTest {
   }
 
   @Test
+  @Order(2)
   void setServer() {
-    Implementation.setServer(new Server() {
-    });
+    Implementation.setServer(ImplementationTest.SERVER);
     MatcherAssert.assertThat(
       "Server couldn't set!",
       () -> {
-        Implementation.setServer(new Server() {
-        });
+        Implementation.setServer(ImplementationTest.SERVER);
         return null;
       },
       new Throws<>(UnsupportedOperationException.class));
   }
 
   @Test
+  @Order(3)
   void getFragmentManager() {
     MatcherAssert.assertThat(
       "Fragment Manager set somewhere!",
@@ -68,12 +78,13 @@ final class ImplementationTest {
   }
 
   @Test
+  @Order(4)
   void setFragmentManager() {
-    Implementation.setFragmentManager(new EmptyFragmentManager());
+    Implementation.setFragmentManager(ImplementationTest.MANAGER);
     MatcherAssert.assertThat(
       "Fragment Manager couldn't set!",
       () -> {
-        Implementation.setFragmentManager(new EmptyFragmentManager());
+        Implementation.setFragmentManager(ImplementationTest.MANAGER);
         return null;
       },
       new Throws<>(UnsupportedOperationException.class));
