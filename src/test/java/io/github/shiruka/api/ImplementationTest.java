@@ -25,7 +25,13 @@
 
 package io.github.shiruka.api;
 
+import io.github.shiruka.conf.Provider;
+import io.github.shiruka.fragment.FragmentManager;
+import io.github.shiruka.log.Logger;
+import java.io.File;
+import java.io.OutputStream;
 import org.hamcrest.MatcherAssert;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Throws;
 
@@ -55,9 +61,72 @@ final class ImplementationTest {
 
   @Test
   void getFragmentManager() {
+    MatcherAssert.assertThat(
+      "Fragment Manager set somewhere!",
+      Implementation::getFragmentManager,
+      new Throws<>(NullPointerException.class));
   }
 
   @Test
   void setFragmentManager() {
+    Implementation.setFragmentManager(new EmptyFragmentManager());
+    MatcherAssert.assertThat(
+      "Fragment Manager couldn't set!",
+      () -> {
+        Implementation.setFragmentManager(new EmptyFragmentManager());
+        return null;
+      },
+      new Throws<>(UnsupportedOperationException.class));
+  }
+
+  private static final class EmptyFragmentManager extends FragmentManager {
+
+    public EmptyFragmentManager() {
+      super(new File("fragments"), new Logger() {
+        @NotNull
+        @Override
+        public String getName() {
+          return null;
+        }
+
+        @Override
+        public void log(@NotNull final String s) {
+        }
+
+        @Override
+        public void success(@NotNull final String s) {
+        }
+
+        @Override
+        public void warn(@NotNull final String s) {
+        }
+
+        @Override
+        public void error(@NotNull final String s) {
+        }
+
+        @Override
+        public void debug(@NotNull final String s) {
+        }
+
+        @NotNull
+        @Override
+        public OutputStream getOutputStream() {
+          return null;
+        }
+      });
+    }
+
+    @NotNull
+    @Override
+    public String getFragmentConfigFileName() {
+      return null;
+    }
+
+    @NotNull
+    @Override
+    protected Provider<?> getConfigProvider() {
+      return null;
+    }
   }
 }
