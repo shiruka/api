@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api;
 
+import io.github.shiruka.fragment.FragmentManager;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +47,12 @@ final class Implementation {
   private static Server server;
 
   /**
+   * the fragment manager instance.
+   */
+  @Nullable
+  private static FragmentManager fragmentManager;
+
+  /**
    * ctor.
    */
   private Implementation() {
@@ -54,7 +61,7 @@ final class Implementation {
   /**
    * obtains the current {@link Server} singleton.
    *
-   * @return server instance being ran.
+   * @return the server instance being ran.
    */
   @NotNull
   static Server getServer() {
@@ -73,6 +80,33 @@ final class Implementation {
     synchronized (Implementation.LOCK) {
       if (Implementation.server == null) {
         Implementation.server = server;
+      }
+    }
+  }
+
+  /**
+   * obtains the current {@link FragmentManager} singleton.
+   *
+   * @return the fragment manager instance being ran.
+   */
+  @NotNull
+  static FragmentManager getFragmentManager() {
+    return Objects.requireNonNull(Implementation.fragmentManager,
+      "Cannot get the Fragment manager before it initialized!");
+  }
+
+  /**
+   * sets the {@link FragmentManager} singleton to the given fragment manager.
+   *
+   * @param manager the manager to set.
+   */
+  static void setFragmentManager(@NotNull final FragmentManager manager) {
+    if (Implementation.fragmentManager != null) {
+      throw new UnsupportedOperationException("Cannot set the fragment manager after it initialized!");
+    }
+    synchronized (Implementation.LOCK) {
+      if (Implementation.fragmentManager == null) {
+        Implementation.fragmentManager = manager;
       }
     }
   }
