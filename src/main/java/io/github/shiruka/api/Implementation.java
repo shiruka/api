@@ -91,7 +91,8 @@ final class Implementation {
    */
   @NotNull
   static FragmentManager getFragmentManager() {
-    return Objects.requireNonNull(Implementation.fragmentManager, "Cannot get the Fragment manager before it initialized!");
+    return Objects.requireNonNull(Implementation.fragmentManager,
+      "Cannot get the Fragment manager before it initialized!");
   }
 
   /**
