@@ -42,6 +42,14 @@ import org.llorllale.cactoos.matchers.Throws;
 final class ImplementationTest {
 
   private static final Server SERVER = new Server() {
+    @Override
+    public void runCommand(@NotNull final String command) {
+    }
+
+    @Override
+    public boolean isInShutdownState() {
+      return false;
+    }
   };
 
   private static final EmptyFragmentManager MANAGER = new EmptyFragmentManager();

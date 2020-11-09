@@ -25,9 +25,26 @@
 
 package io.github.shiruka.api;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * an interface to determine Shiru ka's servers.
  */
 public interface Server {
 
+  /**
+   * runs the given input.
+   * <p>
+   * it can start with {@code /} or not. it does not matter.
+   *
+   * @param command the command to run.
+   */
+  void runCommand(@NotNull String command);
+
+  /**
+   * obtains server's shutdown statement.
+   *
+   * @return {@code true} if the server is in the shutdown state.
+   */
+  boolean isInShutdownState();
 }
