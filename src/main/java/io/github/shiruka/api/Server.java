@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api;
 
+import io.github.shiruka.fragment.FragmentInfo;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -47,4 +48,13 @@ public interface Server {
    * @return {@code true} if the server is in the shutdown state.
    */
   boolean isInShutdownState();
+
+  /**
+   * checks if the given fragment's info should download and load or not.
+   *
+   * @param info the info to check.
+   *
+   * @return {@code true} if the given info should download and load.
+   */
+  boolean checkFragmentInfo(@NotNull FragmentInfo info);
 }
