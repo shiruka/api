@@ -34,6 +34,8 @@ public interface Server {
 
   /**
    * runs the given input.
+   * <p>
+   * it can start with {@code /} or not. it does not matter.
    *
    * @param command the command to run.
    */
