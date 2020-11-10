@@ -40,18 +40,6 @@ public final class PoolSpec implements ThreadFactory, ForkJoinPool.ForkJoinWorke
   Thread.UncaughtExceptionHandler {
 
   /**
-   * a thread factory that does handling for exceptions,
-   * piping exception output to the loggers.
-   */
-  public static final ThreadFactory UNCAUGHT_FACTORY = new PoolSpec("Shiru ka - Net", 0,
-    false);
-
-  /**
-   * the backing factory.
-   */
-  private static final ThreadFactory BACKING_FACTORY = Executors.defaultThreadFactory();
-
-  /**
    * the name of the pool used to identify its threads.
    */
   private final String name;
