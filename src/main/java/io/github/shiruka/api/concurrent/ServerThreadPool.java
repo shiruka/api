@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.shiruka.api.concurrent.concurrent;
+package io.github.shiruka.api.concurrent;
 
 import java.util.Collection;
 import java.util.List;

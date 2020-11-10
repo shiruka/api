@@ -25,4 +25,4 @@
 /**
  * the package that contains concurrent classes.
  */
-package io.github.shiruka.api.concurrent.concurrent;
+package io.github.shiruka.api.concurrent;
