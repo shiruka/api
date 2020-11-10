@@ -26,7 +26,6 @@ package io.github.shiruka.api.concurrent;
 
 import io.github.shiruka.log.Loggers;
 import java.io.PrintStream;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinWorkerThread;
 import java.util.concurrent.ThreadFactory;
@@ -38,18 +37,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class PoolSpec implements ThreadFactory, ForkJoinPool.ForkJoinWorkerThreadFactory,
   Thread.UncaughtExceptionHandler {
-
-  /**
-   * a thread factory that does handling for exceptions,
-   * piping exception output to the loggers.
-   */
-  public static final ThreadFactory UNCAUGHT_FACTORY = new PoolSpec("Shiru ka - Net", 0,
-    false);
-
-  /**
-   * the backing factory.
-   */
-  private static final ThreadFactory BACKING_FACTORY = Executors.defaultThreadFactory();
 
   /**
    * the name of the pool used to identify its threads.
