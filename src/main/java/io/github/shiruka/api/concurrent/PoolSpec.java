@@ -26,7 +26,6 @@ package io.github.shiruka.api.concurrent;
 
 import io.github.shiruka.log.Loggers;
 import java.io.PrintStream;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinWorkerThread;
 import java.util.concurrent.ThreadFactory;
