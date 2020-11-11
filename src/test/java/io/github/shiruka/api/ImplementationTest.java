@@ -26,7 +26,6 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.conf.Provider;
-import io.github.shiruka.fragment.FragmentInfo;
 import io.github.shiruka.fragment.FragmentManager;
 import io.github.shiruka.log.Logger;
 import java.io.File;
@@ -49,11 +48,6 @@ final class ImplementationTest {
 
     @Override
     public boolean isInShutdownState() {
-      return false;
-    }
-
-    @Override
-    public boolean checkFragmentInfo(@NotNull final FragmentInfo info) {
       return false;
     }
   };

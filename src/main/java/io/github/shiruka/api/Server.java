@@ -25,13 +25,27 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.fragment.FragmentInfo;
+import io.github.shiruka.fragment.FragmentDescription;
+import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine Shiru ka's servers.
  */
 public interface Server {
+
+  /**
+   * filters the given fragment descriptions.
+   *
+   * @param descriptions the descriptions to filter.
+   *
+   * @return the filtered description map.
+   */
+  @NotNull
+  default Map<String, FragmentDescription> filterFragments(
+    @NotNull final Map<String, FragmentDescription> descriptions) {
+    return descriptions;
+  }
 
   /**
    * runs the given input.
@@ -48,13 +62,4 @@ public interface Server {
    * @return {@code true} if the server is in the shutdown state.
    */
   boolean isInShutdownState();
-
-  /**
-   * checks if the given fragment's info should download and load or not.
-   *
-   * @param info the info to check.
-   *
-   * @return {@code true} if the given info should download and load.
-   */
-  boolean checkFragmentInfo(@NotNull FragmentInfo info);
 }
