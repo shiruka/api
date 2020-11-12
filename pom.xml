@@ -45,11 +45,4 @@
   <properties>
     <java.version>11</java.version>
   </properties>
-  <dependencies>
-    <dependency>
-      <groupId>io.github.shiruka</groupId>
-      <artifactId>fragment</artifactId>
-      <version>1.4.0</version>
-    </dependency>
-  </dependencies>
 </project>
