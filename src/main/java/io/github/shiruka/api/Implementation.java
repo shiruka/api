@@ -25,7 +25,7 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.fragment.FragmentManager;
+import io.github.shiruka.common.fragment.FragmentManager;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
