@@ -25,11 +25,10 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.conf.Provider;
-import io.github.shiruka.fragment.FragmentManager;
-import io.github.shiruka.log.Logger;
+import io.github.shiruka.common.conf.Provider;
+import io.github.shiruka.common.fragment.FragmentManager;
 import java.io.File;
-import java.io.OutputStream;
+import org.apache.logging.log4j.LogManager;
 import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.MethodOrderer;
@@ -101,39 +100,7 @@ final class ImplementationTest {
   private static final class EmptyFragmentManager extends FragmentManager {
 
     public EmptyFragmentManager() {
-      super(new File("fragments"), new Logger() {
-        @NotNull
-        @Override
-        public String getName() {
-          return null;
-        }
-
-        @Override
-        public void log(@NotNull final String s) {
-        }
-
-        @Override
-        public void success(@NotNull final String s) {
-        }
-
-        @Override
-        public void warn(@NotNull final String s) {
-        }
-
-        @Override
-        public void error(@NotNull final String s) {
-        }
-
-        @Override
-        public void debug(@NotNull final String s) {
-        }
-
-        @NotNull
-        @Override
-        public OutputStream getOutputStream() {
-          return null;
-        }
-      });
+      super(new File("fragments"), LogManager.getLogger("Test"));
     }
 
     @NotNull
