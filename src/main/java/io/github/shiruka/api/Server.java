@@ -25,7 +25,7 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.fragment.FragmentDescription;
+import io.github.shiruka.common.fragment.FragmentDescription;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 

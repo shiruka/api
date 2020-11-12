@@ -48,8 +48,8 @@
   <dependencies>
     <dependency>
       <groupId>io.github.shiruka</groupId>
-      <artifactId>fragment</artifactId>
-      <version>1.4.0</version>
+      <artifactId>common</artifactId>
+      <version>3.2.0</version>
     </dependency>
   </dependencies>
 </project>
