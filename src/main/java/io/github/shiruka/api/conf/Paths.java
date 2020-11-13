@@ -25,10 +25,6 @@
 
 package io.github.shiruka.api.conf;
 
-import io.github.portlek.replaceable.rp.RpList;
-import io.github.portlek.replaceable.rp.RpString;
-import io.github.shiruka.api.conf.path.advanced.ApReplaceableList;
-import io.github.shiruka.api.conf.path.advanced.ApReplaceableString;
 import io.github.shiruka.api.conf.path.comment.CmBasic;
 import io.github.shiruka.api.conf.path.simple.*;
 import java.util.Arrays;
@@ -153,32 +149,6 @@ public final class Paths {
   @NotNull
   public static CpString stringPath(@NotNull final String path, @Nullable final String def) {
     return new CpString(path, def);
-  }
-
-  /**
-   * represents {@link ApReplaceableString} instance.
-   *
-   * @param path the path.
-   * @param def th default value.
-   *
-   * @return a config path instance.
-   */
-  @NotNull
-  public static ApReplaceableString replaceableStringPath(final String path, final RpString def) {
-    return new ApReplaceableString(path, def);
-  }
-
-  /**
-   * represents {@link ApReplaceableList} instance.
-   *
-   * @param path the path.
-   * @param def th default value.
-   *
-   * @return a config path instance.
-   */
-  @NotNull
-  public static ApReplaceableList replaceableListPath(final String path, final RpList def) {
-    return new ApReplaceableList(path, def);
   }
 
   /**
