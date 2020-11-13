@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a simple implementation for {@link io.github.shiruka.api.conf.ConfigPath}.
+ * a simple implementation for {@link ConfigPath}.
  *
  * @param <T> the value's type.
  */
@@ -61,7 +61,7 @@ public final class CpBasic<T> implements ConfigPath<T> {
    * the config.
    */
   @Nullable
-  private io.github.shiruka.api.conf.Config config;
+  private Config config;
 
   /**
    * ctor.
@@ -100,7 +100,7 @@ public final class CpBasic<T> implements ConfigPath<T> {
 
   @NotNull
   @Override
-  public Optional<io.github.shiruka.api.conf.Config> getConfig() {
+  public Optional<Config> getConfig() {
     return Optional.ofNullable(this.config);
   }
 

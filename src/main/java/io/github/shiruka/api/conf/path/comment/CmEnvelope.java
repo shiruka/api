@@ -38,13 +38,13 @@ import org.simpleyaml.configuration.comments.CommentType;
  *
  * @param <T> the type of the value.
  */
-public abstract class CmEnvelope<T> extends CpEnvelope<T> implements io.github.shiruka.api.conf.CommentablePath<T> {
+public abstract class CmEnvelope<T> extends CpEnvelope<T> implements CommentablePath<T> {
 
   /**
-   * the original {@link io.github.shiruka.api.conf.CommentablePath}.
+   * the original {@link CommentablePath}.
    */
   @NotNull
-  private final Supplier<io.github.shiruka.api.conf.CommentablePath<T>> origin;
+  private final Supplier<CommentablePath<T>> origin;
 
   /**
    * ctor.

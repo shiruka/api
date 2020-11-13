@@ -30,7 +30,7 @@ import io.github.portlek.replaceable.rp.RpString;
 import io.github.shiruka.api.conf.path.advanced.ApReplaceableList;
 import io.github.shiruka.api.conf.path.advanced.ApReplaceableString;
 import io.github.shiruka.api.conf.path.comment.CmBasic;
-import io.github.shiruka.api.conf.path.simple.CpString;
+import io.github.shiruka.api.conf.path.simple.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +63,7 @@ public final class Paths {
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpBoolean} instance.
+   * represents {@link CpBoolean} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -71,12 +71,12 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpBoolean booleanPath(@NotNull final String path, @Nullable final Boolean def) {
-    return new io.github.shiruka.api.conf.path.simple.CpBoolean(path, def);
+  public static CpBoolean booleanPath(@NotNull final String path, @Nullable final Boolean def) {
+    return new CpBoolean(path, def);
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpDouble} instance.
+   * represents {@link CpDouble} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -84,12 +84,12 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpDouble doublePath(@NotNull final String path, @Nullable final Double def) {
-    return new io.github.shiruka.api.conf.path.simple.CpDouble(path, def);
+  public static CpDouble doublePath(@NotNull final String path, @Nullable final Double def) {
+    return new CpDouble(path, def);
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpFloat} instance.
+   * represents {@link CpFloat} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -97,12 +97,12 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpFloat floatPath(@NotNull final String path, @Nullable final Float def) {
-    return new io.github.shiruka.api.conf.path.simple.CpFloat(path, def);
+  public static CpFloat floatPath(@NotNull final String path, @Nullable final Float def) {
+    return new CpFloat(path, def);
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpInteger} instance.
+   * represents {@link CpInteger} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -110,12 +110,12 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpInteger integerPath(@NotNull final String path, @Nullable final Integer def) {
-    return new io.github.shiruka.api.conf.path.simple.CpInteger(path, def);
+  public static CpInteger integerPath(@NotNull final String path, @Nullable final Integer def) {
+    return new CpInteger(path, def);
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpLong} instance.
+   * represents {@link CpLong} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -123,12 +123,12 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpLong longPath(@NotNull final String path, @Nullable final Long def) {
-    return new io.github.shiruka.api.conf.path.simple.CpLong(path, def);
+  public static CpLong longPath(@NotNull final String path, @Nullable final Long def) {
+    return new CpLong(path, def);
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpString} instance.
+   * represents {@link CpString} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -136,14 +136,14 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpString stringPath(@NotNull final String path, @Nullable final StringBuilder def) {
+  public static CpString stringPath(@NotNull final String path, @Nullable final StringBuilder def) {
     return Paths.stringPath(path, Optional.ofNullable(def)
       .map(StringBuilder::toString)
       .orElse(null));
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpString} instance.
+   * represents {@link CpString} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -151,7 +151,7 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpString stringPath(@NotNull final String path, @Nullable final String def) {
+  public static CpString stringPath(@NotNull final String path, @Nullable final String def) {
     return new CpString(path, def);
   }
 
@@ -182,7 +182,7 @@ public final class Paths {
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpSimple} instance.
+   * represents {@link CpSimple} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -190,14 +190,14 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpSimple<List<String>> listStringPath(final String path, final String... def) {
+  public static CpSimple<List<String>> listStringPath(final String path, final String... def) {
     return Paths.simplePath(path, Optional.ofNullable(def)
       .map(Arrays::asList)
       .orElse(null));
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpSimple} instance.
+   * represents {@link CpSimple} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -205,12 +205,12 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpSimple<List<String>> listStringPath(final String path, final List<String> def) {
+  public static CpSimple<List<String>> listStringPath(final String path, final List<String> def) {
     return Paths.simplePath(path, def);
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpSimple} instance.
+   * represents {@link CpSimple} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -218,12 +218,12 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static io.github.shiruka.api.conf.path.simple.CpSimple<Map<String, Object>> mapPath(final String path, final Map<String, Object> def) {
+  public static CpSimple<Map<String, Object>> mapPath(final String path, final Map<String, Object> def) {
     return Paths.simplePath(path, def);
   }
 
   /**
-   * represents {@link io.github.shiruka.api.conf.path.simple.CpSimple} instance.
+   * represents {@link CpSimple} instance.
    *
    * @param path the path.
    * @param def th default value.
@@ -232,7 +232,7 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static <T> io.github.shiruka.api.conf.path.simple.CpSimple<T> simplePath(final String path, final T def) {
-    return new io.github.shiruka.api.conf.path.simple.CpSimple<>(path, def);
+  public static <T> CpSimple<T> simplePath(final String path, final T def) {
+    return new CpSimple<>(path, def);
   }
 }

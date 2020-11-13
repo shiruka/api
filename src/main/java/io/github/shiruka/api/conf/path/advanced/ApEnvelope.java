@@ -32,18 +32,18 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an envelope class for {@link io.github.shiruka.api.conf.AdvancedPath}.
+ * an envelope class for {@link AdvancedPath}.
  *
  * @param <R> the raw value's type.
  * @param <T> the final value's type.
  */
-public abstract class ApEnvelope<R, T> implements io.github.shiruka.api.conf.AdvancedPath<R, T> {
+public abstract class ApEnvelope<R, T> implements AdvancedPath<R, T> {
 
   /**
-   * the original {@link io.github.shiruka.api.conf.AdvancedPath}.
+   * the original {@link AdvancedPath}.
    */
   @NotNull
-  private final Supplier<io.github.shiruka.api.conf.AdvancedPath<R, T>> origin;
+  private final Supplier<AdvancedPath<R, T>> origin;
 
   /**
    * ctor.
@@ -86,7 +86,7 @@ public abstract class ApEnvelope<R, T> implements io.github.shiruka.api.conf.Adv
 
   @NotNull
   @Override
-  public final Optional<io.github.shiruka.api.conf.Config> getConfig() {
+  public final Optional<Config> getConfig() {
     return this.origin.get().getConfig();
   }
 

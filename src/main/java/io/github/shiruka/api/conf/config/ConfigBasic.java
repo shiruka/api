@@ -50,7 +50,7 @@ public final class ConfigBasic<F extends FileConfiguration> implements Config {
    * the provider.
    */
   @NotNull
-  private final io.github.shiruka.api.conf.Provider<F> provider;
+  private final Provider<F> provider;
 
   /**
    * the file configuration.

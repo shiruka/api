@@ -33,22 +33,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an envelope class for {@link io.github.shiruka.api.conf.ConfigPath}.
+ * an envelope class for {@link ConfigPath}.
  *
  * @param <T> the value's type.
  */
-public abstract class CpEnvelope<T> implements io.github.shiruka.api.conf.ConfigPath<T> {
+public abstract class CpEnvelope<T> implements ConfigPath<T> {
 
   /**
-   * the original {@link io.github.shiruka.api.conf.ConfigPath}.
+   * the original {@link ConfigPath}.
    */
   @NotNull
-  private final Supplier<io.github.shiruka.api.conf.ConfigPath<T>> origin;
+  private final Supplier<ConfigPath<T>> origin;
 
   /**
    * ctor.
    *
-   * @param origin the original {@link io.github.shiruka.api.conf.ConfigPath}.
+   * @param origin the original {@link ConfigPath}.
    */
   protected CpEnvelope(@NotNull final Supplier<ConfigPath<T>> origin) {
     this.origin = origin;
@@ -68,7 +68,7 @@ public abstract class CpEnvelope<T> implements io.github.shiruka.api.conf.Config
 
   @NotNull
   @Override
-  public final Optional<io.github.shiruka.api.conf.Config> getConfig() {
+  public final Optional<Config> getConfig() {
     return this.origin.get().getConfig();
   }
 

@@ -26,7 +26,9 @@
 package io.github.shiruka.api.conf.path.simple;
 
 import io.github.shiruka.api.conf.ConfigPath;
-import io.github.shiruka.common.function.StickySupplier;
+import io.github.shiruka.api.conf.path.simple.CpBasic;
+import io.github.shiruka.api.conf.path.simple.CpEnvelope;
+import io.github.shiruka.api.misc.StickySupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,7 +40,7 @@ public final class CpBoolean extends CpEnvelope<Boolean> {
   /**
    * ctor.
    *
-   * @param origin the original {@link io.github.shiruka.api.conf.ConfigPath}.
+   * @param origin the original {@link ConfigPath}.
    */
   private CpBoolean(@NotNull final ConfigPath<Boolean> origin) {
     super(new StickySupplier<>(origin));

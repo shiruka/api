@@ -26,14 +26,14 @@
 package io.github.shiruka.api.conf.path.advanced;
 
 import io.github.shiruka.api.conf.AdvancedPath;
-import io.github.shiruka.common.function.StickySupplier;
+import io.github.shiruka.api.misc.StickySupplier;
 import java.util.Map;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that helps to create {@link io.github.shiruka.api.conf.AdvancedPath} which has {@link Map} raw value.
+ * a class that helps to create {@link AdvancedPath} which has {@link Map} raw value.
  *
  * @param <T> the final value's type.
  */
@@ -42,7 +42,7 @@ public abstract class ApMap<T> extends ApEnvelope<Map<String, Object>, T> {
   /**
    * ctor.
    *
-   * @param origin the original {@link io.github.shiruka.api.conf.AdvancedPath}.
+   * @param origin the original {@link AdvancedPath}.
    */
   private ApMap(@NotNull final AdvancedPath<Map<String, Object>, T> origin) {
     super(new StickySupplier<>(origin));

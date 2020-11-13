@@ -31,7 +31,7 @@ import java.io.File;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a JSON implementation for {@link io.github.shiruka.api.conf.Provider}.
+ * a JSON implementation for {@link Provider}.
  */
 public final class JsonProvider implements Provider<JsonConfiguration> {
 

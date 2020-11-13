@@ -43,10 +43,10 @@ import org.simpleyaml.configuration.comments.Commentable;
 public final class CmBasic<T> implements CommentablePath<T> {
 
   /**
-   * the original {@link io.github.shiruka.api.conf.ConfigPath}.
+   * the original {@link ConfigPath}.
    */
   @NotNull
-  private final io.github.shiruka.api.conf.ConfigPath<T> origin;
+  private final ConfigPath<T> origin;
 
   /**
    * the default comments.
@@ -83,12 +83,12 @@ public final class CmBasic<T> implements CommentablePath<T> {
 
   @NotNull
   @Override
-  public Optional<io.github.shiruka.api.conf.Config> getConfig() {
+  public Optional<Config> getConfig() {
     return this.origin.getConfig();
   }
 
   @Override
-  public void setConfig(@NotNull final io.github.shiruka.api.conf.Config config) {
+  public void setConfig(@NotNull final Config config) {
     this.origin.setConfig(config);
     final var configuration = config.getConfiguration();
     if (!(configuration instanceof Commentable)) {
@@ -116,7 +116,7 @@ public final class CmBasic<T> implements CommentablePath<T> {
   @Override
   public Optional<String> getComment(@NotNull final CommentType commentType) {
     return Optional.ofNullable(this.getConfig()
-      .map(io.github.shiruka.api.conf.Config::getConfiguration)
+      .map(Config::getConfiguration)
       .filter(config -> config instanceof Commentable)
       .map(config -> ((Commentable) config).getComment(this.getPath(), commentType))
       .orElse(this.defaultCommentMap.get(commentType)));

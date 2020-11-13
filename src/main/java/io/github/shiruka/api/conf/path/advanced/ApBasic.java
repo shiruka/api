@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a simple implementation for {@link io.github.shiruka.api.conf.AdvancedPath}
+ * a simple implementation for {@link AdvancedPath}
  *
  * @param <R> the raw value's type.
  * @param <T> the final value's type.
@@ -56,7 +56,7 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
    * the raw value function.
    */
   @NotNull
-  private final Function<io.github.shiruka.api.conf.Config, R> rawValue;
+  private final Function<Config, R> rawValue;
 
   /**
    * the convert to final value function.
@@ -74,7 +74,7 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
    * the config.
    */
   @Nullable
-  private io.github.shiruka.api.conf.Config config;
+  private Config config;
 
   /**
    * ctor.
@@ -85,7 +85,7 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
    * @param convertToFinal the convert to final value function.
    * @param convertToRaw the convert to raw value function.
    */
-  public ApBasic(@NotNull final String path, @Nullable final T def, @NotNull final Function<io.github.shiruka.api.conf.Config, R> rawValue,
+  public ApBasic(@NotNull final String path, @Nullable final T def, @NotNull final Function<Config, R> rawValue,
                  @NotNull final Function<R, T> convertToFinal, @NotNull final Function<T, R> convertToRaw) {
     this.path = path;
     this.def = def;
@@ -126,7 +126,7 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
 
   @NotNull
   @Override
-  public Optional<io.github.shiruka.api.conf.Config> getConfig() {
+  public Optional<Config> getConfig() {
     return Optional.ofNullable(this.config);
   }
 

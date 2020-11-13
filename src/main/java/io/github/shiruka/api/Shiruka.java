@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.common.fragment.FragmentManager;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -44,23 +43,12 @@ public interface Shiruka {
   }
 
   /**
-   * obtains the {@link FragmentManager} instance.
-   *
-   * @return a {@link FragmentManager} instance.
-   */
-  @NotNull
-  static FragmentManager getFragmentManager() {
-    return Implementation.getFragmentManager();
-  }
-
-  /**
    * initiates the server from the given parameters.
    *
    * @param server the server to initiate.
    * @param manager the manager to initiate.
    */
-  static void initServer(@NotNull final Server server, @NotNull final FragmentManager manager) {
+  static void initServer(@NotNull final Server server) {
     Implementation.setServer(server);
-    Implementation.setFragmentManager(manager);
   }
 }

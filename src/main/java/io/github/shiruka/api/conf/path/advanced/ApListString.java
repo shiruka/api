@@ -26,14 +26,14 @@
 package io.github.shiruka.api.conf.path.advanced;
 
 import io.github.shiruka.api.conf.AdvancedPath;
-import io.github.shiruka.common.function.StickySupplier;
+import io.github.shiruka.api.misc.StickySupplier;
 import java.util.List;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that helps to create {@link io.github.shiruka.api.conf.AdvancedPath} which has {@link List} raw value.
+ * a class that helps to create {@link AdvancedPath} which has {@link List} raw value.
  *
  * @param <T> the final value's type.
  */
@@ -42,7 +42,7 @@ public abstract class ApListString<T> extends ApEnvelope<List<String>, T> {
   /**
    * ctor.
    *
-   * @param origin the original {@link io.github.shiruka.api.conf.AdvancedPath}.
+   * @param origin the original {@link AdvancedPath}.
    */
   private ApListString(@NotNull final AdvancedPath<List<String>, T> origin) {
     super(new StickySupplier<>(origin));

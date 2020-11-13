@@ -26,7 +26,7 @@
 package io.github.shiruka.api.conf.provider;
 
 import io.github.shiruka.api.conf.Provider;
-import io.github.shiruka.common.Optionals;
+import io.github.shiruka.api.misc.Optionals;
 import java.io.File;
 import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +34,7 @@ import org.simpleyaml.configuration.file.YamlFile;
 import org.simpleyaml.exceptions.InvalidConfigurationException;
 
 /**
- * a YAML implementation for {@link io.github.shiruka.api.conf.Provider}.
+ * a YAML implementation for {@link Provider}.
  */
 public final class YamlProvider implements Provider<YamlFile> {
 

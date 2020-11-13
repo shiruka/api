@@ -25,10 +25,10 @@
 
 package io.github.shiruka.api.conf.config;
 
-import io.github.shiruka.api.conf.PathLoader;
 import io.github.shiruka.api.conf.Config;
 import io.github.shiruka.api.conf.ConfigPath;
-import io.github.shiruka.common.function.StickySupplier;
+import io.github.shiruka.api.conf.PathLoader;
+import io.github.shiruka.api.misc.StickySupplier;
 import org.jetbrains.annotations.NotNull;
 
 /**

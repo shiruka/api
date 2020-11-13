@@ -23,6 +23,6 @@
  *
  */
 /**
- * the package that contains implementation of {@link io.github.shiruka.api.conf.ConfigPath}.
+ * the package that contains implementation of {@link ConfigPath}.
  */
 package io.github.shiruka.api.conf.path.simple;
