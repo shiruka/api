@@ -30,8 +30,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * represents an event.
  * <p>
- * all events require a static method named getHandlerList() which returns the same {@link HandlerList} as {@link
- * #getHandlers()}.
+ * all events require a static method named getHandlerList() which returns the same {@link HandlerList}
+ * as {@link #getHandlers()}.
  */
 public abstract class Event {
 
