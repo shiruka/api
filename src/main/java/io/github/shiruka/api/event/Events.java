@@ -22,7 +22,28 @@
  * SOFTWARE.
  *
  */
+
+package io.github.shiruka.api.event;
+
+import io.github.shiruka.api.event.Event;
+import org.jetbrains.annotations.NotNull;
+
 /**
- * the package that contains development tools.
+ * an event management class that allows you to register and call events.
  */
-package io.github.shiruka.api.tools;
+public final class Events {
+
+  /**
+   * ctor.
+   */
+  private Events() {
+  }
+
+  /**
+   * calls the given event.
+   *
+   * @param event the event to call.
+   */
+  public static void callEvent(@NotNull final Event event) {
+  }
+}
