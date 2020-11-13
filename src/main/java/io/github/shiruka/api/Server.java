@@ -25,27 +25,12 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.common.fragment.FragmentDescription;
-import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine Shiru ka's servers.
  */
 public interface Server {
-
-  /**
-   * filters the given fragment descriptions.
-   *
-   * @param descriptions the descriptions to filter.
-   *
-   * @return the filtered description map.
-   */
-  @NotNull
-  default Map<String, FragmentDescription> filterFragments(
-    @NotNull final Map<String, FragmentDescription> descriptions) {
-    return descriptions;
-  }
 
   /**
    * runs the given input.

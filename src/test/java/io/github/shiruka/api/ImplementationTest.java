@@ -25,10 +25,6 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.common.conf.Provider;
-import io.github.shiruka.common.fragment.FragmentManager;
-import java.io.File;
-import org.apache.logging.log4j.LogManager;
 import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.MethodOrderer;
@@ -51,8 +47,6 @@ final class ImplementationTest {
     }
   };
 
-  private static final EmptyFragmentManager MANAGER = new EmptyFragmentManager();
-
   @Test
   @Order(1)
   void getServer() {
@@ -73,46 +67,5 @@ final class ImplementationTest {
         return null;
       },
       new Throws<>(UnsupportedOperationException.class));
-  }
-
-  @Test
-  @Order(3)
-  void getFragmentManager() {
-    MatcherAssert.assertThat(
-      "Fragment Manager set somewhere!",
-      Implementation::getFragmentManager,
-      new Throws<>(NullPointerException.class));
-  }
-
-  @Test
-  @Order(4)
-  void setFragmentManager() {
-    Implementation.setFragmentManager(ImplementationTest.MANAGER);
-    MatcherAssert.assertThat(
-      "Fragment Manager couldn't set!",
-      () -> {
-        Implementation.setFragmentManager(ImplementationTest.MANAGER);
-        return null;
-      },
-      new Throws<>(UnsupportedOperationException.class));
-  }
-
-  private static final class EmptyFragmentManager extends FragmentManager {
-
-    public EmptyFragmentManager() {
-      super(new File("fragments"), LogManager.getLogger("Test"));
-    }
-
-    @NotNull
-    @Override
-    public String getFragmentConfigFileName() {
-      return null;
-    }
-
-    @NotNull
-    @Override
-    protected Provider<?> getConfigProvider() {
-      return null;
-    }
   }
 }

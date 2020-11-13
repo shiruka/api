@@ -46,7 +46,6 @@ public interface Shiruka {
    * initiates the server from the given parameters.
    *
    * @param server the server to initiate.
-   * @param manager the manager to initiate.
    */
   static void initServer(@NotNull final Server server) {
     Implementation.setServer(server);

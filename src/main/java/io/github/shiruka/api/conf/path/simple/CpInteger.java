@@ -26,7 +26,7 @@
 package io.github.shiruka.api.conf.path.simple;
 
 import io.github.shiruka.api.conf.ConfigPath;
-import io.github.shiruka.common.function.StickySupplier;
+import io.github.shiruka.api.misc.StickySupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,7 +38,7 @@ public final class CpInteger extends CpEnvelope<Integer> {
   /**
    * ctor.
    *
-   * @param origin the original {@link io.github.shiruka.api.conf.ConfigPath}.
+   * @param origin the original {@link ConfigPath}.
    */
   private CpInteger(@NotNull final ConfigPath<Integer> origin) {
     super(new StickySupplier<>(origin));

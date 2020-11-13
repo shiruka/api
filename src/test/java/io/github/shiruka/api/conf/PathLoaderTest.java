@@ -25,9 +25,9 @@
 
 package io.github.shiruka.api.conf;
 
-import io.github.shiruka.common.conf.path.simple.CpBoolean;
-import io.github.shiruka.common.conf.path.simple.CpFloat;
-import io.github.shiruka.common.conf.path.simple.CpString;
+import io.github.shiruka.api.conf.path.simple.CpBoolean;
+import io.github.shiruka.api.conf.path.simple.CpFloat;
+import io.github.shiruka.api.conf.path.simple.CpString;
 import java.io.File;
 import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
