@@ -26,23 +26,8 @@
 package io.github.shiruka.api.event;
 
 /**
- * represents an event that can be cancelled and thus cause
- * the dispatcher to take a different course of action than
- * was initially planned.
+ * marker interface used to indicate that the given subclass is a listener.
  */
-public interface Cancellable extends Event {
+public interface Listener {
 
-  /**
-   * obtains the cancel state of the event.
-   *
-   * @return {@code true} if the event has been cancelled.
-   */
-  boolean isCancelled();
-
-  /**
-   * sets the cancel state of the event.
-   *
-   * @param cancelled {@code true} to cancel.
-   */
-  void setCancelled(boolean cancelled);
 }

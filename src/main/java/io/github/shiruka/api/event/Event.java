@@ -25,85 +25,9 @@
 
 package io.github.shiruka.api.event;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 /**
- * represents an event.
- * <p>
- * all events require a static method named getHandlerList() which
- * returns the same {@link HandlerList} as {@link #getHandlers()}.
+ * this class represents the superinterface of all classes that are events.
  */
-public abstract class Event {
+public interface Event {
 
-  /**
-   * the asynchronous.
-   */
-  private final boolean async;
-
-  /**
-   * the event name.
-   */
-  @Nullable
-  private String name;
-
-  /**
-   * ctor.
-   *
-   * @param async true indicates the event will fire asynchronously, false
-   *   by default from default constructor.
-   */
-  protected Event(final boolean async) {
-    this.async = async;
-  }
-
-  /**
-   * ctor.
-   */
-  protected Event() {
-    this(false);
-  }
-
-  /**
-   * calls the event and tests if cancelled.
-   *
-   * @return false if event was cancelled, if cancellable. otherwise true.
-   */
-  public final boolean callEvent() {
-    Events.callEvent(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).isCancelled();
-    }
-    return true;
-  }
-
-  /**
-   * by default, it is the event's class's {@linkplain Class#getSimpleName() simple name}.
-   *
-   * @return name of this event.
-   */
-  @NotNull
-  public final String getEventName() {
-    if (this.name == null) {
-      this.name = this.getClass().getSimpleName();
-    }
-    return this.name;
-  }
-
-  /**
-   * if the event is asynchronous or not.
-   *
-   * @return false by default, true if the event fires asynchronously.
-   */
-  public final boolean isAsynchronous() {
-    return this.async;
-  }
-
-  /**
-   * obtains the handler list.
-   *
-   * @return the handler list.
-   */
-  @NotNull
-  public abstract HandlerList getHandlers();
 }

@@ -26,25 +26,38 @@
 package io.github.shiruka.api.event;
 
 /**
- * the event's result class.
+ * the order in which events that are dispatched by the
+ * server's {@link EventController} are transmitted to their
+ * respective listeners.
  */
-public enum EventResult {
-
+public enum DispatchOrder {
   /**
-   * deny the event. depending on the event, the action indicated by the
-   * event will either not take place or will be reverted. some actions
-   * may not be denied.
+   * a listener marked with this order is attempted to be
+   * invoked as soon as possible.
    */
-  DENY,
+  FIRST,
   /**
-   * neither deny nor allow the event. the server will proceed with its
-   * normal handling.
+   * a listener marked with this order will be invoked
+   * sometime after the first listeners and the middle
+   * listeners.
    */
-  DEFAULT,
+  EARLY,
   /**
-   * allow / force the event. the action indicated by the event will
-   * take place if possible, even if the server would not normally allow
-   * the action. some actions may not be allowed.
+   * the default order.
+   * <p>
+   * a listener marked with this order will be invoked
+   * arbitrarily somewhere after the early listeners
+   * and the late listeners.
    */
-  ALLOW
+  MIDDLE,
+  /**
+   * a listener marked with this order will be invoked
+   * sometime between the middle and the last listener.
+   */
+  LATE,
+  /**
+   * listeners marked with this method attempt to be
+   * invoked after all listeners.
+   */
+  LAST
 }
