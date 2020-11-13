@@ -23,27 +23,28 @@
  *
  */
 
-package io.github.shiruka.api.tools;
-
-import io.github.shiruka.api.event.Event;
-import org.jetbrains.annotations.NotNull;
+package io.github.shiruka.api.event;
 
 /**
- * an event management class that allows you to register and call events.
+ * the event's result class.
  */
-public final class Events {
+public enum EventResult {
 
   /**
-   * ctor.
+   * deny the event. depending on the event, the action indicated by the
+   * event will either not take place or will be reverted. some actions
+   * may not be denied.
    */
-  private Events() {
-  }
-
+  DENY,
   /**
-   * calls the given event.
-   *
-   * @param event the event to call.
+   * neither deny nor allow the event. the server will proceed with its
+   * normal handling.
    */
-  public static void callEvent(@NotNull final Event event) {
-  }
+  DEFAULT,
+  /**
+   * allow / force the event. the action indicated by the event will
+   * take place if possible, even if the server would not normally allow
+   * the action. some actions may not be allowed.
+   */
+  ALLOW
 }

@@ -23,27 +23,24 @@
  *
  */
 
-package io.github.shiruka.api.tools;
-
-import io.github.shiruka.api.event.Event;
-import org.jetbrains.annotations.NotNull;
+package io.github.shiruka.api.event;
 
 /**
- * an event management class that allows you to register and call events.
+ * an interface to determine event as cancellable or not.
  */
-public final class Events {
+public interface Cancellable {
 
   /**
-   * ctor.
-   */
-  private Events() {
-  }
-
-  /**
-   * calls the given event.
+   * gets the cancellation state of this event.
    *
-   * @param event the event to call.
+   * @return true if this event is cancelled.
    */
-  public static void callEvent(@NotNull final Event event) {
-  }
+  boolean isCancelled();
+
+  /**
+   * Sets the cancellation state of this event.
+   *
+   * @param cancel true if you wish to cancel this event.
+   */
+  void setCancelled(boolean cancel);
 }
