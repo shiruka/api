@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api.event;
 
-import io.github.shiruka.api.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 /**
