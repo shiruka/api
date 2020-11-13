@@ -23,57 +23,40 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf.path.simple;
 
-import java.util.Objects;
+import io.github.shiruka.api.conf.ConfigPath;
+import io.github.shiruka.api.misc.StickySupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * a simple implementation for {@link CpEnvelope} as {@link Long}.
  */
-final class Implementation {
-
-  /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
+public final class CpLong extends CpEnvelope<Long> {
 
   /**
    * ctor.
+   *
+   * @param origin the original {@link ConfigPath}.
    */
-  private Implementation() {
+  private CpLong(@NotNull final ConfigPath<Long> origin) {
+    super(new StickySupplier<>(origin));
   }
 
   /**
-   * obtains the current {@link Server} singleton.
+   * ctor.
    *
-   * @return the server instance being ran.
+   * @param path the path.
+   * @param def the default value.
    */
-  @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
-
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
+  public CpLong(@NotNull final String path, @Nullable final Long def) {
+    this(new CpBasic<>(path, def, o -> {
+      try {
+        return Long.parseLong(o.toString());
+      } catch (final NumberFormatException e) {
+        return def;
       }
-    }
+    }));
   }
 }

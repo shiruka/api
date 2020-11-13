@@ -23,57 +23,26 @@
  *
  */
 
-package io.github.shiruka.api;
-
-import java.util.Objects;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+package io.github.shiruka.api.event;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * represents an event that can be cancelled and thus cause
+ * the dispatcher to take a different course of action than
+ * was initially planned.
  */
-final class Implementation {
+public interface Cancellable extends Event {
 
   /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
-
-  /**
-   * ctor.
-   */
-  private Implementation() {
-  }
-
-  /**
-   * obtains the current {@link Server} singleton.
+   * obtains the cancel state of the event.
    *
-   * @return the server instance being ran.
+   * @return {@code true} if the event has been cancelled.
    */
-  @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
+  boolean isCancelled();
 
   /**
-   * sets the {@link Server} singleton to the given server instance.
+   * sets the cancel state of the event.
    *
-   * @param server the server to set.
+   * @param cancelled {@code true} to cancel.
    */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
-  }
+  void setCancelled(boolean cancelled);
 }

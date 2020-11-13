@@ -23,57 +23,53 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf.config;
 
-import java.util.Objects;
+import io.github.shiruka.api.conf.Config;
+import java.io.File;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * an envelope class for {@link Config}.
  */
-final class Implementation {
+public abstract class ConfigEnvelope implements Config {
 
   /**
-   * the lock used for writing the impl field.
+   * the original {@link Config}.
    */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
+  @NotNull
+  private final Supplier<Config> origin;
 
   /**
    * ctor.
+   *
+   * @param origin the config.
    */
-  private Implementation() {
+  protected ConfigEnvelope(@NotNull final Supplier<Config> origin) {
+    this.origin = origin;
   }
 
-  /**
-   * obtains the current {@link Server} singleton.
-   *
-   * @return the server instance being ran.
-   */
   @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
+  @Override
+  public final File getFile() {
+    return this.origin.get().getFile();
   }
 
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+  @NotNull
+  @Override
+  public final FileConfiguration getConfiguration() {
+    return this.origin.get().getConfiguration();
+  }
+
+  @Override
+  public final void reload() {
+    this.origin.get().reload();
+  }
+
+  @Override
+  public final void save() {
+    this.origin.get().save();
   }
 }

@@ -23,57 +23,69 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf;
 
-import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * the interface of ConfigPath classes.
+ *
+ * @param <T> the type of the value.
  */
-final class Implementation {
+public interface ConfigPath<T> {
 
   /**
-   * the lock used for writing the impl field.
+   * removes the value from the path.
    */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
-
-  /**
-   * ctor.
-   */
-  private Implementation() {
+  default void removeValue() {
+    this.setValue(null);
   }
 
   /**
-   * obtains the current {@link Server} singleton.
+   * obtains tha path.
    *
-   * @return the server instance being ran.
+   * @return the path.
    */
   @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
+  String getPath();
 
   /**
-   * sets the {@link Server} singleton to the given server instance.
+   * obtains the default value of the path.
    *
-   * @param server the server to set.
+   * @return the default value of the path.
    */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
-  }
+  @NotNull
+  Optional<T> getDefault();
+
+  /**
+   * obtains the config of the path.
+   *
+   * @return the config of the path.
+   */
+  @NotNull
+  Optional<Config> getConfig();
+
+  /**
+   * sets the config of the path to the given config.
+   *
+   * @param config the config to set.
+   */
+  void setConfig(@NotNull Config config);
+
+  /**
+   * gets the value.
+   *
+   * @return the value.
+   */
+  @NotNull
+  Optional<T> getValue();
+
+  /**
+   * sets the value.
+   *
+   * @param value the value.
+   */
+  void setValue(@Nullable T value);
 }

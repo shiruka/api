@@ -23,57 +23,68 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf.path.simple;
 
-import java.util.Objects;
+import io.github.shiruka.api.conf.Config;
+import io.github.shiruka.api.conf.ConfigPath;
+import java.util.Optional;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * an envelope class for {@link ConfigPath}.
+ *
+ * @param <T> the value's type.
  */
-final class Implementation {
+public abstract class CpEnvelope<T> implements ConfigPath<T> {
 
   /**
-   * the lock used for writing the impl field.
+   * the original {@link ConfigPath}.
    */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
+  @NotNull
+  private final Supplier<ConfigPath<T>> origin;
 
   /**
    * ctor.
+   *
+   * @param origin the original {@link ConfigPath}.
    */
-  private Implementation() {
+  protected CpEnvelope(@NotNull final Supplier<ConfigPath<T>> origin) {
+    this.origin = origin;
   }
 
-  /**
-   * obtains the current {@link Server} singleton.
-   *
-   * @return the server instance being ran.
-   */
   @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
+  @Override
+  public final String getPath() {
+    return this.origin.get().getPath();
   }
 
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+  @NotNull
+  @Override
+  public final Optional<T> getDefault() {
+    return this.origin.get().getDefault();
+  }
+
+  @NotNull
+  @Override
+  public final Optional<Config> getConfig() {
+    return this.origin.get().getConfig();
+  }
+
+  @Override
+  public final void setConfig(@NotNull final Config config) {
+    this.origin.get().setConfig(config);
+  }
+
+  @NotNull
+  @Override
+  public final Optional<T> getValue() {
+    return this.origin.get().getValue();
+  }
+
+  @Override
+  public final void setValue(@Nullable final T value) {
+    this.origin.get().setValue(value);
   }
 }

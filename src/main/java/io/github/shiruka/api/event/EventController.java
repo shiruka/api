@@ -23,57 +23,50 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.event;
 
-import java.util.Objects;
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * an event controller manages and handles dispatched
+ * events and their corresponding listeners.
  */
-final class Implementation {
+public interface EventController {
 
   /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
-
-  /**
-   * ctor.
-   */
-  private Implementation() {
-  }
-
-  /**
-   * obtains the current {@link Server} singleton.
+   * registers the given listener object to receive
+   * events dispatched by the controller.
    *
-   * @return the server instance being ran.
+   * @param listener the listener to register.
    */
-  @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
+  void register(@NotNull Listener listener);
 
   /**
-   * sets the {@link Server} singleton to the given server instance.
+   * removes the given listener from being handling
+   * events dispatched by the event controller.
    *
-   * @param server the server to set.
+   * @param listener the listener to remove.
    */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
-  }
+  void unregister(@NotNull Class<? extends Listener> listener);
+
+  /**
+   * dispatches the event to the event listener/handlers
+   * that are registered under the event controller.
+   *
+   * @param event the event to dispatch.
+   * @param <T> the event type.
+   */
+  <T extends Event> void dispatch(@NotNull T event);
+
+  /**
+   * dispatches the event to the event listener/handlers
+   * that are registered under the event controller.
+   *
+   * @param event the event to dispatch.
+   * @param callback the callback to execute when the
+   *   controller finishes processing all listeners.
+   * @param <T> the event type.
+   */
+  <T extends Event> void dispatch(@NotNull T event, @NotNull Consumer<T> callback);
 }

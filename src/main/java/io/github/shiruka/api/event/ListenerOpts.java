@@ -23,28 +23,28 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.event;
 
-import org.jetbrains.annotations.NotNull;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * an interface to determine Shiru ka's servers.
+ * this annotation should be marked on methods that should
+ * be modified in some way such as by changing the order in
+ * which an event handler or a listener method should handle
+ * dispatched events.
  */
-public interface Server {
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ListenerOpts {
 
   /**
-   * runs the given input.
-   * <p>
-   * it can start with {@code /} or not. it does not matter.
+   * the position of the listener in the dispatch sequence
+   * once the event has been fired.
    *
-   * @param command the command to run.
+   * @return the event's {@link DispatchOrder}.
    */
-  void runCommand(@NotNull String command);
-
-  /**
-   * obtains server's shutdown statement.
-   *
-   * @return {@code true} if the server is in the shutdown state.
-   */
-  boolean isInShutdownState();
+  DispatchOrder order() default DispatchOrder.MIDDLE;
 }

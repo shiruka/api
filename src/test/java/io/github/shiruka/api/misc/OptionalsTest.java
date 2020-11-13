@@ -23,49 +23,44 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.misc;
 
 import org.hamcrest.MatcherAssert;
-import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.llorllale.cactoos.matchers.Throws;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-final class ImplementationTest {
+final class OptionalsTest {
 
-  private static final Server SERVER = new Server() {
-    @Override
-    public void runCommand(@NotNull final String command) {
-    }
-
-    @Override
-    public boolean isInShutdownState() {
-      return false;
-    }
-  };
+  private static final String FINAL_RESULT = "Test\nTest-2";
 
   @Test
-  @Order(1)
-  void getServer() {
+  void useAndGetTest() {
+    final var builder = new StringBuilder("Test");
+    final var result = Optionals.useAndGet(builder, sb ->
+     sb.append('\n').append("Test-2"));
     MatcherAssert.assertThat(
-      "Server set somewhere!",
-      Implementation::getServer,
-      new Throws<>(NullPointerException.class));
+      "Couldn't use and get the given object!",
+       result.toString(), 
+       new IsEqual<>(OptionalsTest.FINAL_RESULT));
   }
 
   @Test
-  @Order(2)
-  void setServer() {
-    Implementation.setServer(ImplementationTest.SERVER);
+  void useAndGetPredicateTest() {
+    final var builder = new StringBuilder("Test");
+    final var result = Optionals.useAndGet(builder, 
+      sb -> sb.toString().equals("Test"), 
+      sb -> sb.append('\n').append("Test-2"));
     MatcherAssert.assertThat(
-      "Server couldn't set!",
-      () -> {
-        Implementation.setServer(ImplementationTest.SERVER);
-        return null;
-      },
-      new Throws<>(UnsupportedOperationException.class));
+      "Couldn't use and get the given object!",
+       result.toString(), 
+       new IsEqual<>(OptionalsTest.FINAL_RESULT));
+    final var builder2 = new StringBuilder("Test");
+    final var result2 = Optionals.useAndGet(builder2, 
+      sb -> sb.toString().equals("null"), 
+      sb -> sb.append('\n').append("Test-2"));
+    MatcherAssert.assertThat(
+      "Couldn't use and get the given object!",
+      result2.toString(), 
+      new IsEqual<>("Test"));
   }
 }

@@ -23,57 +23,55 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.misc;
 
-import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * a class that uses {@link Supplier} and caches it to use after.
+ *
+ * @param <T> the value's type.
  */
-final class Implementation {
+public final class StickySupplier<T> implements Supplier<T> {
 
   /**
-   * the lock used for writing the impl field.
+   * the original {@link Supplier}.
    */
-  private static final Object LOCK = new Object();
+  @NotNull
+  private final Supplier<T> origin;
 
   /**
-   * the server implementation.
+   * the cache value.
    */
   @Nullable
-  private static Server server;
+  private T cache;
 
   /**
    * ctor.
+   *
+   * @param origin the original {@link Supplier}.
    */
-  private Implementation() {
+  public StickySupplier(@NotNull final Supplier<T> origin) {
+    this.origin = origin;
   }
 
   /**
-   * obtains the current {@link Server} singleton.
+   * ctor.
    *
-   * @return the server instance being ran.
+   * @param origin the original {@link T}.
    */
-  @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
+  public StickySupplier(@NotNull final T origin) {
+    this(() -> origin);
   }
 
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+  @Override
+  public T get() {
+    return Optional.ofNullable(this.cache).orElseGet(() -> {
+      this.cache = this.origin.get();
+      return this.cache;
+    });
   }
 }

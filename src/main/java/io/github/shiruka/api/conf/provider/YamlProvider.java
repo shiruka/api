@@ -23,57 +23,30 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf.provider;
 
-import java.util.Objects;
+import io.github.shiruka.api.conf.Provider;
+import io.github.shiruka.api.misc.Optionals;
+import java.io.File;
+import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.file.YamlFile;
+import org.simpleyaml.exceptions.InvalidConfigurationException;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * a YAML implementation for {@link Provider}.
  */
-final class Implementation {
+public final class YamlProvider implements Provider<YamlFile> {
 
-  /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
-
-  /**
-   * ctor.
-   */
-  private Implementation() {
-  }
-
-  /**
-   * obtains the current {@link Server} singleton.
-   *
-   * @return the server instance being ran.
-   */
   @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
-
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
+  @Override
+  public YamlFile load(@NotNull final File file) {
+    return Optionals.useAndGet(new YamlFile(file), yamlFile -> {
+      try {
+        yamlFile.loadWithComments();
+      } catch (final InvalidConfigurationException | IOException e) {
+        e.printStackTrace();
       }
-    }
+    });
   }
 }

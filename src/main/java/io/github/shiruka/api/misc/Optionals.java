@@ -23,57 +23,54 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.misc;
 
-import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * a class that contains {@link Optional} like methods.
  */
-final class Implementation {
-
-  /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
+public final class Optionals {
 
   /**
    * ctor.
    */
-  private Implementation() {
+  private Optionals() {
   }
 
   /**
-   * obtains the current {@link Server} singleton.
+   * runs the given consumer and returns the given object itself.
    *
-   * @return the server instance being ran.
+   * @param object the object to return and use.
+   * @param consumer the consumer to run.
+   * @param <T> the object type.
+   *
+   * @return the given object itself.
    */
   @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
+  public static <T> T useAndGet(@NotNull final T object, @NotNull final Consumer<T> consumer) {
+    return Optionals.useAndGet(object, t -> true, consumer);
   }
 
   /**
-   * sets the {@link Server} singleton to the given server instance.
+   * runs the given consumer if the given predicate returns true, and returns the given object itself.
    *
-   * @param server the server to set.
+   * @param object the object to return and use.
+   * @param predicate the predicate to check.
+   * @param consumer the consumer to run.
+   * @param <T> the object type.
+   *
+   * @return the given object itself.
    */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
+  @NotNull
+  public static <T> T useAndGet(@NotNull final T object, @NotNull final Predicate<T> predicate,
+                                @NotNull final Consumer<T> consumer) {
+    if (predicate.test(object)) {
+      consumer.accept(object);
     }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+    return object;
   }
 }

@@ -23,28 +23,40 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.chat;
 
-import org.jetbrains.annotations.NotNull;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.jupiter.api.Test;
+import org.llorllale.cactoos.matchers.Throws;
 
-/**
- * an interface to determine Shiru ka's servers.
- */
-public interface Server {
+final class ChatColorTest {
 
-  /**
-   * runs the given input.
-   * <p>
-   * it can start with {@code /} or not. it does not matter.
-   *
-   * @param command the command to run.
-   */
-  void runCommand(@NotNull String command);
+  @Test
+  void of() {
+    MatcherAssert.assertThat(
+      "Couldn't find the correct ChatColor instance.",
+      ChatColor.of('0'),
+      new IsEqual<>(ChatColor.BLACK));
+    MatcherAssert.assertThat(
+      "Couldn't find the correct ChatColor instance.",
+      ChatColor.of('1'),
+      new IsEqual<>(ChatColor.DARK_BLUE));
+    MatcherAssert.assertThat(
+      "Couldn't find the correct ChatColor instance.",
+      ChatColor.of('2'),
+      new IsEqual<>(ChatColor.DARK_GREEN));
+    MatcherAssert.assertThat(
+      "ChatColor's of method with the wrong character didn't throw.",
+      () -> ChatColor.of('z'),
+      new Throws<>(IllegalArgumentException.class));
+  }
 
-  /**
-   * obtains server's shutdown statement.
-   *
-   * @return {@code true} if the server is in the shutdown state.
-   */
-  boolean isInShutdownState();
+  @Test
+  void getColorChar() {
+    MatcherAssert.assertThat(
+      "Couldn't get the correct color character!",
+      ChatColor.BLACK.getColorChar(),
+      new IsEqual<>('0'));
+  }
 }

@@ -23,57 +23,54 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf;
 
-import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.comments.CommentType;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * the interface of CommentablePath classes.
+ *
+ * @param <T> the type of the value.
  */
-final class Implementation {
+public interface CommentablePath<T> extends ConfigPath<T> {
 
   /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
-
-  /**
-   * ctor.
-   */
-  private Implementation() {
-  }
-
-  /**
-   * obtains the current {@link Server} singleton.
+   * gets the block comment.
    *
-   * @return the server instance being ran.
+   * @return the comment.
    */
   @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
+  default Optional<String> getComment() {
+    return this.getComment(CommentType.BLOCK);
   }
 
   /**
-   * sets the {@link Server} singleton to the given server instance.
+   * sets the block comment.
    *
-   * @param server the server to set.
+   * @param comment the comment.
    */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+  default void setComment(@Nullable final String comment) {
+    this.setComment(CommentType.BLOCK, comment);
   }
+
+  /**
+   * gets the comment.
+   *
+   * @param commentType the comment type.
+   *
+   * @return the comment.
+   */
+  @NotNull
+  Optional<String> getComment(@NotNull final CommentType commentType);
+
+  /**
+   * sets the comment.
+   *
+   * @param commentType the comment type.
+   * @param comment the comment.
+   */
+  void setComment(@NotNull final CommentType commentType, @Nullable final String comment);
 }

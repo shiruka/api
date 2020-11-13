@@ -23,57 +23,47 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf.path.comment;
 
-import java.util.Objects;
+import io.github.shiruka.api.conf.CommentablePath;
+import io.github.shiruka.api.conf.path.simple.CpEnvelope;
+import java.util.Optional;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.comments.CommentType;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * a commentable config path.
+ *
+ * @param <T> the type of the value.
  */
-final class Implementation {
+public abstract class CmEnvelope<T> extends CpEnvelope<T> implements CommentablePath<T> {
 
   /**
-   * the lock used for writing the impl field.
+   * the original {@link CommentablePath}.
    */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
+  @NotNull
+  private final Supplier<CommentablePath<T>> origin;
 
   /**
    * ctor.
+   *
+   * @param origin the original.
    */
-  private Implementation() {
+  protected CmEnvelope(@NotNull final Supplier<CommentablePath<T>> origin) {
+    super(origin::get);
+    this.origin = origin;
   }
 
-  /**
-   * obtains the current {@link Server} singleton.
-   *
-   * @return the server instance being ran.
-   */
   @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
+  @Override
+  public final Optional<String> getComment(@NotNull final CommentType commentType) {
+    return this.origin.get().getComment(commentType);
   }
 
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+  @Override
+  public final void setComment(@NotNull final CommentType commentType, @Nullable final String comment) {
+    this.origin.get().setComment(commentType, comment);
   }
 }

@@ -23,28 +23,13 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf.config;
 
-import org.jetbrains.annotations.NotNull;
+import java.io.File;
 
-/**
- * an interface to determine Shiru ka's servers.
- */
-public interface Server {
+public final class TestYamlConfig extends YamlConfig {
 
-  /**
-   * runs the given input.
-   * <p>
-   * it can start with {@code /} or not. it does not matter.
-   *
-   * @param command the command to run.
-   */
-  void runCommand(@NotNull String command);
-
-  /**
-   * obtains server's shutdown statement.
-   *
-   * @return {@code true} if the server is in the shutdown state.
-   */
-  boolean isInShutdownState();
+  public TestYamlConfig() {
+    super(new File("test", "test.yaml"));
+  }
 }

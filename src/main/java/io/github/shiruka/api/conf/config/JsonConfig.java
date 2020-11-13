@@ -23,57 +23,34 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf.config;
 
-import java.util.Objects;
+import io.github.shiruka.api.conf.Config;
+import io.github.shiruka.api.conf.provider.JsonProvider;
+import io.github.shiruka.api.misc.StickySupplier;
+import java.io.File;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * a class that creates JSON files.
  */
-final class Implementation {
-
-  /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
+public class JsonConfig extends ConfigEnvelope {
 
   /**
    * ctor.
+   *
+   * @param config the config.
    */
-  private Implementation() {
+  private JsonConfig(@NotNull final Config config) {
+    super(new StickySupplier<>(config));
   }
 
   /**
-   * obtains the current {@link Server} singleton.
+   * ctor.
    *
-   * @return the server instance being ran.
+   * @param file the file to create.
    */
-  @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
-
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+  public JsonConfig(@NotNull final File file) {
+    this(new ConfigBasic<>(file, new JsonProvider()));
   }
 }

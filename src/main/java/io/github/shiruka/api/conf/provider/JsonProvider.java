@@ -23,57 +23,21 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf.provider;
 
-import java.util.Objects;
+import io.github.portlek.jsongration.JsonConfiguration;
+import io.github.shiruka.api.conf.Provider;
+import java.io.File;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * a JSON implementation for {@link Provider}.
  */
-final class Implementation {
+public final class JsonProvider implements Provider<JsonConfiguration> {
 
-  /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
-
-  /**
-   * ctor.
-   */
-  private Implementation() {
-  }
-
-  /**
-   * obtains the current {@link Server} singleton.
-   *
-   * @return the server instance being ran.
-   */
   @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
-
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+  @Override
+  public JsonConfiguration load(@NotNull final File file) {
+    return JsonConfiguration.loadConfiguration(file);
   }
 }

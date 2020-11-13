@@ -23,57 +23,41 @@
  *
  */
 
-package io.github.shiruka.api;
-
-import java.util.Objects;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+package io.github.shiruka.api.event;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * the order in which events that are dispatched by the
+ * server's {@link EventController} are transmitted to their
+ * respective listeners.
  */
-final class Implementation {
-
+public enum DispatchOrder {
   /**
-   * the lock used for writing the impl field.
+   * a listener marked with this order is attempted to be
+   * invoked as soon as possible.
    */
-  private static final Object LOCK = new Object();
-
+  FIRST,
   /**
-   * the server implementation.
+   * a listener marked with this order will be invoked
+   * sometime after the first listeners and the middle
+   * listeners.
    */
-  @Nullable
-  private static Server server;
-
+  EARLY,
   /**
-   * ctor.
+   * the default order.
+   * <p>
+   * a listener marked with this order will be invoked
+   * arbitrarily somewhere after the early listeners
+   * and the late listeners.
    */
-  private Implementation() {
-  }
-
+  MIDDLE,
   /**
-   * obtains the current {@link Server} singleton.
-   *
-   * @return the server instance being ran.
+   * a listener marked with this order will be invoked
+   * sometime between the middle and the last listener.
    */
-  @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
-
+  LATE,
   /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
+   * listeners marked with this method attempt to be
+   * invoked after all listeners.
    */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
-  }
+  LAST
 }

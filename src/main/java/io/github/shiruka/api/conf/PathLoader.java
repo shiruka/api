@@ -23,57 +23,45 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf;
 
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * the {@link ConfigPath} loader to run {@link ConfigPath#setConfig(Config)} method.
  */
-final class Implementation {
-
-  /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
+public final class PathLoader {
 
   /**
    * ctor.
    */
-  private Implementation() {
+  private PathLoader() {
   }
 
   /**
-   * obtains the current {@link Server} singleton.
+   * loads the config paths.
    *
-   * @return the server instance being ran.
+   * @param config the config class to load.
    */
-  @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
-
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+  public static void load(@NotNull final Config config) {
+    Arrays.stream(config.getClass().getDeclaredFields())
+      .filter(field -> ConfigPath.class.isAssignableFrom(field.getType()))
+      .map(field -> {
+        final var accessible = field.isAccessible();
+        try {
+          field.setAccessible(true);
+          return Optional.of(field.get(config));
+        } catch (final IllegalArgumentException | IllegalAccessException ignored) {
+        } finally {
+          field.setAccessible(accessible);
+        }
+        return Optional.empty();
+      })
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .map(o -> (ConfigPath<?>) o)
+      .forEach(configPath -> configPath.setConfig(config));
   }
 }

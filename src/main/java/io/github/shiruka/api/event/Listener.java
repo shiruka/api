@@ -23,28 +23,11 @@
  *
  */
 
-package io.github.shiruka.api;
-
-import org.jetbrains.annotations.NotNull;
+package io.github.shiruka.api.event;
 
 /**
- * an interface to determine Shiru ka's servers.
+ * marker interface used to indicate that the given subclass is a listener.
  */
-public interface Server {
+public interface Listener {
 
-  /**
-   * runs the given input.
-   * <p>
-   * it can start with {@code /} or not. it does not matter.
-   *
-   * @param command the command to run.
-   */
-  void runCommand(@NotNull String command);
-
-  /**
-   * obtains server's shutdown statement.
-   *
-   * @return {@code true} if the server is in the shutdown state.
-   */
-  boolean isInShutdownState();
 }

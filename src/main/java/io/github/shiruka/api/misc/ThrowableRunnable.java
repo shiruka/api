@@ -23,28 +23,27 @@
  *
  */
 
-package io.github.shiruka.api;
-
-import org.jetbrains.annotations.NotNull;
+package io.github.shiruka.api.misc;
 
 /**
- * an interface to determine Shiru ka's servers.
+ * an functional interface to avoid runnable functions which have to add try-catch.
  */
-public interface Server {
+@FunctionalInterface
+public interface ThrowableRunnable extends Runnable {
+
+  @Override
+  default void run() {
+    try {
+      this.call();
+    } catch (final Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   /**
-   * runs the given input.
-   * <p>
-   * it can start with {@code /} or not. it does not matter.
+   * runs the function.
    *
-   * @param command the command to run.
+   * @throws Exception if the function throws an exception.
    */
-  void runCommand(@NotNull String command);
-
-  /**
-   * obtains server's shutdown statement.
-   *
-   * @return {@code true} if the server is in the shutdown state.
-   */
-  boolean isInShutdownState();
+  void call() throws Exception;
 }

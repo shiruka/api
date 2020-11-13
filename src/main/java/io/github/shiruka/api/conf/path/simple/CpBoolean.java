@@ -23,57 +23,36 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.conf.path.simple;
 
-import java.util.Objects;
+import io.github.shiruka.api.conf.ConfigPath;
+import io.github.shiruka.api.conf.path.simple.CpBasic;
+import io.github.shiruka.api.conf.path.simple.CpEnvelope;
+import io.github.shiruka.api.misc.StickySupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains Shiru ka's implementations.
+ * a simple implementation for {@link CpEnvelope} as {@link Boolean}.
  */
-final class Implementation {
-
-  /**
-   * the lock used for writing the impl field.
-   */
-  private static final Object LOCK = new Object();
-
-  /**
-   * the server implementation.
-   */
-  @Nullable
-  private static Server server;
+public final class CpBoolean extends CpEnvelope<Boolean> {
 
   /**
    * ctor.
+   *
+   * @param origin the original {@link ConfigPath}.
    */
-  private Implementation() {
+  private CpBoolean(@NotNull final ConfigPath<Boolean> origin) {
+    super(new StickySupplier<>(origin));
   }
 
   /**
-   * obtains the current {@link Server} singleton.
+   * ctor.
    *
-   * @return the server instance being ran.
+   * @param path the path.
+   * @param def the default value.
    */
-  @NotNull
-  static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "Cannot get the Server before it initialized!");
-  }
-
-  /**
-   * sets the {@link Server} singleton to the given server instance.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
-    synchronized (Implementation.LOCK) {
-      if (Implementation.server == null) {
-        Implementation.server = server;
-      }
-    }
+  public CpBoolean(@NotNull final String path, @Nullable final Boolean def) {
+    this(new CpBasic<>(path, def, o -> Boolean.parseBoolean(o.toString())));
   }
 }
