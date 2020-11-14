@@ -41,7 +41,7 @@ public final class CpDouble extends CpEnvelope<Double> {
    * @param origin the original {@link ConfigPath}.
    */
   private CpDouble(@NotNull final ConfigPath<Double> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**

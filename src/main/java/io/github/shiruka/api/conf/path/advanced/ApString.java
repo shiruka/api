@@ -44,7 +44,7 @@ public abstract class ApString<T> extends ApEnvelope<String, T> {
    * @param origin the original {@link AdvancedPath}.
    */
   private ApString(@NotNull final AdvancedPath<String, T> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**

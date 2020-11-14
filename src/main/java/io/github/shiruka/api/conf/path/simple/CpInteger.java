@@ -41,7 +41,7 @@ public final class CpInteger extends CpEnvelope<Integer> {
    * @param origin the original {@link ConfigPath}.
    */
   private CpInteger(@NotNull final ConfigPath<Integer> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**

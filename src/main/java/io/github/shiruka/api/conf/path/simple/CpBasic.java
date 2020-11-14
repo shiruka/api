@@ -107,6 +107,7 @@ public final class CpBasic<T> implements ConfigPath<T> {
   @Override
   public void setConfig(@NotNull final Config config) {
     this.config = config;
+    this.config.addDefault(this.path, this.def);
   }
 
   @NotNull

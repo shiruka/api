@@ -41,7 +41,7 @@ public final class CpString extends CpEnvelope<String> {
    * @param origin the original {@link ConfigPath}.
    */
   private CpString(@NotNull final ConfigPath<String> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**

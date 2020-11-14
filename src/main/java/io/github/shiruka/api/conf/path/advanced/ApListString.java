@@ -45,7 +45,7 @@ public abstract class ApListString<T> extends ApEnvelope<List<String>, T> {
    * @param origin the original {@link AdvancedPath}.
    */
   private ApListString(@NotNull final AdvancedPath<List<String>, T> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**
@@ -59,7 +59,7 @@ public abstract class ApListString<T> extends ApEnvelope<List<String>, T> {
   protected ApListString(@NotNull final String path, @Nullable final T def,
                          @NotNull final Function<List<String>, T> convertToFinal,
                          @NotNull final Function<T, List<String>> convertToRaw) {
-    this(new ApBasic<>(path, def,
+    super(new ApBasic<>(path, def,
       config -> (List<String>) config.get(path)
         .filter(o -> o instanceof List<?>)
         .orElse(null),

@@ -41,7 +41,7 @@ public final class CpLong extends CpEnvelope<Long> {
    * @param origin the original {@link ConfigPath}.
    */
   private CpLong(@NotNull final ConfigPath<Long> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**

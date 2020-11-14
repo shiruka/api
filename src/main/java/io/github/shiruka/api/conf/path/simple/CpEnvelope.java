@@ -43,48 +43,48 @@ public abstract class CpEnvelope<T> implements ConfigPath<T> {
    * the original {@link ConfigPath}.
    */
   @NotNull
-  private final Supplier<ConfigPath<T>> origin;
+  private final ConfigPath<T> origin;
 
   /**
    * ctor.
    *
    * @param origin the original {@link ConfigPath}.
    */
-  protected CpEnvelope(@NotNull final Supplier<ConfigPath<T>> origin) {
+  protected CpEnvelope(@NotNull final ConfigPath<T> origin) {
     this.origin = origin;
   }
 
   @NotNull
   @Override
   public final String getPath() {
-    return this.origin.get().getPath();
+    return this.origin.getPath();
   }
 
   @NotNull
   @Override
   public final Optional<T> getDefault() {
-    return this.origin.get().getDefault();
+    return this.origin.getDefault();
   }
 
   @NotNull
   @Override
   public final Optional<Config> getConfig() {
-    return this.origin.get().getConfig();
+    return this.origin.getConfig();
   }
 
   @Override
   public final void setConfig(@NotNull final Config config) {
-    this.origin.get().setConfig(config);
+    this.origin.setConfig(config);
   }
 
   @NotNull
   @Override
   public final Optional<T> getValue() {
-    return this.origin.get().getValue();
+    return this.origin.getValue();
   }
 
   @Override
   public final void setValue(@Nullable final T value) {
-    this.origin.get().setValue(value);
+    this.origin.setValue(value);
   }
 }

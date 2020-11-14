@@ -41,7 +41,7 @@ public final class CpFloat extends CpEnvelope<Float> {
    * @param origin the original {@link ConfigPath}.
    */
   private CpFloat(@NotNull final ConfigPath<Float> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**

@@ -28,7 +28,6 @@ package io.github.shiruka.api.conf.config;
 import io.github.shiruka.api.conf.Config;
 import io.github.shiruka.api.conf.ConfigPath;
 import io.github.shiruka.api.conf.PathLoader;
-import io.github.shiruka.api.misc.StickySupplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -39,10 +38,10 @@ public abstract class PathableConfig extends ConfigEnvelope {
   /**
    * ctor.
    *
-   * @param config the original {@link Config}.
+   * @param origin the original {@link Config}.
    */
-  protected PathableConfig(@NotNull final Config config) {
-    super(new StickySupplier<>(config));
+  protected PathableConfig(@NotNull final Config origin) {
+    super(origin);
     PathLoader.load(this);
   }
 }

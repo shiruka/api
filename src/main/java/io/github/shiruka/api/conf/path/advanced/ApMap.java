@@ -45,7 +45,7 @@ public abstract class ApMap<T> extends ApEnvelope<Map<String, Object>, T> {
    * @param origin the original {@link AdvancedPath}.
    */
   private ApMap(@NotNull final AdvancedPath<Map<String, Object>, T> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**

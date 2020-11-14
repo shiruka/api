@@ -43,7 +43,7 @@ public final class CpSimple<T> extends CpEnvelope<T> {
    * @param origin the original {@link ConfigPath}.
    */
   private CpSimple(@NotNull final ConfigPath<T> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**
