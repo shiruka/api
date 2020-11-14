@@ -26,7 +26,6 @@
 package io.github.shiruka.api.conf.path.advanced;
 
 import io.github.shiruka.api.conf.AdvancedPath;
-import io.github.shiruka.api.misc.StickySupplier;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,7 +43,7 @@ public abstract class ApString<T> extends ApEnvelope<String, T> {
    * @param origin the original {@link AdvancedPath}.
    */
   private ApString(@NotNull final AdvancedPath<String, T> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**

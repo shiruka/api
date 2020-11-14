@@ -22,26 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.conf.config;
-
-import io.github.shiruka.api.conf.Config;
-import io.github.shiruka.api.conf.ConfigPath;
-import io.github.shiruka.api.conf.PathLoader;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * a {@link ConfigEnvelope} implementation to load {@link ConfigPath} automatically
+ * the package that contains plugin classes.
  */
-public abstract class PathableConfig extends ConfigEnvelope {
-
-  /**
-   * ctor.
-   *
-   * @param origin the original {@link Config}.
-   */
-  protected PathableConfig(@NotNull final Config origin) {
-    super(origin);
-    PathLoader.load(this);
-  }
-}
+package io.github.shiruka.api.plugin;

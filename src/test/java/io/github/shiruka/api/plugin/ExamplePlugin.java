@@ -23,25 +23,8 @@
  *
  */
 
-package io.github.shiruka.api.conf.config;
+package io.github.shiruka.api.plugin;
 
-import io.github.shiruka.api.conf.Config;
-import io.github.shiruka.api.conf.ConfigPath;
-import io.github.shiruka.api.conf.PathLoader;
-import org.jetbrains.annotations.NotNull;
+public final class ExamplePlugin {
 
-/**
- * a {@link ConfigEnvelope} implementation to load {@link ConfigPath} automatically
- */
-public abstract class PathableConfig extends ConfigEnvelope {
-
-  /**
-   * ctor.
-   *
-   * @param origin the original {@link Config}.
-   */
-  protected PathableConfig(@NotNull final Config origin) {
-    super(origin);
-    PathLoader.load(this);
-  }
 }

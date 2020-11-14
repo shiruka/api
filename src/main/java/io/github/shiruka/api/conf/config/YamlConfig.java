@@ -27,7 +27,6 @@ package io.github.shiruka.api.conf.config;
 
 import io.github.shiruka.api.conf.Config;
 import io.github.shiruka.api.conf.provider.YamlProvider;
-import io.github.shiruka.api.misc.StickySupplier;
 import java.io.File;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,7 +41,7 @@ public class YamlConfig extends ConfigEnvelope {
    * @param config the config.
    */
   private YamlConfig(@NotNull final Config config) {
-    super(new StickySupplier<>(config));
+    super(config);
   }
 
   /**
@@ -52,5 +51,15 @@ public class YamlConfig extends ConfigEnvelope {
    */
   public YamlConfig(@NotNull final File fil) {
     this(new ConfigBasic<>(fil, new YamlProvider()));
+  }
+
+  /**
+   * ctor.
+   *
+   * @param path the path to create dir.
+   * @param file the file to create.
+   */
+  public YamlConfig(@NotNull final String path, @NotNull final String file) {
+    this(new File(path, file));
   }
 }

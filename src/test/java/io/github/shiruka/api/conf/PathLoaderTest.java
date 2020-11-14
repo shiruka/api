@@ -25,62 +25,41 @@
 
 package io.github.shiruka.api.conf;
 
-import io.github.shiruka.api.conf.path.simple.CpBoolean;
-import io.github.shiruka.api.conf.path.simple.CpFloat;
-import io.github.shiruka.api.conf.path.simple.CpString;
-import java.io.File;
+import io.github.shiruka.api.conf.config.TestYamlConfig;
 import org.hamcrest.MatcherAssert;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.IsTrue;
-import org.simpleyaml.configuration.file.FileConfiguration;
 
 final class PathLoaderTest {
 
   @Test
   void load() {
-    final var config = new TestConfig();
+    final var config = new TestYamlConfig();
     PathLoader.load(config);
+    config.save();
     MatcherAssert.assertThat(
       "Couldn't set the config!",
-      config.textTest.getConfig().isPresent(),
+      config.getTextTest().getConfig().isPresent(),
       new IsTrue());
     MatcherAssert.assertThat(
       "Couldn't set the config!",
-      config.floatTest.getConfig().isPresent(),
+      config.getFloatTest().getConfig().isPresent(),
       new IsTrue());
     MatcherAssert.assertThat(
       "Couldn't set the config!",
-      config.boolTest.getConfig().isPresent(),
+      config.getBoolTest().getConfig().isPresent(),
       new IsTrue());
-  }
-
-  private static final class TestConfig implements Config {
-
-    public final CpString textTest = Paths.stringPath("test", "text");
-
-    final CpFloat floatTest = Paths.floatPath("test", 1.0f);
-
-    private final CpBoolean boolTest = Paths.booleanPath("test", true);
-
-    @NotNull
-    @Override
-    public File getFile() {
-      return null;
-    }
-
-    @NotNull
-    @Override
-    public FileConfiguration getConfiguration() {
-      return null;
-    }
-
-    @Override
-    public void reload() {
-    }
-
-    @Override
-    public void save() {
-    }
+    MatcherAssert.assertThat(
+      "Couldn't set the config!",
+      config.getIntTest().getConfig().isPresent(),
+      new IsTrue());
+    MatcherAssert.assertThat(
+      "Couldn't set the config!",
+      config.getLongTest().getConfig().isPresent(),
+      new IsTrue());
+    MatcherAssert.assertThat(
+      "Couldn't set the config!",
+      config.getDoubleTest().getConfig().isPresent(),
+      new IsTrue());
   }
 }

@@ -27,7 +27,6 @@ package io.github.shiruka.api.conf.config;
 
 import io.github.shiruka.api.conf.Config;
 import java.io.File;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
@@ -40,36 +39,36 @@ public abstract class ConfigEnvelope implements Config {
    * the original {@link Config}.
    */
   @NotNull
-  private final Supplier<Config> origin;
+  private final Config origin;
 
   /**
    * ctor.
    *
    * @param origin the config.
    */
-  protected ConfigEnvelope(@NotNull final Supplier<Config> origin) {
+  protected ConfigEnvelope(@NotNull final Config origin) {
     this.origin = origin;
   }
 
   @NotNull
   @Override
   public final File getFile() {
-    return this.origin.get().getFile();
+    return this.origin.getFile();
   }
 
   @NotNull
   @Override
   public final FileConfiguration getConfiguration() {
-    return this.origin.get().getConfiguration();
+    return this.origin.getConfiguration();
   }
 
   @Override
   public final void reload() {
-    this.origin.get().reload();
+    this.origin.reload();
   }
 
   @Override
   public final void save() {
-    this.origin.get().save();
+    this.origin.save();
   }
 }

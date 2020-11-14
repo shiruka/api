@@ -27,7 +27,6 @@ package io.github.shiruka.api.conf.config;
 
 import io.github.shiruka.api.conf.Config;
 import io.github.shiruka.api.conf.provider.JsonProvider;
-import io.github.shiruka.api.misc.StickySupplier;
 import java.io.File;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,10 +38,10 @@ public class JsonConfig extends ConfigEnvelope {
   /**
    * ctor.
    *
-   * @param config the config.
+   * @param origin the config.
    */
-  private JsonConfig(@NotNull final Config config) {
-    super(new StickySupplier<>(config));
+  private JsonConfig(@NotNull final Config origin) {
+    super(origin);
   }
 
   /**
@@ -52,5 +51,15 @@ public class JsonConfig extends ConfigEnvelope {
    */
   public JsonConfig(@NotNull final File file) {
     this(new ConfigBasic<>(file, new JsonProvider()));
+  }
+
+  /**
+   * ctor.
+   *
+   * @param path the path to create dir.
+   * @param file the file to create.
+   */
+  public JsonConfig(@NotNull final String path, @NotNull final String file) {
+    this(new File(path, file));
   }
 }

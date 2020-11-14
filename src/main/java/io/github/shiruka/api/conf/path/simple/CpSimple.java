@@ -26,7 +26,6 @@
 package io.github.shiruka.api.conf.path.simple;
 
 import io.github.shiruka.api.conf.ConfigPath;
-import io.github.shiruka.api.misc.StickySupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +42,7 @@ public final class CpSimple<T> extends CpEnvelope<T> {
    * @param origin the original {@link ConfigPath}.
    */
   private CpSimple(@NotNull final ConfigPath<T> origin) {
-    super(new StickySupplier<>(origin));
+    super(origin);
   }
 
   /**

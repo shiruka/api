@@ -28,7 +28,6 @@ package io.github.shiruka.api.conf.path.advanced;
 import io.github.shiruka.api.conf.AdvancedPath;
 import io.github.shiruka.api.conf.Config;
 import java.util.Optional;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -43,55 +42,55 @@ public abstract class ApEnvelope<R, T> implements AdvancedPath<R, T> {
    * the original {@link AdvancedPath}.
    */
   @NotNull
-  private final Supplier<AdvancedPath<R, T>> origin;
+  private final AdvancedPath<R, T> origin;
 
   /**
    * ctor.
    *
    * @param origin the original.
    */
-  protected ApEnvelope(@NotNull final Supplier<AdvancedPath<R, T>> origin) {
+  protected ApEnvelope(@NotNull final AdvancedPath<R, T> origin) {
     this.origin = origin;
   }
 
   @NotNull
   @Override
   public final Optional<R> rawValue() {
-    return this.origin.get().rawValue();
+    return this.origin.rawValue();
   }
 
   @NotNull
   @Override
   public final Optional<T> convertToFinal(@NotNull final R rawValue) {
-    return this.origin.get().convertToFinal(rawValue);
+    return this.origin.convertToFinal(rawValue);
   }
 
   @NotNull
   @Override
   public final Optional<R> convertToRaw(@NotNull final T finalValue) {
-    return this.origin.get().convertToRaw(finalValue);
+    return this.origin.convertToRaw(finalValue);
   }
 
   @NotNull
   @Override
   public final String getPath() {
-    return this.origin.get().getPath();
+    return this.origin.getPath();
   }
 
   @NotNull
   @Override
   public final Optional<T> getDefault() {
-    return this.origin.get().getDefault();
+    return this.origin.getDefault();
   }
 
   @NotNull
   @Override
   public final Optional<Config> getConfig() {
-    return this.origin.get().getConfig();
+    return this.origin.getConfig();
   }
 
   @Override
   public final void setConfig(@NotNull final Config config) {
-    this.origin.get().setConfig(config);
+    this.origin.setConfig(config);
   }
 }

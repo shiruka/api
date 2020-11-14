@@ -23,25 +23,14 @@
  *
  */
 
-package io.github.shiruka.api.conf.config;
+package io.github.shiruka.api.plugin;
 
-import io.github.shiruka.api.conf.Config;
-import io.github.shiruka.api.conf.ConfigPath;
-import io.github.shiruka.api.conf.PathLoader;
-import org.jetbrains.annotations.NotNull;
+import java.util.regex.Pattern;
 
 /**
- * a {@link ConfigEnvelope} implementation to load {@link ConfigPath} automatically
+ * a file interface to describes the plugins.
  */
-public abstract class PathableConfig extends ConfigEnvelope {
+public final class PluginFile {
 
-  /**
-   * ctor.
-   *
-   * @param origin the original {@link Config}.
-   */
-  protected PathableConfig(@NotNull final Config origin) {
-    super(origin);
-    PathLoader.load(this);
-  }
+  private static final Pattern VALID_ID = Pattern.compile("^[A-Za-z0-9 _.-]+$");
 }

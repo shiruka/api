@@ -25,8 +25,8 @@
 
 package io.github.shiruka.api.conf.config;
 
-import io.github.shiruka.api.conf.Provider;
 import io.github.shiruka.api.conf.Config;
+import io.github.shiruka.api.conf.Provider;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;

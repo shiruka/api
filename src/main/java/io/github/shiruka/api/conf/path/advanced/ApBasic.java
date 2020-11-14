@@ -97,7 +97,7 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
   @NotNull
   @Override
   public Optional<R> rawValue() {
-    return this.getConfig().map(this.rawValue::apply);
+    return this.getConfig().map(this.rawValue);
   }
 
   @NotNull
