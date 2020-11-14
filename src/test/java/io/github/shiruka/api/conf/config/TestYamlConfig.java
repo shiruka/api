@@ -25,11 +25,56 @@
 
 package io.github.shiruka.api.conf.config;
 
+import io.github.shiruka.api.conf.Paths;
+import io.github.shiruka.api.conf.path.simple.*;
 import java.io.File;
+import org.jetbrains.annotations.NotNull;
 
 public final class TestYamlConfig extends YamlConfig {
 
+  static final CpInteger intTest = Paths.integerPath("int-test", 1);
+
+  protected static final CpLong longTest = Paths.longPath("long-test", 1L);
+
+  private static final CpDouble doubleTest = Paths.doublePath("double-test", 1.0d);
+
+  public final CpString textTest = Paths.stringPath("text-test", "text");
+
+  final CpFloat floatTest = Paths.floatPath("float-test", 1.0f);
+
+  private final CpBoolean boolTest = Paths.booleanPath("bool-test", true);
+
   public TestYamlConfig() {
     super(new File("test", "test.yaml"));
+  }
+
+  @NotNull
+  public CpString getTextTest() {
+    return this.textTest;
+  }
+
+  @NotNull
+  public CpFloat getFloatTest() {
+    return this.floatTest;
+  }
+
+  @NotNull
+  public CpBoolean getBoolTest() {
+    return this.boolTest;
+  }
+
+  @NotNull
+  public CpInteger getIntTest() {
+    return TestYamlConfig.intTest;
+  }
+
+  @NotNull
+  public CpLong getLongTest() {
+    return TestYamlConfig.longTest;
+  }
+
+  @NotNull
+  public CpDouble getDoubleTest() {
+    return TestYamlConfig.doubleTest;
   }
 }

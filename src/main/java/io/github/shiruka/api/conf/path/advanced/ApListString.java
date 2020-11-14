@@ -26,7 +26,6 @@
 package io.github.shiruka.api.conf.path.advanced;
 
 import io.github.shiruka.api.conf.AdvancedPath;
-import io.github.shiruka.api.misc.StickySupplier;
 import java.util.List;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;

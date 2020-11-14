@@ -28,7 +28,6 @@ package io.github.shiruka.api.conf.path.simple;
 import io.github.shiruka.api.conf.Config;
 import io.github.shiruka.api.conf.ConfigPath;
 import java.util.Optional;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

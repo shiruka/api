@@ -26,7 +26,6 @@
 package io.github.shiruka.api.conf.path.simple;
 
 import io.github.shiruka.api.conf.ConfigPath;
-import io.github.shiruka.api.misc.StickySupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
