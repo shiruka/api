@@ -25,6 +25,12 @@
 
 package io.github.shiruka.api.plugin;
 
-public final class ExamplePlugin {
+import java.util.regex.Pattern;
 
+/**
+ * a file interface to describes the plugins.
+ */
+public final class PluginFile {
+
+  private static final Pattern VALID_ID = Pattern.compile("^[A-Za-z0-9 _.-]+$");
 }
