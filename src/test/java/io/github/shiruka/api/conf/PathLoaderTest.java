@@ -36,6 +36,7 @@ final class PathLoaderTest {
   void load() {
     final var config = new TestYamlConfig();
     PathLoader.load(config);
+    config.save();
     MatcherAssert.assertThat(
       "Couldn't set the config!",
       config.getTextTest().getConfig().isPresent(),
