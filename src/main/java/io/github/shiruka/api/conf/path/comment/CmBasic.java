@@ -61,10 +61,10 @@ public final class CmBasic<T> implements CommentablePath<T> {
    */
   public CmBasic(@NotNull final ConfigPath<T> origin, @NotNull final String... defaultComments) {
     this.origin = origin;
-    if (defaultComments.length > 1) {
+    if (defaultComments.length > 0) {
       this.defaultCommentMap.put(CommentType.BLOCK, defaultComments[0]);
     }
-    if (defaultComments.length > 2) {
+    if (defaultComments.length > 1) {
       this.defaultCommentMap.put(CommentType.SIDE, defaultComments[1]);
     }
   }
