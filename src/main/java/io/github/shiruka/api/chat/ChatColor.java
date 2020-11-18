@@ -24,7 +24,7 @@
  */
 package io.github.shiruka.api.chat;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -131,6 +131,11 @@ public enum ChatColor {
   public static final char ESCAPE = '\u00A7';
 
   /**
+   * {@code this}'s values as cache.
+   */
+  private static final ChatColor[] VALUES = ChatColor.values();
+
+  /**
    * the color character.
    */
   private final char colorChar;
@@ -153,7 +158,7 @@ public enum ChatColor {
    */
   @NotNull
   public static ChatColor of(final char colorChar) {
-    return Arrays.stream(ChatColor.values())
+    return Stream.of(ChatColor.VALUES)
       .filter(chatColor -> chatColor.colorChar == colorChar)
       .findFirst()
       .orElseThrow(() ->
