@@ -41,15 +41,6 @@ public abstract class ApListString<T> extends ApEnvelope<List<String>, List<T>> 
   /**
    * ctor.
    *
-   * @param origin the original {@link AdvancedPath}.
-   */
-  private ApListString(@NotNull final AdvancedPath<List<String>, List<T>> origin) {
-    super(origin);
-  }
-
-  /**
-   * ctor.
-   *
    * @param path the path.
    * @param def the default value.
    * @param convertToFinal the convert to final value function.
