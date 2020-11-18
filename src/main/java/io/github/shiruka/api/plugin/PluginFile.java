@@ -263,7 +263,6 @@ public final class PluginFile {
    */
   @NotNull
   public static PluginFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
-    // TODO make map's keys static to save memory.
     final String rawName;
     String name;
     try {
