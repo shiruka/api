@@ -67,7 +67,7 @@ public final class PluginFile {
   /**
    * the prefix key of the plugin.yml
    */
-  private static final String PREFIX = "prefi";
+  private static final String PREFIX = "prefix";
 
   /**
    * the order key of the plugin.yml
