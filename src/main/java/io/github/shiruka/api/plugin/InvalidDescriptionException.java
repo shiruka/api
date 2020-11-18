@@ -28,7 +28,7 @@ package io.github.shiruka.api.plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * thrown when attempting to load an invalid {@link PluginFile}.
+ * thrown when attempting to load an invalid {@link PluginDescriptionFile}.
  */
 public class InvalidDescriptionException extends Exception {
 
