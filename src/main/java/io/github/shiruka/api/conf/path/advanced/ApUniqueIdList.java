@@ -23,31 +23,44 @@
  *
  */
 
-package io.github.shiruka.api.plugin;
+package io.github.shiruka.api.conf.path.advanced;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * thrown when attempting to load an invalid {@link PluginDescriptionFile}.
+ * an implementation for {@link ApListString} as list of {@link UUID}.
  */
-final class InvalidDescriptionException extends Exception {
+public final class ApUniqueIdList extends ApListString<UUID> {
 
   /**
    * ctor.
    *
-   * @param message the message to print.
-   * @param cause the cause to print.
+   * @param path the path.
+   * @param def the def.
    */
-  InvalidDescriptionException(@NotNull final Throwable cause, @NotNull final String message) {
-    super(message, cause);
+  public ApUniqueIdList(@NotNull final String path, @Nullable final List<UUID> def) {
+    super(path, def,
+      strings ->
+        strings.stream()
+          .map(UUID::fromString)
+          .collect(Collectors.toList()),
+      uuids ->
+        uuids.stream()
+          .map(UUID::toString)
+          .collect(Collectors.toList()));
   }
 
   /**
    * ctor.
    *
-   * @param message the message to print.
+   * @param path the path.
+   * @param def the def.
    */
-  InvalidDescriptionException(@NotNull final String message) {
-    super(message);
+  public ApUniqueIdList(@NotNull final String path, @Nullable final UUID... def) {
+    this(path, List.of(def));
   }
 }

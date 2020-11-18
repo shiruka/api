@@ -37,7 +37,7 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
 /**
  * a file interface to describes the plugins.
  */
-public final class PluginFile {
+public final class PluginDescriptionFile {
 
   /**
    * the name key of the plugin.yml
@@ -67,7 +67,7 @@ public final class PluginFile {
   /**
    * the prefix key of the plugin.yml
    */
-  private static final String PREFIX = "prefi";
+  private static final String PREFIX = "prefix";
 
   /**
    * the order key of the plugin.yml
@@ -205,12 +205,12 @@ public final class PluginFile {
    * @param softDepend the soft dependency.
    * @param loadBefore the load before.
    */
-  private PluginFile(@NotNull final String name, @NotNull final String main,
-                     @NotNull final String version, @NotNull final String description, @NotNull final String website,
-                     @NotNull final String prefix, @NotNull final PluginLoadOrder order,
-                     @NotNull final List<String> contributors, @NotNull final List<String> authors,
-                     @NotNull final List<String> depend, @NotNull final List<String> softDepend,
-                     @NotNull final List<String> loadBefore) {
+  private PluginDescriptionFile(@NotNull final String name, @NotNull final String main,
+                                @NotNull final String version, @NotNull final String description,
+                                @NotNull final String website, @NotNull final String prefix,
+                                @NotNull final PluginLoadOrder order, @NotNull final List<String> contributors,
+                                @NotNull final List<String> authors, @NotNull final List<String> depend,
+                                @NotNull final List<String> softDepend, @NotNull final List<String> loadBefore) {
     this.name = name;
     this.main = main;
     this.version = version;
@@ -226,55 +226,55 @@ public final class PluginFile {
   }
 
   /**
-   * creates and returns a new plugin file instance from the input stream.
+   * creates and returns a new plugin description file instance from the input stream.
    *
    * @param name the name to create.
    * @param version the version to create.
    * @param main the main to create.
    *
-   * @return a new instance of plugin file.
+   * @return a new instance of plugin description file.
    *
    * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
    */
   @NotNull
-  public static PluginFile init(@NotNull final String name, @NotNull final String version,
-                                @NotNull final String main) throws InvalidDescriptionException {
-    return PluginFile.init(Optionals.useAndGet(new HashMap<>(), map -> {
-      map.put(PluginFile.NAME, name);
-      map.put(PluginFile.VERSION, version);
-      map.put(PluginFile.MAIN, main);
+  public static PluginDescriptionFile init(@NotNull final String name, @NotNull final String version,
+                                           @NotNull final String main) throws InvalidDescriptionException {
+    return PluginDescriptionFile.init(Optionals.useAndGet(new HashMap<>(), map -> {
+      map.put(PluginDescriptionFile.NAME, name);
+      map.put(PluginDescriptionFile.VERSION, version);
+      map.put(PluginDescriptionFile.MAIN, main);
     }));
   }
 
   /**
-   * creates and returns a new plugin file instance from the input stream.
+   * creates and returns a new plugin description file instance from the input stream.
    *
    * @param stream the stream to create.
    *
-   * @return a new instance of plugin file.
+   * @return a new instance of plugin description file.
    *
    * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
    */
   @NotNull
-  public static PluginFile init(@NotNull final InputStream stream) throws InvalidDescriptionException {
-    return PluginFile.init(PluginFile.YAML.get().<Map<String, Object>>load(stream));
+  public static PluginDescriptionFile init(@NotNull final InputStream stream) throws InvalidDescriptionException {
+    return PluginDescriptionFile.init(PluginDescriptionFile.YAML.get().<Map<String, Object>>load(stream));
   }
 
   /**
-   * creates and returns a new plugin file instance from the map.
+   * creates and returns a new plugin description file instance from the map.
    *
    * @param map the map to create.
    *
-   * @return a new instance of plugin file.
+   * @return a new instance of plugin description file.
    *
    * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
    */
   @NotNull
-  public static PluginFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
+  public static PluginDescriptionFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
     String name;
     try {
-      name = map.get(PluginFile.NAME).toString();
-      if (!PluginFile.VALID_NAME.matcher(name).matches()) {
+      name = map.get(PluginDescriptionFile.NAME).toString();
+      if (!PluginDescriptionFile.VALID_NAME.matcher(name).matches()) {
         throw new InvalidDescriptionException("name '" + name + "' contains invalid characters.");
       }
       name = name.replace(' ', '_');
@@ -285,7 +285,7 @@ public final class PluginFile {
     }
     final String version;
     try {
-      version = map.get(PluginFile.VERSION).toString();
+      version = map.get(PluginDescriptionFile.VERSION).toString();
     } catch (final NullPointerException ex) {
       throw new InvalidDescriptionException(ex, "version is not defined");
     } catch (final ClassCastException ex) {
@@ -293,7 +293,7 @@ public final class PluginFile {
     }
     final String main;
     try {
-      main = map.get(PluginFile.MAIN).toString();
+      main = map.get(PluginDescriptionFile.MAIN).toString();
       if (main.startsWith("io.github.shiruka.")) {
         throw new InvalidDescriptionException("main may not be within the org.bukkit namespace");
       }
@@ -302,13 +302,13 @@ public final class PluginFile {
     } catch (final ClassCastException ex) {
       throw new InvalidDescriptionException(ex, "main is of wrong type");
     }
-    final var website = map.getOrDefault(PluginFile.WEBSITE, "").toString();
-    final var description = map.getOrDefault(PluginFile.DESCRIPTION, "").toString();
-    final var prefix = map.getOrDefault(PluginFile.PREFIX, "").toString();
+    final var website = map.getOrDefault(PluginDescriptionFile.WEBSITE, "").toString();
+    final var description = map.getOrDefault(PluginDescriptionFile.DESCRIPTION, "").toString();
+    final var prefix = map.getOrDefault(PluginDescriptionFile.PREFIX, "").toString();
     final var contributors = new ArrayList<String>();
-    if (map.containsKey(PluginFile.CONTRIBUTORS)) {
+    if (map.containsKey(PluginDescriptionFile.CONTRIBUTORS)) {
       try {
-        for (final var o : (Iterable<?>) map.get(PluginFile.CONTRIBUTORS)) {
+        for (final var o : (Iterable<?>) map.get(PluginDescriptionFile.CONTRIBUTORS)) {
           contributors.add(o.toString());
         }
       } catch (final ClassCastException ex) {
@@ -316,9 +316,9 @@ public final class PluginFile {
       }
     }
     final var authors = new ArrayList<String>();
-    if (map.containsKey(PluginFile.AUTHORS)) {
+    if (map.containsKey(PluginDescriptionFile.AUTHORS)) {
       try {
-        for (final var o : (Iterable<?>) map.get(PluginFile.AUTHORS)) {
+        for (final var o : (Iterable<?>) map.get(PluginDescriptionFile.AUTHORS)) {
           authors.add(o.toString());
         }
       } catch (final ClassCastException ex) {
@@ -328,9 +328,9 @@ public final class PluginFile {
       }
     }
     final PluginLoadOrder order;
-    if (map.containsKey(PluginFile.LOAD)) {
+    if (map.containsKey(PluginDescriptionFile.LOAD)) {
       try {
-        order = PluginLoadOrder.valueOf(((String) map.get(PluginFile.LOAD))
+        order = PluginLoadOrder.valueOf(((String) map.get(PluginDescriptionFile.LOAD))
           .toUpperCase(Locale.ENGLISH)
           .replaceAll("\\W", ""));
       } catch (final ClassCastException ex) {
@@ -341,10 +341,10 @@ public final class PluginFile {
     } else {
       order = PluginLoadOrder.POST_WORLD;
     }
-    final var depend = PluginFile.makePluginNameList(map, PluginFile.DEPEND);
-    final var softDepend = PluginFile.makePluginNameList(map, PluginFile.SOFT_DEPEND);
-    final var loadBefore = PluginFile.makePluginNameList(map, PluginFile.LOAD_BEFORE);
-    return new PluginFile(name, main, version, description, website, prefix, order, contributors, authors,
+    final var depend = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.DEPEND);
+    final var softDepend = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.SOFT_DEPEND);
+    final var loadBefore = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.LOAD_BEFORE);
+    return new PluginDescriptionFile(name, main, version, description, website, prefix, order, contributors, authors,
       depend, softDepend, loadBefore);
   }
 
@@ -383,29 +383,29 @@ public final class PluginFile {
    * @param writer the writer to save.
    */
   public void save(@NotNull final Writer writer) {
-    PluginFile.YAML.get().dump(this.saveMap(), writer);
+    PluginDescriptionFile.YAML.get().dump(this.saveMap(), writer);
   }
 
   /**
    * creates a map which has {@code this}'s values.
    *
-   * @return a map that contains plugin file's values.
+   * @return a map that contains plugin description file's values.
    */
   @NotNull
   private Map<String, Object> saveMap() {
     final var map = new HashMap<String, Object>();
-    map.put(PluginFile.NAME, this.name);
-    map.put(PluginFile.MAIN, this.main);
-    map.put(PluginFile.VERSION, this.version);
-    map.put(PluginFile.ORDER, this.order.toString());
-    map.put(PluginFile.DEPEND, this.depend);
-    map.put(PluginFile.SOFT_DEPEND, this.softDepend);
-    map.put(PluginFile.LOAD_BEFORE, this.loadBefore);
-    map.put(PluginFile.WEBSITE, this.website);
-    map.put(PluginFile.DESCRIPTION, this.description);
-    map.put(PluginFile.AUTHORS, this.authors);
-    map.put(PluginFile.CONTRIBUTORS, this.contributors);
-    map.put(PluginFile.PREFIX, this.prefix);
+    map.put(PluginDescriptionFile.NAME, this.name);
+    map.put(PluginDescriptionFile.MAIN, this.main);
+    map.put(PluginDescriptionFile.VERSION, this.version);
+    map.put(PluginDescriptionFile.ORDER, this.order.toString());
+    map.put(PluginDescriptionFile.DEPEND, this.depend);
+    map.put(PluginDescriptionFile.SOFT_DEPEND, this.softDepend);
+    map.put(PluginDescriptionFile.LOAD_BEFORE, this.loadBefore);
+    map.put(PluginDescriptionFile.WEBSITE, this.website);
+    map.put(PluginDescriptionFile.DESCRIPTION, this.description);
+    map.put(PluginDescriptionFile.AUTHORS, this.authors);
+    map.put(PluginDescriptionFile.CONTRIBUTORS, this.contributors);
+    map.put(PluginDescriptionFile.PREFIX, this.prefix);
     return map;
   }
 }

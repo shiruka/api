@@ -25,12 +25,11 @@
 
 package io.github.shiruka.api.conf;
 
+import io.github.shiruka.api.conf.path.advanced.ApUniqueId;
+import io.github.shiruka.api.conf.path.advanced.ApUniqueIdList;
 import io.github.shiruka.api.conf.path.comment.CmBasic;
 import io.github.shiruka.api.conf.path.simple.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -152,6 +151,19 @@ public final class Paths {
   }
 
   /**
+   * represents {@link ApUniqueId} instance.
+   *
+   * @param path the path.
+   * @param def th default value.
+   *
+   * @return a config path instance.
+   */
+  @NotNull
+  public static ApUniqueId uniqueIdPath(@NotNull final String path, @Nullable final UUID def) {
+    return new ApUniqueId(path, def);
+  }
+
+  /**
    * represents {@link CpSimple} instance.
    *
    * @param path the path.
@@ -160,7 +172,7 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static CpSimple<List<String>> listStringPath(final String path, final String... def) {
+  public static CpSimple<List<String>> listStringPath(@NotNull final String path, @Nullable final String... def) {
     return Paths.simplePath(path, Optional.ofNullable(def)
       .map(Arrays::asList)
       .orElse(null));
@@ -175,8 +187,36 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static CpSimple<List<String>> listStringPath(final String path, final List<String> def) {
+  public static CpSimple<List<String>> listStringPath(@NotNull final String path, final List<String> def) {
     return Paths.simplePath(path, def);
+  }
+
+  /**
+   * represents {@link ApUniqueIdList} instance.
+   *
+   * @param path the path.
+   * @param def th default value.
+   *
+   * @return a config path instance.
+   */
+  @NotNull
+  public static ApUniqueIdList listUniqueIdPath(@NotNull final String path, @Nullable final UUID... def) {
+    return Paths.listUniqueIdPath(path, Optional.ofNullable(def)
+      .map(Arrays::asList)
+      .orElse(null));
+  }
+
+  /**
+   * represents {@link ApUniqueIdList} instance.
+   *
+   * @param path the path.
+   * @param def th default value.
+   *
+   * @return a config path instance.
+   */
+  @NotNull
+  public static ApUniqueIdList listUniqueIdPath(@NotNull final String path, @Nullable final List<UUID> def) {
+    return new ApUniqueIdList(path, def);
   }
 
   /**
@@ -188,7 +228,8 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static CpSimple<Map<String, Object>> mapPath(final String path, final Map<String, Object> def) {
+  public static CpSimple<Map<String, Object>> mapPath(@NotNull final String path,
+                                                      @Nullable final Map<String, Object> def) {
     return Paths.simplePath(path, def);
   }
 
@@ -202,7 +243,7 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static <T> CpSimple<T> simplePath(final String path, final T def) {
+  public static <T> CpSimple<T> simplePath(@NotNull final String path, @Nullable final T def) {
     return new CpSimple<>(path, def);
   }
 }

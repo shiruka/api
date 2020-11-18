@@ -36,16 +36,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @param <T> the final value's type.
  */
-public abstract class ApListString<T> extends ApEnvelope<List<String>, T> {
-
-  /**
-   * ctor.
-   *
-   * @param origin the original {@link AdvancedPath}.
-   */
-  private ApListString(@NotNull final AdvancedPath<List<String>, T> origin) {
-    super(origin);
-  }
+public abstract class ApListString<T> extends ApEnvelope<List<String>, List<T>> {
 
   /**
    * ctor.
@@ -55,9 +46,9 @@ public abstract class ApListString<T> extends ApEnvelope<List<String>, T> {
    * @param convertToFinal the convert to final value function.
    * @param convertToRaw the convert to raw value function.
    */
-  protected ApListString(@NotNull final String path, @Nullable final T def,
-                         @NotNull final Function<List<String>, T> convertToFinal,
-                         @NotNull final Function<T, List<String>> convertToRaw) {
+  protected ApListString(@NotNull final String path, @Nullable final List<T> def,
+                         @NotNull final Function<List<String>, List<T>> convertToFinal,
+                         @NotNull final Function<List<T>, List<String>> convertToRaw) {
     super(new ApBasic<>(path, def,
       config -> (List<String>) config.get(path)
         .filter(o -> o instanceof List<?>)

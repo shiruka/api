@@ -23,31 +23,24 @@
  *
  */
 
-package io.github.shiruka.api.plugin;
+package io.github.shiruka.api.conf.path.advanced;
 
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * thrown when attempting to load an invalid {@link PluginDescriptionFile}.
+ * a simple implementation for {@link ApEnvelope} as {@link UUID}.
  */
-final class InvalidDescriptionException extends Exception {
+public final class ApUniqueId extends ApString<UUID> {
 
   /**
    * ctor.
    *
-   * @param message the message to print.
-   * @param cause the cause to print.
+   * @param path the path.
+   * @param def the def.
    */
-  InvalidDescriptionException(@NotNull final Throwable cause, @NotNull final String message) {
-    super(message, cause);
-  }
-
-  /**
-   * ctor.
-   *
-   * @param message the message to print.
-   */
-  InvalidDescriptionException(@NotNull final String message) {
-    super(message);
+  public ApUniqueId(@NotNull final String path, @Nullable final UUID def) {
+    super(path, def, UUID::fromString, UUID::toString);
   }
 }
