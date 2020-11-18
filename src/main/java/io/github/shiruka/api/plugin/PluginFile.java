@@ -233,6 +233,17 @@ public final class PluginFile {
     this.loadBefore = loadBefore;
   }
 
+  /**
+   * creates and returns a new plugin file instance from the input stream.
+   *
+   * @param name the name to create.
+   * @param version the version to create.
+   * @param main the main to create.
+   *
+   * @return a new instance of plugin file.
+   *
+   * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
+   */
   @NotNull
   public static PluginFile init(@NotNull final String name, @NotNull final String version,
                                 @NotNull final String main) throws InvalidDescriptionException {
@@ -249,6 +260,8 @@ public final class PluginFile {
    * @param stream the stream to create.
    *
    * @return a new instance of plugin file.
+   *
+   * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
    */
   @NotNull
   public static PluginFile init(@NotNull final InputStream stream) throws InvalidDescriptionException {
@@ -261,6 +274,8 @@ public final class PluginFile {
    * @param map the map to create.
    *
    * @return a new instance of plugin file.
+   *
+   * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
    */
   @NotNull
   public static PluginFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
