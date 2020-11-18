@@ -121,6 +121,11 @@ public enum ChatColor {
   RESET('r');
 
   /**
+   * all color codes.
+   */
+  public static final String ALL_CODES = "0123456789AaBbCcDdEeFfKkLlMmNnOoRrXx";
+
+  /**
    * the escape character.
    */
   public static final char ESCAPE = '\u00A7';
