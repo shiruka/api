@@ -25,43 +25,22 @@
 
 package io.github.shiruka.api.conf.path.advanced;
 
-import io.github.shiruka.api.conf.AdvancedPath;
-import java.util.List;
-import java.util.function.Function;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that helps to create {@link AdvancedPath} which has {@link List} raw value.
- *
- * @param <T> the final value's type.
+ * a simple implementation for {@link ApEnvelope} as {@link UUID}.
  */
-public abstract class ApListString<T> extends ApEnvelope<List<String>, List<T>> {
-
-  /**
-   * ctor.
-   *
-   * @param origin the original {@link AdvancedPath}.
-   */
-  private ApListString(@NotNull final AdvancedPath<List<String>, List<T>> origin) {
-    super(origin);
-  }
+public final class ApUniqueId extends ApString<UUID> {
 
   /**
    * ctor.
    *
    * @param path the path.
-   * @param def the default value.
-   * @param convertToFinal the convert to final value function.
-   * @param convertToRaw the convert to raw value function.
+   * @param def the def.
    */
-  protected ApListString(@NotNull final String path, @Nullable final List<T> def,
-                         @NotNull final Function<List<String>, List<T>> convertToFinal,
-                         @NotNull final Function<List<T>, List<String>> convertToRaw) {
-    super(new ApBasic<>(path, def,
-      config -> (List<String>) config.get(path)
-        .filter(o -> o instanceof List<?>)
-        .orElse(null),
-      convertToFinal, convertToRaw));
+  public ApUniqueId(@NotNull final String path, @Nullable final UUID def) {
+    super(path, def, UUID::fromString, UUID::toString);
   }
 }
