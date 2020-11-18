@@ -50,11 +50,4 @@ public final class InvalidDescriptionException extends Exception {
   InvalidDescriptionException(@NotNull final String message) {
     super(message);
   }
-
-  /**
-   * ctor.
-   */
-  public InvalidDescriptionException() {
-    super("Invalid plugin.yml");
-  }
 }
