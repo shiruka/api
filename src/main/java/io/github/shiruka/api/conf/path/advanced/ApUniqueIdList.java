@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation for {@link ApListString} as {@link List<UUID>}.
+ * an implementation for {@link ApListString} as list of {@link UUID}.
  */
 public final class ApUniqueIdList extends ApListString<UUID> {
 
