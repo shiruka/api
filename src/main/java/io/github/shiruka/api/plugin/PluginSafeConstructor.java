@@ -51,14 +51,14 @@ final class PluginSafeConstructor extends SafeConstructor {
   }
 
   /**
-   *
+   * represents a concept that a plugin is aware of.
    */
-  private static final class PluginAwareness {
+  private interface PluginAwareness {
 
     /**
      * the flag enum class.
      */
-    private enum UTF8 {
+    enum UTF8 {
       UTF8
     }
   }
