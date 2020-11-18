@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.plugin;
 
+import io.github.shiruka.api.misc.Optionals;
 import java.util.regex.Pattern;
 import org.yaml.snakeyaml.Yaml;
 
@@ -41,11 +42,8 @@ public final class PluginFile {
   /**
    * a {@link Yaml} instance with a custom {@link PluginSafeConstructor}.
    */
-  private static final ThreadLocal<Yaml> YAML = ThreadLocal.withInitial(() -> {
-    final var constructor = new PluginSafeConstructor();
-    constructor.init();
-    return new Yaml(constructor);
-  });
+  private static final ThreadLocal<Yaml> YAML = ThreadLocal.withInitial(() ->
+    new Yaml(new PluginSafeConstructor().init()));
 
   /**
    * ctor.
