@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * thrown when attempting to load an invalid {@link PluginDescriptionFile}.
  */
-public class InvalidDescriptionException extends Exception {
+public final class InvalidDescriptionException extends Exception {
 
   /**
    * ctor.
@@ -38,25 +38,16 @@ public class InvalidDescriptionException extends Exception {
    * @param message the message to print.
    * @param cause the cause to print.
    */
-  public InvalidDescriptionException(@NotNull final Throwable cause, @NotNull final String message) {
+  InvalidDescriptionException(@NotNull final Throwable cause, @NotNull final String message) {
     super(message, cause);
   }
 
   /**
    * ctor.
    *
-   * @param cause the cause to print.
-   */
-  public InvalidDescriptionException(@NotNull final Throwable cause) {
-    super("Invalid plugin.yml", cause);
-  }
-
-  /**
-   * ctor.
-   *
    * @param message the message to print.
    */
-  public InvalidDescriptionException(@NotNull final String message) {
+  InvalidDescriptionException(@NotNull final String message) {
     super(message);
   }
 
