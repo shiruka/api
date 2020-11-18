@@ -32,6 +32,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 /**
  * a file interface to describes the plugins.
@@ -109,10 +110,10 @@ public final class PluginFile {
   private static final Pattern VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$");
 
   /**
-   * a {@link Yaml} instance with a custom {@link PluginSafeConstructor}.
+   * a {@link Yaml} instance to determine plugin.yml.
    */
   private static final ThreadLocal<Yaml> YAML = ThreadLocal.withInitial(() ->
-    new Yaml(PluginSafeConstructor.init()));
+    new Yaml(new SafeConstructor()));
 
   /**
    * the raw name of the plugin.
