@@ -26,11 +26,30 @@
 package io.github.shiruka.api.plugin;
 
 import java.util.regex.Pattern;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * a file interface to describes the plugins.
  */
 public final class PluginFile {
 
+  /**
+   * validator pattern for plugin ids.
+   */
   private static final Pattern VALID_ID = Pattern.compile("^[A-Za-z0-9 _.-]+$");
+
+  /**
+   * a {@link Yaml} instance with a custom {@link PluginSafeConstructor}.
+   */
+  private static final ThreadLocal<Yaml> YAML = ThreadLocal.withInitial(() -> {
+    final var constructor = new PluginSafeConstructor();
+    constructor.init();
+    return new Yaml(constructor);
+  });
+
+  /**
+   * ctor.
+   */
+  private PluginFile() {
+  }
 }
