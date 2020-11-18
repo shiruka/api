@@ -116,12 +116,6 @@ public final class PluginFile {
     new Yaml(new SafeConstructor()));
 
   /**
-   * the raw name of the plugin.
-   */
-  @NotNull
-  private final String rawName;
-
-  /**
    * the name of the plugin.
    */
   @NotNull
@@ -198,7 +192,6 @@ public final class PluginFile {
   /**
    * ctor.
    *
-   * @param rawName the raw name.
    * @param name the name.
    * @param main the main.
    * @param version the version.
@@ -212,13 +205,12 @@ public final class PluginFile {
    * @param softDepend the soft dependency.
    * @param loadBefore the load before.
    */
-  private PluginFile(@NotNull final String rawName, @NotNull final String name, @NotNull final String main,
+  private PluginFile(@NotNull final String name, @NotNull final String main,
                      @NotNull final String version, @NotNull final String description, @NotNull final String website,
                      @NotNull final String prefix, @NotNull final PluginLoadOrder order,
                      @NotNull final List<String> contributors, @NotNull final List<String> authors,
                      @NotNull final List<String> depend, @NotNull final List<String> softDepend,
                      @NotNull final List<String> loadBefore) {
-    this.rawName = rawName;
     this.name = name;
     this.main = main;
     this.version = version;
@@ -279,10 +271,9 @@ public final class PluginFile {
    */
   @NotNull
   public static PluginFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
-    final String rawName;
     String name;
     try {
-      name = rawName = map.get(PluginFile.NAME).toString();
+      name = map.get(PluginFile.NAME).toString();
       if (!PluginFile.VALID_NAME.matcher(name).matches()) {
         throw new InvalidDescriptionException("name '" + name + "' contains invalid characters.");
       }
@@ -353,7 +344,7 @@ public final class PluginFile {
     final var depend = PluginFile.makePluginNameList(map, PluginFile.DEPEND);
     final var softDepend = PluginFile.makePluginNameList(map, PluginFile.SOFT_DEPEND);
     final var loadBefore = PluginFile.makePluginNameList(map, PluginFile.LOAD_BEFORE);
-    return new PluginFile(rawName, name, main, version, description, website, prefix, order, contributors, authors,
+    return new PluginFile(name, main, version, description, website, prefix, order, contributors, authors,
       depend, softDepend, loadBefore);
   }
 
@@ -409,6 +400,7 @@ public final class PluginFile {
     map.put(PluginFile.ORDER, this.order.toString());
     map.put(PluginFile.DEPEND, this.depend);
     map.put(PluginFile.SOFT_DEPEND, this.softDepend);
+    map.put(PluginFile.LOAD_BEFORE, this.loadBefore);
     map.put(PluginFile.WEBSITE, this.website);
     map.put(PluginFile.DESCRIPTION, this.description);
     map.put(PluginFile.AUTHORS, this.authors);
