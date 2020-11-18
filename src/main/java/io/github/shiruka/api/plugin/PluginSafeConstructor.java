@@ -24,7 +24,7 @@ final class PluginSafeConstructor extends SafeConstructor {
    */
   @NotNull
   static PluginSafeConstructor init() {
-    final PluginSafeConstructor constructor = new PluginSafeConstructor();
+    final var constructor = new PluginSafeConstructor();
     constructor.yamlConstructors.put(null, new AbstractConstruct() {
       @NotNull
       @Override
