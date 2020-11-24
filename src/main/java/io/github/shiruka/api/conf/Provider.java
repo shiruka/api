@@ -45,26 +45,6 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 public interface Provider<F extends FileConfiguration> {
 
   /**
-   * obtains an instance of provider from the given suffix.
-   *
-   * @param suffix the suffix to create.
-   *
-   * @return an instance of provider depends on what suffix is.
-   */
-  @NotNull
-  static Optional<Provider<?>> fromSuffix(@NotNull final String suffix) {
-    if (suffix.contains("yaml") ||
-      suffix.contains("yml")) {
-      return Optional.of(new YamlProvider());
-    } else if (suffix.contains("hjson")) {
-      return Optional.of(new HJsonProvider());
-    } else if (suffix.contains("json")) {
-      return Optional.of(new JsonProvider());
-    }
-    return Optional.empty();
-  }
-
-  /**
    * loads configuration from a input stream.
    *
    * @param inputStream the inputStream to load.
