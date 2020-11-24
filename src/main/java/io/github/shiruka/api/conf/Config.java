@@ -25,6 +25,9 @@
 
 package io.github.shiruka.api.conf;
 
+import io.github.shiruka.api.conf.config.HJsonConfig;
+import io.github.shiruka.api.conf.config.JsonConfig;
+import io.github.shiruka.api.conf.config.YamlConfig;
 import java.io.File;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -36,6 +39,27 @@ import org.simpleyaml.configuration.file.FileConfiguration;
  * the interface of Config classes.
  */
 public interface Config {
+
+  /**
+   * obtains an instance of config from the given file.
+   *
+   * @param file the file to create.
+   *
+   * @return an instance of config depends on what file is.
+   */
+  @NotNull
+  static Optional<Config> fromFile(@NotNull final File file) {
+    final var name = file.getName();
+    if (name.contains("yaml") ||
+      name.contains("yml")) {
+      return Optional.of(new YamlConfig(file));
+    } else if (name.contains("hjson")) {
+      return Optional.of(new HJsonConfig(file));
+    } else if (name.contains("json")) {
+      return Optional.of(new JsonConfig(file));
+    }
+    return Optional.empty();
+  }
 
   /**
    * runs your consumer after that saves the config file.
