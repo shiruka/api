@@ -25,11 +25,15 @@
 
 package io.github.shiruka.api.conf;
 
+import io.github.shiruka.api.conf.provider.HJsonProvider;
+import io.github.shiruka.api.conf.provider.JsonProvider;
+import io.github.shiruka.api.conf.provider.YamlProvider;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
@@ -39,6 +43,26 @@ import org.simpleyaml.configuration.file.FileConfiguration;
  * @param <F> file configuration class type.
  */
 public interface Provider<F extends FileConfiguration> {
+
+  /**
+   * obtains an instance of provider from the given suffix.
+   *
+   * @param suffix the suffix to create.
+   *
+   * @return an instance of provider depends on what suffix is.
+   */
+  @NotNull
+  static Optional<Provider<?>> fromSuffix(@NotNull final String suffix) {
+    if (suffix.contains("yaml") ||
+      suffix.contains("yml")) {
+      return Optional.of(new YamlProvider());
+    } else if (suffix.contains("hjson")) {
+      return Optional.of(new HJsonProvider());
+    } else if (suffix.contains("json")) {
+      return Optional.of(new JsonProvider());
+    }
+    return Optional.empty();
+  }
 
   /**
    * loads configuration from a input stream.
