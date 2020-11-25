@@ -36,12 +36,17 @@ import org.jetbrains.annotations.NotNull;
 public class YamlConfig extends ConfigEnvelope {
 
   /**
+   * a YAML provider.
+   */
+  private static final YamlProvider PROVIDER = new YamlProvider();
+
+  /**
    * ctor.
    *
-   * @param config the config.
+   * @param origin the config.
    */
-  private YamlConfig(@NotNull final Config config) {
-    super(config);
+  private YamlConfig(@NotNull final Config origin) {
+    super(origin);
   }
 
   /**
@@ -50,7 +55,7 @@ public class YamlConfig extends ConfigEnvelope {
    * @param fil the file to create.
    */
   public YamlConfig(@NotNull final File fil) {
-    this(new ConfigBasic<>(fil, new YamlProvider()));
+    this(new ConfigBasic<>(fil, YamlConfig.PROVIDER));
   }
 
   /**

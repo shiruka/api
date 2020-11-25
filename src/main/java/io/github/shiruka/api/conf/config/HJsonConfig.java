@@ -36,6 +36,11 @@ import org.jetbrains.annotations.NotNull;
 public final class HJsonConfig extends ConfigEnvelope {
 
   /**
+   * a HJson provider.
+   */
+  private static final HJsonProvider PROVIDER = new HJsonProvider();
+
+  /**
    * ctor.
    *
    * @param origin the config.
@@ -50,7 +55,7 @@ public final class HJsonConfig extends ConfigEnvelope {
    * @param file the file to create.
    */
   public HJsonConfig(@NotNull final File file) {
-    this(new ConfigBasic<>(file, new HJsonProvider()));
+    this(new ConfigBasic<>(file, PROVIDER));
   }
 
   /**

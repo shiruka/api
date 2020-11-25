@@ -36,6 +36,11 @@ import org.jetbrains.annotations.NotNull;
 public class JsonConfig extends ConfigEnvelope {
 
   /**
+   * a JSON provider.
+   */
+  private static final JsonProvider PROVIDER = new JsonProvider();
+
+  /**
    * ctor.
    *
    * @param origin the config.
@@ -50,7 +55,7 @@ public class JsonConfig extends ConfigEnvelope {
    * @param file the file to create.
    */
   public JsonConfig(@NotNull final File file) {
-    this(new ConfigBasic<>(file, new JsonProvider()));
+    this(new ConfigBasic<>(file, JsonConfig.PROVIDER));
   }
 
   /**
