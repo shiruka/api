@@ -50,12 +50,12 @@ public interface Config {
   @NotNull
   static Optional<Config> fromFile(@NotNull final File file) {
     final var name = file.getName();
-    if (name.contains("yaml") ||
-      name.contains("yml")) {
+    if (name.endsWith(".yaml") ||
+      name.endsWith(".yml")) {
       return Optional.of(new YamlConfig(file));
-    } else if (name.contains("hjson")) {
+    } else if (name.endsWith(".hjson")) {
       return Optional.of(new HJsonConfig(file));
-    } else if (name.contains("json")) {
+    } else if (name.endsWith(".json")) {
       return Optional.of(new JsonConfig(file));
     }
     return Optional.empty();
