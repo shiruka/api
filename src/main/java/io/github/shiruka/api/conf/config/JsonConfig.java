@@ -26,7 +26,7 @@
 package io.github.shiruka.api.conf.config;
 
 import io.github.shiruka.api.conf.Config;
-import io.github.shiruka.api.conf.provider.JsonProvider;
+import io.github.shiruka.api.conf.Provider;
 import java.io.File;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,11 +34,6 @@ import org.jetbrains.annotations.NotNull;
  * a class that creates JSON files.
  */
 public class JsonConfig extends ConfigEnvelope {
-
-  /**
-   * a JSON provider.
-   */
-  private static final JsonProvider PROVIDER = new JsonProvider();
 
   /**
    * ctor.
@@ -55,7 +50,7 @@ public class JsonConfig extends ConfigEnvelope {
    * @param file the file to create.
    */
   public JsonConfig(@NotNull final File file) {
-    this(new ConfigBasic<>(file, JsonConfig.PROVIDER));
+    this(new ConfigBasic<>(file, Provider.JSON_PROVIDER));
   }
 
   /**

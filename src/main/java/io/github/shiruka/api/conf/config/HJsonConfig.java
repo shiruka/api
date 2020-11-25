@@ -26,7 +26,7 @@
 package io.github.shiruka.api.conf.config;
 
 import io.github.shiruka.api.conf.Config;
-import io.github.shiruka.api.conf.provider.HJsonProvider;
+import io.github.shiruka.api.conf.Provider;
 import java.io.File;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,11 +34,6 @@ import org.jetbrains.annotations.NotNull;
  * a class that creates JSON files.
  */
 public final class HJsonConfig extends ConfigEnvelope {
-
-  /**
-   * a HJson provider.
-   */
-  private static final HJsonProvider PROVIDER = new HJsonProvider();
 
   /**
    * ctor.
@@ -55,7 +50,7 @@ public final class HJsonConfig extends ConfigEnvelope {
    * @param file the file to create.
    */
   public HJsonConfig(@NotNull final File file) {
-    this(new ConfigBasic<>(file, PROVIDER));
+    this(new ConfigBasic<>(file, Provider.H_JSON_PROVIDER));
   }
 
   /**

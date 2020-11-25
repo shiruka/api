@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
@@ -43,6 +42,21 @@ import org.simpleyaml.configuration.file.FileConfiguration;
  * @param <F> file configuration class type.
  */
 public interface Provider<F extends FileConfiguration> {
+
+  /**
+   * a YAML provider.
+   */
+  YamlProvider YAML_PROVIDER = new YamlProvider();
+
+  /**
+   * a HJson provider.
+   */
+  HJsonProvider H_JSON_PROVIDER = new HJsonProvider();
+
+  /**
+   * a JSON provider.
+   */
+  JsonProvider JSON_PROVIDER = new JsonProvider();
 
   /**
    * loads configuration from a input stream.
