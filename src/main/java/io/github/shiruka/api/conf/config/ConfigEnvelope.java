@@ -46,7 +46,7 @@ public abstract class ConfigEnvelope implements Config {
    *
    * @param origin the config.
    */
-  protected ConfigEnvelope(@NotNull final Config origin) {
+  ConfigEnvelope(@NotNull final Config origin) {
     this.origin = origin;
   }
 

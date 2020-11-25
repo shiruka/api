@@ -26,7 +26,7 @@
 package io.github.shiruka.api.conf.config;
 
 import io.github.shiruka.api.conf.Config;
-import io.github.shiruka.api.conf.provider.YamlProvider;
+import io.github.shiruka.api.conf.Provider;
 import java.io.File;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,10 +38,10 @@ public class YamlConfig extends ConfigEnvelope {
   /**
    * ctor.
    *
-   * @param config the config.
+   * @param origin the config.
    */
-  private YamlConfig(@NotNull final Config config) {
-    super(config);
+  private YamlConfig(@NotNull final Config origin) {
+    super(origin);
   }
 
   /**
@@ -50,7 +50,7 @@ public class YamlConfig extends ConfigEnvelope {
    * @param fil the file to create.
    */
   public YamlConfig(@NotNull final File fil) {
-    this(new ConfigBasic<>(fil, new YamlProvider()));
+    this(new ConfigBasic<>(fil, Provider.YAML_PROVIDER));
   }
 
   /**
