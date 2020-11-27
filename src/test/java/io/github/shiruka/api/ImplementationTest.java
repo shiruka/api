@@ -45,6 +45,10 @@ final class ImplementationTest {
     @Override
     public void runCommand(@NotNull final String command) {
     }
+
+    @Override
+    public void startServer() {
+    }
   };
 
   @Test
