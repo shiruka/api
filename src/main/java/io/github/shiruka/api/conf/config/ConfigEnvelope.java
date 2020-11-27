@@ -52,14 +52,14 @@ public abstract class ConfigEnvelope implements Config {
 
   @NotNull
   @Override
-  public final File getFile() {
-    return this.origin.getFile();
+  public final FileConfiguration getConfiguration() {
+    return this.origin.getConfiguration();
   }
 
   @NotNull
   @Override
-  public final FileConfiguration getConfiguration() {
-    return this.origin.getConfiguration();
+  public final File getFile() {
+    return this.origin.getFile();
   }
 
   @Override

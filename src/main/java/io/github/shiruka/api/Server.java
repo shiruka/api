@@ -33,6 +33,13 @@ import org.jetbrains.annotations.NotNull;
 public interface Server {
 
   /**
+   * obtains server's shutdown statement.
+   *
+   * @return {@code true} if the server is in the shutdown state.
+   */
+  boolean isInShutdownState();
+
+  /**
    * runs the given input.
    * <p>
    * it can start with {@code /} or not. it does not matter.
@@ -40,11 +47,4 @@ public interface Server {
    * @param command the command to run.
    */
   void runCommand(@NotNull String command);
-
-  /**
-   * obtains server's shutdown statement.
-   *
-   * @return {@code true} if the server is in the shutdown state.
-   */
-  boolean isInShutdownState();
 }

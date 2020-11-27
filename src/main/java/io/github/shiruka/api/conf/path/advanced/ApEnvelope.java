@@ -55,12 +55,6 @@ public abstract class ApEnvelope<R, T> implements AdvancedPath<R, T> {
 
   @NotNull
   @Override
-  public final Optional<R> rawValue() {
-    return this.origin.rawValue();
-  }
-
-  @NotNull
-  @Override
   public final Optional<T> convertToFinal(@NotNull final R rawValue) {
     return this.origin.convertToFinal(rawValue);
   }
@@ -73,14 +67,8 @@ public abstract class ApEnvelope<R, T> implements AdvancedPath<R, T> {
 
   @NotNull
   @Override
-  public final String getPath() {
-    return this.origin.getPath();
-  }
-
-  @NotNull
-  @Override
-  public final Optional<T> getDefault() {
-    return this.origin.getDefault();
+  public final Optional<R> rawValue() {
+    return this.origin.rawValue();
   }
 
   @NotNull
@@ -92,5 +80,17 @@ public abstract class ApEnvelope<R, T> implements AdvancedPath<R, T> {
   @Override
   public final void setConfig(@NotNull final Config config) {
     this.origin.setConfig(config);
+  }
+
+  @NotNull
+  @Override
+  public final Optional<T> getDefault() {
+    return this.origin.getDefault();
+  }
+
+  @NotNull
+  @Override
+  public final String getPath() {
+    return this.origin.getPath();
   }
 }

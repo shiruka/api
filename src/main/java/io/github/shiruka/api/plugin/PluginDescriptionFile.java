@@ -40,39 +40,9 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
 public final class PluginDescriptionFile {
 
   /**
-   * the name key of the plugin.yml
+   * the authors key of the plugin.yml.
    */
-  private static final String NAME = "name";
-
-  /**
-   * the main class key of the plugin.yml
-   */
-  private static final String MAIN = "main";
-
-  /**
-   * the version key of the plugin.yml
-   */
-  private static final String VERSION = "version";
-
-  /**
-   * the description key of the plugin.yml
-   */
-  private static final String DESCRIPTION = "description";
-
-  /**
-   * the website key of the plugin.yml
-   */
-  private static final String WEBSITE = "website";
-
-  /**
-   * the prefix key of the plugin.yml
-   */
-  private static final String PREFIX = "prefix";
-
-  /**
-   * the order key of the plugin.yml
-   */
-  private static final String ORDER = "order";
+  private static final String AUTHORS = "authors";
 
   /**
    * the contributors of the plugin.yml.
@@ -80,9 +50,14 @@ public final class PluginDescriptionFile {
   private static final String CONTRIBUTORS = "contributors";
 
   /**
-   * the authors key of the plugin.yml.
+   * the depend key of the plugin.yml
    */
-  private static final String AUTHORS = "authors";
+  private static final String DEPEND = "depend";
+
+  /**
+   * the description key of the plugin.yml
+   */
+  private static final String DESCRIPTION = "description";
 
   /**
    * the load key of the plugin.yml
@@ -90,9 +65,29 @@ public final class PluginDescriptionFile {
   private static final String LOAD = "load";
 
   /**
-   * the depend key of the plugin.yml
+   * the load before key of the plugin.yml
    */
-  private static final String DEPEND = "depend";
+  private static final String LOAD_BEFORE = "loadbefore";
+
+  /**
+   * the main class key of the plugin.yml
+   */
+  private static final String MAIN = "main";
+
+  /**
+   * the name key of the plugin.yml
+   */
+  private static final String NAME = "name";
+
+  /**
+   * the order key of the plugin.yml
+   */
+  private static final String ORDER = "order";
+
+  /**
+   * the prefix key of the plugin.yml
+   */
+  private static final String PREFIX = "prefix";
 
   /**
    * the soft depend key of the plugin.yml
@@ -100,14 +95,19 @@ public final class PluginDescriptionFile {
   private static final String SOFT_DEPEND = "softdepend";
 
   /**
-   * the load before key of the plugin.yml
-   */
-  private static final String LOAD_BEFORE = "loadbefore";
-
-  /**
    * validator pattern for plugin names.
    */
   private static final Pattern VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$");
+
+  /**
+   * the version key of the plugin.yml
+   */
+  private static final String VERSION = "version";
+
+  /**
+   * the website key of the plugin.yml
+   */
+  private static final String WEBSITE = "website";
 
   /**
    * a {@link Yaml} instance to determine plugin.yml.
@@ -116,22 +116,22 @@ public final class PluginDescriptionFile {
     new Yaml(new SafeConstructor()));
 
   /**
-   * the name of the plugin.
+   * the authors the plugin.
    */
   @NotNull
-  private final String name;
+  private final List<String> authors;
 
   /**
-   * the main class of the plugin.
+   * the contributors of the plugin.
    */
   @NotNull
-  private final String main;
+  private final List<String> contributors;
 
   /**
-   * the version of the plugin.
+   * the dependency of the plugin.
    */
   @NotNull
-  private final String version;
+  private final List<String> depend;
 
   /**
    * the description of the plugin.
@@ -140,16 +140,22 @@ public final class PluginDescriptionFile {
   private final String description;
 
   /**
-   * the website of the plugin.
+   * the plugin list which have to load before the plugin.
    */
   @NotNull
-  private final String website;
+  private final List<String> loadBefore;
 
   /**
-   * the prefix of the plugin.
+   * the main class of the plugin.
    */
   @NotNull
-  private final String prefix;
+  private final String main;
+
+  /**
+   * the name of the plugin.
+   */
+  @NotNull
+  private final String name;
 
   /**
    * the load order of the plugin.
@@ -160,22 +166,10 @@ public final class PluginDescriptionFile {
   private final PluginLoadOrder order;
 
   /**
-   * the contributors of the plugin.
+   * the prefix of the plugin.
    */
   @NotNull
-  private final List<String> contributors;
-
-  /**
-   * the authors the plugin.
-   */
-  @NotNull
-  private final List<String> authors;
-
-  /**
-   * the dependency of the plugin.
-   */
-  @NotNull
-  private final List<String> depend;
+  private final String prefix;
 
   /**
    * the soft dependency of the plugin.
@@ -184,10 +178,16 @@ public final class PluginDescriptionFile {
   private final List<String> softDepend;
 
   /**
-   * the plugin list which have to load before the plugin.
+   * the version of the plugin.
    */
   @NotNull
-  private final List<String> loadBefore;
+  private final String version;
+
+  /**
+   * the website of the plugin.
+   */
+  @NotNull
+  private final String website;
 
   /**
    * ctor.

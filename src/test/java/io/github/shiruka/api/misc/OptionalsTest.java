@@ -34,33 +34,33 @@ final class OptionalsTest {
   private static final String FINAL_RESULT = "Test\nTest-2";
 
   @Test
-  void useAndGetTest() {
+  void useAndGetPredicateTest() {
     final var builder = new StringBuilder("Test");
-    final var result = Optionals.useAndGet(builder, sb ->
-     sb.append('\n').append("Test-2"));
+    final var result = Optionals.useAndGet(builder,
+      sb -> sb.toString().equals("Test"),
+      sb -> sb.append('\n').append("Test-2"));
     MatcherAssert.assertThat(
       "Couldn't use and get the given object!",
-       result.toString(), 
-       new IsEqual<>(OptionalsTest.FINAL_RESULT));
+      result.toString(),
+      new IsEqual<>(OptionalsTest.FINAL_RESULT));
+    final var builder2 = new StringBuilder("Test");
+    final var result2 = Optionals.useAndGet(builder2,
+      sb -> sb.toString().equals("null"),
+      sb -> sb.append('\n').append("Test-2"));
+    MatcherAssert.assertThat(
+      "Couldn't use and get the given object!",
+      result2.toString(),
+      new IsEqual<>("Test"));
   }
 
   @Test
-  void useAndGetPredicateTest() {
+  void useAndGetTest() {
     final var builder = new StringBuilder("Test");
-    final var result = Optionals.useAndGet(builder, 
-      sb -> sb.toString().equals("Test"), 
-      sb -> sb.append('\n').append("Test-2"));
+    final var result = Optionals.useAndGet(builder, sb ->
+      sb.append('\n').append("Test-2"));
     MatcherAssert.assertThat(
       "Couldn't use and get the given object!",
-       result.toString(), 
-       new IsEqual<>(OptionalsTest.FINAL_RESULT));
-    final var builder2 = new StringBuilder("Test");
-    final var result2 = Optionals.useAndGet(builder2, 
-      sb -> sb.toString().equals("null"), 
-      sb -> sb.append('\n').append("Test-2"));
-    MatcherAssert.assertThat(
-      "Couldn't use and get the given object!",
-      result2.toString(), 
-      new IsEqual<>("Test"));
+      result.toString(),
+      new IsEqual<>(OptionalsTest.FINAL_RESULT));
   }
 }

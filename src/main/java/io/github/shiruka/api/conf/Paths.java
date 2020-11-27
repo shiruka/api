@@ -45,19 +45,6 @@ public final class Paths {
   }
 
   /**
-   * represents {@link CmBasic} instance.
-   *
-   * @param path the path to the value.
-   * @param comments the comment to create.
-   * @param <T> path's value type.
-   *
-   * @return the commentable path.
-   */
-  public static <T> CommentablePath<T> commented(@NotNull final ConfigPath<T> path, @NotNull final String... comments) {
-    return new CmBasic<>(path, comments);
-  }
-
-  /**
    * represents {@link CpBoolean} instance.
    *
    * @param path the path.
@@ -68,6 +55,20 @@ public final class Paths {
   @NotNull
   public static CpBoolean booleanPath(@NotNull final String path, @Nullable final Boolean def) {
     return new CpBoolean(path, def);
+  }
+
+  /**
+   * represents {@link CmBasic} instance.
+   *
+   * @param path the path to the value.
+   * @param comments the comment to create.
+   * @param <T> path's value type.
+   *
+   * @return the commentable path.
+   */
+  @NotNull
+  public static <T> CommentablePath<T> commented(@NotNull final ConfigPath<T> path, @NotNull final String... comments) {
+    return new CmBasic<>(path, comments);
   }
 
   /**
@@ -107,60 +108,6 @@ public final class Paths {
   @NotNull
   public static CpInteger integerPath(@NotNull final String path, @Nullable final Integer def) {
     return new CpInteger(path, def);
-  }
-
-  /**
-   * represents {@link CpLong} instance.
-   *
-   * @param path the path.
-   * @param def th default value.
-   *
-   * @return a config path instance.
-   */
-  @NotNull
-  public static CpLong longPath(@NotNull final String path, @Nullable final Long def) {
-    return new CpLong(path, def);
-  }
-
-  /**
-   * represents {@link CpString} instance.
-   *
-   * @param path the path.
-   * @param def th default value.
-   *
-   * @return a config path instance.
-   */
-  @NotNull
-  public static CpString stringPath(@NotNull final String path, @Nullable final StringBuilder def) {
-    return Paths.stringPath(path, Optional.ofNullable(def)
-      .map(StringBuilder::toString)
-      .orElse(null));
-  }
-
-  /**
-   * represents {@link CpString} instance.
-   *
-   * @param path the path.
-   * @param def th default value.
-   *
-   * @return a config path instance.
-   */
-  @NotNull
-  public static CpString stringPath(@NotNull final String path, @Nullable final String def) {
-    return new CpString(path, def);
-  }
-
-  /**
-   * represents {@link ApUniqueId} instance.
-   *
-   * @param path the path.
-   * @param def th default value.
-   *
-   * @return a config path instance.
-   */
-  @NotNull
-  public static ApUniqueId uniqueIdPath(@NotNull final String path, @Nullable final UUID def) {
-    return new ApUniqueId(path, def);
   }
 
   /**
@@ -220,6 +167,19 @@ public final class Paths {
   }
 
   /**
+   * represents {@link CpLong} instance.
+   *
+   * @param path the path.
+   * @param def th default value.
+   *
+   * @return a config path instance.
+   */
+  @NotNull
+  public static CpLong longPath(@NotNull final String path, @Nullable final Long def) {
+    return new CpLong(path, def);
+  }
+
+  /**
    * represents {@link CpSimple} instance.
    *
    * @param path the path.
@@ -245,5 +205,46 @@ public final class Paths {
   @NotNull
   public static <T> CpSimple<T> simplePath(@NotNull final String path, @Nullable final T def) {
     return new CpSimple<>(path, def);
+  }
+
+  /**
+   * represents {@link CpString} instance.
+   *
+   * @param path the path.
+   * @param def th default value.
+   *
+   * @return a config path instance.
+   */
+  @NotNull
+  public static CpString stringPath(@NotNull final String path, @Nullable final StringBuilder def) {
+    return Paths.stringPath(path, Optional.ofNullable(def)
+      .map(StringBuilder::toString)
+      .orElse(null));
+  }
+
+  /**
+   * represents {@link CpString} instance.
+   *
+   * @param path the path.
+   * @param def th default value.
+   *
+   * @return a config path instance.
+   */
+  @NotNull
+  public static CpString stringPath(@NotNull final String path, @Nullable final String def) {
+    return new CpString(path, def);
+  }
+
+  /**
+   * represents {@link ApUniqueId} instance.
+   *
+   * @param path the path.
+   * @param def th default value.
+   *
+   * @return a config path instance.
+   */
+  @NotNull
+  public static ApUniqueId uniqueIdPath(@NotNull final String path, @Nullable final UUID def) {
+    return new ApUniqueId(path, def);
   }
 }

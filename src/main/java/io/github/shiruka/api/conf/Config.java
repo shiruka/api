@@ -62,13 +62,25 @@ public interface Config {
   }
 
   /**
-   * runs your consumer after that saves the config file.
+   * adds the default value to the config.
    *
-   * @param consumer the consumer to run.
+   * @param path the path to add.
+   * @param obj the object to add.
    */
-  default void saveAfterDo(@NotNull final Consumer<FileConfiguration> consumer) {
-    consumer.accept(this.getConfiguration());
-    this.save();
+  default void addDefault(@NotNull final String path, @Nullable final Object obj) {
+    this.getConfiguration().addDefault(path, obj);
+  }
+
+  /**
+   * gets the value from the config.
+   *
+   * @param path the path to get.
+   *
+   * @return the value.
+   */
+  @NotNull
+  default Optional<Object> get(@NotNull final String path) {
+    return this.get(path, null);
   }
 
   /**
@@ -85,15 +97,39 @@ public interface Config {
   }
 
   /**
-   * gets the value from the config.
+   * gets the instance of the config file.
    *
-   * @param path the path to get.
-   *
-   * @return the value.
+   * @return the config.
    */
   @NotNull
-  default Optional<Object> get(@NotNull final String path) {
-    return this.get(path, null);
+  FileConfiguration getConfiguration();
+
+  /**
+   * obtains the file.
+   *
+   * @return the file.
+   */
+  @NotNull
+  File getFile();
+
+  /**
+   * reloads the config.
+   */
+  void reload();
+
+  /**
+   * saves the config.
+   */
+  void save();
+
+  /**
+   * runs your consumer after that saves the config file.
+   *
+   * @param consumer the consumer to run.
+   */
+  default void saveAfterDo(@NotNull final Consumer<FileConfiguration> consumer) {
+    consumer.accept(this.getConfiguration());
+    this.save();
   }
 
   /**
@@ -105,40 +141,4 @@ public interface Config {
   default void set(@NotNull final String path, @Nullable final Object obj) {
     this.getConfiguration().set(path, obj);
   }
-
-  /**
-   * adds the default value to the config.
-   *
-   * @param path the path to add.
-   * @param obj the object to add.
-   */
-  default void addDefault(@NotNull final String path, @Nullable final Object obj) {
-    this.getConfiguration().addDefault(path, obj);
-  }
-
-  /**
-   * obtains the file.
-   *
-   * @return the file.
-   */
-  @NotNull
-  File getFile();
-
-  /**
-   * gets the instance of the config file.
-   *
-   * @return the config.
-   */
-  @NotNull
-  FileConfiguration getConfiguration();
-
-  /**
-   * reloads the config.
-   */
-  void reload();
-
-  /**
-   * saves the config.
-   */
-  void save();
 }

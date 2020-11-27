@@ -41,24 +41,6 @@ import org.jetbrains.annotations.Nullable;
 public final class ApBasic<R, T> implements AdvancedPath<R, T> {
 
   /**
-   * the path.
-   */
-  @NotNull
-  private final String path;
-
-  /**
-   * the default value.
-   */
-  @Nullable
-  private final T def;
-
-  /**
-   * the raw value function.
-   */
-  @NotNull
-  private final Function<Config, R> rawValue;
-
-  /**
    * the convert to final value function.
    */
   @NotNull
@@ -71,6 +53,24 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
   private final Function<T, R> convertToRaw;
 
   /**
+   * the default value.
+   */
+  @Nullable
+  private final T def;
+
+  /**
+   * the path.
+   */
+  @NotNull
+  private final String path;
+
+  /**
+   * the raw value function.
+   */
+  @NotNull
+  private final Function<Config, R> rawValue;
+
+  /**
    * the config.
    */
   @Nullable
@@ -79,25 +79,19 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
   /**
    * ctor.
    *
-   * @param path the path.
-   * @param def the default value.
-   * @param rawValue the raw value function.
    * @param convertToFinal the convert to final value function.
    * @param convertToRaw the convert to raw value function.
+   * @param def the default value.
+   * @param path the path.
+   * @param rawValue the raw value function.
    */
-  public ApBasic(@NotNull final String path, @Nullable final T def, @NotNull final Function<Config, R> rawValue,
-                 @NotNull final Function<R, T> convertToFinal, @NotNull final Function<T, R> convertToRaw) {
-    this.path = path;
-    this.def = def;
-    this.rawValue = rawValue;
+  public ApBasic(@NotNull final Function<R, T> convertToFinal, @NotNull final Function<T, R> convertToRaw,
+                 @Nullable final T def, @NotNull final String path, @NotNull final Function<Config, R> rawValue) {
     this.convertToFinal = convertToFinal;
     this.convertToRaw = convertToRaw;
-  }
-
-  @NotNull
-  @Override
-  public Optional<R> rawValue() {
-    return this.getConfig().map(this.rawValue);
+    this.def = def;
+    this.path = path;
+    this.rawValue = rawValue;
   }
 
   @NotNull
@@ -114,14 +108,8 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
 
   @NotNull
   @Override
-  public String getPath() {
-    return this.path;
-  }
-
-  @NotNull
-  @Override
-  public Optional<T> getDefault() {
-    return Optional.ofNullable(this.def);
+  public Optional<R> rawValue() {
+    return this.getConfig().map(this.rawValue);
   }
 
   @NotNull
@@ -138,5 +126,17 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
       .filter(Optional::isPresent)
       .map(Optional::get)
       .orElse(null));
+  }
+
+  @NotNull
+  @Override
+  public Optional<T> getDefault() {
+    return Optional.ofNullable(this.def);
+  }
+
+  @NotNull
+  @Override
+  public String getPath() {
+    return this.path;
   }
 }

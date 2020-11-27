@@ -35,22 +35,6 @@ import org.jetbrains.annotations.NotNull;
 public interface EventController {
 
   /**
-   * registers the given listener object to receive
-   * events dispatched by the controller.
-   *
-   * @param listener the listener to register.
-   */
-  void register(@NotNull Listener listener);
-
-  /**
-   * removes the given listener from being handling
-   * events dispatched by the event controller.
-   *
-   * @param listener the listener to remove.
-   */
-  void unregister(@NotNull Class<? extends Listener> listener);
-
-  /**
    * dispatches the event to the event listener/handlers
    * that are registered under the event controller.
    *
@@ -69,4 +53,20 @@ public interface EventController {
    * @param <T> the event type.
    */
   <T extends Event> void dispatch(@NotNull T event, @NotNull Consumer<T> callback);
+
+  /**
+   * registers the given listener object to receive
+   * events dispatched by the controller.
+   *
+   * @param listener the listener to register.
+   */
+  void register(@NotNull Listener listener);
+
+  /**
+   * removes the given listener from being handling
+   * events dispatched by the event controller.
+   *
+   * @param listener the listener to remove.
+   */
+  void unregister(@NotNull Class<? extends Listener> listener);
 }

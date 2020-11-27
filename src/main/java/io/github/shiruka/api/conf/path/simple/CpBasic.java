@@ -40,10 +40,10 @@ import org.jetbrains.annotations.Nullable;
 public final class CpBasic<T> implements ConfigPath<T> {
 
   /**
-   * the path.
+   * the convert function.
    */
   @NotNull
-  private final String path;
+  private final Function<Object, T> convert;
 
   /**
    * the default value.
@@ -52,10 +52,10 @@ public final class CpBasic<T> implements ConfigPath<T> {
   private final T def;
 
   /**
-   * the convert function.
+   * the path.
    */
   @NotNull
-  private final Function<Object, T> convert;
+  private final String path;
 
   /**
    * the config.
@@ -88,8 +88,14 @@ public final class CpBasic<T> implements ConfigPath<T> {
 
   @NotNull
   @Override
-  public String getPath() {
-    return this.path;
+  public Optional<Config> getConfig() {
+    return Optional.ofNullable(this.config);
+  }
+
+  @Override
+  public void setConfig(@NotNull final Config config) {
+    this.config = config;
+    this.config.addDefault(this.path, this.def);
   }
 
   @NotNull
@@ -100,14 +106,8 @@ public final class CpBasic<T> implements ConfigPath<T> {
 
   @NotNull
   @Override
-  public Optional<Config> getConfig() {
-    return Optional.ofNullable(this.config);
-  }
-
-  @Override
-  public void setConfig(@NotNull final Config config) {
-    this.config = config;
-    this.config.addDefault(this.path, this.def);
+  public String getPath() {
+    return this.path;
   }
 
   @NotNull

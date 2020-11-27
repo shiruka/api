@@ -31,6 +31,13 @@ package io.github.shiruka.api.misc;
 @FunctionalInterface
 public interface ThrowableRunnable extends Runnable {
 
+  /**
+   * runs the function.
+   *
+   * @throws Exception if the function throws an exception.
+   */
+  void call() throws Exception;
+
   @Override
   default void run() {
     try {
@@ -39,11 +46,4 @@ public interface ThrowableRunnable extends Runnable {
       e.printStackTrace();
     }
   }
-
-  /**
-   * runs the function.
-   *
-   * @throws Exception if the function throws an exception.
-   */
-  void call() throws Exception;
 }

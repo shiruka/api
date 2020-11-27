@@ -37,29 +37,6 @@ import org.jetbrains.annotations.Nullable;
 public interface ConfigPath<T> {
 
   /**
-   * removes the value from the path.
-   */
-  default void removeValue() {
-    this.setValue(null);
-  }
-
-  /**
-   * obtains tha path.
-   *
-   * @return the path.
-   */
-  @NotNull
-  String getPath();
-
-  /**
-   * obtains the default value of the path.
-   *
-   * @return the default value of the path.
-   */
-  @NotNull
-  Optional<T> getDefault();
-
-  /**
    * obtains the config of the path.
    *
    * @return the config of the path.
@@ -75,6 +52,22 @@ public interface ConfigPath<T> {
   void setConfig(@NotNull Config config);
 
   /**
+   * obtains the default value of the path.
+   *
+   * @return the default value of the path.
+   */
+  @NotNull
+  Optional<T> getDefault();
+
+  /**
+   * obtains tha path.
+   *
+   * @return the path.
+   */
+  @NotNull
+  String getPath();
+
+  /**
    * gets the value.
    *
    * @return the value.
@@ -88,4 +81,11 @@ public interface ConfigPath<T> {
    * @param value the value.
    */
   void setValue(@Nullable T value);
+
+  /**
+   * removes the value from the path.
+   */
+  default void removeValue() {
+    this.setValue(null);
+  }
 }

@@ -32,9 +32,9 @@ import org.jetbrains.annotations.NotNull;
 
 public final class TestYamlConfig extends YamlConfig {
 
-  static final CpInteger intTest = Paths.integerPath("int-test", 1);
-
   protected static final CpLong longTest = Paths.longPath("long-test", 1L);
+
+  static final CpInteger intTest = Paths.integerPath("int-test", 1);
 
   private static final CpDouble doubleTest = Paths.doublePath("double-test", 1.0d);
 
@@ -49,18 +49,18 @@ public final class TestYamlConfig extends YamlConfig {
   }
 
   @NotNull
-  public CpString getTextTest() {
-    return this.textTest;
+  public CpBoolean getBoolTest() {
+    return this.boolTest;
+  }
+
+  @NotNull
+  public CpDouble getDoubleTest() {
+    return TestYamlConfig.doubleTest;
   }
 
   @NotNull
   public CpFloat getFloatTest() {
     return this.floatTest;
-  }
-
-  @NotNull
-  public CpBoolean getBoolTest() {
-    return this.boolTest;
   }
 
   @NotNull
@@ -74,7 +74,7 @@ public final class TestYamlConfig extends YamlConfig {
   }
 
   @NotNull
-  public CpDouble getDoubleTest() {
-    return TestYamlConfig.doubleTest;
+  public CpString getTextTest() {
+    return this.textTest;
   }
 }

@@ -37,6 +37,26 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface AdvancedPath<R, T> extends ConfigPath<T> {
 
+  /**
+   * converts to the final value.
+   *
+   * @param rawValue the raw value.
+   *
+   * @return the final value.
+   */
+  @NotNull
+  Optional<T> convertToFinal(@NotNull R rawValue);
+
+  /**
+   * converts to the raw value.
+   *
+   * @param finalValue the value.
+   *
+   * @return the raw value.
+   */
+  @NotNull
+  Optional<R> convertToRaw(@NotNull T finalValue);
+
   @NotNull
   @Override
   default Optional<T> getValue() {
@@ -70,24 +90,4 @@ public interface AdvancedPath<R, T> extends ConfigPath<T> {
    */
   @NotNull
   Optional<R> rawValue();
-
-  /**
-   * converts to the final value.
-   *
-   * @param rawValue the raw value.
-   *
-   * @return the final value.
-   */
-  @NotNull
-  Optional<T> convertToFinal(@NotNull R rawValue);
-
-  /**
-   * converts to the raw value.
-   *
-   * @param finalValue the value.
-   *
-   * @return the raw value.
-   */
-  @NotNull
-  Optional<R> convertToRaw(@NotNull T finalValue);
 }
