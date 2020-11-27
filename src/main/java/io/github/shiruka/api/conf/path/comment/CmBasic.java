@@ -43,15 +43,15 @@ import org.simpleyaml.configuration.comments.Commentable;
 public final class CmBasic<T> implements CommentablePath<T> {
 
   /**
+   * the default comments.
+   */
+  private final EnumMap<CommentType, String> defaultCommentMap = new EnumMap<>(CommentType.class);
+
+  /**
    * the original {@link ConfigPath}.
    */
   @NotNull
   private final ConfigPath<T> origin;
-
-  /**
-   * the default comments.
-   */
-  private final EnumMap<CommentType, String> defaultCommentMap = new EnumMap<>(CommentType.class);
 
   /**
    * ctor.
@@ -71,14 +71,20 @@ public final class CmBasic<T> implements CommentablePath<T> {
 
   @NotNull
   @Override
-  public String getPath() {
-    return this.origin.getPath();
+  public Optional<String> getComment(@NotNull final CommentType commentType) {
+    return Optional.ofNullable(this.getConfig()
+      .map(Config::getConfiguration)
+      .filter(config -> config instanceof Commentable)
+      .map(config -> ((Commentable) config).getComment(this.getPath(), commentType))
+      .orElse(this.defaultCommentMap.get(commentType)));
   }
 
-  @NotNull
   @Override
-  public Optional<T> getDefault() {
-    return this.origin.getDefault();
+  public void setComment(@NotNull final CommentType commentType, @Nullable final String comment) {
+    this.getConfig()
+      .map(Config::getConfiguration)
+      .filter(config -> config instanceof Commentable)
+      .ifPresent(config -> ((Commentable) config).setComment(this.getPath(), comment, commentType));
   }
 
   @NotNull
@@ -103,6 +109,18 @@ public final class CmBasic<T> implements CommentablePath<T> {
 
   @NotNull
   @Override
+  public Optional<T> getDefault() {
+    return this.origin.getDefault();
+  }
+
+  @NotNull
+  @Override
+  public String getPath() {
+    return this.origin.getPath();
+  }
+
+  @NotNull
+  @Override
   public Optional<T> getValue() {
     return this.origin.getValue();
   }
@@ -110,23 +128,5 @@ public final class CmBasic<T> implements CommentablePath<T> {
   @Override
   public void setValue(@Nullable final T value) {
     this.origin.setValue(value);
-  }
-
-  @NotNull
-  @Override
-  public Optional<String> getComment(@NotNull final CommentType commentType) {
-    return Optional.ofNullable(this.getConfig()
-      .map(Config::getConfiguration)
-      .filter(config -> config instanceof Commentable)
-      .map(config -> ((Commentable) config).getComment(this.getPath(), commentType))
-      .orElse(this.defaultCommentMap.get(commentType)));
-  }
-
-  @Override
-  public void setComment(@NotNull final CommentType commentType, @Nullable final String comment) {
-    this.getConfig()
-      .map(Config::getConfiguration)
-      .filter(config -> config instanceof Commentable)
-      .ifPresent(config -> ((Commentable) config).setComment(this.getPath(), comment, commentType));
   }
 }

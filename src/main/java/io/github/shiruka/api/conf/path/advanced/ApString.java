@@ -56,10 +56,9 @@ public abstract class ApString<T> extends ApEnvelope<String, T> {
    */
   protected ApString(@NotNull final String path, @Nullable final T def, @NotNull final Function<String, T> convertToFinal,
                      @NotNull final Function<T, String> convertToRaw) {
-    this(new ApBasic<>(path, def,
+    this(new ApBasic<>(convertToFinal, convertToRaw, def, path,
       config -> (String) config.get(path)
         .filter(o -> o instanceof String)
-        .orElse(null),
-      convertToFinal, convertToRaw));
+        .orElse(null)));
   }
 }

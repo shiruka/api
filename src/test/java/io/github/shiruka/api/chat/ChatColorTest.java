@@ -33,6 +33,14 @@ import org.llorllale.cactoos.matchers.Throws;
 final class ChatColorTest {
 
   @Test
+  void getColorChar() {
+    MatcherAssert.assertThat(
+      "Couldn't get the correct color character!",
+      ChatColor.BLACK.getColorChar(),
+      new IsEqual<>('0'));
+  }
+
+  @Test
   void of() {
     MatcherAssert.assertThat(
       "Couldn't find the correct ChatColor instance.",
@@ -50,13 +58,5 @@ final class ChatColorTest {
       "ChatColor's of method with the wrong character didn't throw.",
       () -> ChatColor.of('z'),
       new Throws<>(IllegalArgumentException.class));
-  }
-
-  @Test
-  void getColorChar() {
-    MatcherAssert.assertThat(
-      "Couldn't get the correct color character!",
-      ChatColor.BLACK.getColorChar(),
-      new IsEqual<>('0'));
   }
 }

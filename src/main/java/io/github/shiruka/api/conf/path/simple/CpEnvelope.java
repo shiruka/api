@@ -55,8 +55,13 @@ public abstract class CpEnvelope<T> implements ConfigPath<T> {
 
   @NotNull
   @Override
-  public final String getPath() {
-    return this.origin.getPath();
+  public final Optional<Config> getConfig() {
+    return this.origin.getConfig();
+  }
+
+  @Override
+  public final void setConfig(@NotNull final Config config) {
+    this.origin.setConfig(config);
   }
 
   @NotNull
@@ -67,13 +72,8 @@ public abstract class CpEnvelope<T> implements ConfigPath<T> {
 
   @NotNull
   @Override
-  public final Optional<Config> getConfig() {
-    return this.origin.getConfig();
-  }
-
-  @Override
-  public final void setConfig(@NotNull final Config config) {
-    this.origin.setConfig(config);
+  public final String getPath() {
+    return this.origin.getPath();
   }
 
   @NotNull

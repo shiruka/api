@@ -86,14 +86,14 @@ public final class ConfigBasic<F extends FileConfiguration> implements Config {
 
   @NotNull
   @Override
-  public File getFile() {
-    return this.file;
+  public FileConfiguration getConfiguration() {
+    return this.configuration;
   }
 
   @NotNull
   @Override
-  public FileConfiguration getConfiguration() {
-    return this.configuration;
+  public File getFile() {
+    return this.file;
   }
 
   @Override

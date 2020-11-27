@@ -38,12 +38,12 @@ final class ImplementationTest {
 
   private static final Server SERVER = new Server() {
     @Override
-    public void runCommand(@NotNull final String command) {
+    public boolean isInShutdownState() {
+      return false;
     }
 
     @Override
-    public boolean isInShutdownState() {
-      return false;
+    public void runCommand(@NotNull final String command) {
     }
   };
 

@@ -58,10 +58,9 @@ public abstract class ApMap<T> extends ApEnvelope<Map<String, Object>, T> {
   protected ApMap(@NotNull final String path, @Nullable final T def,
                   @NotNull final Function<Map<String, Object>, T> convertToFinal,
                   @NotNull final Function<T, Map<String, Object>> convertToRaw) {
-    this(new ApBasic<>(path, def,
+    this(new ApBasic<>(convertToFinal, convertToRaw, def, path,
       config -> (Map<String, Object>) config.get(path)
         .filter(o -> o instanceof Map<?, ?>)
-        .orElse(null),
-      convertToFinal, convertToRaw));
+        .orElse(null)));
   }
 }

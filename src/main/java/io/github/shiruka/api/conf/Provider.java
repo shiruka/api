@@ -44,11 +44,6 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 public interface Provider<F extends FileConfiguration> {
 
   /**
-   * a YAML provider.
-   */
-  YamlProvider YAML_PROVIDER = new YamlProvider();
-
-  /**
    * a HJson provider.
    */
   HJsonProvider H_JSON_PROVIDER = new HJsonProvider();
@@ -57,6 +52,11 @@ public interface Provider<F extends FileConfiguration> {
    * a JSON provider.
    */
   JsonProvider JSON_PROVIDER = new JsonProvider();
+
+  /**
+   * a YAML provider.
+   */
+  YamlProvider YAML_PROVIDER = new YamlProvider();
 
   /**
    * loads configuration from a input stream.
@@ -76,18 +76,6 @@ public interface Provider<F extends FileConfiguration> {
   }
 
   /**
-   * saves the configuration to the file.
-   *
-   * @param configuration the configuration.
-   * @param file the file.
-   *
-   * @throws IOException if there is an I/O error occurred.
-   */
-  default void save(@NotNull final F configuration, @NotNull final File file) throws IOException {
-    configuration.save(file);
-  }
-
-  /**
    * loads configuration from a file.
    *
    * @param file the file.
@@ -98,4 +86,16 @@ public interface Provider<F extends FileConfiguration> {
    */
   @NotNull
   F load(@NotNull File file) throws Exception;
+
+  /**
+   * saves the configuration to the file.
+   *
+   * @param configuration the configuration.
+   * @param file the file.
+   *
+   * @throws IOException if there is an I/O error occurred.
+   */
+  default void save(@NotNull final F configuration, @NotNull final File file) throws IOException {
+    configuration.save(file);
+  }
 }
