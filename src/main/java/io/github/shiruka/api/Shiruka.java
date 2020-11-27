@@ -43,11 +43,11 @@ public interface Shiruka {
   }
 
   /**
-   * initiates the server from the given parameters.
+   * sets the server from the given parameters.
    *
-   * @param server the server to initiate.
+   * @param server the server to set.
    */
-  static void initServer(@NotNull final Server server) {
+  static void setServer(@NotNull final Server server) {
     Implementation.setServer(server);
   }
 }

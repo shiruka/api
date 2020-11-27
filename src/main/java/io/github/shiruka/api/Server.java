@@ -47,4 +47,9 @@ public interface Server {
    * @param command the command to run.
    */
   void runCommand(@NotNull String command);
+
+  /**
+   * initiates the server.
+   */
+  void startServer();
 }
