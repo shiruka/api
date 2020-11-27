@@ -49,10 +49,9 @@ public abstract class ApListString<T> extends ApEnvelope<List<String>, List<T>> 
   protected ApListString(@NotNull final String path, @Nullable final List<T> def,
                          @NotNull final Function<List<String>, List<T>> convertToFinal,
                          @NotNull final Function<List<T>, List<String>> convertToRaw) {
-    super(new ApBasic<>(path, def,
+    super(new ApBasic<>(convertToFinal, convertToRaw, def, path,
       config -> (List<String>) config.get(path)
         .filter(o -> o instanceof List<?>)
-        .orElse(null),
-      convertToFinal, convertToRaw));
+        .orElse(null)));
   }
 }
