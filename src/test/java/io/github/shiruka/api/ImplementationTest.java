@@ -49,6 +49,10 @@ final class ImplementationTest {
     @Override
     public void startServer() {
     }
+
+    @Override
+    public void stopServer() {
+    }
   };
 
   @Test
