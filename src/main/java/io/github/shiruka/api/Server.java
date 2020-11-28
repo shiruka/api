@@ -52,4 +52,9 @@ public interface Server {
    * initiates the server.
    */
   void startServer();
+
+  /**
+   * closes the server.
+   */
+  void stopServer();
 }
