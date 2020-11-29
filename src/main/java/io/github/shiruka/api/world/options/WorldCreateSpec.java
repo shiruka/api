@@ -25,7 +25,9 @@
 
 package io.github.shiruka.api.world.options;
 
+import io.github.shiruka.api.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * the options for creating a new world.
@@ -46,6 +48,12 @@ public final class WorldCreateSpec {
    * the dimension.
    */
   private Dimension dimension = Dimension.OVER_WORLD;
+
+  /**
+   * the spawn.
+   */
+  @Nullable
+  private Vector spawn;
 
   /**
    * ctor.
@@ -98,6 +106,29 @@ public final class WorldCreateSpec {
   public WorldCreateSpec setDimension(@NotNull final Dimension dimension) {
     this.dimension = dimension;
     return this;
+  }
+
+  /**
+   * sets the world's spawn.
+   *
+   * @param spawn the spawn to set.
+   *
+   * @return {@code this} for the builder chain.
+   */
+  @NotNull
+  public WorldCreateSpec setDimension(@Nullable final Vector spawn) {
+    this.spawn = spawn;
+    return this;
+  }
+
+  /**
+   * obtains spawn of the world.
+   *
+   * @return spawn of the world.
+   */
+  @Nullable
+  public Vector getSpawn() {
+    return this.spawn;
   }
 
   /**
