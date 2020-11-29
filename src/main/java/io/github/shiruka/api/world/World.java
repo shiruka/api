@@ -39,4 +39,9 @@ public interface World {
    */
   @NotNull
   String getName();
+
+  /**
+   * loads the chunks at spawn.
+   */
+  void loadSpawnChunks();
 }
