@@ -44,4 +44,9 @@ public interface World {
    * loads the chunks at spawn.
    */
   void loadSpawnChunks();
+
+  /**
+   * saves this world to the region files in the world directory.
+   */
+  void save();
 }
