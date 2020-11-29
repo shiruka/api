@@ -80,4 +80,9 @@ public interface WorldLoader {
    */
   @NotNull
   Map<String, World> getWorlds();
+
+  /**
+   * loads all worlds.
+   */
+  void loadAll();
 }
