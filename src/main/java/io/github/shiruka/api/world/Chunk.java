@@ -33,6 +33,16 @@ import org.jetbrains.annotations.NotNull;
 public interface Chunk {
 
   /**
+   * obtains the highest Y value at the given chunk relative X/Z coordinates.
+   *
+   * @param x the relative X.
+   * @param z the relative Z.
+   *
+   * @return the highest Y value.
+   */
+  int getHighestY(int x, int z);
+
+  /**
    * obtains the world of the chunk.
    *
    * @return the world of the chunk.
