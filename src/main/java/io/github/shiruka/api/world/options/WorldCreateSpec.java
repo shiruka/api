@@ -43,6 +43,11 @@ public final class WorldCreateSpec {
   private final boolean def;
 
   /**
+   * the dimension.
+   */
+  private Dimension dimension = Dimension.OVER_WORLD;
+
+  /**
    * ctor.
    *
    * @param def the default spec.
@@ -70,6 +75,29 @@ public final class WorldCreateSpec {
   @NotNull
   public static WorldCreateSpec getDefaultOptions() {
     return WorldCreateSpec.DEFAULT;
+  }
+
+  /**
+   * obtains dimension of the world.
+   *
+   * @return dimension of the world.
+   */
+  @NotNull
+  public Dimension getDimension() {
+    return this.dimension;
+  }
+
+  /**
+   * sets the world's dimension.
+   *
+   * @param dimension the dimension to set.
+   *
+   * @return {@code this} for the builder chain.
+   */
+  @NotNull
+  public WorldCreateSpec setDimension(@NotNull final Dimension dimension) {
+    this.dimension = dimension;
+    return this;
   }
 
   /**
