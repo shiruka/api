@@ -58,6 +58,16 @@ public interface World {
   Chunk getChunkAt(int x, int z, boolean gen);
 
   /**
+   * obtains the highest non-air block at the given two coordinates.
+   *
+   * @param x the x coordinate.
+   * @param z the z coordinate.
+   *
+   * @return the highest Y.
+   */
+  int getHighestY(int x, int z);
+
+  /**
    * obtains the collection of chunks that are currently loaded on this world.
    *
    * @return the collection of loaded chunks.
