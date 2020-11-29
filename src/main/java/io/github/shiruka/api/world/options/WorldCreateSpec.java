@@ -36,7 +36,6 @@ public final class WorldCreateSpec {
    * the default instance of the world creator specification.
    */
   private static final WorldCreateSpec DEFAULT = new WorldCreateSpec(true);
-7
 
   /**
    * Whether this spec uses the default world options
