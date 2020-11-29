@@ -38,6 +38,22 @@ final class ImplementationTest {
 
   private static final Server SERVER = new Server() {
     @Override
+    public int getMaxPlayerCount() {
+      return 0;
+    }
+
+    @Override
+    public int getPlayerCount() {
+      return 0;
+    }
+
+    @NotNull
+    @Override
+    public String getServerDescription() {
+      return null;
+    }
+
+    @Override
     public boolean isInShutdownState() {
       return false;
     }
