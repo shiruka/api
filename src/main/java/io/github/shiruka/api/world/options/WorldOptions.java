@@ -44,7 +44,7 @@ public interface WorldOptions {
   /**
    * sets the spawn XYZ coordinates to the given vector.
    *
-   * @param vector the new spawn position.
+   * @param spawn the spawn to set.
    */
-  void setSpawn(@NotNull Vector vector);
+  void setSpawn(@NotNull Vector spawn);
 }
