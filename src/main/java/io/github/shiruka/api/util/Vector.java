@@ -61,8 +61,7 @@ public final class Vector {
   }
 
   /**
-   * hook method used to implement equals for comparing
-   * two {@code doubles}.
+   * hook method used to implement equals for comparing two {@code doubles}.
    *
    * @param first the first double.
    * @param second the second double.
