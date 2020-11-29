@@ -22,35 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.world;
-
-import org.jetbrains.annotations.NotNull;
-
 /**
- * a class that represents a Minecraft chunk, a 16x16 section of the world which is individually loaded as needed.
+ * the package that contains utility classes.
  */
-public interface Chunk {
-
-  /**
-   * obtains the world of the chunk.
-   *
-   * @return the world of the chunk.
-   */
-  @NotNull
-  World getWorld();
-
-  /**
-   * obtains the x coordinate at which this chunk is located.
-   *
-   * @return the x coordinate.
-   */
-  int getX();
-
-  /**
-   * obtains the z coordinate at which this chunk is located.
-   *
-   * @return the z coordinate.
-   */
-  int getZ();
-}
+package io.github.shiruka.api.util;
