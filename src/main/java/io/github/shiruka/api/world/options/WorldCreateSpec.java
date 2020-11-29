@@ -25,14 +25,60 @@
 
 package io.github.shiruka.api.world.options;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * the options for creating a new world.
  */
 public final class WorldCreateSpec {
 
   /**
-   * ctor.
+   * the default instance of the world creator specification.
    */
-  private WorldCreateSpec() {
+  private static final WorldCreateSpec DEFAULT = new WorldCreateSpec(true);
+7
+
+  /**
+   * Whether this spec uses the default world options
+   */
+  private final boolean def;
+
+  /**
+   * ctor.
+   *
+   * @param def the default spec.
+   */
+  private WorldCreateSpec(final boolean def) {
+    this.def = def;
+  }
+
+  /**
+   * create a new custom world options specification that can be passed to the server world loader to
+   * create a custom world.
+   *
+   * @return a new custom world specification.
+   */
+  @NotNull
+  public static WorldCreateSpec custom() {
+    return new WorldCreateSpec(false);
+  }
+
+  /**
+   * uses the default world options to build the world.
+   *
+   * @return the default world specification.
+   */
+  @NotNull
+  public static WorldCreateSpec getDefaultOptions() {
+    return WorldCreateSpec.DEFAULT;
+  }
+
+  /**
+   * determines whether this option specification is uses all default values or not.
+   *
+   * @return {@code true} for default values.
+   */
+  public boolean isDefault() {
+    return this.def;
   }
 }
