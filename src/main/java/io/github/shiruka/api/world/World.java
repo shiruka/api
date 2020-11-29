@@ -25,12 +25,45 @@
 
 package io.github.shiruka.api.world;
 
+import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents of a world.
  */
 public interface World {
+
+  /**
+   * obtains the chunk that is located at the given X/Z horizontal plane coordinates.
+   *
+   * @param x the chunk X coordinate.
+   * @param z the chunk Z coordinate.
+   *
+   * @return the chunk at the given coordinates.
+   */
+  @NotNull
+  Chunk getChunkAt(int x, int z);
+
+  /**
+   * obtains a chunk at the given coordinates with an option to not generate the chunk.
+   *
+   * @param x the x coordinate.
+   * @param z the z coordinate.
+   * @param gen {@code true} to generate the chunk if it doesn't exist, {@code false} to return null.
+   *
+   * @return the chunk, or {@code null} if {@code gen} is {@code false} and no chunk is found.
+   */
+  @Nullable
+  Chunk getChunkAt(int x, int z, boolean gen);
+
+  /**
+   * obtains the collection of chunks that are currently loaded on this world.
+   *
+   * @return the collection of loaded chunks.
+   */
+  @NotNull
+  Collection<Chunk> getLoadedChunks();
 
   /**
    * obtains the name of the world that is represented with the name of the file folder containing the region files.
