@@ -33,6 +33,28 @@ import org.jetbrains.annotations.NotNull;
 public interface Server {
 
   /**
+   * obtains maximum player count of the server.
+   *
+   * @return maximum player count to join the server.
+   */
+  int getMaxPlayerCount();
+
+  /**
+   * obtains current player count of the server.
+   *
+   * @return current player count of the server.
+   */
+  int getPlayerCount();
+
+  /**
+   * obtains server's descriptions a.k.a. MOTD.
+   *
+   * @return server's descriptions.
+   */
+  @NotNull
+  String getServerDescription();
+
+  /**
    * obtains server's shutdown statement.
    *
    * @return {@code true} if the server is in the shutdown state.
