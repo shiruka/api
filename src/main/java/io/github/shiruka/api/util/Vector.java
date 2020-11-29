@@ -54,10 +54,40 @@ public final class Vector {
    * @param y the y.
    * @param z the z.
    */
-  public Vector(final double x, final double y, final double z) {
+  private Vector(final double x, final double y, final double z) {
     this.x = x;
     this.y = y;
     this.z = z;
+  }
+
+  /**
+   * creates a new vector, with the given new set of XYZ numbers, saving the non-vector fields.
+   *
+   * @param x the new X value.
+   * @param y the new Y value.
+   * @param z the new Z value.
+   *
+   * @return the new vector containing the specified XYZ coordinates, but retaining the same fields that may
+   *   be possessed by a subclass.
+   */
+  @NotNull
+  public static Vector create(final int x, final int y, final int z) {
+    return Vector.create(x, y, (double) z);
+  }
+
+  /**
+   * creates a new vector, with the given new set of XYZ numbers, saving the non-vector fields.
+   *
+   * @param x the new X value.
+   * @param y the new Y value.
+   * @param z the new Z value.
+   *
+   * @return the new vector containing the specified XYZ coordinates, but retaining the same fields that may
+   *   be possessed by a subclass.
+   */
+  @NotNull
+  public static Vector create(final double x, final double y, final double z) {
+    return new Vector(x, y, z);
   }
 
   /**
@@ -92,7 +122,7 @@ public final class Vector {
    */
   @NotNull
   public Vector add(@NotNull final Vector vector) {
-    return this.set(this.x + vector.x, this.y + vector.y, this.z + vector.z);
+    return Vector.create(this.x + vector.x, this.y + vector.y, this.z + vector.z);
   }
 
   /**
@@ -106,7 +136,7 @@ public final class Vector {
    */
   @NotNull
   public Vector add(final int x, final int y, final int z) {
-    return this.set(this.x + x, this.y + y, this.z + z);
+    return Vector.create(this.x + x, this.y + y, this.z + z);
   }
 
   /**
@@ -120,7 +150,7 @@ public final class Vector {
    */
   @NotNull
   public Vector add(final double x, final double y, final double z) {
-    return this.set(this.x + x, this.y + y, this.z + z);
+    return Vector.create(this.x + x, this.y + y, this.z + z);
   }
 
   /**
@@ -132,7 +162,7 @@ public final class Vector {
    */
   @NotNull
   public Vector divide(@NotNull final Vector vector) {
-    return this.set(this.x / vector.x, this.y / vector.y, this.z / vector.z);
+    return Vector.create(this.x / vector.x, this.y / vector.y, this.z / vector.z);
   }
 
   /**
@@ -146,7 +176,7 @@ public final class Vector {
    */
   @NotNull
   public Vector divide(final int x, final int y, final int z) {
-    return this.set(this.x / x, this.y / y, this.z / z);
+    return Vector.create(this.x / x, this.y / y, this.z / z);
   }
 
   /**
@@ -160,7 +190,7 @@ public final class Vector {
    */
   @NotNull
   public Vector divide(final double x, final double y, final double z) {
-    return this.set(this.x / x, this.y / y, this.z / z);
+    return Vector.create(this.x / x, this.y / y, this.z / z);
   }
 
   /**
@@ -319,7 +349,7 @@ public final class Vector {
    */
   @NotNull
   public Vector multiply(@NotNull final Vector vector) {
-    return this.set(this.x * vector.x, this.y * vector.y, this.z * vector.z);
+    return Vector.create(this.x * vector.x, this.y * vector.y, this.z * vector.z);
   }
 
   /**
@@ -333,7 +363,7 @@ public final class Vector {
    */
   @NotNull
   public Vector multiply(final int x, final int y, final int z) {
-    return this.set(this.x * x, this.y * y, this.z * z);
+    return Vector.create(this.x * x, this.y * y, this.z * z);
   }
 
   /**
@@ -347,7 +377,7 @@ public final class Vector {
    */
   @NotNull
   public Vector multiply(final double x, final double y, final double z) {
-    return this.set(this.x * x, this.y * y, this.z * z);
+    return Vector.create(this.x * x, this.y * y, this.z * z);
   }
 
   /**
@@ -362,36 +392,6 @@ public final class Vector {
   }
 
   /**
-   * creates a new vector, with the given new set of XYZ numbers, saving the non-vector fields.
-   *
-   * @param x the new X value.
-   * @param y the new Y value.
-   * @param z the new Z value.
-   *
-   * @return the new vector containing the specified XYZ coordinates, but retaining the same fields that may
-   *   be possessed by a subclass.
-   */
-  @NotNull
-  public Vector set(final int x, final int y, final int z) {
-    return this.set(x, y, (double) z);
-  }
-
-  /**
-   * creates a new vector, with the given new set of XYZ numbers, saving the non-vector fields.
-   *
-   * @param x the new X value.
-   * @param y the new Y value.
-   * @param z the new Z value.
-   *
-   * @return the new vector containing the specified XYZ coordinates, but retaining the same fields that may
-   *   be possessed by a subclass.
-   */
-  @NotNull
-  public Vector set(final double x, final double y, final double z) {
-    return new Vector(x, y, z);
-  }
-
-  /**
    * creates a new vector but its XYZ fields are those of this vector subtracted with the XYZ fields of the
    * given vector.
    *
@@ -401,7 +401,7 @@ public final class Vector {
    */
   @NotNull
   public Vector subtract(@NotNull final Vector vector) {
-    return this.set(this.x - vector.x, this.y - vector.y, this.z - vector.z);
+    return Vector.create(this.x - vector.x, this.y - vector.y, this.z - vector.z);
   }
 
   /**
@@ -415,7 +415,7 @@ public final class Vector {
    */
   @NotNull
   public Vector subtract(final int x, final int y, final int z) {
-    return this.set(this.x - x, this.y - y, this.z - z);
+    return Vector.create(this.x - x, this.y - y, this.z - z);
   }
 
   /**
@@ -429,6 +429,6 @@ public final class Vector {
    */
   @NotNull
   public Vector subtract(final double x, final double y, final double z) {
-    return this.set(this.x - x, this.y - y, this.z - z);
+    return Vector.create(this.x - x, this.y - y, this.z - z);
   }
 }
