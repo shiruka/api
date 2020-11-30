@@ -1,6 +1,4 @@
 deleteBranchAfterMerge: true
 mergeMethod: squash
 requiredLabels:
-- release/patch
-- release/minor
-- release/major
+- regex: ^release/
