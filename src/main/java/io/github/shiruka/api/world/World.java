@@ -26,6 +26,7 @@
 package io.github.shiruka.api.world;
 
 import io.github.shiruka.api.world.options.Dimension;
+import io.github.shiruka.api.world.options.GeneratorOptions;
 import java.nio.file.Path;
 import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
@@ -74,6 +75,14 @@ public interface World {
    */
   @NotNull
   Path getDirectory();
+
+  /**
+   * obtains the options for the generator of this world.
+   *
+   * @return the generator options.
+   */
+  @NotNull
+  GeneratorOptions getGeneratorOptions();
 
   /**
    * obtains the highest non-air block at the given two coordinates.
