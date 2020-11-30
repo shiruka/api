@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.world;
 
+import io.netty.buffer.ByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -39,6 +40,14 @@ public interface Chunk {
    *   and cannot be used.
    */
   boolean canUse();
+
+  /**
+   * writes the chunk data to the given buffer for sending to players via the protocol.
+   *
+   * @param buf the buffer to write the chunk data.
+   * @param continuous {@code true} if the entire chunk is sent bottom to top.
+   */
+  void write(@NotNull final ByteBuf buf, final boolean continuous);
 
   /**
    * generates the chunk.
