@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.world;
 
+import io.github.shiruka.api.world.options.Dimension;
 import java.nio.file.Path;
 import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
@@ -57,6 +58,14 @@ public interface World {
    */
   @Nullable
   Chunk getChunkAt(int x, int z, boolean gen);
+
+  /**
+   * obtains dimension of the world.
+   *
+   * @return dimension of the world.
+   */
+  @NotNull
+  Dimension getDimension();
 
   /**
    * obtains world's directory.
