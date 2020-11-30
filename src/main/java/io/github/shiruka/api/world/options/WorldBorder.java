@@ -84,7 +84,7 @@ public interface WorldBorder {
    *
    * @param damage the damage, where 0.5 is half a heart.
    *
-   * @see #getDamage().
+   * @see #getDamage()
    */
   void setDamage(double damage);
 
