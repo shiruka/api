@@ -30,7 +30,7 @@ package io.github.shiruka.api.base;
  */
 public enum Material {
 
-  ;
+  AIR(0);
 
   /**
    * the id.
@@ -39,6 +39,7 @@ public enum Material {
 
   /**
    * ctor.
+   *
    * @param id the id.
    */
   Material(final int id) {
@@ -47,6 +48,7 @@ public enum Material {
 
   /**
    * obtains the id.
+   *
    * @return the id.
    */
   public int getId() {
