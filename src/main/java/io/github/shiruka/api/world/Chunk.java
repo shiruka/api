@@ -33,6 +33,19 @@ import org.jetbrains.annotations.NotNull;
 public interface Chunk {
 
   /**
+   * checks to see whether this chunk is usable.
+   *
+   * @return {@code true} to indicate that this chunk may be used, {@code false} if this chunk is being saved
+   *   and cannot be used.
+   */
+  boolean canUse();
+
+  /**
+   * generates the chunk.
+   */
+  void generate();
+
+  /**
    * obtains the highest Y value at the given chunk relative X/Z coordinates.
    *
    * @param x the relative X.
@@ -63,4 +76,11 @@ public interface Chunk {
    * @return the z coordinate.
    */
   int getZ();
+
+  /**
+   * awaits for the chunk ready getState to finish, indicating that the chunk has finished generation.
+   *
+   * @return the chunk, when ready.
+   */
+  Chunk waitReady();
 }
