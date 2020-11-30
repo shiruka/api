@@ -32,4 +32,24 @@ public enum Material {
 
   ;
 
+  /**
+   * the id.
+   */
+  private final int id;
+
+  /**
+   * ctor.
+   * @param id the id.
+   */
+  Material(final int id) {
+    this.id = id;
+  }
+
+  /**
+   * obtains the id.
+   * @return the id.
+   */
+  public int getId() {
+    return this.id;
+  }
 }
