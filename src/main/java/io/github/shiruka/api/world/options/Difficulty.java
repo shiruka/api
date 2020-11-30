@@ -30,70 +30,70 @@ import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the set of dimensions that a world can be set to.
+ * this is a set of the possible difficulties that can be applied to a world in order to determine the
+ * aggressiveness of mob spawns.
  */
-public enum Dimension {
+public enum Difficulty {
   /**
-   * represents the Nether dimension.
+   * peaceful
    */
-  NETHER(-1),
+  PEACEFUL(0),
   /**
-   * represents the over-world (or normal) dimension.
+   * easy
    */
-  OVER_WORLD(0),
+  EASY(1),
   /**
-   * represents the End dimension.
+   * normal
    */
-  END(1);
+  NORMAL(2),
+  /**
+   * hard
+   */
+  HARD(3),
+  /**
+   * hardcore
+   */
+  HARDCORE(3);
 
   /**
-   * the NBT value of the dimension.
+   * the NBT value of the current difficulty.
    */
   private final byte id;
 
   /**
    * ctor.
    *
-   * @param id the NBT value of the dimension.
+   * @param id the NBT value.
    */
-  Dimension(final int id) {
+  Difficulty(final int id) {
     this.id = (byte) id;
   }
 
   /**
-   * obtains the dimension that has the given {@code int} associated as its NBT value.
+   * obtains the difficulty given the NBT value.
    *
-   * @param id NBT value of the dimension to find.
+   * @param id the NBT value of the difficulty to find.
    *
-   * @return the Dimension, if found.
+   * @return the difficulty, if found.
    *
-   * @throws IndexOutOfBoundsException if the Dimension is not found.
+   * @throws IndexOutOfBoundsException if it is not found.
    */
   @NotNull
-  public static Dimension from(final int id) {
-    return Stream.of(Dimension.values())
-      .filter(dimension -> dimension.id == id)
+  public static Difficulty from(final int id) {
+    return Stream.of(Difficulty.values())
+      .filter(difficulty -> difficulty.id == id)
       .findFirst()
       .orElseThrow(() ->
-        new IndexOutOfBoundsException(
-          String.format(Misc.NBT_BOUND_FAIL, "io.github.shiruka.api.world.options.Dimension")));
+        new IllegalArgumentException(
+          String.format(Misc.NBT_BOUND_FAIL, "io.github.shiruka.api.world.options.Difficulty")));
   }
 
   /**
-   * obtains the NBT value of the dimension represented as a {@code byte}.
+   * obtains the NBT value of the given difficulty.
    *
-   * @return the byte form of the NBT value.
+   * @return the {@code byte} form of the difficulty.
    */
   public byte asByte() {
-    return this.id;
-  }
-
-  /**
-   * obtains the NBT value of the dimension represented as an {@code int}.
-   *
-   * @return the NBT value of the dimension.
-   */
-  public int asInt() {
     return this.id;
   }
 }

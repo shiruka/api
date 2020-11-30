@@ -30,68 +30,72 @@ import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the set of dimensions that a world can be set to.
+ * the set of game types that may be applied to a world in order to enforce upon players.
  */
-public enum Dimension {
+public enum GameMode {
   /**
-   * represents the Nether dimension.
+   * survival mode.
    */
-  NETHER(-1),
+  SURVIVAL(0),
   /**
-   * represents the over-world (or normal) dimension.
+   * creative mode.
    */
-  OVER_WORLD(0),
+  CREATIVE(1),
   /**
-   * represents the End dimension.
+   * adventure mode.
    */
-  END(1);
+  ADVENTURE(2),
+  /**
+   * spectator mode.
+   */
+  SPECTATOR(3);
 
   /**
-   * the NBT value of the dimension.
+   * the NBT value associated with the constructed game mode.
    */
   private final byte id;
 
   /**
-   * ctor.
+   * creates a new game mode with the NBT value represented as an {@code int} for conciseness.
    *
-   * @param id the NBT value of the dimension.
+   * @param id the NBT value for the game mode.
    */
-  Dimension(final int id) {
+  GameMode(final int id) {
     this.id = (byte) id;
   }
 
   /**
-   * obtains the dimension that has the given {@code int} associated as its NBT value.
+   * obtains the game mode from the NBT value specified.
    *
-   * @param id NBT value of the dimension to find.
+   * @param id the NBT value.
    *
-   * @return the Dimension, if found.
+   * @return the game mode, if found.
    *
-   * @throws IndexOutOfBoundsException if the Dimension is not found.
+   * @throws IndexOutOfBoundsException if there is no game mode for the given NBT value
    */
   @NotNull
-  public static Dimension from(final int id) {
-    return Stream.of(Dimension.values())
-      .filter(dimension -> dimension.id == id)
+  public static GameMode from(final int id) {
+    return Stream.of(GameMode.values())
+      .filter(gameMode -> gameMode.id == id)
       .findFirst()
       .orElseThrow(() ->
         new IndexOutOfBoundsException(
-          String.format(Misc.NBT_BOUND_FAIL, "io.github.shiruka.api.world.options.Dimension")));
+          String.format(Misc.NBT_BOUND_FAIL, "io.github.shiruka.api.world.options.GameMode")));
   }
 
   /**
-   * obtains the NBT value of the dimension represented as a {@code byte}.
+   * obtains the NBT value of the given game mode as it is held in this class.
    *
-   * @return the byte form of the NBT value.
+   * @return the NBT value as {@code byte}.
    */
   public byte asByte() {
     return this.id;
   }
 
   /**
-   * obtains the NBT value of the dimension represented as an {@code int}.
+   * obtains the NBT value of the given game mode converted to the actual NBT type.
    *
-   * @return the NBT value of the dimension.
+   * @return the NBT value as {@code int}.
    */
   public int asInt() {
     return this.id;
