@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.world;
 
+import java.nio.file.Path;
 import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,6 +57,14 @@ public interface World {
    */
   @Nullable
   Chunk getChunkAt(int x, int z, boolean gen);
+
+  /**
+   * obtains world's directory.
+   *
+   * @return world's directory.
+   */
+  @NotNull
+  Path getDirectory();
 
   /**
    * obtains the highest non-air block at the given two coordinates.
