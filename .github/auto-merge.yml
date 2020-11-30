@@ -1,4 +1,0 @@
-deleteBranchAfterMerge: true
-mergeMethod: squash
-requiredLabels:
-- regex: ^release/
