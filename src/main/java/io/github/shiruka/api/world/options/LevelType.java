@@ -30,70 +30,61 @@ import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the set of dimensions that a world can be set to.
+ * a class that contains the set of all the possible level types that a world can generate as.
  */
-public enum Dimension {
+public enum LevelType {
   /**
-   * represents the Nether dimension.
+   * the default level type
    */
-  NETHER(-1),
+  DEFAULT("default"),
   /**
-   * represents the over-world (or normal) dimension.
+   * generates a world using the default flat generator
    */
-  OVER_WORLD(0),
+  FLAT("flat"),
   /**
-   * represents the End dimension.
+   * generates a world with enlarged biomes
    */
-  END(1);
+  LARGE_BIOMES("largeBiomes"),
+  /**
+   * generates a world with amplified hills and valleys
+   */
+  AMPLIFIED("amplified");
 
   /**
-   * the NBT value of the dimension.
+   * this is the NBT value for the level type.
    */
-  private final byte id;
+  private final String name;
 
   /**
    * ctor.
    *
-   * @param id the NBT value of the dimension.
+   * @param name the NBT value.
    */
-  Dimension(final int id) {
-    this.id = (byte) id;
+  LevelType(@NotNull final String name) {
+    this.name = name;
   }
 
   /**
-   * obtains the dimension that has the given {@code int} associated as its NBT value.
+   * obtains the level type which uses the given string as its NBT format, ignoring case.
    *
-   * @param id NBT value of the dimension to find.
+   * @param s the level type's NBT string form.
    *
-   * @return the Dimension, if found.
+   * @return the level type, if found.
    *
-   * @throws IndexOutOfBoundsException if the Dimension is not found.
+   * @throws IllegalArgumentException if the level type is not found.
    */
   @NotNull
-  public static Dimension from(final int id) {
-    return Stream.of(Dimension.values())
-      .filter(dimension -> dimension.id == id)
+  public static LevelType from(@NotNull final String s) {
+    return Stream.of(LevelType.values())
+      .filter(levelType -> levelType.toString().equalsIgnoreCase(s))
       .findFirst()
       .orElseThrow(() ->
-        new IndexOutOfBoundsException(
-          String.format(Misc.NBT_BOUND_FAIL, "io.github.shiruka.api.world.options.Dimension")));
+        new IllegalArgumentException(
+          String.format(Misc.NBT_BOUND_FAIL, "io.github.shiruka.api.world.options.LevelType")));
   }
 
-  /**
-   * obtains the NBT value of the dimension represented as a {@code byte}.
-   *
-   * @return the byte form of the NBT value.
-   */
-  public byte asByte() {
-    return this.id;
-  }
-
-  /**
-   * obtains the NBT value of the dimension represented as an {@code int}.
-   *
-   * @return the NBT value of the dimension.
-   */
-  public int asInt() {
-    return this.id;
+  @Override
+  public String toString() {
+    return this.name;
   }
 }

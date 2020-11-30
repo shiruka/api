@@ -23,55 +23,52 @@
  *
  */
 
-package io.github.shiruka.api.misc;
+package io.github.shiruka.api.world.options;
 
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+import io.github.shiruka.api.world.generators.GeneratorProvider;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that contains {@link Optional} like methods.
+ * the options pertaining to how the chunks within the world
+ * that uses these options will generate.
  */
-public final class Optionals {
+public interface GeneratorOptions {
 
   /**
-   * ctor.
-   */
-  private Optionals() {
-  }
-
-  /**
-   * runs the given consumer and returns the given object itself.
+   * obtains the level type of the world, which also defines what generator the world uses.
    *
-   * @param object the object to return and use.
-   * @param consumer the consumer to run.
-   * @param <T> the object type.
-   *
-   * @return the given object itself.
+   * @return the world's level type.
    */
   @NotNull
-  public static <T> T useAndGet(@NotNull final T object, @NotNull final Consumer<T> consumer) {
-    consumer.accept(object);
-    return object;
-  }
+  LevelType getLevelType();
 
   /**
-   * runs the given consumer if the given predicate returns true, and returns the given object itself.
+   * obtains the option string used to generate super-flat and customized worlds.
    *
-   * @param object the object to return and use.
-   * @param predicate the predicate to check.
-   * @param consumer the consumer to run.
-   * @param <T> the object type.
-   *
-   * @return the given object itself.
+   * @return the layer options string.
    */
   @NotNull
-  public static <T> T useAndGet(@NotNull final T object, @NotNull final Predicate<T> predicate,
-                                @NotNull final Consumer<T> consumer) {
-    if (predicate.test(object)) {
-      consumer.accept(object);
-    }
-    return object;
-  }
+  String getOptionString();
+
+  /**
+   * obtains the generator factory which provided the world with the facilities necessary for world generation.
+   *
+   * @return the factory responsible for providing generation facilitated.
+   */
+  @NotNull
+  GeneratorProvider getProvider();
+
+  /**
+   * obtains the seed used to generate the terrain and features on the world.
+   *
+   * @return the world seed.
+   */
+  long getSeed();
+
+  /**
+   * determine whether world features such as villages, strongholds, and mine-shafts should be generated.
+   *
+   * @return {@code true} to indicate that features should be generated, {@code false} if not.
+   */
+  boolean isAllowFeatures();
 }
