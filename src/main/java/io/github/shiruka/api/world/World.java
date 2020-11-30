@@ -102,6 +102,13 @@ public interface World {
   String getName();
 
   /**
+   * obtains the current world time in ticks.
+   *
+   * @return the time between 0 and 23999.
+   */
+  int getTime();
+
+  /**
    * loads the chunks at spawn.
    */
   void loadSpawnChunks();
