@@ -25,7 +25,9 @@
 
 package io.github.shiruka.api.world;
 
+import io.github.shiruka.api.world.options.Dimension;
 import io.github.shiruka.api.world.options.WorldCreateSpec;
+import java.nio.file.Path;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,6 +82,17 @@ public interface WorldLoader {
    */
   @NotNull
   Map<String, World> getWorlds();
+
+  /**
+   * loads method for shortcutting NBT decoding.
+   *
+   * @param name the name of the world to be loaded.
+   * @param directory the directory folder.
+   *
+   * @return the world, once it has loaded.
+   */
+  @NotNull
+  World load(@NotNull final String name, @NotNull final Path directory, @NotNull final Dimension dimension);
 
   /**
    * loads all worlds.
