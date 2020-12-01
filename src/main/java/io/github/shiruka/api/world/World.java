@@ -85,6 +85,15 @@ public interface World {
   GeneratorOptions getGeneratorOptions();
 
   /**
+   * removes the chunk from memory, without doing any save or file write operations that are necessary to cleanup.
+   *
+   * @param x the chunk X coordinate.
+   * @param z the chunk Z coordinate.
+   * @return the chunk that was removed, or {@code null} if no chunk was removed.
+   */
+  @Nullable
+  Chunk removeChunkAt(int x, int z);
+  /**
    * obtains the highest non-air block at the given two coordinates.
    *
    * @param x the x coordinate.
