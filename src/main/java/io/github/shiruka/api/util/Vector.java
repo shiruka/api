@@ -194,6 +194,33 @@ public final class Vector {
   }
 
   /**
+   * obtains the x as {@code int}.
+   *
+   * @return the x.
+   */
+  public int getIntX() {
+    return (int) this.x;
+  }
+
+  /**
+   * obtains the y as {@code int}.
+   *
+   * @return the y.
+   */
+  public int getIntY() {
+    return (int) this.y;
+  }
+
+  /**
+   * obtains the z as {@code int}.
+   *
+   * @return the z.
+   */
+  public int getIntZ() {
+    return (int) this.z;
+  }
+
+  /**
    * obtains the magnitude of this Vector.
    *
    * @return the magnitude.
