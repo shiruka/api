@@ -88,6 +88,7 @@ public interface WorldLoader {
    *
    * @param name the name of the world to be loaded.
    * @param directory the directory folder.
+   * @param dimension the dimension to load.
    *
    * @return the world, once it has loaded.
    */
