@@ -48,11 +48,6 @@
   <dependencies>
     <dependency>
       <groupId>me.carleslc.Simple-YAML</groupId>
-      <artifactId>Simple-Configuration</artifactId>
-      <version>1.7.2</version>
-    </dependency>
-    <dependency>
-      <groupId>me.carleslc.Simple-YAML</groupId>
       <artifactId>Simple-Yaml</artifactId>
       <version>1.7.2</version>
     </dependency>
@@ -60,11 +55,23 @@
       <groupId>io.github.portlek</groupId>
       <artifactId>jsongration</artifactId>
       <version>2.0.9</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>Simple-Configuration</artifactId>
+          <groupId>com.github.Carleslc.Simple-YAML</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>me.HSGamer</groupId>
       <artifactId>Simple-HJSON</artifactId>
       <version>1.0</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>Simple-Configuration</artifactId>
+          <groupId>me.carleslc.Simple-YAML</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 </project>
