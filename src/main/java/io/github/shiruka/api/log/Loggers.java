@@ -25,6 +25,8 @@
 
 package io.github.shiruka.api.log;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Optional;
 import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +36,11 @@ import org.jetbrains.annotations.Nullable;
  * a class that contains some instance.
  */
 public final class Loggers {
+
+  /**
+   * a log format for throwable logs.
+   */
+  public static final String THROWABLE_LOG_FORMAT = "%s %s";
 
   /**
    * the logger instance.
@@ -67,6 +74,16 @@ public final class Loggers {
   }
 
   /**
+   * logs the given string to the global logger in debug mode.
+   *
+   * @param msg the string to log.
+   * @param throwable the throwable to log.
+   */
+  public static void debug(@NotNull final String msg, @NotNull final Throwable throwable) {
+    Loggers.debug(Loggers.THROWABLE_LOG_FORMAT, msg, Loggers.getThrownMessage(throwable));
+  }
+
+  /**
    * logs the given string to the global logger in error mode.
    *
    * @param msg the string to log.
@@ -83,6 +100,16 @@ public final class Loggers {
    */
   public static void error(@NotNull final String msg, @NotNull final Object... params) {
     Loggers.error(String.format(msg, params));
+  }
+
+  /**
+   * logs the given string to the global logger in error mode.
+   *
+   * @param msg the string to log.
+   * @param throwable the throwable to log.
+   */
+  public static void error(@NotNull final String msg, @NotNull final Throwable throwable) {
+    Loggers.error(Loggers.THROWABLE_LOG_FORMAT, msg, Loggers.getThrownMessage(throwable));
   }
 
   /**
@@ -123,8 +150,18 @@ public final class Loggers {
    * @param msg the string to log.
    * @param params the params to format the given message.
    */
-  public static void log(@NotNull final String msg, @NotNull final Object params) {
+  public static void log(@NotNull final String msg, @NotNull final Object... params) {
     Loggers.log(String.format(msg, params));
+  }
+
+  /**
+   * logs the given string to the global logger in log mode.
+   *
+   * @param msg the string to log.
+   * @param throwable the throwable to log.
+   */
+  public static void log(@NotNull final String msg, @NotNull final Throwable throwable) {
+    Loggers.log(Loggers.THROWABLE_LOG_FORMAT, msg, Loggers.getThrownMessage(throwable));
   }
 
   /**
@@ -142,8 +179,18 @@ public final class Loggers {
    * @param msg the string to log..
    * @param params the params to format the given message.
    */
-  public static void success(@NotNull final String msg, @NotNull final Object params) {
+  public static void success(@NotNull final String msg, @NotNull final Object... params) {
     Loggers.success(String.format(msg, params));
+  }
+
+  /**
+   * logs the given string to the global logger in success mode.
+   *
+   * @param msg the string to log.
+   * @param throwable the throwable to log.
+   */
+  public static void success(@NotNull final String msg, @NotNull final Throwable throwable) {
+    Loggers.success(Loggers.THROWABLE_LOG_FORMAT, msg, Loggers.getThrownMessage(throwable));
   }
 
   /**
@@ -183,5 +230,32 @@ public final class Loggers {
    */
   public static void warn(@NotNull final String msg, @NotNull final Object... params) {
     Loggers.warn(String.format(msg, params));
+  }
+
+  /**
+   * logs the given string to the global logger in warn mode.
+   *
+   * @param msg the string to log.
+   * @param throwable the throwable to log.
+   */
+  public static void warn(@NotNull final String msg, @NotNull final Throwable throwable) {
+    Loggers.warn(Loggers.THROWABLE_LOG_FORMAT, msg, Loggers.getThrownMessage(throwable));
+  }
+
+  /**
+   * obtains a message from the given throwable instance.
+   *
+   * @param throwable the throwable to convert into a simple message.
+   *
+   * @return a converted thrown message.
+   */
+  @NotNull
+  private static String getThrownMessage(@NotNull final Throwable throwable) {
+    final var sw = new StringWriter();
+    final var pw = new PrintWriter(sw);
+    pw.println();
+    throwable.printStackTrace(pw);
+    pw.close();
+    return sw.toString();
   }
 }
