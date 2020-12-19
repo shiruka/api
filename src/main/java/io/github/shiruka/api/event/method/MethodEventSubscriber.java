@@ -87,9 +87,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
                         @NotNull final EventExecutor executor, @NotNull final Listener listener,
                         @NotNull final DispatchOrder dispatchOrder, final boolean includeCancelled) {
     this.eventClass = eventClass;
-    this.generic = Event.class.isAssignableFrom(this.eventClass)
-      ? MethodEventSubscriber.genericType(method.getGenericParameterTypes()[0])
-      : null;
+    this.generic = MethodEventSubscriber.genericType(method.getGenericParameterTypes()[0]);
     this.executor = executor;
     this.listener = listener;
     this.dispatchOrder = dispatchOrder;
