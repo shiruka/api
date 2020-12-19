@@ -32,18 +32,14 @@ import java.lang.annotation.Target;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * this annotation should be marked on methods that should
- * be modified in some way such as by changing the order in
- * which an event handler or a listener method should handle
- * dispatched events.
+ * this annotation should be marked on methods that calls when an event comes in.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventHandler {
 
   /**
-   * the position of the listener in the dispatch sequence
-   * once the event has been fired.
+   * the position of the listener in the dispatch sequence once the event has been fired.
    *
    * @return the event's {@link DispatchOrder}.
    */

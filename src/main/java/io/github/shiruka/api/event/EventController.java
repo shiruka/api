@@ -29,14 +29,12 @@ import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an event controller manages and handles dispatched
- * events and their corresponding listeners.
+ * an event controller manages and handles dispatched events and their corresponding listeners.
  */
 public interface EventController {
 
   /**
-   * dispatches the event to the event listener/handlers
-   * that are registered under the event controller.
+   * calls the event to the event listener/handlers that are registered under the event controller.
    *
    * @param event the event to dispatch.
    * @param <T> the event type.
@@ -44,8 +42,7 @@ public interface EventController {
   <T extends Event> void call(@NotNull T event);
 
   /**
-   * dispatches the event to the event listener/handlers
-   * that are registered under the event controller.
+   * dispatches the event to the event listener/handlers that are registered under the event controller.
    *
    * @param event the event to dispatch.
    * @param callback the callback to execute when the controller finishes processing all listeners.
@@ -54,16 +51,14 @@ public interface EventController {
   <T extends Event> void call(@NotNull T event, @NotNull Consumer<T> callback);
 
   /**
-   * registers the given listener object to receive
-   * events dispatched by the controller.
+   * registers the given listener object to receive events dispatched by the controller.
    *
    * @param listener the listener to register.
    */
   void register(@NotNull Listener listener);
 
   /**
-   * removes the given listener from being handling
-   * events dispatched by the event controller.
+   * removes the given listener from being handling events dispatched by the event controller.
    *
    * @param listener the listener to remove.
    */
