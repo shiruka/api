@@ -23,31 +23,38 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.event.method;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import io.github.shiruka.api.event.Event;
+import io.github.shiruka.api.event.EventController;
+import io.github.shiruka.api.event.Listener;
+import java.lang.reflect.Method;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * this annotation should be marked on methods that calls when an event comes in.
+ * a subscription adapter for {@link EventController} which supports defining event subscribers as methods in a class.
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface EventHandler {
+public interface MethodSubscriptionAdapter {
 
   /**
-   * should not receive events even if they have been {@link Cancellable#cancelled() cancelled}.
-   */
-  boolean ignoreCancelled() default false;
-
-  /**
-   * the position of the listener in the dispatch sequence once the event has been fired.
+   * calls the event to the event listener/handlers that are registered under the event controller.
    *
-   * @return the event's {@link DispatchOrder}.
+   * @param event the event to dispatch.
    */
-  @NotNull
-  DispatchOrder priority() default DispatchOrder.MIDDLE;
+  void call(@NotNull Event event);
+
+  /**
+   * registers all methods determined to be {@link MethodScanner#shouldRegister(Listener, Method)} on the
+   * {@code listener} to receive events.
+   *
+   * @param listener the listener.
+   */
+  void register(@NotNull Listener listener);
+
+  /**
+   * unregisters all methods on a registered {@code listener}.
+   *
+   * @param listener the listener.
+   */
+  void unregister(@NotNull Listener listener);
 }
