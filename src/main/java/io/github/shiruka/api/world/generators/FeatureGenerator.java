@@ -23,9 +23,8 @@
  *
  */
 
-package io.github.shiruka.api.base;
+package io.github.shiruka.api.world.generators;
 
-import io.github.shiruka.api.world.generators.GeneratorContext;
 import io.github.shiruka.api.world.options.GeneratorOptions;
 import org.jetbrains.annotations.NotNull;
 

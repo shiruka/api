@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api.world.generators;
 
-import io.github.shiruka.api.base.FeatureGenerator;
 import io.github.shiruka.api.world.World;
 import java.util.Set;
 import org.jetbrains.annotations.NotNull;
