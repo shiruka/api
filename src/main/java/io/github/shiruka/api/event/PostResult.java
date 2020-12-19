@@ -110,12 +110,11 @@ public final class PostResult {
   public String toString() {
     if (this.wasSuccessful()) {
       return "PostResult{type=success}";
-    } else {
-      return "PostResult{" +
-        "type=failure" +
-        "exceptions=" + this.exceptions.values() +
-        "}";
     }
+    return "PostResult{" +
+      "type=failure" +
+      "exceptions=" + this.exceptions.values() +
+      "}";
   }
 
   /**
