@@ -41,7 +41,7 @@ public interface EventController {
    * @param event the event to dispatch.
    * @param <T> the event type.
    */
-  <T extends Event> void dispatch(@NotNull T event);
+  <T extends Event> void call(@NotNull T event);
 
   /**
    * dispatches the event to the event listener/handlers
@@ -51,7 +51,7 @@ public interface EventController {
    * @param callback the callback to execute when the controller finishes processing all listeners.
    * @param <T> the event type.
    */
-  <T extends Event> void dispatch(@NotNull T event, @NotNull Consumer<T> callback);
+  <T extends Event> void call(@NotNull T event, @NotNull Consumer<T> callback);
 
   /**
    * registers the given listener object to receive
