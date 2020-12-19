@@ -46,5 +46,5 @@ public @interface ListenerOpts {
    *
    * @return the event's {@link DispatchOrder}.
    */
-  DispatchOrder order() default DispatchOrder.MIDDLE;
+  DispatchOrder value() default DispatchOrder.MIDDLE;
 }

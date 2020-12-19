@@ -44,10 +44,6 @@ public enum DispatchOrder {
   EARLY,
   /**
    * the default order.
-   * <p>
-   * a listener marked with this order will be invoked
-   * arbitrarily somewhere after the early listeners
-   * and the late listeners.
    */
   MIDDLE,
   /**
