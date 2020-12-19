@@ -23,6 +23,6 @@
  *
  */
 /**
- * the package that contains all events abstract classes.
+ * the package that contains abstract classes of all events.
  */
 package io.github.shiruka.api.event.abs;
