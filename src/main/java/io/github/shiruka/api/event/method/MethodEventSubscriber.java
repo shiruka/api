@@ -147,7 +147,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
     if (!(obj instanceof MethodEventSubscriber)) {
       return false;
     }
-    final MethodEventSubscriber that = (MethodEventSubscriber) obj;
+    final var that = (MethodEventSubscriber) obj;
     return Objects.equals(this.eventClass, that.eventClass)
       && Objects.equals(this.generic, that.generic)
       && Objects.equals(this.executor, that.executor)

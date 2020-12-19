@@ -130,8 +130,7 @@ public final class SimpleEventController implements EventController {
       .initialCapacity(85)
       .build(CacheLoader.from(eventClass -> {
         final var list = new ArrayList<EventSubscriber>();
-        final var types = Registry.CLASS_HIERARCHY.getUnchecked(eventClass);
-        assert types != null;
+        final var types = Objects.requireNonNull(Registry.CLASS_HIERARCHY.getUnchecked(eventClass));
         synchronized (this.lock) {
           types.stream()
             .map(this.subscribers::get)
@@ -182,8 +181,7 @@ public final class SimpleEventController implements EventController {
      */
     private void unregisterMatching(@NotNull final Predicate<EventSubscriber> predicate) {
       synchronized (this.lock) {
-        final boolean dirty = this.subscribers.values().removeIf(predicate);
-        if (dirty) {
+        if (this.subscribers.values().removeIf(predicate)) {
           this.cache.invalidateAll();
         }
       }
