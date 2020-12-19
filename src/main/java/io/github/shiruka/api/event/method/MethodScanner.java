@@ -39,6 +39,8 @@ public interface MethodScanner {
 
   /**
    * default method scanner's instance.
+   *
+   * @return a new default instance of {@code this}.
    */
   static MethodScanner createDefault() {
     return new MethodScanner() {

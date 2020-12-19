@@ -40,6 +40,8 @@ public @interface EventHandler {
 
   /**
    * should not receive events even if they have been {@link Cancellable#cancelled() cancelled}.
+   *
+   * @return {@code true} if the event ignores being cancelled.
    */
   boolean ignoreCancelled() default false;
 
