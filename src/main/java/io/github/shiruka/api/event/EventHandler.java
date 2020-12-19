@@ -29,6 +29,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * this annotation should be marked on methods that should
@@ -46,5 +47,6 @@ public @interface EventHandler {
    *
    * @return the event's {@link DispatchOrder}.
    */
+  @NotNull
   DispatchOrder priority() default DispatchOrder.MIDDLE;
 }

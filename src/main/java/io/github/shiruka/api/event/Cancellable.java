@@ -33,16 +33,19 @@ package io.github.shiruka.api.event;
 public interface Cancellable extends Event {
 
   /**
+   * cancels state of the event.
+   */
+  void cancel();
+
+  /**
    * obtains the cancel state of the event.
    *
    * @return {@code true} if the event has been cancelled.
    */
-  boolean isCancelled();
+  boolean cancelled();
 
   /**
-   * sets the cancel state of the event.
-   *
-   * @param cancelled {@code true} to cancel.
+   * dont cancels state of the event.
    */
-  void setCancelled(boolean cancelled);
+  void dontCancel();
 }
