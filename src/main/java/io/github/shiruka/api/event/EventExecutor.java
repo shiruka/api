@@ -42,7 +42,7 @@ public interface EventExecutor {
    */
   static Factory createFactory() {
     return (object, method) -> {
-      final MethodHandle handle = MethodHandles.publicLookup()
+      final var handle = MethodHandles.publicLookup()
         .unreflect(method)
         .bindTo(object);
       return (listener, event) -> handle.invoke(event);
