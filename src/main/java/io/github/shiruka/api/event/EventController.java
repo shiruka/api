@@ -25,7 +25,8 @@
 
 package io.github.shiruka.api.event;
 
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -37,30 +38,30 @@ public interface EventController {
    * calls the event to the event listener/handlers that are registered under the event controller.
    *
    * @param event the event to dispatch.
-   * @param <T> the event type.
+   *
+   * @return a completable future instance.
    */
-  <T extends Event> void call(@NotNull T event);
+  CompletableFuture<PostResult> call(@NotNull Event event);
 
   /**
-   * dispatches the event to the event listener/handlers that are registered under the event controller.
+   * registers the given {@code subscriber} to receive events.
    *
-   * @param event the event to dispatch.
-   * @param callback the callback to execute when the controller finishes processing all listeners.
-   * @param <T> the event type.
+   * @param eventClass the event class to register.
+   * @param subscriber the subscriber to register.
    */
-  <T extends Event> void call(@NotNull T event, @NotNull Consumer<T> callback);
+  void register(@NotNull Class<? extends Event> eventClass, @NotNull EventSubscriber subscriber);
 
   /**
-   * registers the given listener object to receive events dispatched by the controller.
+   * unregisters a previously registered {@code subscriber}.
    *
-   * @param listener the listener to register.
+   * @param subscriber the subscriber.
    */
-  void register(@NotNull Listener listener);
+  void unregister(@NotNull EventSubscriber subscriber);
 
   /**
-   * removes the given listener from being handling events dispatched by the event controller.
+   * unregisters all subscribers matching the {@code predicate}.
    *
-   * @param listener the listener to remove.
+   * @param predicate the predicate to test subscribers for removal.
    */
-  void unregister(@NotNull Class<? extends Listener> listener);
+  void unregister(@NotNull Predicate<EventSubscriber> predicate);
 }

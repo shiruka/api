@@ -23,31 +23,33 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.event.method;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import io.github.shiruka.api.event.EventSubscriber;
+import java.lang.reflect.Method;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * this annotation should be marked on methods that calls when an event comes in.
+ * exception thrown when a {@link EventSubscriber} cannot be generated for a {@link Method} at runtime.
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface EventHandler {
+final class SubscriberGenerationException extends RuntimeException {
 
   /**
-   * should not receive events even if they have been {@link Cancellable#cancelled() cancelled}.
-   */
-  boolean ignoreCancelled() default false;
-
-  /**
-   * the position of the listener in the dispatch sequence once the event has been fired.
+   * ctor.
    *
-   * @return the event's {@link DispatchOrder}.
+   * @param message the message.
    */
-  @NotNull
-  DispatchOrder priority() default DispatchOrder.MIDDLE;
+  SubscriberGenerationException(@NotNull final String message) {
+    super(message);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param message the message.
+   * @param cause the cause.
+   */
+  SubscriberGenerationException(@NotNull final String message, @NotNull final Throwable cause) {
+    super(message, cause);
+  }
 }

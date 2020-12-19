@@ -25,29 +25,54 @@
 
 package io.github.shiruka.api.event;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.reflect.Type;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * this annotation should be marked on methods that calls when an event comes in.
+ * a interface that represents an object that can handle a given type of event.
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface EventHandler {
+@FunctionalInterface
+public interface EventSubscriber {
 
   /**
-   * should not receive events even if they have been {@link Cancellable#cancelled() cancelled}.
-   */
-  boolean ignoreCancelled() default false;
-
-  /**
-   * the position of the listener in the dispatch sequence once the event has been fired.
+   * gets if cancelled events should be posted to this subscriber.
    *
-   * @return the event's {@link DispatchOrder}.
+   * @return if cancelled events should be posted.
    */
-  @NotNull
-  DispatchOrder priority() default DispatchOrder.MIDDLE;
+  default boolean consumeCancelledEvents() {
+    return true;
+  }
+
+  /**
+   * gets the post order this subscriber should be called at.
+   *
+   * @return the post order of this subscriber.
+   *
+   * @see DispatchOrder
+   */
+  default DispatchOrder dispatchOrder() {
+    return DispatchOrder.MIDDLE;
+  }
+
+  /**
+   * gets the generic type of this subscriber, if it is known.
+   *
+   * @return the generic type of the subscriber.
+   */
+  @Nullable
+  default Type genericType() {
+    return null;
+  }
+
+  /**
+   * invokes this event subscriber.
+   * <p>
+   * called by the event bus when a new event is "posted" to this subscriber.
+   *
+   * @param event the event that was posted.
+   *
+   * @throws Throwable any exception thrown during handling.
+   */
+  void invoke(@NotNull Event event) throws Throwable;
 }
