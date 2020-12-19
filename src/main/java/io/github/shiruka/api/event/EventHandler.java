@@ -38,7 +38,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ListenerOpts {
+public @interface EventHandler {
 
   /**
    * the position of the listener in the dispatch sequence
@@ -46,5 +46,5 @@ public @interface ListenerOpts {
    *
    * @return the event's {@link DispatchOrder}.
    */
-  DispatchOrder value() default DispatchOrder.MIDDLE;
+  DispatchOrder priority() default DispatchOrder.MIDDLE;
 }
