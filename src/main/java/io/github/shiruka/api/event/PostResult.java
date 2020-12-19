@@ -154,9 +154,8 @@ public final class PostResult {
      */
     public void printAllStackTraces() {
       this.printStackTrace();
-      for (final Throwable exception : this.result.exceptions().values()) {
-        exception.printStackTrace();
-      }
+      this.result.exceptions().values()
+        .forEach(Throwable::printStackTrace);
     }
 
     /**
