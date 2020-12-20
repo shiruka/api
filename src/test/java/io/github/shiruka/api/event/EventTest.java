@@ -42,11 +42,19 @@ final class EventTest {
   @Test
   void runTest() {
     EventTest.ADAPTER.register(new ListenerTest());
-    EventTest.ADAPTER.call(new SimpleEvent());
+    this.loop();
     MatcherAssert.assertThat(
       "Event system not working well!",
       EventTest.COUNTER.get(),
       new IsEqual<>(5));
+  }
+
+  private void loop() {
+    final var sent = new SimpleEvent();
+    EventTest.ADAPTER.call(sent);
+    if (!sent.cancelled()) {
+      this.loop();
+    }
   }
 
   public static final class ListenerTest implements Listener {
@@ -55,15 +63,14 @@ final class EventTest {
     public void simpleEvent(final SimpleEvent event) {
       final var count = EventTest.COUNTER.incrementAndGet();
       if (count >= 5) {
-        return;
+        event.cancel();
       }
-      EventTest.ADAPTER.call(new SimpleEvent());
     }
   }
 
   public static final class SimpleEvent implements Event, Cancellable {
 
-    private boolean cancelled;
+    private boolean cancelled = false;
 
     @Override
     public void cancel() {
