@@ -25,12 +25,13 @@
 
 package io.github.shiruka.api.entity;
 
+import io.github.shiruka.api.metadata.Metadatable;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine entities on the Minecraft.
  */
-public interface Entity {
+public interface Entity extends Metadatable {
 
   /**
    * obtains the name.
