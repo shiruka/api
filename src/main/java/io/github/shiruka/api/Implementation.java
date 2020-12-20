@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api;
 
+import com.google.common.base.Preconditions;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -67,9 +68,8 @@ final class Implementation {
    * @param server the server to set.
    */
   static void setServer(@NotNull final Server server) {
-    if (Implementation.server != null) {
-      throw new UnsupportedOperationException("Cannot set the server after it initialized!");
-    }
+    Preconditions.checkArgument(Implementation.server != null,
+      "Cannot set the server after it initialized!");
     synchronized (Implementation.LOCK) {
       if (Implementation.server == null) {
         Implementation.server = server;
