@@ -490,7 +490,7 @@ public final class Skin {
   /**
    * a builder class that helps to create a new {@link Skin} instance.
    */
-  private static final class Builder {
+  public static final class Builder {
 
     /**
      * the animation data.
