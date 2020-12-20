@@ -27,6 +27,7 @@ package io.github.shiruka.api.entity;
 
 import io.github.shiruka.api.Server;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine players on the Minecraft.
@@ -38,7 +39,7 @@ public interface Player extends Entity {
    *
    * @param reason the reason to disconnect.
    */
-  void disconnect(@NotNull String reason);
+  void disconnect(@Nullable String reason);
 
   /**
    * obtains the server.
