@@ -25,12 +25,23 @@
 
 package io.github.shiruka.api;
 
+import io.github.shiruka.api.events.EventFactory;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that contains utility methods for Shiru ka server.
  */
 public interface Shiruka {
+
+  /**
+   * obtains the currently running {@link Server}'s event factory.
+   *
+   * @return an {@link EventFactory} instance.
+   */
+  @NotNull
+  static EventFactory getEventFactory() {
+    return Shiruka.getServer().getEventFactory();
+  }
 
   /**
    * obtains the currently running {@link Server} instance.

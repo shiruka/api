@@ -23,69 +23,37 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.events;
 
-import io.github.shiruka.api.events.EventFactory;
+import io.github.shiruka.api.events.player.PlayerPreLoginEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine Shiru ka's servers.
+ * an interface to determine event factory that helps to create and call events.
  */
-public interface Server {
+public interface EventFactory {
 
   /**
-   * obtains the event factory instance.
+   * creates a new {@link PlayerPreLoginEvent} instance.
    *
-   * @return an event factory.
+   * @param loginData the login data to create.
+   * @param kickMessage the kick message to create.
+   *
+   * @return a new instance of {@link PlayerPreLoginEvent}.
    */
   @NotNull
-  EventFactory getEventFactory();
+  PlayerPreLoginEvent playerPreLogin(@NotNull PlayerPreLoginEvent.LoginData loginData, @Nullable String kickMessage);
 
   /**
-   * obtains maximum player count of the server.
+   * creates a new {@link PlayerPreLoginEvent} instance.
    *
-   * @return maximum player count to join the server.
-   */
-  int getMaxPlayerCount();
-
-  /**
-   * obtains current player count of the server.
+   * @param loginData the login data to create.
    *
-   * @return current player count of the server.
-   */
-  int getPlayerCount();
-
-  /**
-   * obtains server's descriptions a.k.a. MOTD.
-   *
-   * @return server's descriptions.
+   * @return a new instance of {@link PlayerPreLoginEvent}.
    */
   @NotNull
-  String getServerDescription();
-
-  /**
-   * obtains server's shutdown statement.
-   *
-   * @return {@code true} if the server is in the shutdown state.
-   */
-  boolean isInShutdownState();
-
-  /**
-   * runs the given input.
-   * <p>
-   * it can start with {@code /} or not. it does not matter.
-   *
-   * @param command the command to run.
-   */
-  void runCommand(@NotNull String command);
-
-  /**
-   * initiates the server.
-   */
-  void startServer();
-
-  /**
-   * closes the server.
-   */
-  void stopServer();
+  default PlayerPreLoginEvent playerPreLogin(@NotNull final PlayerPreLoginEvent.LoginData loginData) {
+    return this.playerPreLogin(loginData, null);
+  }
 }

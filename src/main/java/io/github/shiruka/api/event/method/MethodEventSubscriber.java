@@ -31,7 +31,6 @@ import io.github.shiruka.api.event.EventSubscriber;
 import io.github.shiruka.api.event.Listener;
 import io.github.shiruka.api.events.Event;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
@@ -98,22 +97,6 @@ public final class MethodEventSubscriber implements EventSubscriber {
     this.ignoreCancelled = ignoreCancelled;
   }
 
-  /**
-   * obtains generic type of the given type.
-   *
-   * @param type the type to get.
-   *
-   * @return {@code null} if {@code type} is not {@link ParameterizedType},
-   *   otherwise returns the first actual type argument.
-   */
-  @Nullable
-  private static Type genericType(@NotNull final Type type) {
-    if (type instanceof ParameterizedType) {
-      return ((ParameterizedType) type).getActualTypeArguments()[0];
-    }
-    return null;
-  }
-
   @Override
   public boolean consumeCancelledEvents() {
     return this.ignoreCancelled;
@@ -124,15 +107,15 @@ public final class MethodEventSubscriber implements EventSubscriber {
     return this.dispatchOrder;
   }
 
+  @Override
+  public void invoke(@NotNull final Event event) throws Throwable {
+    this.executor.invoke(this.listener, event);
+  }
+
   @Nullable
   @Override
   public Type type() {
     return this.type;
-  }
-
-  @Override
-  public void invoke(@NotNull final Event event) throws Throwable {
-    this.executor.invoke(this.listener, event);
   }
 
   @Override
