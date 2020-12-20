@@ -25,7 +25,10 @@
 
 package io.github.shiruka.api.geometry;
 
+import com.google.common.base.Preconditions;
 import java.util.List;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -202,5 +205,63 @@ public final class Skin {
     this.skinId = skinId;
     this.skinResourcePatch = skinResourcePatch;
     this.tintColors = tintColors;
+  }
+
+  /**
+   * converts the given geometry name to the legacy one.
+   *
+   * @param geometryName the geometry name to convert.
+   *
+   * @return a legacy geometry name.
+   */
+  @NotNull
+  private static String convertLegacyGeometryName(@NotNull final String geometryName) {
+    return "{\"geometry\" : {\"default\" : \"" + JSONValue.escape(geometryName) + "\"}}";
+  }
+
+  /**
+   * converts he given skin resource patch to the legacy one.
+   *
+   * @param skinResourcePatch the skin resource patch to convert.
+   *
+   * @return a legacy skin resource patch.
+   */
+  @NotNull
+  private static String convertSkinPatchToLegacy(@NotNull final String skinResourcePatch) {
+    Preconditions.checkArgument(Skin.validateSkinResourcePatch(skinResourcePatch), "Invalid skin resource patch");
+    final var object = (JSONObject) JSONValue.parse(skinResourcePatch);
+    final var geometry = (JSONObject) object.get("geometry");
+    return (String) geometry.get("default");
+  }
+
+  /**
+   * checks if the given skin resource patch is valid.
+   *
+   * @param skinResourcePatch the skin resource patch to test.
+   *
+   * @return {@code true} if the given skin resource patch is valid.
+   */
+  private static boolean validateSkinResourcePatch(@NotNull final String skinResourcePatch) {
+    try {
+      final var object = (JSONObject) JSONValue.parse(skinResourcePatch);
+      final var geometry = (JSONObject) object.get("geometry");
+      return geometry.containsKey("default") && geometry.get("default") instanceof String;
+    } catch (final ClassCastException | NullPointerException e) {
+      return false;
+    }
+  }
+
+  /**
+   * checks if the skin is valid.
+   *
+   * @return {@code true} if the skin is valid.
+   */
+  public boolean isValid() {
+    final var isSkinValid = !this.skinId.trim().isEmpty() &&
+      this.skinData.getWidth() >= 64 &&
+      this.skinData.getHeight() >= 32 &&
+      this.skinData.getImage().length >= Skin.SINGLE_SKIN_SIZE;
+    final var isSkinResourceValid = Skin.validateSkinResourcePatch(this.skinResourcePatch);
+    return isSkinValid && isSkinResourceValid;
   }
 }
