@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api;
 
+import io.github.shiruka.api.events.EventFactory;
 import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.MethodOrderer;
@@ -37,6 +38,12 @@ import org.llorllale.cactoos.matchers.Throws;
 final class ImplementationTest {
 
   private static final Server SERVER = new Server() {
+    @NotNull
+    @Override
+    public EventFactory getEventFactory() {
+      return null;
+    }
+
     @Override
     public int getMaxPlayerCount() {
       return 0;
