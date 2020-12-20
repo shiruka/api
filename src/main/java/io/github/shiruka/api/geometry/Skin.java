@@ -745,7 +745,7 @@ public final class Skin {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder fullSkinId(@NotNull final String fullSkinId) {
+    public Builder fullSkinId(@Nullable final String fullSkinId) {
       this.fullSkinId = fullSkinId;
       return this;
     }
@@ -758,7 +758,7 @@ public final class Skin {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder geometryData(@NotNull final String geometryData) {
+    public Builder geometryData(@Nullable final String geometryData) {
       this.geometryData = geometryData;
       return this;
     }
@@ -771,7 +771,7 @@ public final class Skin {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder geometryName(@NotNull final String geometryName) {
+    public Builder geometryName(@Nullable final String geometryName) {
       this.geometryName = geometryName;
       return this;
     }
@@ -836,7 +836,7 @@ public final class Skin {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder skinData(@NotNull final ImageData skinData) {
+    public Builder skinData(@Nullable final ImageData skinData) {
       this.skinData = skinData;
       return this;
     }
@@ -849,7 +849,7 @@ public final class Skin {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder skinId(@NotNull final String skinId) {
+    public Builder skinId(@Nullable final String skinId) {
       this.skinId = skinId;
       return this;
     }
@@ -862,7 +862,7 @@ public final class Skin {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder skinResourcePatch(@NotNull final String skinResourcePatch) {
+    public Builder skinResourcePatch(@Nullable final String skinResourcePatch) {
       this.skinResourcePatch = skinResourcePatch;
       return this;
     }
