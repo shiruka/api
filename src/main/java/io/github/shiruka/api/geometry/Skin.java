@@ -50,7 +50,7 @@ public final class Skin {
 
   /**
    * the single skin size.
-   */
+   */F
   static final int SINGLE_SKIN_SIZE = 64 * 32 * Skin.PIXEL_SIZE;
 
   /**
