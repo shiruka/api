@@ -22,9 +22,34 @@
  * SOFTWARE.
  *
  */
+
+package io.github.shiruka.api.events.player;
+
+import io.github.shiruka.api.entity.Player;
+import io.github.shiruka.api.events.entity.EntityEvent;
+import org.jetbrains.annotations.NotNull;
+
 /**
- * the package that contains abstract classes of all events.
- *
- * @todo Create a package called player with its package-info.java file.
+ * an interface to determine player events.
  */
-package io.github.shiruka.api.event.abs;
+public interface PlayerEvent extends EntityEvent {
+
+  /**
+   * obtains the player.
+   *
+   * @return the player.
+   */
+  @NotNull
+  @Override
+  Player entity();
+
+  /**
+   * obtains the player.
+   *
+   * @return the player.
+   */
+  @NotNull
+  default Player player() {
+    return this.entity();
+  }
+}

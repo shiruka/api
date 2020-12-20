@@ -22,23 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.event.abs;
-
-import io.github.shiruka.api.entity.Entity;
-import io.github.shiruka.api.event.Event;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an interface to determine player events.
+ * the package that contains abstract event classes for entity events.
  */
-public interface EntityEvent extends Event {
-
-  /**
-   * obtains the entity.
-   *
-   * @return the entity.
-   */
-  @NotNull
-  Entity entity();
-}
+package io.github.shiruka.api.events.entity;
