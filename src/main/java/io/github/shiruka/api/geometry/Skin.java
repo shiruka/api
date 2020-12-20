@@ -350,7 +350,8 @@ public final class Skin {
     try {
       final var object = (JSONObject) JSONValue.parse(skinResourcePatch);
       final var geometry = (JSONObject) object.get("geometry");
-      return geometry.containsKey("default") && geometry.get("default") instanceof String;
+      return geometry.containsKey("default") &&
+        geometry.get("default") instanceof String;
     } catch (final ClassCastException | NullPointerException e) {
       return false;
     }
