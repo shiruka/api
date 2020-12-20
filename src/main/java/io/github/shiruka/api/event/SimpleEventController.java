@@ -31,6 +31,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.reflect.TypeToken;
+import io.github.shiruka.api.events.Event;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -59,7 +60,7 @@ public final class SimpleEventController implements EventController {
       event instanceof Cancellable && ((Cancellable) event).cancelled()) {
       return false;
     }
-    return Objects.equals(event.getClass(), subscriber.genericType());
+    return Objects.equals(event.getClass(), subscriber.type());
   }
 
   @Override

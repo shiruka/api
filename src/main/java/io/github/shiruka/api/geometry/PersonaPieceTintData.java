@@ -23,28 +23,57 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.geometry;
+
+import java.util.Collections;
+import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * a class that represents persona piece tint data.
  */
-public interface Cancellable {
+public final class PersonaPieceTintData {
 
   /**
-   * cancels state of the event.
+   * the colors.
    */
-  void cancel();
+  @NotNull
+  private final List<String> colors;
 
   /**
-   * obtains the cancel state of the event.
+   * the type.
+   */
+  @NotNull
+  private final String type;
+
+  /**
+   * ctor.
    *
-   * @return {@code true} if the event has been cancelled.
+   * @param colors the colors.
+   * @param type the type.
    */
-  boolean cancelled();
+  public PersonaPieceTintData(@NotNull final List<String> colors, @NotNull final String type) {
+    this.colors = Collections.unmodifiableList(colors);
+    this.type = type;
+  }
 
   /**
-   * dont cancels state of the event.
+   * obtains the colors.
+   *
+   * @return colors.
    */
-  void dontCancel();
+  @NotNull
+  public List<String> getColors() {
+    return this.colors;
+  }
+
+  /**
+   * obtains the type.
+   *
+   * @return type.
+   */
+  @NotNull
+  public String getType() {
+    return this.type;
+  }
 }

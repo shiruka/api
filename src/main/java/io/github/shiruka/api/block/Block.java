@@ -23,28 +23,13 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.block;
+
+import io.github.shiruka.api.metadata.Metadatable;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * an interface to determine block in Minecraft game.
  */
-public interface Cancellable {
+public interface Block extends Metadatable {
 
-  /**
-   * cancels state of the event.
-   */
-  void cancel();
-
-  /**
-   * obtains the cancel state of the event.
-   *
-   * @return {@code true} if the event has been cancelled.
-   */
-  boolean cancelled();
-
-  /**
-   * dont cancels state of the event.
-   */
-  void dontCancel();
 }

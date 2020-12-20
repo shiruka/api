@@ -23,28 +23,26 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.geometry;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * an enum to determine animated texture types.
  */
-public interface Cancellable {
-
+public enum AnimatedTextureType {
   /**
-   * cancels state of the event.
+   * the none.
    */
-  void cancel();
-
+  NONE,
   /**
-   * obtains the cancel state of the event.
-   *
-   * @return {@code true} if the event has been cancelled.
+   * the face.
    */
-  boolean cancelled();
-
+  FACE,
   /**
-   * dont cancels state of the event.
+   * the body as 32x32.
    */
-  void dontCancel();
+  BODY_32X32,
+  /**
+   * the body as 128x128.
+   */
+  BODY_128X128
 }

@@ -23,28 +23,38 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.event.method;
+
+import io.github.shiruka.api.event.EventController;
+import io.github.shiruka.api.event.Listener;
+import io.github.shiruka.api.events.Event;
+import java.lang.reflect.Method;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * a subscription adapter for {@link EventController} which supports defining event subscribers as methods in a class.
  */
-public interface Cancellable {
+public interface MethodAdapter {
 
   /**
-   * cancels state of the event.
-   */
-  void cancel();
-
-  /**
-   * obtains the cancel state of the event.
+   * calls the event to the event listener/handlers that are registered under the event controller.
    *
-   * @return {@code true} if the event has been cancelled.
+   * @param event the event to dispatch.
    */
-  boolean cancelled();
+  void call(@NotNull Event event);
 
   /**
-   * dont cancels state of the event.
+   * registers all methods determined to be {@link MethodScanner#shouldRegister(Listener, Method)} on the
+   * {@code listener} to receive events.
+   *
+   * @param listener the listener.
    */
-  void dontCancel();
+  void register(@NotNull Listener listener);
+
+  /**
+   * unregisters all methods on a registered {@code listener}.
+   *
+   * @param listener the listener.
+   */
+  void unregister(@NotNull Listener listener);
 }

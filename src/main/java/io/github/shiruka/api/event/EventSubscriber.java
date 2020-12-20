@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.event;
 
+import io.github.shiruka.api.events.Event;
 import java.lang.reflect.Type;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,16 +57,6 @@ public interface EventSubscriber {
   }
 
   /**
-   * gets the generic type of this subscriber, if it is known.
-   *
-   * @return the generic type of the subscriber.
-   */
-  @Nullable
-  default Type genericType() {
-    return null;
-  }
-
-  /**
    * invokes this event subscriber.
    * <p>
    * called by the event bus when a new event is "posted" to this subscriber.
@@ -75,4 +66,14 @@ public interface EventSubscriber {
    * @throws Throwable any exception thrown during handling.
    */
   void invoke(@NotNull Event event) throws Throwable;
+
+  /**
+   * gets the generic type of this subscriber, if it is known.
+   *
+   * @return the generic type of the subscriber.
+   */
+  @Nullable
+  default Type type() {
+    return null;
+  }
 }

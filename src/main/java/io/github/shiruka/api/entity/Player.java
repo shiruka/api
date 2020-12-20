@@ -23,28 +23,28 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.entity;
+
+import io.github.shiruka.api.Server;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * an interface to determine players on the Minecraft.
  */
-public interface Cancellable {
+public interface Player extends Entity {
 
   /**
-   * cancels state of the event.
-   */
-  void cancel();
-
-  /**
-   * obtains the cancel state of the event.
+   * runs when the player disconnected.
    *
-   * @return {@code true} if the event has been cancelled.
+   * @param reason the reason to disconnect.
    */
-  boolean cancelled();
+  void disconnect(@NotNull String reason);
 
   /**
-   * dont cancels state of the event.
+   * obtains the server.
+   *
+   * @return the server.
    */
-  void dontCancel();
+  @NotNull
+  Server getServer();
 }

@@ -50,7 +50,7 @@ final class ImplementationTest {
     @NotNull
     @Override
     public String getServerDescription() {
-      return null;
+      return "null";
     }
 
     @Override
@@ -88,8 +88,8 @@ final class ImplementationTest {
       "Server couldn't set!",
       () -> {
         Implementation.setServer(ImplementationTest.SERVER);
-        return null;
+        return "null";
       },
-      new Throws<>(UnsupportedOperationException.class));
+      new Throws<>(IllegalArgumentException.class));
   }
 }

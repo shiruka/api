@@ -23,28 +23,56 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.metadata;
 
-/**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
- */
-public interface Cancellable {
+import io.github.shiruka.api.plugin.Plugin;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
-  /**
-   * cancels state of the event.
-   */
-  void cancel();
+public final class FixedMetadata implements MetadataValue {
 
-  /**
-   * obtains the cancel state of the event.
-   *
-   * @return {@code true} if the event has been cancelled.
-   */
-  boolean cancelled();
+  @NotNull
+  private final Plugin plugin;
 
-  /**
-   * dont cancels state of the event.
-   */
-  void dontCancel();
+  @NotNull
+  private final Object value;
+
+  public FixedMetadata(@NotNull final Plugin plugin, @NotNull final Object value) {
+    this.plugin = plugin;
+    this.value = value;
+  }
+
+  @NotNull
+  @Override
+  public Optional<Boolean> asBoolean() {
+    return Optional.empty();
+  }
+
+  @NotNull
+  @Override
+  public Optional<Number> asNumber() {
+    return Optional.empty();
+  }
+
+  @NotNull
+  @Override
+  public Optional<String> asString() {
+    return Optional.empty();
+  }
+
+  @Override
+  public void invalidate() {
+  }
+
+  @NotNull
+  @Override
+  public Plugin plugin() {
+    return null;
+  }
+
+  @NotNull
+  @Override
+  public Object value() {
+    return null;
+  }
 }

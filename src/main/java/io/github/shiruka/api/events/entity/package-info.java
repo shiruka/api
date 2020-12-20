@@ -22,12 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.event;
-
 /**
- * this class represents the superinterface of all classes that are events.
+ * the package that contains abstract event classes for entity events.
  */
-public interface Event {
-
-}
+package io.github.shiruka.api.events.entity;

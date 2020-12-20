@@ -25,7 +25,11 @@
 
 package io.github.shiruka.api.event.method;
 
-import io.github.shiruka.api.event.*;
+import io.github.shiruka.api.event.DispatchOrder;
+import io.github.shiruka.api.event.EventExecutor;
+import io.github.shiruka.api.event.EventSubscriber;
+import io.github.shiruka.api.event.Listener;
+import io.github.shiruka.api.events.Event;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -57,21 +61,21 @@ public final class MethodEventSubscriber implements EventSubscriber {
   private final EventExecutor executor;
 
   /**
-   * the generic.
-   */
-  @Nullable
-  private final Type generic;
-
-  /**
    * the include cancelled.
    */
-  private final boolean includeCancelled;
+  private final boolean ignoreCancelled;
 
   /**
    * the listener.
    */
   @NotNull
   private final Listener listener;
+
+  /**
+   * the generic.
+   */
+  @Nullable
+  private final Type type;
 
   /**
    * ctpr.
@@ -81,17 +85,17 @@ public final class MethodEventSubscriber implements EventSubscriber {
    * @param executor the executor.
    * @param listener the listener.
    * @param dispatchOrder the dispatch order.
-   * @param includeCancelled the include cancelled.
+   * @param ignoreCancelled the include cancelled.
    */
   MethodEventSubscriber(@NotNull final Class<? extends Event> eventClass, @NotNull final Method method,
                         @NotNull final EventExecutor executor, @NotNull final Listener listener,
-                        @NotNull final DispatchOrder dispatchOrder, final boolean includeCancelled) {
+                        @NotNull final DispatchOrder dispatchOrder, final boolean ignoreCancelled) {
     this.eventClass = eventClass;
-    this.generic = MethodEventSubscriber.genericType(method.getGenericParameterTypes()[0]);
+    this.type = method.getParameterTypes()[0];
     this.executor = executor;
     this.listener = listener;
     this.dispatchOrder = dispatchOrder;
-    this.includeCancelled = includeCancelled;
+    this.ignoreCancelled = ignoreCancelled;
   }
 
   /**
@@ -112,7 +116,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
 
   @Override
   public boolean consumeCancelledEvents() {
-    return this.includeCancelled;
+    return this.ignoreCancelled;
   }
 
   @Override
@@ -122,8 +126,8 @@ public final class MethodEventSubscriber implements EventSubscriber {
 
   @Nullable
   @Override
-  public Type genericType() {
-    return this.generic;
+  public Type type() {
+    return this.type;
   }
 
   @Override
@@ -133,8 +137,8 @@ public final class MethodEventSubscriber implements EventSubscriber {
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.eventClass, this.generic, this.executor, this.listener, this.dispatchOrder,
-      this.includeCancelled);
+    return Objects.hash(this.eventClass, this.type, this.executor, this.listener, this.dispatchOrder,
+      this.ignoreCancelled);
   }
 
   @Override
@@ -147,11 +151,11 @@ public final class MethodEventSubscriber implements EventSubscriber {
     }
     final var that = (MethodEventSubscriber) obj;
     return Objects.equals(this.eventClass, that.eventClass)
-      && Objects.equals(this.generic, that.generic)
+      && Objects.equals(this.type, that.type)
       && Objects.equals(this.executor, that.executor)
       && Objects.equals(this.listener, that.listener)
       && Objects.equals(this.dispatchOrder, that.dispatchOrder)
-      && Objects.equals(this.includeCancelled, that.includeCancelled);
+      && Objects.equals(this.ignoreCancelled, that.ignoreCancelled);
   }
 
   @Override
@@ -160,8 +164,8 @@ public final class MethodEventSubscriber implements EventSubscriber {
       "dispatchOrder=" + this.dispatchOrder +
       ", event=" + this.eventClass +
       ", executor=" + this.executor +
-      ", generic=" + this.generic +
-      ", includeCancelled=" + this.includeCancelled +
+      ", generic=" + this.type +
+      ", includeCancelled=" + this.ignoreCancelled +
       ", listener=" + this.listener +
       '}';
   }

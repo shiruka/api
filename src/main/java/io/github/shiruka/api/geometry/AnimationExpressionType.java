@@ -23,28 +23,18 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.geometry;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * an enum to determine animation expression types.
  */
-public interface Cancellable {
-
+public enum AnimationExpressionType {
   /**
-   * cancels state of the event.
+   * the linear.
    */
-  void cancel();
-
+  LINEAR,
   /**
-   * obtains the cancel state of the event.
-   *
-   * @return {@code true} if the event has been cancelled.
+   * the blinking.
    */
-  boolean cancelled();
-
-  /**
-   * dont cancels state of the event.
-   */
-  void dontCancel();
+  BLINKING
 }

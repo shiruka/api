@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.event;
 
+import io.github.shiruka.api.events.Event;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;

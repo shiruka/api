@@ -23,28 +23,32 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.events;
+
+import io.github.shiruka.api.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * an interface to determine player events.
  */
-public interface Cancellable {
+public interface PlayerEvent extends EntityEvent {
 
   /**
-   * cancels state of the event.
-   */
-  void cancel();
-
-  /**
-   * obtains the cancel state of the event.
+   * obtains the player.
    *
-   * @return {@code true} if the event has been cancelled.
+   * @return the player.
    */
-  boolean cancelled();
+  @NotNull
+  @Override
+  Player entity();
 
   /**
-   * dont cancels state of the event.
+   * obtains the player.
+   *
+   * @return the player.
    */
-  void dontCancel();
+  @NotNull
+  default Player player() {
+    return this.entity();
+  }
 }

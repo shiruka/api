@@ -26,6 +26,7 @@
 package io.github.shiruka.api.event;
 
 import com.google.common.base.Preconditions;
+import io.github.shiruka.api.events.Event;
 import java.util.Collections;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
@@ -86,21 +87,11 @@ public final class PostResult {
   }
 
   /**
-   * gets the exceptions that were thrown whilst posting the event to subscribers.
-   *
-   * @return the exceptions thrown by subscribers.
-   */
-  @NotNull
-  public Map<EventSubscriber, Throwable> exceptions() {
-    return Collections.unmodifiableMap(this.exceptions);
-  }
-
-  /**
    * raises a {@link CompositeException} if the posting was not {@link #wasSuccessful() successful}.
    *
    * @throws CompositeException if posting was not successful.
    */
-  public void raise() throws CompositeException {
+  public void raise() {
     if (!this.wasSuccessful()) {
       throw new CompositeException(this);
     }
@@ -122,7 +113,7 @@ public final class PostResult {
    *
    * @return if the call was successful.
    */
-  public boolean wasSuccessful() {
+  private boolean wasSuccessful() {
     return this.exceptions.isEmpty();
   }
 
@@ -135,7 +126,7 @@ public final class PostResult {
      * the result.
      */
     @NotNull
-    private final PostResult result;
+    private final transient PostResult result;
 
     /**
      * ctor.
@@ -154,7 +145,7 @@ public final class PostResult {
      */
     public void printAllStackTraces() {
       this.printStackTrace();
-      this.result.exceptions().values()
+      this.result.exceptions.values()
         .forEach(Throwable::printStackTrace);
     }
 

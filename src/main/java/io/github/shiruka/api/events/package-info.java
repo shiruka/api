@@ -22,29 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.event;
-
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * the package that contains abstract classes of all events.
  */
-public interface Cancellable {
-
-  /**
-   * cancels state of the event.
-   */
-  void cancel();
-
-  /**
-   * obtains the cancel state of the event.
-   *
-   * @return {@code true} if the event has been cancelled.
-   */
-  boolean cancelled();
-
-  /**
-   * dont cancels state of the event.
-   */
-  void dontCancel();
-}
+package io.github.shiruka.api.events;

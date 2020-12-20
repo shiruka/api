@@ -23,8 +23,6 @@
  *
  */
 /**
- * the package that contains abstract classes of all events.
- *
- * @todo Create a package called player with its package-info.java file.
+ * the package that contains block classes.
  */
-package io.github.shiruka.api.event.abs;
+package io.github.shiruka.api.block;
