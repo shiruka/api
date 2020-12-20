@@ -60,7 +60,7 @@ public final class SimpleEventController implements EventController {
       event instanceof Cancellable && ((Cancellable) event).cancelled()) {
       return false;
     }
-    return Objects.equals(event.getClass(), subscriber.genericType());
+    return Objects.equals(event.getClass(), subscriber.type());
   }
 
   @Override

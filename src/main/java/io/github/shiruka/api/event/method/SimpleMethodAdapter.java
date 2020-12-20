@@ -61,8 +61,7 @@ public final class SimpleMethodAdapter implements MethodAdapter {
    * @param factory the factory.
    * @param methodScanner the method scanner.
    */
-  public SimpleMethodAdapter(@NotNull final EventController controller,
-                             @NotNull final EventExecutor.Factory factory,
+  public SimpleMethodAdapter(@NotNull final EventController controller, @NotNull final EventExecutor.Factory factory,
                              @NotNull final MethodScanner methodScanner) {
     this.controller = controller;
     this.factory = factory;
@@ -75,8 +74,7 @@ public final class SimpleMethodAdapter implements MethodAdapter {
    * @param controller the event controller.
    * @param factory the factory.
    */
-  public SimpleMethodAdapter(@NotNull final EventController controller,
-                             @NotNull final EventExecutor.Factory factory) {
+  public SimpleMethodAdapter(@NotNull final EventController controller, @NotNull final EventExecutor.Factory factory) {
     this(controller, factory, MethodScanner.createDefault());
   }
 

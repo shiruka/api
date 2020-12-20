@@ -61,12 +61,6 @@ public final class MethodEventSubscriber implements EventSubscriber {
   private final EventExecutor executor;
 
   /**
-   * the generic.
-   */
-  @Nullable
-  private final Type generic;
-
-  /**
    * the include cancelled.
    */
   private final boolean includeCancelled;
@@ -76,6 +70,12 @@ public final class MethodEventSubscriber implements EventSubscriber {
    */
   @NotNull
   private final Listener listener;
+
+  /**
+   * the generic.
+   */
+  @Nullable
+  private final Type type;
 
   /**
    * ctpr.
@@ -91,7 +91,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
                         @NotNull final EventExecutor executor, @NotNull final Listener listener,
                         @NotNull final DispatchOrder dispatchOrder, final boolean includeCancelled) {
     this.eventClass = eventClass;
-    this.generic = MethodEventSubscriber.genericType(method.getGenericParameterTypes()[0]);
+    this.type = method.getParameterTypes()[0];
     this.executor = executor;
     this.listener = listener;
     this.dispatchOrder = dispatchOrder;
@@ -126,8 +126,8 @@ public final class MethodEventSubscriber implements EventSubscriber {
 
   @Nullable
   @Override
-  public Type genericType() {
-    return this.generic;
+  public Type type() {
+    return this.type;
   }
 
   @Override
@@ -137,7 +137,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.eventClass, this.generic, this.executor, this.listener, this.dispatchOrder,
+    return Objects.hash(this.eventClass, this.type, this.executor, this.listener, this.dispatchOrder,
       this.includeCancelled);
   }
 
@@ -151,7 +151,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
     }
     final var that = (MethodEventSubscriber) obj;
     return Objects.equals(this.eventClass, that.eventClass)
-      && Objects.equals(this.generic, that.generic)
+      && Objects.equals(this.type, that.type)
       && Objects.equals(this.executor, that.executor)
       && Objects.equals(this.listener, that.listener)
       && Objects.equals(this.dispatchOrder, that.dispatchOrder)
@@ -164,7 +164,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
       "dispatchOrder=" + this.dispatchOrder +
       ", event=" + this.eventClass +
       ", executor=" + this.executor +
-      ", generic=" + this.generic +
+      ", generic=" + this.type +
       ", includeCancelled=" + this.includeCancelled +
       ", listener=" + this.listener +
       '}';
