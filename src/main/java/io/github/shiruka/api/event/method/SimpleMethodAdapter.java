@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A simple implementation of a method subscription adapter.
  */
-public final class SimpleMethodSubscriptionAdapter implements MethodSubscriptionAdapter {
+public final class SimpleMethodAdapter implements MethodAdapter {
 
   /**
    * the event controller.
@@ -60,9 +60,9 @@ public final class SimpleMethodSubscriptionAdapter implements MethodSubscription
    * @param factory the factory.
    * @param methodScanner the method scanner.
    */
-  public SimpleMethodSubscriptionAdapter(@NotNull final EventController controller,
-                                         @NotNull final EventExecutor.Factory factory,
-                                         @NotNull final MethodScanner methodScanner) {
+  public SimpleMethodAdapter(@NotNull final EventController controller,
+                             @NotNull final EventExecutor.Factory factory,
+                             @NotNull final MethodScanner methodScanner) {
     this.controller = controller;
     this.factory = factory;
     this.methodScanner = methodScanner;
@@ -74,8 +74,8 @@ public final class SimpleMethodSubscriptionAdapter implements MethodSubscription
    * @param controller the event controller.
    * @param factory the factory.
    */
-  public SimpleMethodSubscriptionAdapter(@NotNull final EventController controller,
-                                         @NotNull final EventExecutor.Factory factory) {
+  public SimpleMethodAdapter(@NotNull final EventController controller,
+                             @NotNull final EventExecutor.Factory factory) {
     this(controller, factory, MethodScanner.createDefault());
   }
 
@@ -84,14 +84,14 @@ public final class SimpleMethodSubscriptionAdapter implements MethodSubscription
    *
    * @param factory the factory.
    */
-  public SimpleMethodSubscriptionAdapter(@NotNull final EventExecutor.Factory factory) {
+  public SimpleMethodAdapter(@NotNull final EventExecutor.Factory factory) {
     this(new SimpleEventController(), factory);
   }
 
   /**
    * ctor.
    */
-  public SimpleMethodSubscriptionAdapter() {
+  public SimpleMethodAdapter() {
     this(EventExecutor.createFactory());
   }
 

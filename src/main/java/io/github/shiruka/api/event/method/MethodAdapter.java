@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * a subscription adapter for {@link EventController} which supports defining event subscribers as methods in a class.
  */
-public interface MethodSubscriptionAdapter {
+public interface MethodAdapter {
 
   /**
    * calls the event to the event listener/handlers that are registered under the event controller.
