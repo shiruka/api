@@ -26,6 +26,8 @@
 package io.github.shiruka.api.geometry;
 
 import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.util.Collections;
 import java.util.List;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -205,6 +207,103 @@ public final class Skin {
     this.skinId = skinId;
     this.skinResourcePatch = skinResourcePatch;
     this.tintColors = tintColors;
+  }
+
+  /**
+   * creates a new instance of {@code this}.
+   *
+   * @param capeData the cape data.
+   * @param geometryData the geometry data.
+   * @param geometryName the geometry name.
+   * @param premium the premium.
+   * @param skinData the skin data.
+   * @param skinId the skin id.
+   *
+   * @return a new instance of {@code this}.
+   */
+  @NotNull
+  public static Skin from(@NotNull final ImageData capeData, @NotNull final String geometryData,
+                          @NotNull final String geometryName, final boolean premium, @NotNull final ImageData skinData,
+                          @NotNull final String skinId) {
+    skinData.checkLegacySkinSize();
+    capeData.checkLegacyCapeSize();
+    final var skinResourcePatch = Skin.convertLegacyGeometryName(geometryName);
+    return new Skin("", Collections.emptyList(), "wide", capeData, "", false,
+      "", geometryData, geometryName, false, Collections.emptyList(), premium, "#0",
+      skinData, skinId, skinResourcePatch, Collections.emptyList());
+  }
+
+  /**
+   * creates a new instance of {@code this}.
+   *
+   * @param animationData the animation data.
+   * @param animations the animations.
+   * @param capeData the cape data.
+   * @param capeId the cape id.
+   * @param capeOnClassic the cape on classic.
+   * @param fullSkinId the full skin id.
+   * @param geometryData the geometry data.
+   * @param persona the persona.
+   * @param premium the premium.
+   * @param skinData the skin data.
+   * @param skinId the skin id.
+   * @param skinResourcePatch the skin resource patch.
+   *
+   * @return a new instance of {@code this}.
+   */
+  @NotNull
+  public static Skin from(@NotNull final String animationData,
+                          @NotNull final List<AnimationData> animations,
+                          @NotNull final ImageData capeData,
+                          @NotNull final String capeId,
+                          final boolean capeOnClassic,
+                          @NotNull final String fullSkinId,
+                          @NotNull final String geometryData,
+                          final boolean persona,
+                          final boolean premium,
+                          @NotNull final ImageData skinData,
+                          @NotNull final String skinId,
+                          @NotNull final String skinResourcePatch) {
+    return Skin.from(animationData, Collections.unmodifiableList(new ObjectArrayList<>(animations)), "wide",
+      capeData, capeId, capeOnClassic, fullSkinId, geometryData, persona, Collections.emptyList(),
+      premium, "#0", skinData, skinId, skinResourcePatch, Collections.emptyList());
+  }
+
+  /**
+   * creates a new instance of {@code this}.
+   *
+   * @param animationData the animation data.
+   * @param animations the animations.
+   * @param armSize the arm size.
+   * @param capeData the cape data.
+   * @param capeId the cape id.
+   * @param capeOnClassic the cape on classic.
+   * @param fullSkinId the full skin id.
+   * @param geometryData the geometry data.
+   * @param persona the persona.
+   * @param personaPieces the persona pieces.
+   * @param premium the premium.
+   * @param skinColor the skin color.
+   * @param skinData the skin data.
+   * @param skinId the skin id.
+   * @param skinResourcePatch the skin resource patch.
+   * @param tintColors the tint colors.
+   *
+   * @return a new instance of {@code this}.
+   */
+  @NotNull
+  public static Skin from(@NotNull final String animationData, @NotNull final List<AnimationData> animations,
+                          @NotNull final String armSize, @NotNull final ImageData capeData,
+                          @NotNull final String capeId, final boolean capeOnClassic, @NotNull final String fullSkinId,
+                          @NotNull final String geometryData, final boolean persona,
+                          @NotNull final List<PersonaPieceData> personaPieces, final boolean premium,
+                          @NotNull final String skinColor, @NotNull final ImageData skinData,
+                          @NotNull final String skinId, @NotNull final String skinResourcePatch,
+                          @NotNull final List<PersonaPieceTintData> tintColors) {
+    final var geometryName = Skin.convertSkinPatchToLegacy(skinResourcePatch);
+    return new Skin(animationData, Collections.unmodifiableList(new ObjectArrayList<>(animations)), armSize, capeData,
+      capeId, capeOnClassic, fullSkinId, geometryData, geometryName, persona, personaPieces, premium, skinColor,
+      skinData, skinId, skinResourcePatch, tintColors);
   }
 
   /**

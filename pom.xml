@@ -76,5 +76,11 @@
       <version>2.3</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>it.unimi.dsi</groupId>
+      <artifactId>fastutil</artifactId>
+      <version>8.4.4</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 </project>
