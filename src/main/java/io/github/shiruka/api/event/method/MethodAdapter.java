@@ -25,9 +25,9 @@
 
 package io.github.shiruka.api.event.method;
 
-import io.github.shiruka.api.event.Event;
 import io.github.shiruka.api.event.EventController;
 import io.github.shiruka.api.event.Listener;
+import io.github.shiruka.api.events.Event;
 import java.lang.reflect.Method;
 import org.jetbrains.annotations.NotNull;
 

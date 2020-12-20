@@ -23,11 +23,59 @@
  *
  */
 
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.events.player;
+
+import io.github.shiruka.api.event.Cancellable;
+import io.github.shiruka.api.events.PlayerEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * this class represents the superinterface of all classes that are events.
+ * called when the player logs in, before things have been set up.
  */
-public interface Event {
+public interface PlayerPreLoginEvent extends PlayerEvent, Cancellable {
 
+  /**
+   * obtains the kick message.
+   *
+   * @return kick message.
+   */
+  @Nullable
+  String kickMessage();
+
+  /**
+   * sets the kick message.
+   *
+   * @param message the message to set.
+   */
+  void kickMessage(@Nullable String message);
+
+  /**
+   * obtains the login data.
+   *
+   * @return login data.
+   */
+  @NotNull
+  LoginData loginData();
+
+  /**
+   * an interface to determine chain data.
+   */
+  interface ChainData {
+
+  }
+
+  /**
+   * an interface to determine login data.
+   */
+  interface LoginData {
+
+    /**
+     * obtains the chain data.
+     *
+     * @return chain data.
+     */
+    @NotNull
+    ChainData chainData();
+  }
 }

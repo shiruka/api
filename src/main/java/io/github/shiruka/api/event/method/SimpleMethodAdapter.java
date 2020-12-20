@@ -26,6 +26,7 @@
 package io.github.shiruka.api.event.method;
 
 import io.github.shiruka.api.event.*;
+import io.github.shiruka.api.events.Event;
 import java.util.Arrays;
 import java.util.function.BiConsumer;
 import org.jetbrains.annotations.NotNull;

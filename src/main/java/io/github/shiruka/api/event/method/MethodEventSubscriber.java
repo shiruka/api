@@ -25,7 +25,11 @@
 
 package io.github.shiruka.api.event.method;
 
-import io.github.shiruka.api.event.*;
+import io.github.shiruka.api.event.DispatchOrder;
+import io.github.shiruka.api.event.EventExecutor;
+import io.github.shiruka.api.event.EventSubscriber;
+import io.github.shiruka.api.event.Listener;
+import io.github.shiruka.api.events.Event;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

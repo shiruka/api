@@ -23,22 +23,32 @@
  *
  */
 
-package io.github.shiruka.api.events.entity;
+package io.github.shiruka.api.events;
 
-import io.github.shiruka.api.entity.Entity;
-import io.github.shiruka.api.event.Event;
+import io.github.shiruka.api.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine player events.
  */
-public interface EntityEvent extends Event {
+public interface PlayerEvent extends EntityEvent {
 
   /**
-   * obtains the entity.
+   * obtains the player.
    *
-   * @return the entity.
+   * @return the player.
    */
   @NotNull
-  Entity entity();
+  @Override
+  Player entity();
+
+  /**
+   * obtains the player.
+   *
+   * @return the player.
+   */
+  @NotNull
+  default Player player() {
+    return this.entity();
+  }
 }

@@ -60,14 +60,14 @@ public final class FixedMetadata implements MetadataValue {
     return Optional.empty();
   }
 
+  @Override
+  public void invalidate() {
+  }
+
   @NotNull
   @Override
   public Plugin plugin() {
     return null;
-  }
-
-  @Override
-  public void invalidate() {
   }
 
   @NotNull
