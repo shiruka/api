@@ -68,7 +68,7 @@ final class Implementation {
    * @param server the server to set.
    */
   static void setServer(@NotNull final Server server) {
-    Preconditions.checkArgument(Implementation.server != null,
+    Preconditions.checkArgument(Implementation.server == null,
       "Cannot set the server after it initialized!");
     synchronized (Implementation.LOCK) {
       if (Implementation.server == null) {
