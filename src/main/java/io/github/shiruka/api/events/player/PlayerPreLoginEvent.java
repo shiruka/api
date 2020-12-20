@@ -27,6 +27,8 @@ package io.github.shiruka.api.events.player;
 
 import io.github.shiruka.api.event.Cancellable;
 import io.github.shiruka.api.events.PlayerEvent;
+import io.github.shiruka.api.geometry.Skin;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,6 +65,134 @@ public interface PlayerPreLoginEvent extends PlayerEvent, Cancellable {
    */
   interface ChainData {
 
+    /**
+     * obtains the current input mode.
+     *
+     * @return current input mode.
+     */
+    int currentInputMode();
+
+    /**
+     * obtains the default input mode.
+     *
+     * @return default input mode.
+     */
+    int defaultInputMode();
+
+    /**
+     * obtains the device id.
+     *
+     * @return device id.
+     */
+    @NotNull
+    String deviceId();
+
+    /**
+     * obtains the device model.
+     *
+     * @return device mode.
+     */
+    @NotNull
+    String deviceModel();
+
+    /**
+     * obtains the device OS.
+     *
+     * @return device OS.
+     */
+    int deviceOS();
+
+    /**
+     * obtains the game version.
+     *
+     * @return game version.
+     */
+    @NotNull
+    String gameVersion();
+
+    /**
+     * obtains the gui scale.
+     *
+     * @return gui scale.
+     */
+    int guiScale();
+
+    /**
+     * obtains the id.
+     *
+     * @return id.
+     */
+    long id();
+
+    /**
+     * obtains the language code.
+     *
+     * @return language code.
+     */
+    @NotNull
+    String languageCode();
+
+    /**
+     * obtains the public key.
+     *
+     * @return public key.
+     */
+    @NotNull
+    String publicKey();
+
+    /**
+     * obtains the server address
+     *
+     * @return server address.
+     */
+    @NotNull
+    String serverAddress();
+
+    /**
+     * obtains the skin.
+     *
+     * @return skin.
+     */
+    @NotNull
+    Skin skin();
+
+    /**
+     * obtains the ui profile.
+     *
+     * @return ui profile.
+     */
+    int uiProfile();
+
+    /**
+     * obtains the unique id.
+     *
+     * @return unique id.
+     */
+    @NotNull
+    UUID uniqueId();
+
+    /**
+     * obtains the username.
+     *
+     * @return username.
+     */
+    @NotNull
+    String username();
+
+    /**
+     * obtains the xbox authed.
+     *
+     * @return xbox authed.
+     */
+    boolean xboxAuthed();
+
+    /**
+     * obtains the xuid.
+     *
+     * @return xuid(.
+     */
+    @NotNull
+    String xuid();
   }
 
   /**
