@@ -26,8 +26,8 @@
 package io.github.shiruka.api.metadata;
 
 import io.github.shiruka.api.plugin.Plugin;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine metaadata values.
@@ -39,15 +39,39 @@ public interface MetadataValue {
    *
    * @return the value as a boolean.
    */
-  boolean asBoolean();
+  @NotNull
+  Optional<Boolean> asBoolean();
+
+  /**
+   * attempts to convert the value of this metadata item into a boolean.
+   *
+   * @return the value as a boolean.
+   *
+   * @throws UnsupportedOperationException if the value is not a {@link Boolean}.
+   */
+  default boolean asBooleanOrThrow() {
+    return this.asBoolean().orElseThrow(UnsupportedOperationException::new);
+  }
 
   /**
    * attempts to convert the value of this metadata item into a Number.
    *
    * @return the value as a Number.
    */
-  @Nullable
-  Number asNumber();
+  @NotNull
+  Optional<Number> asNumber();
+
+  /**
+   * attempts to convert the value of this metadata item into a Number.
+   *
+   * @return the value as a Number.
+   *
+   * @throws UnsupportedOperationException if the value is not a {@link Number}.
+   */
+  @NotNull
+  default Number asNumberOrThrow() {
+    return this.asNumber().orElseThrow(UnsupportedOperationException::new);
+  }
 
   /**
    * attempts to convert the value of this metadata item into a string.
@@ -55,7 +79,24 @@ public interface MetadataValue {
    * @return the value as a string.
    */
   @NotNull
-  String asString();
+  Optional<String> asString();
+
+  /**
+   * attempts to convert the value of this metadata item into a string.
+   *
+   * @return the value as a string.
+   *
+   * @throws UnsupportedOperationException if the value is not a {@link String}.
+   */
+  @NotNull
+  default String asStringOrThrow() {
+    return this.asString().orElseThrow(UnsupportedOperationException::new);
+  }
+
+  /**
+   * invalidates this metadata item, forcing it to recompute when next accessed.
+   */
+  void invalidate();
 
   /**
    * returns the {@link Plugin} that created this metadata item.
@@ -63,12 +104,7 @@ public interface MetadataValue {
    * @return the plugin that owns this metadata value. Could be null if the plugin was already unloaded.
    */
   @NotNull
-  Plugin getOwningPlugin();
-
-  /**
-   * invalidates this metadata item, forcing it to recompute when next accessed.
-   */
-  void invalidate();
+  Plugin plugin();
 
   /**
    * fetches the value of this metadata item.

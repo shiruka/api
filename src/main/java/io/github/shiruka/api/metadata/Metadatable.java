@@ -27,6 +27,7 @@ package io.github.shiruka.api.metadata;
 
 import io.github.shiruka.api.plugin.Plugin;
 import java.util.List;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -35,41 +36,71 @@ import org.jetbrains.annotations.NotNull;
 public interface Metadatable {
 
   /**
-   * returns a list of previously set metadata values from the implementing object's metadata store.
+   * finds first the metadata values from the implementing object's metadata store.
    *
-   * @param metadataKey the unique metadata key being sought.
+   * @param key the key to get.
    *
-   * @return A list of values, one for each plugin that has set the requested value.
+   * @return the first requested metadata value for the key.
+   *
+   * @see #getMetadata(String)
    */
   @NotNull
-  List<MetadataValue> getMetadata(@NotNull String metadataKey);
+  default Optional<MetadataValue> getFirstMetadata(@NotNull final String key) {
+    return Optional.of(this.getMetadata(key))
+      .filter(values -> !values.isEmpty())
+      .map(values -> values.get(0));
+  }
+
+  /**
+   * returns a list of previously set metadata values from the implementing object's metadata store.
+   *
+   * @param key the key to get.
+   *
+   * @return a list of values, one for each plugin that has set the requested value.
+   */
+  @NotNull
+  List<MetadataValue> getMetadata(@NotNull String key);
 
   /**
    * tests to see whether the implementing object contains the given metadata value in its metadata store.
    *
-   * @param metadataKey the unique metadata key being queried.
+   * @param key the key to check.
    *
    * @return the existence of the metadataKey within subject.
    */
-  boolean hasMetadata(@NotNull String metadataKey);
+  boolean hasMetadata(@NotNull String key);
+
+  /**
+   * removes all the given metadata value from the implementing object's metadata store.
+   *
+   * @param key the key to remove.
+   */
+  void removeAllMetadata(@NotNull String key);
 
   /**
    * removes the given metadata value from the implementing object's metadata store.
    *
-   * @param metadataKey the unique metadata key identifying the metadata to remove.
-   * @param owningPlugin this plugin's metadata value will be removed. all other values will be left untouched.
-   *
-   * @throws IllegalArgumentException if plugin is null
+   * @param key the key to remove.
+   * @param plugin the value to remove.
    */
-  void removeMetadata(@NotNull String metadataKey, @NotNull Plugin owningPlugin);
+  void removeMetadata(@NotNull String key, @NotNull Plugin plugin);
+
+  /**
+   * sets a fixed metadata value in the implementing object's metadata store.
+   *
+   * @param key the key to set.
+   * @param plugin the plugin to set.
+   * @param value the value to set.
+   */
+  default void setFixedMetadata(@NotNull final String key, @NotNull final Plugin plugin, @NotNull final Object value) {
+    this.setMetadata(key, new FixedMetadata(plugin, value));
+  }
 
   /**
    * sets a metadata value in the implementing object's metadata store.
    *
-   * @param metadataKey a unique key to identify this metadata.
-   * @param newMetadataValue the metadata value to apply.
-   *
-   * @throws IllegalArgumentException if value is null, or the owning plugin is null
+   * @param key the key to set.
+   * @param value the value to set.
    */
-  void setMetadata(@NotNull String metadataKey, @NotNull MetadataValue newMetadataValue);
+  void setMetadata(@NotNull String key, @NotNull MetadataValue value);
 }
