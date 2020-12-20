@@ -26,6 +26,7 @@
 package io.github.shiruka.api.events;
 
 import io.github.shiruka.api.event.Listener;
+import io.github.shiruka.api.events.player.PlayerAsyncLoginEvent;
 import io.github.shiruka.api.events.player.PlayerPreLoginEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,15 +44,14 @@ public interface EventFactory {
   void call(@NotNull Event event);
 
   /**
-   * creates a new {@link PlayerPreLoginEvent} instance.
+   * creates a new {@link PlayerAsyncLoginEvent} instance.
    *
    * @param loginData the login data to create.
-   * @param kickMessage the kick message to create.
    *
-   * @return a new instance of {@link PlayerPreLoginEvent}.
+   * @return a new instance of {@link PlayerAsyncLoginEvent}.
    */
   @NotNull
-  PlayerPreLoginEvent playerPreLogin(@NotNull PlayerPreLoginEvent.LoginData loginData, @Nullable String kickMessage);
+  PlayerAsyncLoginEvent playerAsyncLogin(@NotNull LoginDataEvent.LoginData loginData);
 
   /**
    * creates a new {@link PlayerPreLoginEvent} instance.
@@ -61,9 +61,20 @@ public interface EventFactory {
    * @return a new instance of {@link PlayerPreLoginEvent}.
    */
   @NotNull
-  default PlayerPreLoginEvent playerPreLogin(@NotNull final PlayerPreLoginEvent.LoginData loginData) {
+  default PlayerPreLoginEvent playerPreLogin(@NotNull final LoginDataEvent.LoginData loginData) {
     return this.playerPreLogin(loginData, null);
   }
+
+  /**
+   * creates a new {@link PlayerPreLoginEvent} instance.
+   *
+   * @param loginData the login data to create.
+   * @param kickMessage the kick message to create.
+   *
+   * @return a new instance of {@link PlayerPreLoginEvent}.
+   */
+  @NotNull
+  PlayerPreLoginEvent playerPreLogin(@NotNull LoginDataEvent.LoginData loginData, @Nullable String kickMessage);
 
   /**
    * registers the given listener.
