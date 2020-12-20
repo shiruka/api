@@ -90,6 +90,6 @@ final class ImplementationTest {
         Implementation.setServer(ImplementationTest.SERVER);
         return null;
       },
-      new Throws<>(UnsupportedOperationException.class));
+      new Throws<>(IllegalArgumentException.class));
   }
 }
