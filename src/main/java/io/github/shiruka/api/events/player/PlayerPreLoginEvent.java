@@ -26,7 +26,7 @@
 package io.github.shiruka.api.events.player;
 
 import io.github.shiruka.api.event.Cancellable;
-import io.github.shiruka.api.events.PlayerEvent;
+import io.github.shiruka.api.events.Event;
 import io.github.shiruka.api.geometry.Skin;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * called when the player logs in, before things have been set up.
  */
-public interface PlayerPreLoginEvent extends PlayerEvent, Cancellable {
+public interface PlayerPreLoginEvent extends Event, Cancellable {
 
   /**
    * obtains the kick message.
