@@ -45,7 +45,7 @@ public final class TestYamlConfig extends YamlConfig {
   private final CpBoolean boolTest = Paths.booleanPath("bool-test", true);
 
   public TestYamlConfig() {
-    super(new File("test", "test.yaml"));
+    super(new File("target/testconfig", "test.yaml"));
   }
 
   @NotNull
