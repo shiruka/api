@@ -191,7 +191,7 @@ public final class Skin {
                @NotNull final String skinColor, @NotNull final ImageData skinData, @NotNull final String skinId,
                @NotNull final String skinResourcePatch, @NotNull final List<PersonaPieceTintData> tintColors) {
     this.animationData = animationData;
-    this.animations = animations;
+    this.animations = Collections.unmodifiableList(animations);
     this.armSize = armSize;
     this.capeData = capeData;
     this.capeId = capeId;
@@ -200,13 +200,13 @@ public final class Skin {
     this.geometryData = geometryData;
     this.geometryName = geometryName;
     this.persona = persona;
-    this.personaPieces = personaPieces;
+    this.personaPieces = Collections.unmodifiableList(personaPieces);
     this.premium = premium;
     this.skinColor = skinColor;
     this.skinData = skinData;
     this.skinId = skinId;
     this.skinResourcePatch = skinResourcePatch;
-    this.tintColors = tintColors;
+    this.tintColors = Collections.unmodifiableList(tintColors);
   }
 
   /**
@@ -320,7 +320,8 @@ public final class Skin {
    */
   @NotNull
   private static String convertSkinPatchToLegacy(@NotNull final String skinResourcePatch) {
-    Preconditions.checkArgument(Skin.validateSkinResourcePatch(skinResourcePatch), "Invalid skin resource patch");
+    Preconditions.checkArgument(Skin.validateSkinResourcePatch(skinResourcePatch),
+      "Invalid skin resource patch");
     final var object = (JSONObject) JSONValue.parse(skinResourcePatch);
     final var geometry = (JSONObject) object.get("geometry");
     return (String) geometry.get("default");
@@ -341,6 +342,173 @@ public final class Skin {
     } catch (final ClassCastException | NullPointerException e) {
       return false;
     }
+  }
+
+  /**
+   * obtains the animation data.
+   *
+   * @return animation data.
+   */
+  @NotNull
+  public String getAnimationData() {
+    return this.animationData;
+  }
+
+  /**
+   * obtains the animations.
+   *
+   * @return animations.
+   */
+  @NotNull
+  public List<AnimationData> getAnimations() {
+    return this.animations;
+  }
+
+  /**
+   * obtains the arm size.
+   *
+   * @return arm size.
+   */
+  @NotNull
+  public String getArmSize() {
+    return this.armSize;
+  }
+
+  /**
+   * obtains the cape data.
+   *
+   * @return cape data.
+   */
+  @NotNull
+  public ImageData getCapeData() {
+    return this.capeData;
+  }
+
+  /**
+   * obtains the cape id.
+   *
+   * @return cape id.
+   */
+  @NotNull
+  public String getCapeId() {
+    return this.capeId;
+  }
+
+  /**
+   * obtains the full skin id.
+   *
+   * @return full skin id.
+   */
+  @NotNull
+  public String getFullSkinId() {
+    return this.fullSkinId;
+  }
+
+  /**
+   * obtains the geometry data.
+   *
+   * @return geometry data.
+   */
+  @NotNull
+  public String getGeometryData() {
+    return this.geometryData;
+  }
+
+  /**
+   * obtains the geometry name.
+   *
+   * @return geometry name.
+   */
+  @NotNull
+  public String getGeometryName() {
+    return this.geometryName;
+  }
+
+  /**
+   * obtains the persona pieces.
+   *
+   * @return persona pieces.
+   */
+  @NotNull
+  public List<PersonaPieceData> getPersonaPieces() {
+    return this.personaPieces;
+  }
+
+  /**
+   * obtains the skin color.
+   *
+   * @return skin color.
+   */
+  @NotNull
+  public String getSkinColor() {
+    return this.skinColor;
+  }
+
+  /**
+   * obtains the skin data.
+   *
+   * @return skin data.
+   */
+  @NotNull
+  public ImageData getSkinData() {
+    return this.skinData;
+  }
+
+  /**
+   * obtains the skin id.
+   *
+   * @return skin id.
+   */
+  @NotNull
+  public String getSkinId() {
+    return this.skinId;
+  }
+
+  /**
+   * obtains the skin resource patch.
+   *
+   * @return skin resource patch.
+   */
+  @NotNull
+  public String getSkinResourcePatch() {
+    return this.skinResourcePatch;
+  }
+
+  /**
+   * obtains the tint colors.
+   *
+   * @return tint colors.
+   */
+  @NotNull
+  public List<PersonaPieceTintData> getTintColors() {
+    return this.tintColors;
+  }
+
+  /**
+   * obtains the cape on classic.
+   *
+   * @return cape on classic.
+   */
+  public boolean isCapeOnClassic() {
+    return this.capeOnClassic;
+  }
+
+  /**
+   * obtains the the persona.
+   *
+   * @return persona.
+   */
+  public boolean isPersona() {
+    return this.persona;
+  }
+
+  /**
+   * obtains the premium.
+   *
+   * @return premium.
+   */
+  public boolean isPremium() {
+    return this.premium;
   }
 
   /**
