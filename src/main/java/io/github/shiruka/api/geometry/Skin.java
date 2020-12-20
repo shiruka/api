@@ -252,17 +252,10 @@ public final class Skin {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  public static Skin from(@NotNull final String animationData,
-                          @NotNull final List<AnimationData> animations,
-                          @NotNull final ImageData capeData,
-                          @NotNull final String capeId,
-                          final boolean capeOnClassic,
-                          @NotNull final String fullSkinId,
-                          @NotNull final String geometryData,
-                          final boolean persona,
-                          final boolean premium,
-                          @NotNull final ImageData skinData,
-                          @NotNull final String skinId,
+  public static Skin from(@NotNull final String animationData, @NotNull final List<AnimationData> animations,
+                          @NotNull final ImageData capeData, @NotNull final String capeId, final boolean capeOnClassic,
+                          @NotNull final String fullSkinId, @NotNull final String geometryData, final boolean persona,
+                          final boolean premium, @NotNull final ImageData skinData, @NotNull final String skinId,
                           @NotNull final String skinResourcePatch) {
     return Skin.from(animationData, Collections.unmodifiableList(new ObjectArrayList<>(animations)), "wide",
       capeData, capeId, capeOnClassic, fullSkinId, geometryData, persona, Collections.emptyList(),
