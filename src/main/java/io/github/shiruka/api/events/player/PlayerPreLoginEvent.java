@@ -26,26 +26,12 @@
 package io.github.shiruka.api.events.player;
 
 import io.github.shiruka.api.event.Cancellable;
+import io.github.shiruka.api.events.KickEvent;
 import io.github.shiruka.api.events.LoginDataEvent;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * called when the player logs in, before things have been set up.
  */
-public interface PlayerPreLoginEvent extends LoginDataEvent, Cancellable {
+public interface PlayerPreLoginEvent extends LoginDataEvent, KickEvent, Cancellable {
 
-  /**
-   * obtains the kick message.
-   *
-   * @return kick message.
-   */
-  @Nullable
-  String kickMessage();
-
-  /**
-   * sets the kick message.
-   *
-   * @param message the message to set.
-   */
-  void kickMessage(@Nullable String message);
 }

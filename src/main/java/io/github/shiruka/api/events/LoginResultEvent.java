@@ -23,36 +23,40 @@
  *
  */
 
-package io.github.shiruka.api.events.player;
-
-import io.github.shiruka.api.entity.Player;
-import io.github.shiruka.api.events.KickEvent;
-import io.github.shiruka.api.events.LoginDataEvent;
-import io.github.shiruka.api.events.LoginResultEvent;
-import io.github.shiruka.api.events.ObjectListEvent;
-import java.util.function.Consumer;
-import org.jetbrains.annotations.Nullable;
+package io.github.shiruka.api.events;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine player's async login events.
+ * an interface to determine login result events
  */
-public interface PlayerAsyncLoginEvent extends LoginDataEvent, KickEvent, LoginResultEvent,
-  ObjectListEvent<Consumer<Player>> {
+public interface LoginResultEvent {
 
   /**
-   * allows the player to join.
-   */
-  default void allow() {
-    this.loginResult(LoginResult.SUCCESS);
-  }
-
-  /**
-   * kicks the player with the given kick message.
+   * obtains the login result.
    *
-   * @param message the message to kick.
+   * @return login result.
    */
-  default void disAllow(@Nullable final String message) {
-    this.loginResult(LoginResult.KICK);
-    this.kickMessage(message);
+  @NotNull
+  LoginResult loginResult();
+
+  /**
+   * sets the login result.
+   *
+   * @param result the result to set.
+   */
+  void loginResult(@NotNull LoginResult result);
+
+  /**
+   * an enum class to determine login result.
+   */
+  enum LoginResult {
+    /**
+     * to login successfully.
+     */
+    SUCCESS,
+    /**
+     * to kick player.
+     */
+    KICK
   }
 }
