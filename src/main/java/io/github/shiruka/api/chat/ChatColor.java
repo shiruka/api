@@ -24,6 +24,7 @@
  */
 package io.github.shiruka.api.chat;
 
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 
@@ -131,6 +132,16 @@ public enum ChatColor {
   public static final char ESCAPE = '\u00A7';
 
   /**
+   * the clean pattern.
+   */
+  private static final Pattern CLEAN_PATTERN = Pattern.compile("(?i)" + ChatColor.ESCAPE + "[0-9A-GK-OR]");
+
+  /**
+   * an empty string that helps in {@link this#clean(String, boolean)} method to clean strings.
+   */
+  private static final String EMPTY_STRING = "";
+
+  /**
    * {@code this}'s values as cache.
    */
   private static final ChatColor[] VALUES = ChatColor.values();
@@ -147,6 +158,35 @@ public enum ChatColor {
    */
   ChatColor(final char colorChar) {
     this.colorChar = colorChar;
+  }
+
+  /**
+   * cleans the given message of all format codes.
+   *
+   * @param input the input to clean.
+   *
+   * @return a copy of the input string, without any formatting.
+   */
+  @NotNull
+  public static String clean(@NotNull final String input) {
+    return ChatColor.clean(input, false);
+  }
+
+  /**
+   * cleans the given message of all format codes.
+   *
+   * @param input the input to clean.
+   * @param recursive the recursive to clean.
+   *
+   * @return a copy of the input string, without any formatting.
+   */
+  @NotNull
+  public static String clean(@NotNull final String input, final boolean recursive) {
+    final var result = ChatColor.CLEAN_PATTERN.matcher(input).replaceAll(ChatColor.EMPTY_STRING);
+    if (recursive && ChatColor.CLEAN_PATTERN.matcher(result).find()) {
+      return ChatColor.clean(result, true);
+    }
+    return result;
   }
 
   /**
