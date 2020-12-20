@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.events;
 
+import io.github.shiruka.api.event.Listener;
 import io.github.shiruka.api.events.player.PlayerPreLoginEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,6 +34,13 @@ import org.jetbrains.annotations.Nullable;
  * an interface to determine event factory that helps to create and call events.
  */
 public interface EventFactory {
+
+  /**
+   * calls the given event.
+   *
+   * @param event the event to call.
+   */
+  void call(@NotNull Event event);
 
   /**
    * creates a new {@link PlayerPreLoginEvent} instance.
@@ -56,4 +64,18 @@ public interface EventFactory {
   default PlayerPreLoginEvent playerPreLogin(@NotNull final PlayerPreLoginEvent.LoginData loginData) {
     return this.playerPreLogin(loginData, null);
   }
+
+  /**
+   * registers the given listener.
+   *
+   * @param listener the listener to register.
+   */
+  void register(@NotNull Listener listener);
+
+  /**
+   * unregisters the given listener.
+   *
+   * @param listener the listener to unregister.
+   */
+  void unregister(@NotNull Listener listener);
 }
