@@ -605,8 +605,8 @@ public final class Skin {
     /**
      * the persona pieces.
      */
-    @Nullable
-    private List<PersonaPieceData> personaPieces;
+    @NotNull
+    private List<PersonaPieceData> personaPieces = Collections.emptyList();
 
     /**
      * the premium.
@@ -693,8 +693,9 @@ public final class Skin {
         this.fullSkinId = this.skinId + this.capeId;
       }
       final var skinOrGeometry = Objects.requireNonNullElseGet(this.skinResourcePatch, () -> this.geometryName);
-      return Skin.from(this.animationData, this.animations, this.capeData, this.capeId, this.capeOnClassic,
-        this.fullSkinId, this.geometryData, this.persona, this.premium, this.skinData, this.skinId, skinOrGeometry);
+      return Skin.from(this.animationData, this.animations, this.armSize, this.capeData, this.capeId,
+        this.capeOnClassic, this.fullSkinId, this.geometryData, this.persona, this.personaPieces, this.premium,
+        this.skinColor, this.skinData, this.skinId, skinOrGeometry, this.tintColors);
     }
 
     /**
