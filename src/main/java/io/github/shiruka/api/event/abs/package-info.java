@@ -24,5 +24,7 @@
  */
 /**
  * the package that contains abstract classes of all events.
+ *
+ * @todo Create a package called player with its package-info.java file.
  */
 package io.github.shiruka.api.event.abs;
