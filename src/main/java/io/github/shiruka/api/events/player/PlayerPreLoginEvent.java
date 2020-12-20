@@ -189,7 +189,7 @@ public interface PlayerPreLoginEvent extends PlayerEvent, Cancellable {
     /**
      * obtains the xuid.
      *
-     * @return xuid(.
+     * @return xuid.
      */
     @NotNull
     String xuid();
