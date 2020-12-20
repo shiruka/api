@@ -88,7 +88,7 @@ final class ImplementationTest {
       "Server couldn't set!",
       () -> {
         Implementation.setServer(ImplementationTest.SERVER);
-        return null;
+        return "null";
       },
       new Throws<>(IllegalArgumentException.class));
   }
