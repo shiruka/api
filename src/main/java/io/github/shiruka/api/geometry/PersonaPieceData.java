@@ -28,7 +28,7 @@ package io.github.shiruka.api.geometry;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents person piece data.
+ * a class that represents persona piece data.
  */
 public final class PersonaPieceData {
 

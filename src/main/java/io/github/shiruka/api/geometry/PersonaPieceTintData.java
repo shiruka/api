@@ -30,7 +30,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents person piece tint data.
+ * a class that represents persona piece tint data.
  */
 public final class PersonaPieceTintData {
 

@@ -29,9 +29,11 @@ import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents skins.
@@ -72,7 +74,7 @@ public final class Skin {
   /**
    * the animations.
    */
-  @NotNull
+  @Nullable
   private final List<AnimationData> animations;
 
   /**
@@ -107,7 +109,7 @@ public final class Skin {
   /**
    * the geometry data.
    */
-  @NotNull
+  @Nullable
   private final String geometryData;
 
   /**
@@ -141,13 +143,13 @@ public final class Skin {
   /**
    * the skin data.
    */
-  @NotNull
+  @Nullable
   private final ImageData skinData;
 
   /**
    * the skin id.
    */
-  @NotNull
+  @Nullable
   private final String skinId;
 
   /**
@@ -185,10 +187,10 @@ public final class Skin {
    */
   private Skin(@NotNull final String animationData, @NotNull final List<AnimationData> animations,
                @NotNull final String armSize, @NotNull final ImageData capeData, @NotNull final String capeId,
-               final boolean capeOnClassic, @NotNull final String fullSkinId, @NotNull final String geometryData,
+               final boolean capeOnClassic, @NotNull final String fullSkinId, @Nullable final String geometryData,
                @NotNull final String geometryName, final boolean persona,
                @NotNull final List<PersonaPieceData> personaPieces, final boolean premium,
-               @NotNull final String skinColor, @NotNull final ImageData skinData, @NotNull final String skinId,
+               @NotNull final String skinColor, @Nullable final ImageData skinData, @Nullable final String skinId,
                @NotNull final String skinResourcePatch, @NotNull final List<PersonaPieceTintData> tintColors) {
     this.animationData = animationData;
     this.animations = Collections.unmodifiableList(animations);
@@ -210,27 +212,13 @@ public final class Skin {
   }
 
   /**
-   * creates a new instance of {@code this}.
+   * creates a new {@link Builder} instance.
    *
-   * @param capeData the cape data.
-   * @param geometryData the geometry data.
-   * @param geometryName the geometry name.
-   * @param premium the premium.
-   * @param skinData the skin data.
-   * @param skinId the skin id.
-   *
-   * @return a new instance of {@code this}.
+   * @return a new builder instance.
    */
   @NotNull
-  public static Skin from(@NotNull final ImageData capeData, @NotNull final String geometryData,
-                          @NotNull final String geometryName, final boolean premium, @NotNull final ImageData skinData,
-                          @NotNull final String skinId) {
-    skinData.checkLegacySkinSize();
-    capeData.checkLegacyCapeSize();
-    final var skinResourcePatch = Skin.convertLegacyGeometryName(geometryName);
-    return new Skin("", Collections.emptyList(), "wide", capeData, "", false,
-      "", geometryData, geometryName, false, Collections.emptyList(), premium, "#0",
-      skinData, skinId, skinResourcePatch, Collections.emptyList());
+  public static Builder builder() {
+    return new Builder();
   }
 
   /**
@@ -254,8 +242,8 @@ public final class Skin {
   @NotNull
   public static Skin from(@NotNull final String animationData, @NotNull final List<AnimationData> animations,
                           @NotNull final ImageData capeData, @NotNull final String capeId, final boolean capeOnClassic,
-                          @NotNull final String fullSkinId, @NotNull final String geometryData, final boolean persona,
-                          final boolean premium, @NotNull final ImageData skinData, @NotNull final String skinId,
+                          @NotNull final String fullSkinId, @Nullable final String geometryData, final boolean persona,
+                          final boolean premium, @Nullable final ImageData skinData, @Nullable final String skinId,
                           @NotNull final String skinResourcePatch) {
     return Skin.from(animationData, Collections.unmodifiableList(new ObjectArrayList<>(animations)), "wide",
       capeData, capeId, capeOnClassic, fullSkinId, geometryData, persona, Collections.emptyList(),
@@ -288,15 +276,39 @@ public final class Skin {
   public static Skin from(@NotNull final String animationData, @NotNull final List<AnimationData> animations,
                           @NotNull final String armSize, @NotNull final ImageData capeData,
                           @NotNull final String capeId, final boolean capeOnClassic, @NotNull final String fullSkinId,
-                          @NotNull final String geometryData, final boolean persona,
+                          @Nullable final String geometryData, final boolean persona,
                           @NotNull final List<PersonaPieceData> personaPieces, final boolean premium,
-                          @NotNull final String skinColor, @NotNull final ImageData skinData,
-                          @NotNull final String skinId, @NotNull final String skinResourcePatch,
+                          @NotNull final String skinColor, @Nullable final ImageData skinData,
+                          @Nullable final String skinId, @NotNull final String skinResourcePatch,
                           @NotNull final List<PersonaPieceTintData> tintColors) {
     final var geometryName = Skin.convertSkinPatchToLegacy(skinResourcePatch);
     return new Skin(animationData, Collections.unmodifiableList(new ObjectArrayList<>(animations)), armSize, capeData,
       capeId, capeOnClassic, fullSkinId, geometryData, geometryName, persona, personaPieces, premium, skinColor,
       skinData, skinId, skinResourcePatch, tintColors);
+  }
+
+  /**
+   * creates a new instance of {@code this}.
+   *
+   * @param capeData the cape data.
+   * @param geometryData the geometry data.
+   * @param geometryName the geometry name.
+   * @param premium the premium.
+   * @param skinData the skin data.
+   * @param skinId the skin id.
+   *
+   * @return a new instance of {@code this}.
+   */
+  @NotNull
+  public static Skin from(@NotNull final ImageData capeData, @NotNull final String geometryData,
+                          @NotNull final String geometryName, final boolean premium, @NotNull final ImageData skinData,
+                          @NotNull final String skinId) {
+    skinData.checkLegacySkinSize();
+    capeData.checkLegacyCapeSize();
+    final var skinResourcePatch = Skin.convertLegacyGeometryName(geometryName);
+    return new Skin("", Collections.emptyList(), "wide", capeData, "", false,
+      "", geometryData, geometryName, false, Collections.emptyList(), premium, "#0",
+      skinData, skinId, skinResourcePatch, Collections.emptyList());
   }
 
   /**
@@ -359,7 +371,7 @@ public final class Skin {
    *
    * @return animations.
    */
-  @NotNull
+  @Nullable
   public List<AnimationData> getAnimations() {
     return this.animations;
   }
@@ -409,7 +421,7 @@ public final class Skin {
    *
    * @return geometry data.
    */
-  @NotNull
+  @Nullable
   public String getGeometryData() {
     return this.geometryData;
   }
@@ -449,7 +461,7 @@ public final class Skin {
    *
    * @return skin data.
    */
-  @NotNull
+  @Nullable
   public ImageData getSkinData() {
     return this.skinData;
   }
@@ -459,7 +471,7 @@ public final class Skin {
    *
    * @return skin id.
    */
-  @NotNull
+  @Nullable
   public String getSkinId() {
     return this.skinId;
   }
@@ -517,11 +529,353 @@ public final class Skin {
    * @return {@code true} if the skin is valid.
    */
   public boolean isValid() {
-    final var isSkinValid = !this.skinId.trim().isEmpty() &&
+    final var isSkinValid = this.skinId != null &&
+      !this.skinId.trim().isEmpty() &&
+      this.skinData != null &&
       this.skinData.getWidth() >= 64 &&
       this.skinData.getHeight() >= 32 &&
       this.skinData.getImage().length >= Skin.SINGLE_SKIN_SIZE;
     final var isSkinResourceValid = Skin.validateSkinResourcePatch(this.skinResourcePatch);
     return isSkinValid && isSkinResourceValid;
+  }
+
+  /**
+   * a builder class that helps to create a new {@link Skin} instance.
+   */
+  private static final class Builder {
+
+    /**
+     * the animation data.
+     */
+    @NotNull
+    private String animationData = "";
+
+    /**
+     * the animations.
+     */
+    @NotNull
+    private List<AnimationData> animations = Collections.emptyList();
+
+    /**
+     * the arm size.
+     */
+    @NotNull
+    private String armSize = "wide";
+
+    /**
+     * the cape data.
+     */
+    @NotNull
+    private ImageData capeData = ImageData.empty();
+
+    /**
+     * the cape id.
+     */
+    @NotNull
+    private String capeId = "";
+
+    /**
+     * the cape on classic.
+     */
+    private boolean capeOnClassic;
+
+    /**
+     * the full skin id.
+     */
+    @Nullable
+    private String fullSkinId;
+
+    /**
+     * the geometry data.
+     */
+    @Nullable
+    private String geometryData;
+
+    /**
+     * the geometry names..
+     */
+    @Nullable
+    private String geometryName;
+
+    /**
+     * the persona.
+     */
+    private boolean persona;
+
+    /**
+     * the persona pieces.
+     */
+    @Nullable
+    private List<PersonaPieceData> personaPieces;
+
+    /**
+     * the premium.
+     */
+    private boolean premium;
+
+    /**
+     * the skin color.
+     */
+    @NotNull
+    private String skinColor = "#0";
+
+    /**
+     * the skin data.
+     */
+    @Nullable
+    private ImageData skinData;
+
+    /**
+     * the skin id.
+     */
+    @Nullable
+    private String skinId;
+
+    /**
+     * the skin resource patch.
+     */
+    @Nullable
+    private String skinResourcePatch;
+
+    /**
+     * the tint colors.
+     */
+    @NotNull
+    private List<PersonaPieceTintData> tintColors = Collections.emptyList();
+
+    /**
+     * sets the given animationData.
+     *
+     * @param animationData the animationData to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder animationData(@NotNull final String animationData) {
+      this.animationData = animationData;
+      return this;
+    }
+
+    /**
+     * sets the given animations.
+     *
+     * @param animations the animations to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder animations(@NotNull final List<AnimationData> animations) {
+      this.animations = Collections.unmodifiableList(animations);
+      return this;
+    }
+
+    /**
+     * sets the given armSize.
+     *
+     * @param armSize the armSize to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder armSize(@NotNull final String armSize) {
+      this.armSize = armSize;
+      return this;
+    }
+
+    /**
+     * builds and return a new instance of {@link Skin}.
+     *
+     * @return a new instance of skin.
+     */
+    @NotNull
+    public Skin build() {
+      if (this.fullSkinId == null) {
+        this.fullSkinId = this.skinId + this.capeId;
+      }
+      final var skinOrGeometry = Objects.requireNonNullElseGet(this.skinResourcePatch, () -> this.geometryName);
+      return Skin.from(this.animationData, this.animations, this.capeData, this.capeId, this.capeOnClassic,
+        this.fullSkinId, this.geometryData, this.persona, this.premium, this.skinData, this.skinId, skinOrGeometry);
+    }
+
+    /**
+     * sets the given capeData.
+     *
+     * @param capeData the capeData to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder capeData(@NotNull final ImageData capeData) {
+      this.capeData = capeData;
+      return this;
+    }
+
+    /**
+     * sets the given capeId.
+     *
+     * @param capeId the capeId to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder capeId(@NotNull final String capeId) {
+      this.capeId = capeId;
+      return this;
+    }
+
+    /**
+     * sets the given capeOnClassic.
+     *
+     * @param capeOnClassic the capeOnClassic to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder capeOnClassic(final boolean capeOnClassic) {
+      this.capeOnClassic = capeOnClassic;
+      return this;
+    }
+
+    /**
+     * sets the given fullSkinId.
+     *
+     * @param fullSkinId the fullSkinId to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder fullSkinId(@NotNull final String fullSkinId) {
+      this.fullSkinId = fullSkinId;
+      return this;
+    }
+
+    /**
+     * sets the given geometryData.
+     *
+     * @param geometryData the geometryData to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder geometryData(@NotNull final String geometryData) {
+      this.geometryData = geometryData;
+      return this;
+    }
+
+    /**
+     * sets the given geometryName.
+     *
+     * @param geometryName the geometryName to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder geometryName(@NotNull final String geometryName) {
+      this.geometryName = geometryName;
+      return this;
+    }
+
+    /**
+     * sets the given persona.
+     *
+     * @param persona the persona to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder persona(final boolean persona) {
+      this.persona = persona;
+      return this;
+    }
+
+    /**
+     * sets the given personaPieces.
+     *
+     * @param personaPieces the personaPieces to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder personaPieces(@NotNull final List<PersonaPieceData> personaPieces) {
+      this.personaPieces = Collections.unmodifiableList(personaPieces);
+      return this;
+    }
+
+    /**
+     * sets the given premium.
+     *
+     * @param premium the premium to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder premium(final boolean premium) {
+      this.premium = premium;
+      return this;
+    }
+
+    /**
+     * sets the given skinColor.
+     *
+     * @param skinColor the skinColor to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder skinColor(@NotNull final String skinColor) {
+      this.skinColor = skinColor;
+      return this;
+    }
+
+    /**
+     * sets the given skinData.
+     *
+     * @param skinData the skinData to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder skinData(@NotNull final ImageData skinData) {
+      this.skinData = skinData;
+      return this;
+    }
+
+    /**
+     * sets the given skinId.
+     *
+     * @param skinId the skinId to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder skinId(@NotNull final String skinId) {
+      this.skinId = skinId;
+      return this;
+    }
+
+    /**
+     * sets the given skinResourcePatch.
+     *
+     * @param skinResourcePatch the skinResourcePatch to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder skinResourcePatch(@NotNull final String skinResourcePatch) {
+      this.skinResourcePatch = skinResourcePatch;
+      return this;
+    }
+
+    /**
+     * sets the given tintColors.
+     *
+     * @param tintColors the tintColors to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    public Builder tintColors(@NotNull final List<PersonaPieceTintData> tintColors) {
+      this.tintColors = Collections.unmodifiableList(tintColors);
+      return this;
+    }
   }
 }
