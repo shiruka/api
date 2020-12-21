@@ -26,6 +26,7 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.events.EventFactory;
+import io.github.shiruka.api.scheduler.Scheduler;
 import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.MethodOrderer;
@@ -52,6 +53,12 @@ final class ImplementationTest {
     @Override
     public int getPlayerCount() {
       return 0;
+    }
+
+    @NotNull
+    @Override
+    public Scheduler getScheduler() {
+      return null;
     }
 
     @NotNull

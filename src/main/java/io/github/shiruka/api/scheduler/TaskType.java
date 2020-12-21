@@ -23,53 +23,34 @@
  *
  */
 
-package io.github.shiruka.api;
-
-import io.github.shiruka.api.events.EventFactory;
-import io.github.shiruka.api.scheduler.Scheduler;
-import org.jetbrains.annotations.NotNull;
+package io.github.shiruka.api.scheduler;
 
 /**
- * a class that contains utility methods for Shiru ka server.
+ * type of task that will be run by the scheduler, how it will be run, when it will be scheduled.
  */
-public interface Shiruka {
-
+public enum TaskType {
   /**
-   * obtains the currently running {@link Server}'s event factory.
-   *
-   * @return an {@link EventFactory} instance.
+   * asynchronously runs the task the next tick.
    */
-  @NotNull
-  static EventFactory getEventFactory() {
-    return Shiruka.getServer().getEventFactory();
-  }
-
+  ASYNC_RUN,
   /**
-   * obtains the scheduler instance.
-   *
-   * @return scheduler instance.
+   * asynchronously runs the task later.
    */
-  @NotNull
-  static Scheduler getScheduler() {
-    return Shiruka.getServer().getScheduler();
-  }
-
+  ASYNC_LATER,
   /**
-   * obtains the currently running {@link Server} instance.
-   *
-   * @return a {@link Server} instance.
+   * asynchronously runs the task repeatedly, until stopped.
    */
-  @NotNull
-  static Server getServer() {
-    return Implementation.getServer();
-  }
-
+  ASYNC_REPEAT,
   /**
-   * sets the server from the given parameters.
-   *
-   * @param server the server to set.
+   * synchronously runs the task the next tick.
    */
-  static void setServer(@NotNull final Server server) {
-    Implementation.setServer(server);
-  }
+  SYNC_RUN,
+  /**
+   * synchronously runs the task later.
+   */
+  SYNC_LATER,
+  /**
+   * synchronously runs the task repeatedly, until stopped.
+   */
+  SYNC_REPEAT
 }
