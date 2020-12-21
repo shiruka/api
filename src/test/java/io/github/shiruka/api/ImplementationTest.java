@@ -106,18 +106,5 @@ final class ImplementationTest {
         return "null";
       },
       new Throws<>(IllegalArgumentException.class));
-    final Plugin plugin = null;
-    Shiruka.getScheduler().later(plugin, 10L * 20L, () -> {
-    });
-    Shiruka.getScheduler().run(plugin, () -> {
-    });
-    Shiruka.getScheduler().repeat(plugin, 0L, 20L, () -> {
-    });
-    Shiruka.getScheduler().later(plugin, true, 10L * 20L, () -> {
-    });
-    Shiruka.getScheduler().run(plugin, true, () -> {
-    });
-    Shiruka.getScheduler().repeat(plugin, true, 0L, 20L, () -> {
-    });
   }
 }
