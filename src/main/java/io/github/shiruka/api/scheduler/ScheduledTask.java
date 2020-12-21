@@ -23,53 +23,57 @@
  *
  */
 
-package io.github.shiruka.api;
+package io.github.shiruka.api.scheduler;
 
-import io.github.shiruka.api.events.EventFactory;
-import io.github.shiruka.api.scheduler.Scheduler;
+import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that contains utility methods for Shiru ka server.
+ * a class that represents scheduled tasks which implemented inside the scheduler to manage the wrapping for
+ * {@link ScheduledRunnable}
  */
-public interface Shiruka {
+public interface ScheduledTask extends Runnable {
 
   /**
-   * obtains the currently running {@link Server}'s event factory.
+   * cancels the task, only needed for repeating tasks. Scheduled later and run tasks are auto cancelled.
+   */
+  void cancel();
+
+  /**
+   * gets the interval set or created by the task.
    *
-   * @return an {@link EventFactory} instance.
+   * @return the interval, as defined in {@link ScheduledTask#setInterval(long)}.
+   */
+  long interval();
+
+  /**
+   * the plugin that scheduled the task, or passed in when scheduled.
+   *
+   * @return the scheduling plugin.
    */
   @NotNull
-  static EventFactory getEventFactory() {
-    return Shiruka.getServer().getEventFactory();
-  }
+  Plugin owner();
 
   /**
-   * obtains the scheduler instance.
+   * the execution runnable, invoked when the task is scheduled to occur.
    *
-   * @return scheduler instance.
+   * @return the runnable that is run at scheduled time.
    */
   @NotNull
-  static Scheduler getScheduler() {
-    return Shiruka.getServer().getScheduler();
-  }
+  ScheduledRunnable runnable();
 
   /**
-   * obtains the currently running {@link Server} instance.
+   * interval is the ticks left of a specific action for repeating and delayed tasks.
    *
-   * @return a {@link Server} instance.
+   * @param interval the interval to set the task to.
+   */
+  void setInterval(long interval);
+
+  /**
+   * the task scheduling type.
+   *
+   * @return the type the task is scheduled according to.
    */
   @NotNull
-  static Server getServer() {
-    return Implementation.getServer();
-  }
-
-  /**
-   * sets the server from the given parameters.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    Implementation.setServer(server);
-  }
+  TaskType type();
 }

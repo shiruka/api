@@ -26,6 +26,7 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.events.EventFactory;
+import io.github.shiruka.api.scheduler.Scheduler;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -54,6 +55,14 @@ public interface Server {
    * @return current player count of the server.
    */
   int getPlayerCount();
+
+  /**
+   * obtains the scheduler instance.
+   *
+   * @return a scheduler.
+   */
+  @NotNull
+  Scheduler getScheduler();
 
   /**
    * obtains server's descriptions a.k.a. MOTD.

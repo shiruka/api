@@ -22,54 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api;
-
-import io.github.shiruka.api.events.EventFactory;
-import io.github.shiruka.api.scheduler.Scheduler;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * a class that contains utility methods for Shiru ka server.
+ * the package that contains scheduler classes.
  */
-public interface Shiruka {
-
-  /**
-   * obtains the currently running {@link Server}'s event factory.
-   *
-   * @return an {@link EventFactory} instance.
-   */
-  @NotNull
-  static EventFactory getEventFactory() {
-    return Shiruka.getServer().getEventFactory();
-  }
-
-  /**
-   * obtains the scheduler instance.
-   *
-   * @return scheduler instance.
-   */
-  @NotNull
-  static Scheduler getScheduler() {
-    return Shiruka.getServer().getScheduler();
-  }
-
-  /**
-   * obtains the currently running {@link Server} instance.
-   *
-   * @return a {@link Server} instance.
-   */
-  @NotNull
-  static Server getServer() {
-    return Implementation.getServer();
-  }
-
-  /**
-   * sets the server from the given parameters.
-   *
-   * @param server the server to set.
-   */
-  static void setServer(@NotNull final Server server) {
-    Implementation.setServer(server);
-  }
-}
+package io.github.shiruka.api.scheduler;

@@ -36,19 +36,19 @@ import org.jetbrains.annotations.NotNull;
 public interface ObjectListEvent<O> {
 
   /**
+   * adds the given action.
+   *
+   * @param action the action to add.
+   */
+  void add(@NotNull O action);
+
+  /**
    * obtains the object list.
    *
    * @return list of object.
    */
   @NotNull
   List<O> objects();
-
-  /**
-   * adds the given action.
-   *
-   * @param action the action to add.
-   */
-  void add(@NotNull O action);
 
   /**
    * removes the given action.
