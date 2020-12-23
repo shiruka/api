@@ -25,6 +25,9 @@
 
 package io.github.shiruka.api.command;
 
+/**
+ * an insterface to determine command builders.
+ */
 public interface CommandBuilder {
 
 }

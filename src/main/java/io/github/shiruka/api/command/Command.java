@@ -27,6 +27,9 @@ package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
 
+/**
+ * an interface to determine commands.
+ */
 public interface Command extends Named {
 
 }
