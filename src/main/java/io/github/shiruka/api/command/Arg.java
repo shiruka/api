@@ -45,6 +45,8 @@ public interface Arg {
    * obtains value of the arg as {@link Number}.
    *
    * @return arg's value as {@link Number}.
+   *
+   * @see #value()
    */
   @NotNull
   Optional<Number> asNumber();
