@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.command;
 
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -56,5 +57,5 @@ public interface Arg<V> {
    * @return value of the arg.
    */
   @NotNull
-  V value();
+  Optional<V> value();
 }
