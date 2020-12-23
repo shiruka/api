@@ -25,9 +25,18 @@
 
 package io.github.shiruka.api.command;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * an insterface to determine command builders.
  */
 public interface CommandBuilder {
 
+  /**
+   * builds a new {@link Command} instance.
+   *
+   * @return built and ready to register command instance.
+   */
+  @NotNull
+  Command build();
 }
