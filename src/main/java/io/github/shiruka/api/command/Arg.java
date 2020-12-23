@@ -57,5 +57,5 @@ public interface Arg {
    * @return value of the arg.
    */
   @NotNull
-  Object value();
+  String value();
 }
