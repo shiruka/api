@@ -36,14 +36,14 @@ import org.jetbrains.annotations.NotNull;
 public interface CommandManager {
 
   /**
-   * creates a new instance of {@link CommandBuilder}.
+   * creates a new instance of {@link Command}.
    *
    * @param name the name to create.
    *
    * @return a new command builder instance.
    */
   @NotNull
-  CommandBuilder create(@NotNull String name);
+  Command create(@NotNull String name);
 
   /**
    * registers the given commands.

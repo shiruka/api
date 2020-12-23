@@ -31,5 +31,7 @@ final class CommandTest {
 
   void createCommand() {
     final var manager = Shiruka.getCommandManager();
+    final var built = manager.create("test");
+    manager.register(built);
   }
 }
