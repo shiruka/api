@@ -28,23 +28,22 @@ package io.github.shiruka.api.command;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine arg of the commands.
+ * an interface to determine arg schemes.
  */
-public interface Arg {
+public interface ArgScheme {
 
   /**
-   * obtains the arg scheme.
+   * checks if the arg scheme is literal or not.
    *
-   * @return the arg scheme.
+   * @return {@code true} if the arg scheme is literal, otherwise {@code false}.
    */
-  @NotNull
-  ArgScheme argScheme();
+  boolean isLiteral();
 
   /**
-   * obtains value of the arg as {@link Object}.
+   * obtains name of the arg scheme.
    *
-   * @return arg's value as {@link Object}.
+   * @return name of the arg scheme.
    */
   @NotNull
-  Object asObject();
+  String name();
 }
