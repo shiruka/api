@@ -30,8 +30,20 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine arg schemes.
+ *
+ * @param <V> type of the arg value at runtime.
  */
-public interface ArgScheme extends Named {
+public interface ArgScheme<V> extends Named {
+
+  /**
+   * converts the given original input into the runtime arg value.
+   *
+   * @param original the original to create.
+   *
+   * @return converted input value.
+   */
+  @NotNull
+  V create(@NotNull String original);
 
   /**
    * checks if the arg scheme is literal or not.
@@ -39,4 +51,12 @@ public interface ArgScheme extends Named {
    * @return {@code true} if the arg scheme is literal, otherwise {@code false}.
    */
   boolean isLiteral();
+
+  /**
+   * obtains type of the arg value at runtime.
+   *
+   * @return arg type at runtime.
+   */
+  @NotNull
+  Class<V> type();
 }

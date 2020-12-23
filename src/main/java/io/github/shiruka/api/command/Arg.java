@@ -25,13 +25,14 @@
 
 package io.github.shiruka.api.command;
 
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine arg of the commands.
+ *
+ * @param <V> type of the arg value.
  */
-public interface Arg {
+public interface Arg<V> {
 
   /**
    * obtains the arg scheme.
@@ -39,17 +40,15 @@ public interface Arg {
    * @return the arg scheme.
    */
   @NotNull
-  ArgScheme argScheme();
+  ArgScheme<V> argScheme();
 
   /**
-   * obtains value of the arg as {@link Number}.
+   * obtains original value of the input.
    *
-   * @return arg's value as {@link Number}.
-   *
-   * @see #value()
+   * @return original value of the input.
    */
   @NotNull
-  Optional<Number> asNumber();
+  String original();
 
   /**
    * obtains value of the arg.
@@ -57,5 +56,5 @@ public interface Arg {
    * @return value of the arg.
    */
   @NotNull
-  String value();
+  V value();
 }
