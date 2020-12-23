@@ -26,10 +26,33 @@
 package io.github.shiruka.api.command;
 
 import java.util.List;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine arg manager.
  */
 public interface ArgCollection extends List<Arg> {
 
+  /**
+   * obtains the previous arg instance.
+   *
+   * @return previous arg instance.
+   */
+  @NotNull
+  default Optional<Arg> previous() {
+    return this.previous(1);
+  }
+
+  /**
+   * obtains the previous arg instance.
+   *
+   * @param step the step to how much going on.
+   *
+   * @return previous arg instance.
+   *
+   * @throws IllegalArgumentException if the {@code step} is negative.
+   */
+  @NotNull
+  Optional<Arg> previous(int step);
 }
