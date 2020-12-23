@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api.command;
 
-import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <V> type of the current arg.
  */
-public interface ArgCollection<V> extends List<Arg<?>> {
+public interface ArgCollection<V> {
 
   /**
    * obtains the current arg instance.
