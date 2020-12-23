@@ -36,6 +36,18 @@ import org.jetbrains.annotations.NotNull;
 public interface CommandManager {
 
   /**
+   * creates a new instance of {@link CommandHead}.
+   *
+   * @param name the name to create.
+   *
+   * @return a new command instance.
+   *
+   * @throws IllegalArgumentException if the given name is already registered.
+   */
+  @NotNull
+  CommandHead create(@NotNull String name);
+
+  /**
    * registers the given commands.
    *
    * @param commands the commands to register.
