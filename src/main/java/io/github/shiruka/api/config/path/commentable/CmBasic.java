@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.shiruka.api.config.path.comment;
+package io.github.shiruka.api.config.path.commentable;
 
 import io.github.shiruka.api.config.CommentablePath;
 import io.github.shiruka.api.config.Config;

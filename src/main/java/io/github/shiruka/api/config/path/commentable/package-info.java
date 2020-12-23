@@ -22,47 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.config.path.comment;
-
-import io.github.shiruka.api.config.CommentablePath;
-import io.github.shiruka.api.config.path.simple.CpEnvelope;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.comments.CommentType;
-
 /**
- * a commentable config path.
- *
- * @param <T> the type of the value.
+ * the package that contains implementation of {@link CommentablePath}.
  */
-public abstract class CmEnvelope<T> extends CpEnvelope<T> implements CommentablePath<T> {
-
-  /**
-   * the original {@link CommentablePath}.
-   */
-  @NotNull
-  private final CommentablePath<T> origin;
-
-  /**
-   * ctor.
-   *
-   * @param origin the original.
-   */
-  protected CmEnvelope(@NotNull final CommentablePath<T> origin) {
-    super(origin);
-    this.origin = origin;
-  }
-
-  @NotNull
-  @Override
-  public final Optional<String> getComment(@NotNull final CommentType commentType) {
-    return this.origin.getComment(commentType);
-  }
-
-  @Override
-  public final void setComment(@NotNull final CommentType commentType, @Nullable final String comment) {
-    this.origin.setComment(commentType, comment);
-  }
-}
+package io.github.shiruka.api.config.path.commentable;

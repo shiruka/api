@@ -27,7 +27,7 @@ package io.github.shiruka.api.config;
 
 import io.github.shiruka.api.config.path.advanced.ApUniqueId;
 import io.github.shiruka.api.config.path.advanced.ApUniqueIdList;
-import io.github.shiruka.api.config.path.comment.CmBasic;
+import io.github.shiruka.api.config.path.commentable.CmBasic;
 import io.github.shiruka.api.conf.path.simple.*;
 import io.github.shiruka.api.config.path.simple.*;
 import java.util.*;
