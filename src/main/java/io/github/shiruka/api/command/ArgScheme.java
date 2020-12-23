@@ -25,12 +25,13 @@
 
 package io.github.shiruka.api.command;
 
+import io.github.shiruka.api.base.Named;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine arg schemes.
  */
-public interface ArgScheme {
+public interface ArgScheme extends Named {
 
   /**
    * checks if the arg scheme is literal or not.
@@ -38,12 +39,4 @@ public interface ArgScheme {
    * @return {@code true} if the arg scheme is literal, otherwise {@code false}.
    */
   boolean isLiteral();
-
-  /**
-   * obtains name of the arg scheme.
-   *
-   * @return name of the arg scheme.
-   */
-  @NotNull
-  String name();
 }

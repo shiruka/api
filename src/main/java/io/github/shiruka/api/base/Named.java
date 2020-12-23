@@ -23,37 +23,20 @@
  *
  */
 
-package io.github.shiruka.api.command;
+package io.github.shiruka.api.base;
 
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine arg of the commands.
+ * an interface to determine named object.
  */
-public interface Arg {
+public interface Named {
 
   /**
-   * obtains the arg scheme.
+   * obtains the name.
    *
-   * @return the arg scheme.
+   * @return the name.
    */
   @NotNull
-  ArgScheme argScheme();
-
-  /**
-   * obtains value of the arg as {@link Number}.
-   *
-   * @return arg's value as {@link Number}.
-   */
-  @NotNull
-  Optional<Number> asNumber();
-
-  /**
-   * obtains value of the arg.
-   *
-   * @return value of the arg.
-   */
-  @NotNull
-  Object value();
+  String name();
 }

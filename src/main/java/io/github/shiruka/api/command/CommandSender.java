@@ -25,18 +25,11 @@
 
 package io.github.shiruka.api.command;
 
-import org.jetbrains.annotations.NotNull;
+import io.github.shiruka.api.base.Named;
 
 /**
  * an interface to determine command senders.
  */
-public interface CommandSender {
+public interface CommandSender extends Named {
 
-  /**
-   * obtains name of the command sender.
-   *
-   * @return name of the command sender.
-   */
-  @NotNull
-  String name();
 }

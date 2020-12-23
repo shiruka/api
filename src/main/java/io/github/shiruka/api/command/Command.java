@@ -25,19 +25,12 @@
 
 package io.github.shiruka.api.command;
 
+import io.github.shiruka.api.base.Named;
 import java.util.function.BiConsumer;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine commands.
  */
-public interface Command extends BiConsumer<CommandSender, ArgCollection> {
+public interface Command extends BiConsumer<CommandSender, ArgCollection>, Named {
 
-  /**
-   * obtains name of the command.
-   *
-   * @return name of the command.
-   */
-  @NotNull
-  String name();
 }
