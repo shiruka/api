@@ -40,7 +40,7 @@ public interface CommandManager {
    *
    * @param commands the commands to register.
    */
-  void register(@NotNull Command... commands);
+  void register(@NotNull CommandHead... commands);
 
   /**
    * obtains the registered command map.
@@ -48,7 +48,7 @@ public interface CommandManager {
    * @return registered command map.
    */
   @NotNull
-  Map<String, Command> registered();
+  Map<String, CommandHead> registered();
 
   /**
    * unregisters the given commands.
@@ -62,7 +62,7 @@ public interface CommandManager {
    *
    * @param commands the commands to unregister.
    */
-  default void unregister(@NotNull final Command... commands) {
+  default void unregister(@NotNull final CommandHead... commands) {
     this.unregister(Arrays.stream(commands)
       .map(Named::name)
       .toArray(String[]::new));
