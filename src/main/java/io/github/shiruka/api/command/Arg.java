@@ -57,5 +57,7 @@ public interface Arg<V> {
    * @return value of the arg.
    */
   @NotNull
-  Optional<V> value();
+  default Optional<V> value() {
+    return this.argScheme().create(this.original());
+  }
 }
