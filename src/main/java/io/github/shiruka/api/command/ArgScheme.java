@@ -26,6 +26,7 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
+import java.util.Collection;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,6 +53,15 @@ public interface ArgScheme<V> extends Named {
    * @return {@code true} if the arg scheme is literal, otherwise {@code false}.
    */
   boolean isLiteral();
+
+  /**
+   * obtains the suggestions for the current arg scheme.
+   *
+   * @return suggestions of the current arg.
+   */
+  @NotNull
+  Collection<String> suggestions(@NotNull CommandSender sender, @NotNull ArgCollection<?> previousArgs,
+                                 @NotNull String current);
 
   /**
    * obtains type of the arg value at runtime.
