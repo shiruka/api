@@ -57,6 +57,10 @@ public interface ArgScheme<V> extends Named {
   /**
    * obtains the suggestions for the current arg scheme.
    *
+   * @param sender the sender to suggest.
+   * @param previous the previous to suggest.
+   * @param current the current to suggest.
+   *
    * @return suggestions of the current arg.
    */
   @NotNull
