@@ -64,6 +64,14 @@ public interface ArgScheme<V> extends Named {
   boolean isLiteral();
 
   /**
+   * runs the command with the given parameters.
+   *
+   * @param sender the sender to run.
+   * @param collection the collection to run.
+   */
+  void run(@NotNull CommandSender sender, @NotNull ArgCollection<V> collection);
+
+  /**
    * obtains the suggestions for the current arg scheme.
    *
    * @param sender the sender to suggest.
