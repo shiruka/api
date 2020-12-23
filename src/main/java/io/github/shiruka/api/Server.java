@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api;
 
+import io.github.shiruka.api.command.CommandManager;
 import io.github.shiruka.api.events.EventFactory;
 import io.github.shiruka.api.scheduler.Scheduler;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,14 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine Shiru ka's servers.
  */
 public interface Server {
+
+  /**
+   * obtains the command manager.
+   *
+   * @return a command manager.
+   */
+  @NotNull
+  CommandManager getCommandManager();
 
   /**
    * obtains the event factory instance.

@@ -26,10 +26,45 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
+import java.util.Arrays;
+import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine commands.
+ * an interface to determine command manager.
  */
-public interface Command extends Named {
+public interface CommandManager {
 
+  /**
+   * registers the given commands.
+   *
+   * @param commands the commands to register.
+   */
+  void register(@NotNull Command... commands);
+
+  /**
+   * obtains the registered command map.
+   *
+   * @return registered command map.
+   */
+  @NotNull
+  Map<String, Command> registered();
+
+  /**
+   * unregisters the given commands.
+   *
+   * @param commands the commands to unregister.
+   */
+  void unregister(@NotNull String... commands);
+
+  /**
+   * unregister the given commands.
+   *
+   * @param commands the commands to unregister.
+   */
+  default void unregister(@NotNull final Command... commands) {
+    this.unregister(Arrays.stream(commands)
+      .map(Named::name)
+      .toArray(String[]::new));
+  }
 }
