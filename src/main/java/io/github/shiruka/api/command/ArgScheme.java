@@ -26,6 +26,7 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -43,7 +44,7 @@ public interface ArgScheme<V> extends Named {
    * @return converted input value.
    */
   @NotNull
-  V create(@NotNull String original);
+  Optional<V> create(@NotNull String original);
 
   /**
    * checks if the arg scheme is literal or not.
