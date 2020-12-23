@@ -60,7 +60,7 @@ public interface ArgScheme<V> extends Named {
    * @return suggestions of the current arg.
    */
   @NotNull
-  Collection<String> suggestions(@NotNull CommandSender sender, @NotNull ArgCollection<?> previousArgs,
+  Collection<String> suggestions(@NotNull CommandSender sender, @NotNull ArgCollection<?> previous,
                                  @NotNull String current);
 
   /**
