@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine arg manager.
  */
-public interface ArgCollection extends List<Arg> {
+public interface ArgCollection extends List<Arg<?>> {
 
   /**
    * obtains the previous arg instance.
@@ -40,7 +40,7 @@ public interface ArgCollection extends List<Arg> {
    * @return previous arg instance.
    */
   @NotNull
-  default Optional<Arg> previous() {
+  default Optional<Arg<?>> previous() {
     return this.previous(1);
   }
 
@@ -54,5 +54,5 @@ public interface ArgCollection extends List<Arg> {
    * @throws IllegalArgumentException if the {@code step} is negative.
    */
   @NotNull
-  Optional<Arg> previous(int step);
+  Optional<Arg<?>> previous(int step);
 }
