@@ -36,23 +36,23 @@ import org.jetbrains.annotations.NotNull;
 public interface CommandManager {
 
   /**
-   * creates a new instance of {@link CommandHead}.
+   * creates a new instance of {@link CommandBuilder}.
    *
    * @param name the name to create.
    *
-   * @return a new command instance.
-   *
-   * @throws IllegalArgumentException if the given name is already registered.
+   * @return a new command builder instance.
    */
   @NotNull
-  CommandHead create(@NotNull String name);
+  CommandBuilder create(@NotNull String name);
 
   /**
    * registers the given commands.
    *
    * @param commands the commands to register.
+   *
+   * @throws IllegalArgumentException if any of given command is already registered.
    */
-  void register(@NotNull CommandHead... commands);
+  void register(@NotNull Command... commands);
 
   /**
    * obtains the registered command map.
@@ -60,7 +60,7 @@ public interface CommandManager {
    * @return registered command map.
    */
   @NotNull
-  Map<String, CommandHead> registered();
+  Map<String, Command> registered();
 
   /**
    * unregisters the given commands.
@@ -74,7 +74,7 @@ public interface CommandManager {
    *
    * @param commands the commands to unregister.
    */
-  default void unregister(@NotNull final CommandHead... commands) {
+  default void unregister(@NotNull final Command... commands) {
     this.unregister(Arrays.stream(commands)
       .map(Named::name)
       .toArray(String[]::new));

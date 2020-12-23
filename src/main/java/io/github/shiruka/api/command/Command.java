@@ -25,43 +25,8 @@
 
 package io.github.shiruka.api.command;
 
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
+import io.github.shiruka.api.base.Named;
 
-/**
- * an interface to determine arg manager.
- *
- * @param <V> type of the current arg.
- */
-public interface ArgCollection<V> {
+public interface Command extends Named {
 
-  /**
-   * obtains the current arg instance.
-   *
-   * @return current arg.
-   */
-  @NotNull
-  Arg<V> current();
-
-  /**
-   * obtains the previous arg instance.
-   *
-   * @return previous arg instance.
-   */
-  @NotNull
-  default Optional<Arg<?>> previous() {
-    return this.previous(1);
-  }
-
-  /**
-   * obtains the previous arg instance.
-   *
-   * @param step the step to how much going on.
-   *
-   * @return previous arg instance.
-   *
-   * @throws IllegalArgumentException if the {@code step} is negative.
-   */
-  @NotNull
-  Optional<Arg<?>> previous(int step);
 }

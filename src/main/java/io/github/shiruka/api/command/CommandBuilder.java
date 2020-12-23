@@ -25,19 +25,6 @@
 
 package io.github.shiruka.api.command;
 
-import io.github.shiruka.api.base.Named;
-import org.jetbrains.annotations.NotNull;
+public interface CommandBuilder {
 
-/**
- * an interface to determine head of commands.
- */
-public interface CommandHead extends Named {
-
-  /**
-   * obtains head of scheme of the command head.
-   *
-   * @return head of scheme.
-   */
-  @NotNull
-  ArgScheme<String> headScheme();
 }
