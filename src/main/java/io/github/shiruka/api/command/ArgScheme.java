@@ -38,6 +38,15 @@ import org.jetbrains.annotations.NotNull;
 public interface ArgScheme<V> extends Named {
 
   /**
+   * controls the given sender to see suggestions and use the arg itself.
+   *
+   * @param sender the sender to control.
+   *
+   * @return {@code true} if the sender can use the arg and see the suggestions.
+   */
+  boolean control(@NotNull CommandSender sender);
+
+  /**
    * converts the given original input into the runtime arg value.
    *
    * @param original the original to create.
@@ -45,7 +54,7 @@ public interface ArgScheme<V> extends Named {
    * @return converted input value.
    */
   @NotNull
-  Optional<V> create(@NotNull String original);
+  Optional<V> convert(@NotNull String original);
 
   /**
    * checks if the arg scheme is literal or not.

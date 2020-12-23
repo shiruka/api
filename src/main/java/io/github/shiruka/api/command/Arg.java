@@ -58,6 +58,6 @@ public interface Arg<V> {
    */
   @NotNull
   default Optional<V> value() {
-    return this.argScheme().create(this.original());
+    return this.argScheme().convert(this.original());
   }
 }
