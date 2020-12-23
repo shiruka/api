@@ -31,8 +31,18 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine arg manager.
+ *
+ * @param <V> type of the current arg.
  */
-public interface ArgCollection extends List<Arg<?>> {
+public interface ArgCollection<V> extends List<Arg<?>> {
+
+  /**
+   * obtains the current arg instance.
+   *
+   * @return current arg.
+   */
+  @NotNull
+  Arg<V> current();
 
   /**
    * obtains the previous arg instance.

@@ -26,11 +26,20 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
-import java.util.function.BiConsumer;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine commands.
+ *
+ * @param <V> type of the current arg.
  */
-public interface Command extends BiConsumer<CommandSender, ArgCollection>, Named {
+public interface Command<V> extends Named {
 
+  /**
+   * runs the command with the given parameters.
+   *
+   * @param sender the sender to run.
+   * @param collection the arg collection to run.
+   */
+  void run(@NotNull CommandSender sender, @NotNull ArgCollection<V> collection);
 }
