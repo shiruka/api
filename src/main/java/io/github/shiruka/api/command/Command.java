@@ -52,6 +52,18 @@ public interface Command extends Named {
   }
 
   /**
+   * creates a new dynamic command instance for arguments that can change for command sender's status.
+   *
+   * @param name the name to create.
+   *
+   * @return a new dynamic command instance.
+   */
+  @NotNull
+  static Command dynamic(@NotNull final String name) {
+    return null;
+  }
+
+  /**
    * creates a new
    *
    * @param name the name to create.
