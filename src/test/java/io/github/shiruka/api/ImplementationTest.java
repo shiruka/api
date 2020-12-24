@@ -80,7 +80,8 @@ final class ImplementationTest {
     }
 
     @Override
-    public void runCommand(@NotNull final String command) {
+    public boolean isRunning() {
+      return false;
     }
 
     @Override

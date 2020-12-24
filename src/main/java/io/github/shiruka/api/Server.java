@@ -89,13 +89,11 @@ public interface Server {
   boolean isInShutdownState();
 
   /**
-   * runs the given input.
-   * <p>
-   * it can start with {@code /} or not. it does not matter.
+   * obtains server's running statement.
    *
-   * @param command the command to run.
+   * @return {@code true} if the server is running.
    */
-  void runCommand(@NotNull String command);
+  boolean isRunning();
 
   /**
    * initiates the server.

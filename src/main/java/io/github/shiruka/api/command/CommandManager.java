@@ -26,6 +26,7 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
+import io.github.shiruka.api.plugin.Plugin;
 import java.util.Arrays;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
@@ -46,28 +47,33 @@ public interface CommandManager {
   Command create(@NotNull String name);
 
   /**
+   * runs the given input.
+   * <p>
+   * {@code command} can start with {@code /} or not. it does not matter.
+   *
+   * @param command the command to run.
+   */
+  void exec(@NotNull String command);
+
+  /**
    * registers the given commands.
    *
+   * @param plugin the plugin to register.
    * @param commands the commands to register.
    *
    * @throws IllegalArgumentException if any of given command is already registered.
    */
-  void register(@NotNull Command... commands);
+  void register(@NotNull Plugin plugin, @NotNull Command... commands);
 
   /**
    * obtains the registered command map.
    *
+   * @param plugin the plugin to obtain.
+   *
    * @return registered command map.
    */
   @NotNull
-  Map<String, Command> registered();
-
-  /**
-   * unregisters the given commands.
-   *
-   * @param commands the commands to unregister.
-   */
-  void unregister(@NotNull String... commands);
+  Map<String, Command> registered(@NotNull Plugin plugin);
 
   /**
    * unregister the given commands.
@@ -79,4 +85,11 @@ public interface CommandManager {
       .map(Named::name)
       .toArray(String[]::new));
   }
+
+  /**
+   * unregisters the given commands.
+   *
+   * @param commands the commands to unregister.
+   */
+  void unregister(@NotNull String... commands);
 }

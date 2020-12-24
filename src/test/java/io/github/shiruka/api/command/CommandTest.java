@@ -26,12 +26,16 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.Shiruka;
+import io.github.shiruka.api.plugin.Plugin;
 
 final class CommandTest {
+
+  private static final Plugin PLUGIN = new Plugin() {
+  };
 
   void createCommand() {
     final var manager = Shiruka.getCommandManager();
     final var built = manager.create("test");
-    manager.register(built);
+    manager.register(CommandTest.PLUGIN, built);
   }
 }
