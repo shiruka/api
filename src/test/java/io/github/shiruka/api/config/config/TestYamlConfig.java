@@ -26,7 +26,6 @@
 package io.github.shiruka.api.config.config;
 
 import io.github.shiruka.api.config.Paths;
-import io.github.shiruka.api.conf.path.simple.*;
 import io.github.shiruka.api.config.path.simple.*;
 import java.io.File;
 import org.jetbrains.annotations.NotNull;
