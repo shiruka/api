@@ -23,6 +23,6 @@
  *
  */
 /**
- * the package that contains implementation of {@link CommentablePath}.
+ * the package that contains implementation of {@link io.github.shiruka.api.config.CommentablePath}.
  */
 package io.github.shiruka.api.config.path.commentable;
