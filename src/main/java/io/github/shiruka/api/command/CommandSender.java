@@ -26,10 +26,17 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine command senders.
  */
 public interface CommandSender extends Named {
 
+  /**
+   * sends the given message to the command sender.
+   *
+   * @param message the message to send.
+   */
+  void sendMessage(@NotNull String message);
 }

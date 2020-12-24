@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.command;
 
+import io.github.shiruka.api.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -39,4 +40,19 @@ public interface CommandContext {
    */
   @NotNull
   CommandSender sender();
+
+  /**
+   * obtains the sender as {@link Player} if the {@link #sender()} is a {@link Player}.
+   *
+   * @return the sender as player.
+   *
+   * @throws IllegalStateException if {@link #sender()} is not a {@link Player}.
+   */
+  @NotNull
+  default Player senderAsPlayer() {
+    if (!(this.sender() instanceof Player)) {
+      throw new IllegalStateException("The command sender is not a Player!");
+    }
+    return (Player) this.sender();
+  }
 }

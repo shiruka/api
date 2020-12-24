@@ -26,13 +26,14 @@
 package io.github.shiruka.api.entity;
 
 import io.github.shiruka.api.Server;
+import io.github.shiruka.api.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine players on the Minecraft.
  */
-public interface Player extends Entity {
+public interface Player extends Entity, CommandSender {
 
   /**
    * runs when the player disconnected.

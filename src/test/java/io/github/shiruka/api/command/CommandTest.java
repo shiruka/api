@@ -34,8 +34,11 @@ final class CommandTest {
   };
 
   void createCommand() {
-    final var manager = Shiruka.getCommandManager();
-    final var built = manager.create("test");
-    manager.register(CommandTest.PLUGIN, built);
+    final var built = Command.create("heal")
+      .playerOnly()
+      .execute(context -> {
+        final var player = context.senderAsPlayer();
+      });
+    Shiruka.getCommandManager().register(CommandTest.PLUGIN, built);
   }
 }
