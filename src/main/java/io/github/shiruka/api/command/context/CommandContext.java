@@ -23,8 +23,9 @@
  *
  */
 
-package io.github.shiruka.api.command;
+package io.github.shiruka.api.command.context;
 
+import io.github.shiruka.api.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 /**

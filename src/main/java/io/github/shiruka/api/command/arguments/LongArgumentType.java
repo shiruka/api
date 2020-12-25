@@ -36,7 +36,7 @@ public final class LongArgumentType implements ArgumentType<Long> {
    * @param minimum the minimum.
    * @param maximum the maximum.
    */
-  LongArgumentType(final long minimum, final long maximum) {
+  public LongArgumentType(final long minimum, final long maximum) {
     this.minimum = minimum;
     this.maximum = maximum;
   }

@@ -37,7 +37,7 @@ public final class DoubleArgumentType implements ArgumentType<Double> {
    * @param minimum the minimum.
    * @param maximum the maximum.
    */
-  DoubleArgumentType(final double minimum, final double maximum) {
+  public DoubleArgumentType(final double minimum, final double maximum) {
     this.minimum = minimum;
     this.maximum = maximum;
   }

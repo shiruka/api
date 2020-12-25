@@ -22,44 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.command;
-
-import static io.github.shiruka.api.command.Commands.*;
-import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.plugin.Plugin;
-
-final class CommandManagerTest {
-
-  private static final Plugin PLUGIN = new Plugin() {
-  };
-
-  void create() {
-    final var built = literal("heal")
-      .playerOnly()
-      .requires(sender -> {
-        return true;
-      })
-      .executes(context -> {
-        return CommandResult.succeed();
-      })
-      .then(arg("test", stringArg())
-        .requires(sender -> {
-          return true;
-        })
-        .suggests((context, builder) -> {
-          builder.suggest("player-1");
-          builder.suggest("player-2");
-          builder.suggest("player-3");
-          return builder.buildFuture();
-        })
-        .executes(context -> {
-          final var value = getString(context, "test");
-          if (!value.equalsIgnoreCase("asd")) {
-            return CommandResult.failure();
-          }
-          return CommandResult.succeed();
-        }));
-    Shiruka.getCommandManager().register(CommandManagerTest.PLUGIN, built);
-  }
-}
+/**
+ * the package that contains command context classes.
+ */
+package io.github.shiruka.api.command.context;

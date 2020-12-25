@@ -46,12 +46,6 @@ public final class UniqueIdArgumentType implements ArgumentType<UUID> {
    */
   private static final String REPLACE = "$1-$2-$3-$4-$5";
 
-  /**
-   * ctor.
-   */
-  UniqueIdArgumentType() {
-  }
-
   @NotNull
   @Override
   public UUID parse(@NotNull final TextReader reader) throws CommandSyntaxException {

@@ -58,7 +58,7 @@ public final class ShortArgumentType implements ArgumentType<Short> {
    * @param minimum the minimum.
    * @param maximum the maximum.
    */
-  ShortArgumentType(final short minimum, final short maximum) {
+  public ShortArgumentType(final short minimum, final short maximum) {
     this.minimum = minimum;
     this.maximum = maximum;
   }

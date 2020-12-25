@@ -36,7 +36,7 @@ public final class IntegerArgumentType implements ArgumentType<Integer> {
    * @param minimum the minimum.
    * @param maximum the maxmum.
    */
-  IntegerArgumentType(final int minimum, final int maximum) {
+  public IntegerArgumentType(final int minimum, final int maximum) {
     this.minimum = minimum;
     this.maximum = maximum;
   }

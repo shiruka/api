@@ -33,6 +33,17 @@ import org.jetbrains.annotations.NotNull;
 public interface CommandResult {
 
   /**
+   * use when the command failed.
+   *
+   * @return a failure result.
+   */
+  @NotNull
+  static CommandResult failure() {
+    return new CommandResult() {
+    };
+  }
+
+  /**
    * use when the command successfully ran.
    *
    * @return a succeed result.

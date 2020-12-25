@@ -37,7 +37,7 @@ public final class FloatArgumentType implements ArgumentType<Float> {
    * @param minimum the minimum.
    * @param maximum the maximum.
    */
-  FloatArgumentType(final float minimum, final float maximum) {
+  public FloatArgumentType(final float minimum, final float maximum) {
     this.minimum = minimum;
     this.maximum = maximum;
   }

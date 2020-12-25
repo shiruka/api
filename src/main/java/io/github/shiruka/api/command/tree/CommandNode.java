@@ -27,7 +27,7 @@ package io.github.shiruka.api.command.tree;
 
 import io.github.shiruka.api.base.Keyed;
 import io.github.shiruka.api.base.Named;
-import io.github.shiruka.api.command.CommandContext;
+import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.CommandResult;
 import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.command.TextReader;

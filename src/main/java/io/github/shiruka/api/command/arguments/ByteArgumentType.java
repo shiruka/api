@@ -58,7 +58,7 @@ public final class ByteArgumentType implements ArgumentType<Byte> {
    * @param minimum the minimum.
    * @param maximum the maximum.
    */
-  ByteArgumentType(final byte minimum, final byte maximum) {
+  public ByteArgumentType(final byte minimum, final byte maximum) {
     this.minimum = minimum;
     this.maximum = maximum;
   }

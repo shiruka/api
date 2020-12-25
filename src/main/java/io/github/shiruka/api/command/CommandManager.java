@@ -41,30 +41,6 @@ import org.jetbrains.annotations.NotNull;
 public interface CommandManager {
 
   /**
-   * creates a new required argument node builder instance.
-   *
-   * @param name the name to create.
-   *
-   * @return a new argument builder instance.
-   */
-  @NotNull
-  static <V> RequiredBuilder<V> arg(@NotNull final String name, @NotNull final ArgumentType<V> type) {
-    return new RequiredBuilder<>(name, type);
-  }
-
-  /**
-   * creates a new instance of {@link CommandNode}.
-   *
-   * @param name the name to create.
-   *
-   * @return a new command builder instance.
-   */
-  @NotNull
-  static LiteralBuilder literal(@NotNull final String name) {
-    return new LiteralBuilder(name);
-  }
-
-  /**
    * runs the given input.
    * <p>
    * {@code command} can start with {@code /} or not. it does not matter.

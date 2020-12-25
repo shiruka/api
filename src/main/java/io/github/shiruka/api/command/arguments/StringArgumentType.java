@@ -25,7 +25,7 @@ public final class StringArgumentType implements ArgumentType<String> {
    *
    * @param type the type.
    */
-  StringArgumentType(@NotNull final StringType type) {
+  public StringArgumentType(@NotNull final StringType type) {
     this.type = type;
   }
 

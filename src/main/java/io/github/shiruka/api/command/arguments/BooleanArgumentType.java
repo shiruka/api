@@ -3,7 +3,7 @@
 
 package io.github.shiruka.api.command.arguments;
 
-import io.github.shiruka.api.command.CommandContext;
+import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.TextReader;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import io.github.shiruka.api.command.suggestion.Suggestions;
@@ -22,12 +22,6 @@ public final class BooleanArgumentType implements ArgumentType<Boolean> {
    * the examples.
    */
   private static final Collection<String> EXAMPLES = List.of("true", "false");
-
-  /**
-   * ctor.
-   */
-  BooleanArgumentType() {
-  }
 
   @NotNull
   @Override
