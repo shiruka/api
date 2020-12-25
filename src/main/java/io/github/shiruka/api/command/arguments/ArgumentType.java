@@ -25,13 +25,12 @@
 
 package io.github.shiruka.api.command.arguments;
 
-import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.TextReader;
+import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.NotNull;
 

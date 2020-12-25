@@ -26,9 +26,9 @@
 package io.github.shiruka.api.command.builder;
 
 import io.github.shiruka.api.base.Self;
-import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.CommandResult;
 import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.tree.CommandNode;
 import io.github.shiruka.api.command.tree.RootNode;
 import io.github.shiruka.api.entity.Player;

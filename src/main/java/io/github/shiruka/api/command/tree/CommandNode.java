@@ -27,10 +27,10 @@ package io.github.shiruka.api.command.tree;
 
 import io.github.shiruka.api.base.Keyed;
 import io.github.shiruka.api.base.Named;
-import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.CommandResult;
 import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.command.TextReader;
+import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import java.util.Collection;

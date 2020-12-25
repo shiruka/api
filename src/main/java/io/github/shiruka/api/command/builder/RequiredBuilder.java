@@ -25,8 +25,8 @@
 
 package io.github.shiruka.api.command.builder;
 
-import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.arguments.ArgumentType;
+import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import io.github.shiruka.api.command.tree.ArgumentNode;
 import io.github.shiruka.api.command.tree.CommandNode;
