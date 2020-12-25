@@ -26,6 +26,10 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
+import io.github.shiruka.api.command.arguments.ArgumentType;
+import io.github.shiruka.api.command.builder.LiteralBuilder;
+import io.github.shiruka.api.command.builder.RequiredBuilder;
+import io.github.shiruka.api.command.tree.CommandNode;
 import io.github.shiruka.api.plugin.Plugin;
 import java.util.Arrays;
 import java.util.Map;
@@ -37,14 +41,28 @@ import org.jetbrains.annotations.NotNull;
 public interface CommandManager {
 
   /**
-   * creates a new instance of {@link Command}.
+   * creates a new required argument node builder instance.
+   *
+   * @param name the name to create.
+   *
+   * @return a new argument builder instance.
+   */
+  @NotNull
+  static <V> RequiredBuilder<V> arg(@NotNull final String name, @NotNull final ArgumentType<V> type) {
+    return new RequiredBuilder<>(name, type);
+  }
+
+  /**
+   * creates a new instance of {@link CommandNode}.
    *
    * @param name the name to create.
    *
    * @return a new command builder instance.
    */
   @NotNull
-  Command create(@NotNull String name);
+  static LiteralBuilder literal(@NotNull final String name) {
+    return new LiteralBuilder(name);
+  }
 
   /**
    * runs the given input.
@@ -52,8 +70,23 @@ public interface CommandManager {
    * {@code command} can start with {@code /} or not. it does not matter.
    *
    * @param command the command to run.
+   * @param sender the sender to execute.
    */
-  void exec(@NotNull String command);
+  void execute(@NotNull String command, @NotNull CommandSender sender);
+
+  /**
+   * registers the given commands.
+   *
+   * @param plugin the plugin to register.
+   * @param builders the builders to register.
+   *
+   * @throws IllegalArgumentException if any of given command is already registered.
+   */
+  default void register(@NotNull final Plugin plugin, @NotNull final LiteralBuilder... builders) {
+    this.register(plugin, Arrays.stream(builders)
+      .map(LiteralBuilder::build)
+      .toArray(CommandNode[]::new));
+  }
 
   /**
    * registers the given commands.
@@ -63,7 +96,7 @@ public interface CommandManager {
    *
    * @throws IllegalArgumentException if any of given command is already registered.
    */
-  void register(@NotNull Plugin plugin, @NotNull Command... commands);
+  void register(@NotNull Plugin plugin, @NotNull CommandNode... commands);
 
   /**
    * obtains the registered command map.
@@ -73,14 +106,14 @@ public interface CommandManager {
    * @return registered command map.
    */
   @NotNull
-  Map<String, Command> registered(@NotNull Plugin plugin);
+  Map<String, CommandNode> registered(@NotNull Plugin plugin);
 
   /**
    * unregister the given commands.
    *
    * @param commands the commands to unregister.
    */
-  default void unregister(@NotNull final Command... commands) {
+  default void unregister(@NotNull final CommandNode... commands) {
     this.unregister(Arrays.stream(commands)
       .map(Named::name)
       .toArray(String[]::new));

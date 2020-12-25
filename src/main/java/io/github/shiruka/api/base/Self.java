@@ -23,28 +23,20 @@
  *
  */
 
-package io.github.shiruka.api.events;
+package io.github.shiruka.api.base;
 
-import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.Cancellable;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * this class represents the superinterface of all classes that are events.
+ * an interface that helps developers to create builder-pattern based classes.
  */
-public interface Event {
+public interface Self<T> {
 
   /**
-   * calls the event itself.
+   * obtains itself.
    *
-   * @return {@code true} if the event isn't a {@link Cancellable} or
-   *   the event is a {@link Cancellable} and not cancelled.
+   * @return itself.
    */
-  default boolean callEvent() {
-    Shiruka.getEventFactory().call(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
-    } else {
-      return true;
-    }
-  }
+  @NotNull
+  T self();
 }

@@ -23,28 +23,33 @@
  *
  */
 
-package io.github.shiruka.api.events;
+package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.Cancellable;
+import io.github.shiruka.api.command.arguments.ArgumentType;
+import io.github.shiruka.api.plugin.Plugin;
 
-/**
- * this class represents the superinterface of all classes that are events.
- */
-public interface Event {
+final class CommandManagerTest {
 
-  /**
-   * calls the event itself.
-   *
-   * @return {@code true} if the event isn't a {@link Cancellable} or
-   *   the event is a {@link Cancellable} and not cancelled.
-   */
-  default boolean callEvent() {
-    Shiruka.getEventFactory().call(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
-    } else {
-      return true;
-    }
+  private static final Plugin PLUGIN = new Plugin() {
+  };
+
+  void create() {
+    final var built = CommandManager.literal("heal")
+      .playerOnly()
+      .requires(sender -> {
+        return true;
+      })
+      .executes(context -> {
+        return CommandResult.succeed();
+      })
+      .then(CommandManager.arg("test", ArgumentType.stringArg())
+        .requires(sender -> {
+          return true;
+        })
+        .executes(context -> {
+          return CommandResult.succeed();
+        }));
+    Shiruka.getCommandManager().register(CommandManagerTest.PLUGIN, built);
   }
 }

@@ -23,28 +23,23 @@
  *
  */
 
-package io.github.shiruka.api.events;
+package io.github.shiruka.api.command;
 
-import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.Cancellable;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * this class represents the superinterface of all classes that are events.
+ * an interface to determine command results.
  */
-public interface Event {
+public interface CommandResult {
 
   /**
-   * calls the event itself.
+   * use when the command successfully ran.
    *
-   * @return {@code true} if the event isn't a {@link Cancellable} or
-   *   the event is a {@link Cancellable} and not cancelled.
+   * @return a succeed result.
    */
-  default boolean callEvent() {
-    Shiruka.getEventFactory().call(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
-    } else {
-      return true;
-    }
+  @NotNull
+  static CommandResult succeed() {
+    return new CommandResult() {
+    };
   }
 }

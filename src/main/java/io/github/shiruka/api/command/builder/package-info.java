@@ -22,23 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.command;
-
-import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.plugin.Plugin;
-
-final class CommandTest {
-
-  private static final Plugin PLUGIN = new Plugin() {
-  };
-
-  void createCommand() {
-    final var built = Command.create("heal")
-      .playerOnly()
-      .execute(context -> {
-        final var player = context.senderAsPlayer();
-      });
-    Shiruka.getCommandManager().register(CommandTest.PLUGIN, built);
-  }
-}
+/**
+ * the package that contains builder classes that help to create command nodes.
+ */
+package io.github.shiruka.api.command.builder;

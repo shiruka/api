@@ -1,0 +1,133 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Shiru ka
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
+
+package io.github.shiruka.api.command.builder;
+
+import io.github.shiruka.api.command.CommandContext;
+import io.github.shiruka.api.command.arguments.ArgumentType;
+import io.github.shiruka.api.command.suggestion.Suggestions;
+import io.github.shiruka.api.command.tree.ArgumentNode;
+import io.github.shiruka.api.command.tree.CommandNode;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiFunction;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * a simple literal implementation for {@link ArgumentBuilder}.
+ *
+ * @param <V> type of the argument value.
+ */
+public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>> {
+
+  /**
+   * the name.
+   */
+  @NotNull
+  private final String name;
+
+  /**
+   * the type.
+   */
+  @NotNull
+  private final ArgumentType<V> type;
+
+  /**
+   * the suggestion override.
+   */
+  @Nullable
+  private BiFunction<CommandContext, Suggestions.Builder, CompletableFuture<Suggestions>> suggestions;
+
+  /**
+   * ctor.
+   *
+   * @param name the name.
+   * @param type the type.
+   */
+  @NotNull
+  public RequiredBuilder(@NotNull final String name, @NotNull final ArgumentType<V> type) {
+    this.name = name;
+    this.type = type;
+  }
+
+  @NotNull
+  @Override
+  public CommandNode build() {
+    final var result = new ArgumentNode<>(this.isFork(), this.getModifier(), this.getRedirect(), this.getRequirements(),
+      this.getCommand(), this.getName(), this.getSuggestions(), this.getType());
+    this.getArguments().forEach(result::addChild);
+    return result;
+  }
+
+  /**
+   * obtains the name.
+   *
+   * @return name.
+   */
+  @NotNull
+  public String getName() {
+    return this.name;
+  }
+
+  /**
+   * obtains the suggestion override.
+   *
+   * @return suggestion override.
+   */
+  @Nullable
+  public BiFunction<CommandContext, Suggestions.Builder, CompletableFuture<Suggestions>> getSuggestions() {
+    return this.suggestions;
+  }
+
+  /**
+   * obtains the type.
+   *
+   * @return type.
+   */
+  @NotNull
+  public ArgumentType<V> getType() {
+    return this.type;
+  }
+
+  @NotNull
+  @Override
+  public RequiredBuilder<V> self() {
+    return this;
+  }
+
+  /**
+   * sets the {@link #suggestions}.
+   *
+   * @param suggestions the suggestion override to set.
+   *
+   * @return {@link #self()} for buider chain.
+   */
+  @NotNull
+  public RequiredBuilder<V> suggests(
+    @NotNull final BiFunction<CommandContext, Suggestions.Builder, CompletableFuture<Suggestions>> suggestions) {
+    this.suggestions = suggestions;
+    return this.self();
+  }
+}

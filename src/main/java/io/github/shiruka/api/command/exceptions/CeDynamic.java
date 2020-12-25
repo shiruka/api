@@ -23,31 +23,54 @@
  *
  */
 
-package io.github.shiruka.api.command;
+package io.github.shiruka.api.command.exceptions;
 
+import io.github.shiruka.api.command.TextReader;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine command context.
+ * a dynamic command implementation for {@link CommandException} by 1 parameter.
  */
-public interface CommandContext {
+public final class CeDynamic implements CommandException {
 
   /**
-   * obtains the argument's value.
-   *
-   * @param name the name to get.
-   * @param clazz the class to get.
-   * @param <V> type of the value.
-   *
-   * @return argument's value.
-   */
-  @NotNull <V> V getArgument(@NotNull final String name, @NotNull final Class<V> clazz);
-
-  /**
-   * obtains the command sender.
-   *
-   * @return command sender.
+   * the function.
    */
   @NotNull
-  CommandSender getSender();
+  private final Function<Object, String> function;
+
+  /**
+   * ctor.
+   *
+   * @param function the function.
+   */
+  public CeDynamic(@NotNull final Function<Object, String> function) {
+    this.function = function;
+  }
+
+  /**
+   * creates a command syntax exception.
+   *
+   * @param first the first to create.
+   *
+   * @return a new command syntax exception instance.
+   */
+  @NotNull
+  public CommandSyntaxException create(@NotNull final Object first) {
+    return new CommandSyntaxException(this.function.apply(first), this);
+  }
+
+  /**
+   * creates a command syntax exception.
+   *
+   * @param reader the reader to create.
+   * @param first the first to create.
+   *
+   * @return a new command syntax exception instance.
+   */
+  @NotNull
+  public CommandSyntaxException createWithContext(@NotNull final TextReader reader, @NotNull final Object first) {
+    return new CommandSyntaxException(reader.getCursor(), reader.getText(), this.function.apply(first), this);
+  }
 }

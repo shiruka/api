@@ -23,28 +23,56 @@
  *
  */
 
-package io.github.shiruka.api.events;
+package io.github.shiruka.api.command.exceptions;
 
-import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.Cancellable;
+import io.github.shiruka.api.command.TextReader;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * this class represents the superinterface of all classes that are events.
+ * a simple implementation for {@link CommandException}.
  */
-public interface Event {
+public final class CeSimple implements CommandException {
 
   /**
-   * calls the event itself.
-   *
-   * @return {@code true} if the event isn't a {@link Cancellable} or
-   *   the event is a {@link Cancellable} and not cancelled.
+   * the message.
    */
-  default boolean callEvent() {
-    Shiruka.getEventFactory().call(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
-    } else {
-      return true;
-    }
+  @NotNull
+  private final String message;
+
+  /**
+   * ctor.
+   *
+   * @param message the message.
+   */
+  public CeSimple(@NotNull final String message) {
+    this.message = message;
+  }
+
+  /**
+   * creates a command syntax exception.
+   *
+   * @return a new command syntax exception instance.
+   */
+  @NotNull
+  public CommandSyntaxException create() {
+    return new CommandSyntaxException(this.message, this);
+  }
+
+  /**
+   * creates a command syntax exception with context.
+   *
+   * @param reader the reader to create.
+   *
+   * @return a new command syntax exception instance.
+   */
+  @NotNull
+  public CommandSyntaxException createWithContext(@NotNull final TextReader reader) {
+    return new CommandSyntaxException(reader.getCursor(), reader.getText(), this.message, this);
+  }
+
+  @NotNull
+  @Override
+  public String toString() {
+    return this.message;
   }
 }

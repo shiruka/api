@@ -23,28 +23,52 @@
  *
  */
 
-package io.github.shiruka.api.events;
+package io.github.shiruka.api.command.builder;
 
-import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.Cancellable;
+import io.github.shiruka.api.command.tree.CommandNode;
+import io.github.shiruka.api.command.tree.LiteralNode;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * this class represents the superinterface of all classes that are events.
+ * a simple literal implementation for {@link ArgumentBuilder}.
  */
-public interface Event {
+public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
 
   /**
-   * calls the event itself.
-   *
-   * @return {@code true} if the event isn't a {@link Cancellable} or
-   *   the event is a {@link Cancellable} and not cancelled.
+   * the literal.
    */
-  default boolean callEvent() {
-    Shiruka.getEventFactory().call(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
-    } else {
-      return true;
-    }
+  @NotNull
+  private final String literal;
+
+  /**
+   * ctor.
+   *
+   * @param literal the literal.
+   */
+  public LiteralBuilder(@NotNull final String literal) {
+    this.literal = literal;
+  }
+
+  @NotNull
+  @Override
+  public CommandNode build() {
+    final var result = new LiteralNode(this.isFork(), this.getModifier(), this.getRedirect(), this.getRequirements(),
+      this.getCommand(), this.getLiteral());
+    this.getArguments().forEach(result::addChild);
+    return result;
+  }
+
+  /**
+   * obtains the literal.
+   */
+  @NotNull
+  public String getLiteral() {
+    return this.literal;
+  }
+
+  @NotNull
+  @Override
+  public LiteralBuilder self() {
+    return this;
   }
 }
