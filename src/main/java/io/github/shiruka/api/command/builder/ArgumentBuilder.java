@@ -278,11 +278,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    */
   @NotNull
   public final T then(@NotNull final ArgumentBuilder<?> argument) {
-    if (this.redirect != null) {
-      throw new IllegalStateException("Cannot add children to a redirected node");
-    }
-    this.arguments.addChild(argument.build());
-    return this.self();
+    return this.then(argument.build());
   }
 
   /**
