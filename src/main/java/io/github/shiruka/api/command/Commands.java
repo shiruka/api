@@ -250,6 +250,19 @@ public interface Commands {
   }
 
   /**
+   * obtains the unique id value.
+   *
+   * @param context the context to obtain.
+   * @param name the name to obtain.
+   *
+   * @return a unique id value.
+   */
+  @NotNull
+  static UUID getUniqueId(@NotNull final CommandContext context, @NotNull final String name) {
+    return context.getArgument(name, UUID.class);
+  }
+
+  /**
    * creates a simple greedy argument type.
    *
    * @return a new instance of {@code this}.
