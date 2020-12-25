@@ -25,6 +25,8 @@
 
 package io.github.shiruka.api.command;
 
+import static io.github.shiruka.api.command.CommandManager.arg;
+import static io.github.shiruka.api.command.CommandManager.literal;
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.command.arguments.ArgumentType;
 import io.github.shiruka.api.plugin.Plugin;
@@ -35,7 +37,7 @@ final class CommandManagerTest {
   };
 
   void create() {
-    final var built = CommandManager.literal("heal")
+    final var built = literal("heal")
       .playerOnly()
       .requires(sender -> {
         return true;
@@ -43,9 +45,15 @@ final class CommandManagerTest {
       .executes(context -> {
         return CommandResult.succeed();
       })
-      .then(CommandManager.arg("test", ArgumentType.stringArg())
+      .then(arg("test", ArgumentType.stringArg())
         .requires(sender -> {
           return true;
+        })
+        .suggests((context, builder) -> {
+          builder.suggest("player-1");
+          builder.suggest("player-2");
+          builder.suggest("player-3");
+          return builder.buildFuture();
         })
         .executes(context -> {
           return CommandResult.succeed();
