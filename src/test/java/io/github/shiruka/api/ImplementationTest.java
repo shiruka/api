@@ -92,7 +92,7 @@ final class ImplementationTest {
     }
 
     @Override
-    public void startServer() {
+    public void startServer(final long startTime) {
     }
 
     @Override

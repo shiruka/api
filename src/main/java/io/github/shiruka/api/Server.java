@@ -106,8 +106,10 @@ public interface Server {
 
   /**
    * initiates the server.
+   *
+   * @param startTime the start time to start.
    */
-  void startServer();
+  void startServer(long startTime);
 
   /**
    * closes the server.
