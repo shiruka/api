@@ -64,7 +64,7 @@ public final class LiteralNode extends CommandNodeEnvelope {
                      @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
                      @Nullable final Command command, @NotNull final String literal) {
     super(description, fork, modifier, redirect, requirements, command);
-    this.literal = literal;
+    this.literal = literal.toLowerCase(Locale.ROOT);
   }
 
   @NotNull
@@ -101,7 +101,7 @@ public final class LiteralNode extends CommandNodeEnvelope {
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
                                                     @NotNull final Suggestions.Builder builder)
     throws CommandSyntaxException {
-    if (this.literal.toLowerCase(Locale.ROOT).startsWith(builder.getRemaining().toLowerCase(Locale.ROOT))) {
+    if (this.literal.startsWith(builder.getRemaining().toLowerCase(Locale.ROOT))) {
       return builder.suggest(this.literal).buildFuture();
     }
     return Suggestions.empty();
@@ -132,7 +132,7 @@ public final class LiteralNode extends CommandNodeEnvelope {
       return -1;
     }
     final var end = start + this.literal.length();
-    if (!reader.getText().substring(start, end).equals(this.literal)) {
+    if (!reader.getText().toLowerCase(Locale.ROOT).substring(start, end).equals(this.literal)) {
       return -1;
     }
     reader.setCursor(end);
