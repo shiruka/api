@@ -46,6 +46,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   private final Map<String, CommandNode> children = new LinkedHashMap<>();
 
   /**
+   * the description.
+   */
+  @Nullable
+  private final String description;
+
+  /**
    * the fork.
    */
   private final boolean fork;
@@ -82,15 +88,17 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   /**
    * ctor.
    *
+   * @param description the description.
    * @param fork the forks.
    * @param modifier the modifier.
    * @param redirect the redirect.
    * @param requirements the requirement.
    * @param command the command.
    */
-  protected CommandNodeEnvelope(final boolean fork, @Nullable final RedirectModifier modifier,
-                                @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
-                                @Nullable final Command command) {
+  protected CommandNodeEnvelope(@Nullable final String description, final boolean fork,
+                                @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
+                                @NotNull final Set<Requirement> requirements, @Nullable final Command command) {
+    this.description = description;
     this.fork = fork;
     this.modifier = modifier;
     this.redirect = redirect;
@@ -143,6 +151,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   @Override
   public final void setCommand(@Nullable final Command command) {
     this.command = command;
+  }
+
+  @Nullable
+  @Override
+  public final String getDescription() {
+    return this.description;
   }
 
   @Nullable

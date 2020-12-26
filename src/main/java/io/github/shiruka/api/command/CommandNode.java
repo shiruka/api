@@ -95,6 +95,14 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
   void setCommand(@Nullable Command command);
 
   /**
+   * obtains the description.
+   *
+   * @return description.
+   */
+  @Nullable
+  String getDescription();
+
+  /**
    * obtains the examples.
    *
    * @return examples.

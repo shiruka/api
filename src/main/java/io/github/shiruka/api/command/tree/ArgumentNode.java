@@ -75,6 +75,7 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
   /**
    * ctor.
    *
+   * @param description the description.
    * @param fork the forks.
    * @param modifier the modifier.
    * @param redirect the redirect.
@@ -84,11 +85,11 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * @param suggestions the suggestion override.
    * @param type the type.
    */
-  public ArgumentNode(final boolean fork, @Nullable final RedirectModifier modifier,
+  public ArgumentNode(@Nullable final String description, final boolean fork, @Nullable final RedirectModifier modifier,
                       @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
                       @Nullable final Command command, @NotNull final String name,
                       @Nullable final SuggestionProvider suggestions, @NotNull final ArgumentType<V> type) {
-    super(fork, modifier, redirect, requirements, command);
+    super(description, fork, modifier, redirect, requirements, command);
     this.name = name;
     this.suggestions = suggestions;
     this.type = type;
@@ -97,6 +98,7 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
   /**
    * ctor.
    *
+   * @param description the description.
    * @param command the command.
    * @param fork the forks.
    * @param modifier the modifier.
@@ -105,11 +107,11 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * @param name the name.
    * @param type the type.
    */
-  public ArgumentNode(final boolean fork, @Nullable final RedirectModifier modifier,
+  public ArgumentNode(@Nullable final String description, final boolean fork, @Nullable final RedirectModifier modifier,
                       @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
                       @Nullable final Command command, @NotNull final String name,
                       @NotNull final ArgumentType<V> type) {
-    this(fork, modifier, redirect, requirements, command, name, null, type);
+    this(description, fork, modifier, redirect, requirements, command, name, null, type);
   }
 
   @NotNull

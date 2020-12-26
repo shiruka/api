@@ -44,7 +44,7 @@ public final class RootNode extends CommandNodeEnvelope {
    * ctor.
    */
   public RootNode() {
-    super(false, context -> Collections.singleton(context.getSender()), null, Collections.emptySet(), null);
+    super(null, false, context -> Collections.singleton(context.getSender()), null, Collections.emptySet(), null);
   }
 
   @Override

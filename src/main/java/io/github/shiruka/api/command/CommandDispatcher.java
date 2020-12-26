@@ -123,6 +123,39 @@ public final class CommandDispatcher {
     return CommandDispatcher.getCompletionSuggestions(parse, parse.getReader().getTotalLength());
   }
 
+  public static void main(final String[] args) throws CommandSyntaxException {
+    final var dispatcher = new CommandDispatcher();
+    dispatcher.register(Commands.literal("test")
+      .describe("Main command.")
+      .requires(sender -> {
+        return sender.name().equals("null");
+      })
+      .executes(context -> {
+        context.getSender().sendMessage("test");
+        return CommandResult.succeed();
+      })
+      .then(Commands.literal("asd")
+        .describe("Asd sub command.")
+        .requires(sender -> false)
+        .executes(context -> {
+          System.out.println("asd");
+          return CommandResult.succeed();
+        })));
+    final CommandSender sender = new CommandSender() {
+      @NotNull
+      @Override
+      public String name() {
+        return "null";
+      }
+
+      @Override
+      public void sendMessage(@NotNull final String message) {
+        System.out.println("sender: " + message);
+      }
+    };
+    dispatcher.execute("test asd", sender);
+  }
+
   /**
    * collects completion suggestions.
    *
@@ -261,6 +294,89 @@ public final class CommandDispatcher {
   public CommandResult execute(@NotNull final String command, @NotNull final CommandSender sender)
     throws CommandSyntaxException {
     return this.execute(new TextReader(command), sender);
+  }
+
+  /**
+   * executes the given parse result.
+   *
+   * @param parse the parse to execute.
+   *
+   * @return the executed command result.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
+   */
+  @NotNull
+  public CommandResult execute(@NotNull final ParseResults parse) throws CommandSyntaxException {
+    if (parse.getReader().canRead()) {
+      if (parse.getExceptions().size() == 1) {
+        throw parse.getExceptions().values().iterator().next();
+      }
+      if (parse.getBuilder().getRange().isEmpty()) {
+        throw CommandException.DISPATCHER_UNKNOWN_COMMAND.createWithContext(parse.getReader());
+      }
+      throw CommandException.DISPATCHER_UNKNOWN_ARGUMENT.createWithContext(parse.getReader());
+    }
+    var result = CommandResult.empty();
+    var successfulForks = CommandResult.empty();
+    var forked = false;
+    var foundCommand = false;
+    final var command = parse.getReader().getText();
+    final var original = parse.getBuilder().build(command);
+    var contexts = Collections.singletonList(original);
+    final var next = new AtomicReference<List<CommandContext>>();
+    while (contexts != null) {
+      for (final var context : contexts) {
+        final var child = context.getChild();
+        if (child != null) {
+          forked |= context.isFork();
+          if (child.hasNodes()) {
+            foundCommand = true;
+            final var modifier = context.getRedirectModifier();
+            if (modifier == null) {
+              if (next.get() == null) {
+                next.set(new ArrayList<>(1));
+              }
+              next.get().add(child.copyFor(context.getSender()));
+            } else {
+              try {
+                final var results = modifier.apply(context);
+                if (!results.isEmpty()) {
+                  if (next.get() == null) {
+                    next.set(new ArrayList<>(results.size()));
+                  }
+                  results.forEach(sender -> next.get().add(child.copyFor(sender)));
+                }
+              } catch (final CommandSyntaxException ex) {
+                this.resultConsumer.onCommandComplete(context, false, CommandResult.empty());
+                if (!forked) {
+                  throw ex;
+                }
+              }
+            }
+          }
+        } else if (context.getCommand() != null) {
+          foundCommand = true;
+          try {
+            final var value = context.getCommand().run(context);
+            result = result.merge(value);
+            this.resultConsumer.onCommandComplete(context, true, value);
+            successfulForks = CommandResult.succeed();
+          } catch (final CommandSyntaxException ex) {
+            this.resultConsumer.onCommandComplete(context, false, CommandResult.empty());
+            if (!forked) {
+              throw ex;
+            }
+          }
+        }
+      }
+      contexts = next.get();
+      next.set(null);
+    }
+    if (!foundCommand) {
+      this.resultConsumer.onCommandComplete(original, false, CommandResult.empty());
+      throw CommandException.DISPATCHER_UNKNOWN_COMMAND.createWithContext(parse.getReader());
+    }
+    return forked ? successfulForks : result;
   }
 
   /**
@@ -451,89 +567,6 @@ public final class CommandDispatcher {
     current.add(node);
     result.add(current);
     node.getChildren().forEach(child -> this.addPaths(child, result, current));
-  }
-
-  /**
-   * executes the given parse result.
-   *
-   * @param parse the parse to execute.
-   *
-   * @return the executed command result.
-   *
-   * @throws CommandSyntaxException if something is wrong in the command syntax.
-   */
-  @NotNull
-  private CommandResult execute(@NotNull final ParseResults parse) throws CommandSyntaxException {
-    if (parse.getReader().canRead()) {
-      if (parse.getExceptions().size() == 1) {
-        throw parse.getExceptions().values().iterator().next();
-      }
-      if (parse.getBuilder().getRange().isEmpty()) {
-        throw CommandException.DISPATCHER_UNKNOWN_COMMAND.createWithContext(parse.getReader());
-      }
-      throw CommandException.DISPATCHER_UNKNOWN_ARGUMENT.createWithContext(parse.getReader());
-    }
-    var result = CommandResult.empty();
-    var successfulForks = CommandResult.empty();
-    var forked = false;
-    var foundCommand = false;
-    final var command = parse.getReader().getText();
-    final var original = parse.getBuilder().build(command);
-    var contexts = Collections.singletonList(original);
-    final var next = new AtomicReference<List<CommandContext>>();
-    while (contexts != null) {
-      for (final var context : contexts) {
-        final var child = context.getChild();
-        if (child != null) {
-          forked |= context.isFork();
-          if (child.hasNodes()) {
-            foundCommand = true;
-            final var modifier = context.getRedirectModifier();
-            if (modifier == null) {
-              if (next.get() == null) {
-                next.set(new ArrayList<>(1));
-              }
-              next.get().add(child.copyFor(context.getSender()));
-            } else {
-              try {
-                final var results = modifier.apply(context);
-                if (!results.isEmpty()) {
-                  if (next.get() == null) {
-                    next.set(new ArrayList<>(results.size()));
-                  }
-                  results.forEach(sender -> next.get().add(child.copyFor(sender)));
-                }
-              } catch (final CommandSyntaxException ex) {
-                this.resultConsumer.onCommandComplete(context, false, CommandResult.empty());
-                if (!forked) {
-                  throw ex;
-                }
-              }
-            }
-          }
-        } else if (context.getCommand() != null) {
-          foundCommand = true;
-          try {
-            final var value = context.getCommand().run(context);
-            result = result.merge(value);
-            this.resultConsumer.onCommandComplete(context, true, value);
-            successfulForks = CommandResult.succeed();
-          } catch (final CommandSyntaxException ex) {
-            this.resultConsumer.onCommandComplete(context, false, CommandResult.empty());
-            if (!forked) {
-              throw ex;
-            }
-          }
-        }
-      }
-      contexts = next.get();
-      next.set(null);
-    }
-    if (!foundCommand) {
-      this.resultConsumer.onCommandComplete(original, false, CommandResult.empty());
-      throw CommandException.DISPATCHER_UNKNOWN_COMMAND.createWithContext(parse.getReader());
-    }
-    return forked ? successfulForks : result;
   }
 
   /**

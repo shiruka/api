@@ -52,6 +52,7 @@ public final class LiteralNode extends CommandNodeEnvelope {
   /**
    * ctor.
    *
+   * @param description the description.
    * @param fork the forks.
    * @param modifier the modifier.
    * @param redirect the redirect.
@@ -59,10 +60,10 @@ public final class LiteralNode extends CommandNodeEnvelope {
    * @param command the command.
    * @param literal the literal.
    */
-  public LiteralNode(final boolean fork, @Nullable final RedirectModifier modifier,
+  public LiteralNode(@Nullable final String description, final boolean fork, @Nullable final RedirectModifier modifier,
                      @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
                      @Nullable final Command command, @NotNull final String literal) {
-    super(fork, modifier, redirect, requirements, command);
+    super(description, fork, modifier, redirect, requirements, command);
     this.literal = literal;
   }
 

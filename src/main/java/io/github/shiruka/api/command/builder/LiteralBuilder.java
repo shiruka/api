@@ -52,8 +52,8 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
   @NotNull
   @Override
   public CommandNode build() {
-    final var result = new LiteralNode(this.isFork(), this.getModifier(), this.getRedirect(), this.getRequirements(),
-      this.getCommand(), this.getLiteral());
+    final var result = new LiteralNode(this.getDescription(), this.isFork(), this.getModifier(), this.getRedirect(),
+      this.getRequirements(), this.getCommand(), this.getLiteral());
     this.getArguments().forEach(result::addChild);
     return result;
   }

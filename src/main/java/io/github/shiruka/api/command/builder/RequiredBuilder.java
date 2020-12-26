@@ -72,8 +72,8 @@ public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>
   @NotNull
   @Override
   public CommandNode build() {
-    final var result = new ArgumentNode<>(this.isFork(), this.getModifier(), this.getRedirect(), this.getRequirements(),
-      this.getCommand(), this.getName(), this.getSuggestions(), this.getType());
+    final var result = new ArgumentNode<>(this.getDescription(), this.isFork(), this.getModifier(), this.getRedirect(),
+      this.getRequirements(), this.getCommand(), this.getName(), this.getSuggestions(), this.getType());
     this.getArguments().forEach(result::addChild);
     return result;
   }

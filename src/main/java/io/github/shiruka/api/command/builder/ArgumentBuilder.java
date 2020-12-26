@@ -58,6 +58,9 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   @Nullable
   private Command command;
 
+  @Nullable
+  private String description;
+
   /**
    * the fork
    */
@@ -306,4 +309,27 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    */
   @NotNull
   public abstract CommandNode build();
+
+  /**
+   * sets the description.
+   *
+   * @param description the description to set.
+   *
+   * @return {@link #self()} for builder chain.
+   */
+  @NotNull
+  public T describe(@Nullable final String description) {
+    this.description = description;
+    return this.self();
+  }
+
+  /**
+   * obtains the description.
+   *
+   * @return description.
+   */
+  @Nullable
+  public String getDescription() {
+    return this.description;
+  }
 }
