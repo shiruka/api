@@ -139,6 +139,19 @@ public final class Suggestions {
     return Suggestions.create(command, texts);
   }
 
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof Suggestions)) {
+      return false;
+    }
+    final var that = (Suggestions) obj;
+    return Objects.equals(this.range, that.range) &&
+      Objects.equals(this.suggestionList, that.suggestionList);
+  }
+
   /**
    * checks if {@link #suggestionList} is empty.
    *
