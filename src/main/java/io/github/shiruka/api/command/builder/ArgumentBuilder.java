@@ -188,6 +188,8 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
 
   /**
    * adds a requirement which control is the {@link CommandSender} is a {@link Player}.
+   *
+   * @return {@link #self()} for builder chain.
    */
   @NotNull
   public final T playerOnly() {
@@ -196,6 +198,8 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
 
   /**
    * adds a requirement which control is the {@link CommandSender} is a {@link Player}.
+   *
+   * @return {@link #self()} for builder chain.
    */
   @NotNull
   public final T playerOnly(@NotNull final String errorMessage) {
@@ -204,6 +208,8 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
 
   /**
    * adds a requirement which control is the {@link CommandSender} is a {@link Player}.
+   *
+   * @return {@link #self()} for builder chain.
    */
   @NotNull
   public final T playerOnly(@NotNull final Function<CommandSender, String> errorMessage) {

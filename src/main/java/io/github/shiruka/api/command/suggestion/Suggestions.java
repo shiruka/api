@@ -78,7 +78,7 @@ public final class Suggestions {
   }
 
   /**
-   * creates a new instance of {@link this}.
+   * creates a new instance of {@code this}.
    *
    * @param command the command to create.
    * @param suggestions the suggestions to create.

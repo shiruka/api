@@ -60,6 +60,8 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
 
   /**
    * obtains the literal.
+   *
+   * @return literal.
    */
   @NotNull
   public String getLiteral() {

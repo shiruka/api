@@ -41,6 +41,8 @@ public interface Commands {
    * creates a new required argument node builder instance.
    *
    * @param name the name to create.
+   * @param type the type to create.
+   * @param <V> type of the argument value.
    *
    * @return a new argument builder instance.
    */
