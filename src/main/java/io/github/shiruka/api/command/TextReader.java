@@ -84,7 +84,7 @@ public final class TextReader {
    *
    * @return {@code true} if it's allowed.
    */
-  public static boolean isAllowedInUnquotedText(final char ch) {
+  private static boolean isAllowedInUnquotedText(final char ch) {
     return TextReader.isAllowedInteger(ch) ||
       ch >= 'A' && ch <= 'Z' ||
       ch >= 'a' && ch <= 'z' ||
@@ -173,15 +173,6 @@ public final class TextReader {
   }
 
   /**
-   * obtains the remaining length of the text.
-   *
-   * @return remaining length.
-   */
-  public int getRemainingLength() {
-    return this.text.length() - this.cursor;
-  }
-
-  /**
    * obtains the text value.
    *
    * @return text value.
@@ -207,26 +198,6 @@ public final class TextReader {
    */
   public char peek() {
     return this.text.charAt(this.cursor);
-  }
-
-  /**
-   * obtains the character of the {@link #cursor} position.
-   *
-   * @param offset the offset to peek.
-   *
-   * @return peeked character.
-   */
-  public char peek(final int offset) {
-    return this.text.charAt(this.cursor + offset);
-  }
-
-  /**
-   * polls the character.
-   *
-   * @return polled character.
-   */
-  public char read() {
-    return this.text.charAt(this.cursor++);
   }
 
   /**
@@ -373,26 +344,6 @@ public final class TextReader {
   }
 
   /**
-   * reads quoted text.
-   *
-   * @return quoted text.
-   *
-   * @throws CommandSyntaxException if something is wrong in the command syntax.
-   */
-  @NotNull
-  public String readQuotedText() throws CommandSyntaxException {
-    if (!this.canRead()) {
-      return "";
-    }
-    final var next = this.peek();
-    if (!TextReader.isQuotedTextStart(next)) {
-      throw CommandException.READER_EXPECTED_START_OF_QUOTE.createWithContext(this);
-    }
-    this.skip();
-    return this.readTextUntil(next);
-  }
-
-  /**
    * reads short.
    *
    * @return short.
@@ -458,12 +409,12 @@ public final class TextReader {
   }
 
   /**
-   * skips whitespaces.
+   * polls the character.
+   *
+   * @return polled character.
    */
-  public void skipWhitespace() {
-    while (this.canRead() && Character.isWhitespace(this.peek())) {
-      this.skip();
-    }
+  private char read() {
+    return this.text.charAt(this.cursor++);
   }
 
   /**
