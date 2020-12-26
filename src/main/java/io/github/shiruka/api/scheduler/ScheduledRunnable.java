@@ -74,6 +74,8 @@ public abstract class ScheduledRunnable implements Runnable {
 
   /**
    * used internally to refer to this runnable, probably shouldn't be used by plugins.
+   *
+   * @return the id.
    */
   public final int id() {
     return this.id;
@@ -81,6 +83,8 @@ public abstract class ScheduledRunnable implements Runnable {
 
   /**
    * gets how long between runs this is supposed to wait if it is a repeating task.
+   *
+   * @return interval value.
    */
   public final long interval() {
     return this.task.get().interval();
@@ -104,6 +108,8 @@ public abstract class ScheduledRunnable implements Runnable {
 
   /**
    * sets how long this runnable should wait between executions if this is a repeating task.
+   *
+   * @param interval the interval to set.
    */
   public final void setInterval(final long interval) {
     this.task.get().setInterval(interval);

@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api;
 
+import io.github.shiruka.api.command.CommandManager;
 import io.github.shiruka.api.events.EventFactory;
 import io.github.shiruka.api.scheduler.Scheduler;
 import org.hamcrest.MatcherAssert;
@@ -39,6 +40,12 @@ import org.llorllale.cactoos.matchers.Throws;
 final class ImplementationTest {
 
   private static final Server SERVER = new Server() {
+    @NotNull
+    @Override
+    public CommandManager getCommandManager() {
+      return null;
+    }
+
     @NotNull
     @Override
     public EventFactory getEventFactory() {
@@ -73,7 +80,8 @@ final class ImplementationTest {
     }
 
     @Override
-    public void runCommand(@NotNull final String command) {
+    public boolean isRunning() {
+      return false;
     }
 
     @Override

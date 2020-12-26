@@ -1,0 +1,101 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Shiru ka
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
+
+package io.github.shiruka.api.command.tree;
+
+import io.github.shiruka.api.command.TextReader;
+import io.github.shiruka.api.command.context.CommandContext;
+import io.github.shiruka.api.command.context.CommandContextBuilder;
+import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
+import io.github.shiruka.api.command.suggestion.Suggestions;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * a root command node implementation for {@link CommandNodeEnvelope}.
+ */
+public final class RootNode extends CommandNodeEnvelope {
+
+  /**
+   * ctor.
+   */
+  public RootNode() {
+    super(null, false, context -> Collections.singleton(context.getSender()), null, Collections.emptySet(), null);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return this == obj ||
+      obj instanceof RootNode && super.equals(obj);
+  }
+
+  @Override
+  public String toString() {
+    return "<root>";
+  }
+
+  @NotNull
+  @Override
+  public Collection<String> getExamples() {
+    return Collections.emptyList();
+  }
+
+  @NotNull
+  @Override
+  public String getUsage() {
+    return "";
+  }
+
+  @Override
+  public boolean isValidInput(@NotNull final String input) {
+    return false;
+  }
+
+  @Override
+  public void parse(@NotNull final TextReader reader, @NotNull final CommandContextBuilder builder)
+    throws CommandSyntaxException {
+  }
+
+  @NotNull
+  @Override
+  public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
+                                                    @NotNull final Suggestions.Builder builder) throws CommandSyntaxException {
+    return Suggestions.empty();
+  }
+
+  @NotNull
+  @Override
+  public String key() {
+    return "";
+  }
+
+  @NotNull
+  @Override
+  public String name() {
+    return "";
+  }
+}

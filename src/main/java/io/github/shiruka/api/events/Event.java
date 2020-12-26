@@ -25,9 +25,26 @@
 
 package io.github.shiruka.api.events;
 
+import io.github.shiruka.api.Shiruka;
+import io.github.shiruka.api.event.Cancellable;
+
 /**
  * this class represents the superinterface of all classes that are events.
  */
 public interface Event {
 
+  /**
+   * calls the event itself.
+   *
+   * @return {@code true} if the event isn't a {@link Cancellable} or
+   *   the event is a {@link Cancellable} and not cancelled.
+   */
+  default boolean callEvent() {
+    Shiruka.getEventFactory().call(this);
+    if (this instanceof Cancellable) {
+      return !((Cancellable) this).cancelled();
+    } else {
+      return true;
+    }
+  }
 }
