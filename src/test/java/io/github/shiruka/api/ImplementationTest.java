@@ -26,6 +26,7 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.command.CommandManager;
+import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.events.EventFactory;
 import io.github.shiruka.api.scheduler.Scheduler;
 import org.hamcrest.MatcherAssert;
@@ -43,6 +44,12 @@ final class ImplementationTest {
     @NotNull
     @Override
     public CommandManager getCommandManager() {
+      return null;
+    }
+
+    @NotNull
+    @Override
+    public CommandSender getConsoleCommandSender() {
       return null;
     }
 

@@ -26,6 +26,7 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.command.CommandManager;
+import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.events.EventFactory;
 import io.github.shiruka.api.scheduler.Scheduler;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +44,16 @@ public interface Shiruka {
   @NotNull
   static CommandManager getCommandManager() {
     return Shiruka.getServer().getCommandManager();
+  }
+
+  /**
+   * obtains the console command sender instance..
+   *
+   * @return the console command sender instance.
+   */
+  @NotNull
+  static CommandSender getConsoleCommandSender() {
+    return Shiruka.getServer().getConsoleCommandSender();
   }
 
   /**

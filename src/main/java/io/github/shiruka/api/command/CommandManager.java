@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.command;
 
+import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.base.Named;
 import io.github.shiruka.api.command.builder.LiteralBuilder;
 import io.github.shiruka.api.plugin.Plugin;
@@ -36,6 +37,17 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine command manager.
  */
 public interface CommandManager {
+
+  /**
+   * runs the given input.
+   * <p>
+   * {@code command} can start with {@code /} or not. it does not matter.
+   *
+   * @param command the command to run.
+   */
+  default void execute(@NotNull final String command) {
+    this.execute(command, Shiruka.getConsoleCommandSender());
+  }
 
   /**
    * runs the given input.
