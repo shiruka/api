@@ -446,7 +446,7 @@ public final class TextReader {
    * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
-  public String readTextUntil(final char terminator) throws CommandSyntaxException {
+  private String readTextUntil(final char terminator) throws CommandSyntaxException {
     final var result = new StringBuilder();
     var escaped = false;
     while (this.canRead()) {
