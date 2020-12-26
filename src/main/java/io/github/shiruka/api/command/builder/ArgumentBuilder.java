@@ -209,6 +209,8 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   /**
    * adds a requirement which control is the {@link CommandSender} is a {@link Player}.
    *
+   * @param errorMessage the error message to display to sender which is not a {@link Player}.
+   *
    * @return {@link #self()} for builder chain.
    */
   @NotNull
