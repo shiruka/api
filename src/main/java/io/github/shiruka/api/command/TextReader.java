@@ -437,6 +437,36 @@ public final class TextReader {
   }
 
   /**
+   * reads unquoted text.
+   *
+   * @return unquoted text.
+   */
+  @NotNull
+  public String readUnquotedText() {
+    final var start = this.cursor;
+    while (this.canRead() && TextReader.isAllowedInUnquotedText(this.peek())) {
+      this.skip();
+    }
+    return this.text.substring(start, this.cursor);
+  }
+
+  /**
+   * skips.
+   */
+  public void skip() {
+    this.cursor++;
+  }
+
+  /**
+   * skips whitespaces.
+   */
+  public void skipWhitespace() {
+    while (this.canRead() && Character.isWhitespace(this.peek())) {
+      this.skip();
+    }
+  }
+
+  /**
    * reads until reached the {@code terminator}.
    *
    * @param terminator the terminator to read.
@@ -468,35 +498,5 @@ public final class TextReader {
       }
     }
     throw CommandException.READER_EXPECTED_END_OF_QUOTE.createWithContext(this);
-  }
-
-  /**
-   * reads unquoted text.
-   *
-   * @return unquoted text.
-   */
-  @NotNull
-  public String readUnquotedText() {
-    final var start = this.cursor;
-    while (this.canRead() && TextReader.isAllowedInUnquotedText(this.peek())) {
-      this.skip();
-    }
-    return this.text.substring(start, this.cursor);
-  }
-
-  /**
-   * skips.
-   */
-  public void skip() {
-    this.cursor++;
-  }
-
-  /**
-   * skips whitespaces.
-   */
-  public void skipWhitespace() {
-    while (this.canRead() && Character.isWhitespace(this.peek())) {
-      this.skip();
-    }
   }
 }
