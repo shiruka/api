@@ -26,8 +26,9 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.command.CommandManager;
-import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.console.ConsoleCommandSender;
 import io.github.shiruka.api.events.EventFactory;
+import io.github.shiruka.api.resourcepack.ResourcePackManager;
 import io.github.shiruka.api.scheduler.Scheduler;
 import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
@@ -47,9 +48,8 @@ final class ImplementationTest {
       return null;
     }
 
-    @NotNull
     @Override
-    public CommandSender getConsoleCommandSender() {
+    public @NotNull ConsoleCommandSender getConsoleCommandSender() {
       return null;
     }
 
@@ -67,6 +67,12 @@ final class ImplementationTest {
     @Override
     public int getPlayerCount() {
       return 0;
+    }
+
+    @NotNull
+    @Override
+    public ResourcePackManager getResourcePackManager() {
+      return null;
     }
 
     @NotNull
