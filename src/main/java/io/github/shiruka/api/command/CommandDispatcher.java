@@ -26,6 +26,7 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
+import io.github.shiruka.api.command.builder.LiteralBuilder;
 import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.context.CommandContextBuilder;
 import io.github.shiruka.api.command.context.ParseResults;
@@ -34,18 +35,17 @@ import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import io.github.shiruka.api.command.tree.CommandNode;
 import io.github.shiruka.api.command.tree.RootNode;
-import io.github.shiruka.api.plugin.Plugin;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents command dispatchers.
- *
- * @todo #1:15m Add more Javadocs for methods.
  */
 public final class CommandDispatcher {
 
@@ -90,6 +90,9 @@ public final class CommandDispatcher {
   @NotNull
   private final RootNode root;
 
+  /**
+   * the result consumer.
+   */
   @NotNull
   private ResultConsumer resultConsumer = (context, success, result) -> {
   };
@@ -122,6 +125,14 @@ public final class CommandDispatcher {
     return CommandDispatcher.getCompletionSuggestions(parse, parse.getReader().getTotalLength());
   }
 
+  /**
+   * collects completion suggestions.
+   *
+   * @param parse the parse to collect.
+   * @param cursor the cursor to collect.
+   *
+   * @return collection of completion suggestions.
+   */
   @NotNull
   private static CompletableFuture<Suggestions> getCompletionSuggestions(@NotNull final ParseResults parse,
                                                                          final int cursor) {
@@ -143,21 +154,29 @@ public final class CommandDispatcher {
       futures[i++] = future;
     }
     final var result = new CompletableFuture<Suggestions>();
-    CompletableFuture.allOf(futures).thenRun(() -> {
+    CompletableFuture.allOf(futures).thenRun(() ->
       result.complete(Suggestions.merge(fullInput,
-        Arrays.stream(futures)
+        Stream.of(futures)
           .map(CompletableFuture::join)
-          .collect(Collectors.toCollection(ArrayList::new))));
-    });
+          .collect(Collectors.toCollection(ArrayList::new)))));
     return result;
   }
 
+  /**
+   * parses the given node.
+   *
+   * @param node the node to parse.
+   * @param originalReader the original reader to parse.
+   * @param builder the builder to parse.
+   *
+   * @return the parse result.
+   */
   @NotNull
   private static ParseResults parseNodes(@NotNull final CommandNode node, @NotNull final TextReader originalReader,
                                          @NotNull final CommandContextBuilder builder) {
     final var sender = builder.getSender();
-    Map<CommandNode, CommandSyntaxException> errors = null;
-    List<ParseResults> potentials = null;
+    final var errors = new AtomicReference<Map<CommandNode, CommandSyntaxException>>();
+    final var potentials = new AtomicReference<List<ParseResults>>();
     final var cursor = originalReader.getCursor();
     for (final var child : node.getRelevantNodes(originalReader)) {
       if (!child.canUse(sender)) {
@@ -176,10 +195,10 @@ public final class CommandDispatcher {
           throw CommandException.DISPATCHER_EXPECTED_ARGUMENT_SEPARATOR.createWithContext(reader);
         }
       } catch (final CommandSyntaxException ex) {
-        if (errors == null) {
-          errors = new LinkedHashMap<>();
+        if (errors.get() == null) {
+          errors.set(new LinkedHashMap<>());
         }
-        errors.put(child, ex);
+        errors.get().put(child, ex);
         reader.setCursor(cursor);
         continue;
       }
@@ -187,30 +206,32 @@ public final class CommandDispatcher {
       if (reader.canRead(child.getRedirect() == null ? 2 : 1)) {
         reader.skip();
         if (child.getRedirect() != null) {
-          final var childContext = new CommandContextBuilder(reader.getCursor(), child.getRedirect(), sender);
-          final var parse = CommandDispatcher.parseNodes(child.getRedirect(), reader, childContext);
+          final var parse = CommandDispatcher.parseNodes(child.getRedirect(), reader,
+            new CommandContextBuilder(reader.getCursor(), child.getRedirect(), sender));
           context.withChild(parse.getBuilder());
           return new ParseResults(context, parse.getReader(), parse.getExceptions());
         }
         final var parse = CommandDispatcher.parseNodes(child, reader, context);
-        if (potentials == null) {
-          potentials = new ArrayList<>(1);
+        if (potentials.get() == null) {
+          potentials.set(new ArrayList<>(1));
         }
-        potentials.add(parse);
+        potentials.get().add(parse);
       } else {
-        if (potentials == null) {
-          potentials = new ArrayList<>(1);
+        if (potentials.get() == null) {
+          potentials.set(new ArrayList<>(1));
         }
-        potentials.add(new ParseResults(context, reader, Collections.emptyMap()));
+        potentials.get().add(new ParseResults(context, reader, Collections.emptyMap()));
       }
     }
-    if (potentials == null) {
-      return new ParseResults(builder, originalReader, errors == null ? Collections.emptyMap() : errors);
+    if (potentials.get() == null) {
+      return new ParseResults(builder, originalReader, errors.get() == null
+        ? Collections.emptyMap()
+        : errors.get());
     }
-    if (potentials.size() <= 1) {
-      return potentials.get(0);
+    if (potentials.get().size() <= 1) {
+      return potentials.get().get(0);
     }
-    potentials.sort((a, b) -> {
+    potentials.get().sort((a, b) -> {
       if (!a.getReader().canRead() && b.getReader().canRead()) {
         return -1;
       }
@@ -225,9 +246,19 @@ public final class CommandDispatcher {
       }
       return 0;
     });
-    return potentials.get(0);
+    return potentials.get().get(0);
   }
 
+  /**
+   * executes the given input with the sender.
+   *
+   * @param command the command to execute.
+   * @param sender the sender to execute
+   *
+   * @return executed command result.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
+   */
   @NotNull
   public CommandResult execute(@NotNull final String command, @NotNull final CommandSender sender)
     throws CommandSyntaxException {
@@ -307,7 +338,6 @@ public final class CommandDispatcher {
    *
    * @param resultConsumer the resultConsumer to set.
    */
-  @NotNull
   public void setResultConsumer(@NotNull final ResultConsumer resultConsumer) {
     this.resultConsumer = resultConsumer;
   }
@@ -370,20 +400,53 @@ public final class CommandDispatcher {
       new CommandContextBuilder(command.getCursor(), this.root, sender));
   }
 
-  public void register(@NotNull final Plugin plugin, final @NotNull CommandNode... commands) {
+  /**
+   * registers the given commands.
+   *
+   * @param commands the commands to registers.
+   */
+  public void register(@NotNull final CommandNode... commands) {
     Arrays.asList(commands).forEach(this.root::addChild);
   }
 
-  @NotNull
-  public Map<String, CommandNode> registered(@NotNull final Plugin plugin) {
-    // @todo #1:15m Do it!
-    return null;
+  /**
+   * registers the given builders.
+   *
+   * @param builders the builders to registers.
+   */
+  public void register(@NotNull final LiteralBuilder... builders) {
+    this.register(Arrays.stream(builders)
+      .map(LiteralBuilder::build)
+      .toArray(CommandNode[]::new));
   }
 
+  /**
+   * unregisters the given commands.
+   *
+   * @param commands the commands to unregister.
+   */
   public void unregister(@NotNull final String... commands) {
-    // @todo #1:15m Do it!
+    Arrays.asList(commands).forEach(this.root::removeChild);
   }
 
+  /**
+   * unregister the given commands.
+   *
+   * @param commands the commands to unregister.
+   */
+  public void unregister(@NotNull final CommandNode... commands) {
+    this.unregister(Arrays.stream(commands)
+      .map(Named::name)
+      .toArray(String[]::new));
+  }
+
+  /**
+   * adds the given node to paths.
+   *
+   * @param node the node to add.
+   * @param result the result to add.
+   * @param parents the parents to add.
+   */
   private void addPaths(@NotNull final CommandNode node, @NotNull final List<List<CommandNode>> result,
                         @NotNull final List<CommandNode> parents) {
     final var current = new ArrayList<>(parents);
@@ -392,6 +455,15 @@ public final class CommandDispatcher {
     node.getChildren().forEach(child -> this.addPaths(child, result, current));
   }
 
+  /**
+   * executes the given parse result.
+   *
+   * @param parse the parse to execute.
+   *
+   * @return the executed command result.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
+   */
   @NotNull
   private CommandResult execute(@NotNull final ParseResults parse) throws CommandSyntaxException {
     if (parse.getReader().canRead()) {
@@ -431,9 +503,7 @@ public final class CommandDispatcher {
                   if (next.get() == null) {
                     next.set(new ArrayList<>(results.size()));
                   }
-                  for (final var sender : results) {
-                    next.get().add(child.copyFor(sender));
-                  }
+                  results.forEach(sender -> next.get().add(child.copyFor(sender)));
                 }
               } catch (final CommandSyntaxException ex) {
                 this.resultConsumer.onCommandComplete(context, false, CommandResult.empty());
@@ -458,8 +528,8 @@ public final class CommandDispatcher {
           }
         }
       }
-      contexts = next;
-      next = null;
+      contexts = next.get();
+      next.set(null);
     }
     if (!foundCommand) {
       this.resultConsumer.onCommandComplete(original, false, CommandResult.empty());
@@ -468,12 +538,31 @@ public final class CommandDispatcher {
     return forked ? successfulForks : result;
   }
 
+  /**
+   * executes the given input with the sender.
+   *
+   * @param input the input to execute.
+   * @param sender the sender to execute.
+   *
+   * @return the executed command result.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
+   */
   @NotNull
   private CommandResult execute(@NotNull final TextReader input, @NotNull final CommandSender sender)
     throws CommandSyntaxException {
     return this.execute(this.parse(input, sender));
   }
 
+  /**
+   * collects and adds all usages to the given result.
+   *
+   * @param node the node to collect.
+   * @param sender the sender to collect.
+   * @param result the result to collect.
+   * @param prefix the prefix to collect.
+   * @param restricted the restricted to collect.
+   */
   private void getAllUsage(@NotNull final CommandNode node, @NotNull final CommandSender sender,
                            @NotNull final List<String> result, @NotNull final String prefix, final boolean restricted) {
     if (restricted && !node.canUse(sender)) {
@@ -494,6 +583,16 @@ public final class CommandDispatcher {
     }
   }
 
+  /**
+   * obtains the smart usage of the given node.
+   *
+   * @param node the node to get.
+   * @param sender the sender to get.
+   * @param optional the optional to get.
+   * @param deep the deep to get.
+   *
+   * @return the smart usage.
+   */
   @Nullable
   private String getSmartUsage(@NotNull final CommandNode node, @NotNull final CommandSender sender,
                                final boolean optional, final boolean deep) {
@@ -546,15 +645,15 @@ public final class CommandDispatcher {
       return self;
     }
     final var builder = new StringBuilder(open);
-    var count = 0;
-    for (final var child : children) {
-      if (count > 0) {
+    final var count = new AtomicInteger();
+    children.forEach(child -> {
+      if (count.get() > 0) {
         builder.append(CommandDispatcher.USAGE_OR);
       }
       builder.append(child.getUsage());
-      count++;
-    }
-    if (count <= 0) {
+      count.getAndIncrement();
+    });
+    if (count.get() <= 0) {
       return self;
     }
     builder.append(close);
