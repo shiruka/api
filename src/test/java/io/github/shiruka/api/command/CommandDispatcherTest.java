@@ -26,9 +26,7 @@
 package io.github.shiruka.api.command;
 
 import static io.github.shiruka.api.command.Commands.*;
-import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
-import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
