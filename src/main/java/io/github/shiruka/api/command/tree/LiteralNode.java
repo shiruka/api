@@ -28,7 +28,6 @@ package io.github.shiruka.api.command.tree;
 import io.github.shiruka.api.command.*;
 import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.context.CommandContextBuilder;
-import io.github.shiruka.api.command.exceptions.CommandException;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import java.util.Collection;
@@ -36,7 +35,6 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,9 +60,8 @@ public final class LiteralNode extends CommandNodeEnvelope {
    * @param literal the literal.
    */
   public LiteralNode(final boolean fork, @Nullable final RedirectModifier modifier,
-                     @Nullable final CommandNode redirect, @NotNull final Set<Predicate<CommandSender>> requirements,
-                     @Nullable final Command command,
-                     @NotNull final String literal) {
+                     @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
+                     @Nullable final Command command, @NotNull final String literal) {
     super(fork, modifier, redirect, requirements, command);
     this.literal = literal;
   }
@@ -101,7 +98,8 @@ public final class LiteralNode extends CommandNodeEnvelope {
   @NotNull
   @Override
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
-                                                    @NotNull final Suggestions.Builder builder) throws CommandSyntaxException {
+                                                    @NotNull final Suggestions.Builder builder)
+    throws CommandSyntaxException {
     if (this.literal.toLowerCase(Locale.ROOT).startsWith(builder.getRemaining().toLowerCase(Locale.ROOT))) {
       return builder.suggest(this.literal).buildFuture();
     }

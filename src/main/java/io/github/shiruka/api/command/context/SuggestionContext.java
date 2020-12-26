@@ -25,7 +25,7 @@
 
 package io.github.shiruka.api.command.context;
 
-import io.github.shiruka.api.command.tree.CommandNode;
+import io.github.shiruka.api.command.CommandNode;
 import org.jetbrains.annotations.NotNull;
 
 /**

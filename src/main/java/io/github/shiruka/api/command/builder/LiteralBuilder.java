@@ -25,7 +25,7 @@
 
 package io.github.shiruka.api.command.builder;
 
-import io.github.shiruka.api.command.tree.CommandNode;
+import io.github.shiruka.api.command.CommandNode;
 import io.github.shiruka.api.command.tree.LiteralNode;
 import org.jetbrains.annotations.NotNull;
 

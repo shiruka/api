@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.command.exceptions;
 
+import io.github.shiruka.api.command.CommandException;
 import io.github.shiruka.api.command.TextReader;
 import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
