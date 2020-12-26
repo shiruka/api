@@ -27,7 +27,10 @@ package io.github.shiruka.api.command.tree;
 
 import io.github.shiruka.api.base.Keyed;
 import io.github.shiruka.api.base.Named;
-import io.github.shiruka.api.command.*;
+import io.github.shiruka.api.command.Command;
+import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.RedirectModifier;
+import io.github.shiruka.api.command.TextReader;
 import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.context.CommandContextBuilder;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
@@ -36,7 +39,6 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -160,6 +162,8 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
    * @param input the input to check.
    *
    * @return {@code true} if the input is valid.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   boolean isValidInput(@NotNull final String input) throws CommandSyntaxException;
 
@@ -168,6 +172,8 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
    *
    * @param reader te reader to parse.
    * @param builder the builder to parse.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   void parse(@NotNull TextReader reader, @NotNull CommandContextBuilder builder) throws CommandSyntaxException;
 
@@ -194,6 +200,8 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
    * @param builder the builder to suggest.
    *
    * @return completable suggestions future.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
   CompletableFuture<Suggestions> suggestions(@NotNull CommandContext context, @NotNull Suggestions.Builder builder)

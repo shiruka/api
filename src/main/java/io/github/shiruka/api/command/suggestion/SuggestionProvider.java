@@ -43,6 +43,8 @@ public interface SuggestionProvider {
    * @param builder the builder to suggest.
    *
    * @return completed suggestions future.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
   CompletableFuture<Suggestions> getSuggestions(@NotNull CommandContext context,

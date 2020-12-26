@@ -41,6 +41,8 @@ public interface SingleRedirectModifier {
    * @param context the context to apply.
    *
    * @return sender.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
   CommandSender apply(@NotNull CommandContext context) throws CommandSyntaxException;

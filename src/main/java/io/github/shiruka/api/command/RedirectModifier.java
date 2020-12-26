@@ -42,6 +42,8 @@ public interface RedirectModifier {
    * @param context the context to apply.
    *
    * @return sender list.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
   Collection<CommandSender> apply(@NotNull CommandContext context) throws CommandSyntaxException;

@@ -26,13 +26,9 @@
 package io.github.shiruka.api.command.builder;
 
 import io.github.shiruka.api.command.arguments.ArgumentType;
-import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.suggestion.SuggestionProvider;
-import io.github.shiruka.api.command.suggestion.Suggestions;
 import io.github.shiruka.api.command.tree.ArgumentNode;
 import io.github.shiruka.api.command.tree.CommandNode;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

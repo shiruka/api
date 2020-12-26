@@ -26,10 +26,12 @@
 package io.github.shiruka.api.command.context;
 
 import com.google.common.base.Preconditions;
-import io.github.shiruka.api.command.*;
+import io.github.shiruka.api.command.Command;
+import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.RedirectModifier;
+import io.github.shiruka.api.command.TextRange;
 import io.github.shiruka.api.command.tree.CommandNode;
 import java.util.*;
-import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -57,6 +57,8 @@ public interface ArgumentType<V> {
    * @param reader the reader to parse.
    *
    * @return the parsed {@code V} value.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
   V parse(@NotNull TextReader reader) throws CommandSyntaxException;

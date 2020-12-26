@@ -234,6 +234,8 @@ public final class TextReader {
    * reads boolean.
    *
    * @return boolean.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   public boolean readBoolean() throws CommandSyntaxException {
     final var start = this.cursor;
@@ -255,6 +257,8 @@ public final class TextReader {
    * reads byte.
    *
    * @return byte.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   public byte readByte() throws CommandSyntaxException {
     final var start = this.cursor;
@@ -277,6 +281,8 @@ public final class TextReader {
    * reads double.
    *
    * @return double.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   public double readDouble() throws CommandSyntaxException {
     final var start = this.cursor;
@@ -299,6 +305,8 @@ public final class TextReader {
    * reads float.
    *
    * @return float.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   public float readFloat() throws CommandSyntaxException {
     final var start = this.cursor;
@@ -321,6 +329,8 @@ public final class TextReader {
    * reads int.
    *
    * @return int.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   public int readInt() throws CommandSyntaxException {
     final var start = this.cursor;
@@ -343,6 +353,8 @@ public final class TextReader {
    * reads long.
    *
    * @return long.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   public long readLong() throws CommandSyntaxException {
     final var start = this.cursor;
@@ -365,6 +377,8 @@ public final class TextReader {
    * reads quoted text.
    *
    * @return quoted text.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
   public String readQuotedText() throws CommandSyntaxException {
@@ -383,6 +397,8 @@ public final class TextReader {
    * reads short.
    *
    * @return short.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   public short readShort() throws CommandSyntaxException {
     final var start = this.cursor;
@@ -405,6 +421,8 @@ public final class TextReader {
    * reads text.
    *
    * @return text.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
   public String readText() throws CommandSyntaxException {
@@ -425,6 +443,8 @@ public final class TextReader {
    * @param terminator the terminator to read.
    *
    * @return text.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
   public String readTextUntil(final char terminator) throws CommandSyntaxException {
