@@ -25,10 +25,11 @@
 
 package io.github.shiruka.api.command.tree;
 
-import io.github.shiruka.api.command.CommandResult;
-import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.command.TextReader;
+import io.github.shiruka.api.command.*;
 import io.github.shiruka.api.command.context.CommandContext;
+import io.github.shiruka.api.command.context.CommandContextBuilder;
+import io.github.shiruka.api.command.exceptions.CommandException;
+import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import java.util.Collection;
 import java.util.Collections;
@@ -61,9 +62,9 @@ public final class LiteralNode extends CommandNodeEnvelope {
    * @param command the command.
    * @param literal the literal.
    */
-  public LiteralNode(final boolean fork, @Nullable final Function<CommandContext, Collection<CommandSender>> modifier,
+  public LiteralNode(final boolean fork, @Nullable final RedirectModifier modifier,
                      @Nullable final CommandNode redirect, @NotNull final Set<Predicate<CommandSender>> requirements,
-                     @Nullable final Function<CommandContext, CommandResult> command,
+                     @Nullable final Command command,
                      @NotNull final String literal) {
     super(fork, modifier, redirect, requirements, command);
     this.literal = literal;
@@ -86,10 +87,22 @@ public final class LiteralNode extends CommandNodeEnvelope {
     return this.parse(new TextReader(input)) > -1;
   }
 
+  @Override
+  public void parse(@NotNull final TextReader reader, @NotNull final CommandContextBuilder builder)
+    throws CommandSyntaxException {
+    final var start = reader.getCursor();
+    final var end = this.parse(reader);
+    if (end > -1) {
+      builder.withNode(this, TextRange.between(start, end));
+      return;
+    }
+    throw CommandException.LITERAL_INCORRECT.createWithContext(reader, this.literal);
+  }
+
   @NotNull
   @Override
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
-                                                    @NotNull final Suggestions.Builder builder) {
+                                                    @NotNull final Suggestions.Builder builder) throws CommandSyntaxException {
     if (this.literal.toLowerCase(Locale.ROOT).startsWith(builder.getRemaining().toLowerCase(Locale.ROOT))) {
       return builder.suggest(this.literal).buildFuture();
     }

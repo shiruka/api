@@ -33,24 +33,40 @@ import org.jetbrains.annotations.NotNull;
 public interface CommandResult {
 
   /**
-   * use when the command failed.
+   * an empty command result instance.
    *
-   * @return a failure result.
+   * @return empty result.
    */
   @NotNull
-  static CommandResult failure() {
+  static CommandResult empty() {
     return new CommandResult() {
+      @NotNull
+      @Override
+      public CommandResult merge(@NotNull final CommandResult result) {
+        return this;
+      }
     };
   }
 
   /**
-   * use when the command successfully ran.
+   * a succeed command result.
    *
-   * @return a succeed result.
+   * @return succeed command result.
+   *
+   * @todo #1:15m Implement it.
    */
   @NotNull
   static CommandResult succeed() {
-    return new CommandResult() {
-    };
+    return CommandResult.empty();
   }
+
+  /**
+   * merges the given result.
+   *
+   * @param result the result to merge.
+   *
+   * @return a new merged result.
+   */
+  @NotNull
+  CommandResult merge(@NotNull CommandResult result);
 }

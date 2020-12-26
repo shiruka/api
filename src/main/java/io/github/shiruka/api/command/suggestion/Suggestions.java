@@ -26,10 +26,7 @@
 package io.github.shiruka.api.command.suggestion;
 
 import io.github.shiruka.api.command.TextRange;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
@@ -117,6 +114,29 @@ public final class Suggestions {
   @NotNull
   public static CompletableFuture<Suggestions> empty() {
     return CompletableFuture.completedFuture(Suggestions.EMPTY);
+  }
+
+  /**
+   * merges the given command and input.
+   *
+   * @param command the command to merge.
+   * @param input the input to merge.
+   *
+   * @return merged suggestions.
+   */
+  @NotNull
+  public static Suggestions merge(@NotNull final String command, @NotNull final Collection<Suggestions> input) {
+    if (input.isEmpty()) {
+      return Suggestions.EMPTY;
+    }
+    if (input.size() == 1) {
+      return input.iterator().next();
+    }
+    final var texts = new HashSet<Suggestion>();
+    input.stream()
+      .map(suggestions -> suggestions.suggestionList)
+      .forEach(texts::addAll);
+    return Suggestions.create(command, texts);
   }
 
   /**

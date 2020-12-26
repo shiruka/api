@@ -25,7 +25,10 @@
 
 package io.github.shiruka.api.command.tree;
 
+import io.github.shiruka.api.command.TextReader;
 import io.github.shiruka.api.command.context.CommandContext;
+import io.github.shiruka.api.command.context.CommandContextBuilder;
+import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import java.util.Collection;
 import java.util.Collections;
@@ -72,10 +75,15 @@ public final class RootNode extends CommandNodeEnvelope {
     return false;
   }
 
+  @Override
+  public void parse(@NotNull final TextReader reader, @NotNull final CommandContextBuilder builder)
+    throws CommandSyntaxException {
+  }
+
   @NotNull
   @Override
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
-                                                    @NotNull final Suggestions.Builder builder) {
+                                                    @NotNull final Suggestions.Builder builder) throws CommandSyntaxException {
     return Suggestions.empty();
   }
 

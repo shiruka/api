@@ -26,9 +26,7 @@
 package io.github.shiruka.api.command.context;
 
 import com.google.common.base.Preconditions;
-import io.github.shiruka.api.command.CommandResult;
-import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.command.TextRange;
+import io.github.shiruka.api.command.*;
 import io.github.shiruka.api.command.tree.CommandNode;
 import java.util.*;
 import java.util.function.Function;
@@ -66,7 +64,7 @@ public final class CommandContextBuilder {
    * the command.
    */
   @Nullable
-  private Function<CommandContext, CommandResult> command;
+  private Command command;
 
   /**
    * the fork.
@@ -77,7 +75,7 @@ public final class CommandContextBuilder {
    * the modifier.
    */
   @Nullable
-  private Function<CommandContext, Collection<CommandSender>> modifier;
+  private RedirectModifier modifier;
 
   /**
    * the range.
@@ -196,7 +194,7 @@ public final class CommandContextBuilder {
    * @return the command to execute or {@code null} if not set.
    */
   @Nullable
-  public Function<CommandContext, CommandResult> getCommand() {
+  public Command getCommand() {
     return this.command;
   }
 
@@ -291,7 +289,7 @@ public final class CommandContextBuilder {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public CommandContextBuilder withCommand(@NotNull final Function<CommandContext, CommandResult> command) {
+  public CommandContextBuilder withCommand(@Nullable final Command command) {
     this.command = command;
     return this;
   }

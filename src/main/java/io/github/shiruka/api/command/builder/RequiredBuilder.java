@@ -27,6 +27,7 @@ package io.github.shiruka.api.command.builder;
 
 import io.github.shiruka.api.command.arguments.ArgumentType;
 import io.github.shiruka.api.command.context.CommandContext;
+import io.github.shiruka.api.command.suggestion.SuggestionProvider;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import io.github.shiruka.api.command.tree.ArgumentNode;
 import io.github.shiruka.api.command.tree.CommandNode;
@@ -58,7 +59,7 @@ public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>
    * the suggestion override.
    */
   @Nullable
-  private BiFunction<CommandContext, Suggestions.Builder, CompletableFuture<Suggestions>> suggestions;
+  private SuggestionProvider suggestions;
 
   /**
    * ctor.
@@ -97,7 +98,7 @@ public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>
    * @return suggestion override.
    */
   @Nullable
-  public BiFunction<CommandContext, Suggestions.Builder, CompletableFuture<Suggestions>> getSuggestions() {
+  public SuggestionProvider getSuggestions() {
     return this.suggestions;
   }
 
@@ -125,8 +126,7 @@ public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>
    * @return {@link #self()} for buider chain.
    */
   @NotNull
-  public RequiredBuilder<V> suggests(
-    @NotNull final BiFunction<CommandContext, Suggestions.Builder, CompletableFuture<Suggestions>> suggestions) {
+  public RequiredBuilder<V> suggests(@NotNull final SuggestionProvider suggestions) {
     this.suggestions = suggestions;
     return this.self();
   }

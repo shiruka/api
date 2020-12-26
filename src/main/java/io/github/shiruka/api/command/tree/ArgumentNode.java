@@ -25,18 +25,20 @@
 
 package io.github.shiruka.api.command.tree;
 
-import io.github.shiruka.api.command.CommandResult;
+import io.github.shiruka.api.command.Command;
 import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.RedirectModifier;
 import io.github.shiruka.api.command.TextReader;
 import io.github.shiruka.api.command.arguments.ArgumentType;
 import io.github.shiruka.api.command.context.CommandContext;
+import io.github.shiruka.api.command.context.CommandContextBuilder;
+import io.github.shiruka.api.command.context.ParsedArgument;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
+import io.github.shiruka.api.command.suggestion.SuggestionProvider;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -68,7 +70,7 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * the suggestion override.
    */
   @Nullable
-  private final BiFunction<CommandContext, Suggestions.Builder, CompletableFuture<Suggestions>> suggestions;
+  private final SuggestionProvider suggestions;
 
   /**
    * the type.
@@ -88,12 +90,10 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * @param suggestions the suggestion override.
    * @param type the type.
    */
-  public ArgumentNode(final boolean fork,
-                      @Nullable final Function<CommandContext, Collection<CommandSender>> modifier,
+  public ArgumentNode(final boolean fork, @Nullable final RedirectModifier modifier,
                       @Nullable final CommandNode redirect, @NotNull final Set<Predicate<CommandSender>> requirements,
-                      @Nullable final Function<CommandContext, CommandResult> command, @NotNull final String name,
-                      @Nullable final BiFunction<CommandContext, Suggestions.Builder, CompletableFuture<Suggestions>> suggestions,
-                      @NotNull final ArgumentType<V> type) {
+                      @Nullable final Command command, @NotNull final String name,
+                      @Nullable final SuggestionProvider suggestions, @NotNull final ArgumentType<V> type) {
     super(fork, modifier, redirect, requirements, command);
     this.name = name;
     this.suggestions = suggestions;
@@ -111,9 +111,9 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * @param name the name.
    * @param type the type.
    */
-  public ArgumentNode(final boolean fork, @Nullable final Function<CommandContext, Collection<CommandSender>> modifier,
+  public ArgumentNode(final boolean fork, @Nullable final RedirectModifier modifier,
                       @Nullable final CommandNode redirect, @NotNull final Set<Predicate<CommandSender>> requirements,
-                      @Nullable final Function<CommandContext, CommandResult> command, @NotNull final String name,
+                      @Nullable final Command command, @NotNull final String name,
                       @NotNull final ArgumentType<V> type) {
     this(fork, modifier, redirect, requirements, command, name, null, type);
   }
@@ -137,14 +137,25 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
     return !reader.canRead() || reader.peek() == ' ';
   }
 
+  @Override
+  public void parse(@NotNull final TextReader reader, @NotNull final CommandContextBuilder builder)
+    throws CommandSyntaxException {
+    final var start = reader.getCursor();
+    final var result = this.type.parse(reader);
+    final var parsed = new ParsedArgument<>(start, reader.getCursor(), result);
+    builder.withArgument(this.name, parsed);
+    builder.withNode(this, parsed.getRange());
+  }
+
   @NotNull
   @Override
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
-                                                    @NotNull final Suggestions.Builder builder) {
+                                                    @NotNull final Suggestions.Builder builder)
+    throws CommandSyntaxException {
     if (this.suggestions == null) {
       return this.type.suggestions(context, builder);
     }
-    return this.suggestions.apply(context, builder);
+    return this.suggestions.getSuggestions(context, builder);
   }
 
   @Override

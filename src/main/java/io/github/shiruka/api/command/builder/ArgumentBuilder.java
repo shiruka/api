@@ -26,9 +26,10 @@
 package io.github.shiruka.api.command.builder;
 
 import io.github.shiruka.api.base.Self;
-import io.github.shiruka.api.command.CommandResult;
+import io.github.shiruka.api.command.Command;
 import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.command.context.CommandContext;
+import io.github.shiruka.api.command.RedirectModifier;
+import io.github.shiruka.api.command.SingleRedirectModifier;
 import io.github.shiruka.api.command.tree.CommandNode;
 import io.github.shiruka.api.command.tree.RootNode;
 import io.github.shiruka.api.entity.Player;
@@ -60,7 +61,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * the command.
    */
   @Nullable
-  private Function<CommandContext, CommandResult> command;
+  private Command command;
 
   /**
    * the fork
@@ -71,7 +72,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * the modifier.
    */
   @Nullable
-  private Function<CommandContext, Collection<CommandSender>> modifier;
+  private RedirectModifier modifier;
 
   /**
    * the target.
@@ -87,7 +88,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @return {@link #self()} for builder chain.
    */
   @NotNull
-  public final T executes(@Nullable final Function<CommandContext, CommandResult> command) {
+  public final T executes(@Nullable final Command command) {
     this.command = command;
     return this.self();
   }
@@ -101,8 +102,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @return {@link #self()} for builder chain.
    */
   @NotNull
-  public final T fork(@NotNull final CommandNode target,
-                      @NotNull final Function<CommandContext, Collection<CommandSender>> modifier) {
+  public final T fork(@NotNull final CommandNode target, @NotNull final RedirectModifier modifier) {
     return this.forward(target, modifier, true);
   }
 
@@ -116,8 +116,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @return {@link #self()} for builder chain.
    */
   @NotNull
-  public final T forward(@NotNull final CommandNode target,
-                         @Nullable final Function<CommandContext, Collection<CommandSender>> modifier,
+  public final T forward(@NotNull final CommandNode target, @Nullable final RedirectModifier modifier,
                          final boolean fork) {
     if (!this.arguments.getChildren().isEmpty()) {
       throw new IllegalStateException("Cannot forward a node with children");
@@ -144,7 +143,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @return command.
    */
   @Nullable
-  public final Function<CommandContext, CommandResult> getCommand() {
+  public final Command getCommand() {
     return this.command;
   }
 
@@ -154,7 +153,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @return modifier.
    */
   @Nullable
-  public final Function<CommandContext, Collection<CommandSender>> getModifier() {
+  public final RedirectModifier getModifier() {
     return this.modifier;
   }
 
@@ -238,8 +237,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @return {@link #self()} for builder chain.
    */
   @NotNull
-  public final T redirect(@NotNull final CommandNode target,
-                          @Nullable final Function<CommandContext, CommandSender> modifier) {
+  public final T redirect(@NotNull final CommandNode target, @Nullable final SingleRedirectModifier modifier) {
     return this.forward(target, modifier == null ? null : o -> Collections.singleton(modifier.apply(o)), false);
   }
 

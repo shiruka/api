@@ -26,9 +26,7 @@
 package io.github.shiruka.api.command.context;
 
 import com.google.common.base.Preconditions;
-import io.github.shiruka.api.command.CommandResult;
-import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.command.TextRange;
+import io.github.shiruka.api.command.*;
 import io.github.shiruka.api.command.tree.CommandNode;
 import java.util.*;
 import java.util.function.Function;
@@ -62,7 +60,7 @@ public final class CommandContext {
    * the command.
    */
   @Nullable
-  private final Function<CommandContext, CommandResult> command;
+  private final Command command;
 
   /**
    * the fork.
@@ -79,7 +77,7 @@ public final class CommandContext {
    * the modifier.
    */
   @Nullable
-  private final Function<CommandContext, Collection<CommandSender>> modifier;
+  private final RedirectModifier modifier;
 
   /**
    * the nodes.
@@ -131,9 +129,9 @@ public final class CommandContext {
    * @param sender the sender.
    */
   public CommandContext(@NotNull final Map<String, ParsedArgument<?>> arguments, @Nullable final CommandContext child,
-                        @Nullable final Function<CommandContext, CommandResult> command, final boolean fork,
+                        @Nullable final Command command, final boolean fork,
                         @NotNull final String input,
-                        @Nullable final Function<CommandContext, Collection<CommandSender>> modifier,
+                        @Nullable final RedirectModifier modifier,
                         @NotNull final List<ParsedCommandNode> nodes, @NotNull final TextRange range,
                         @NotNull final CommandNode rootNode, @NotNull final CommandSender sender) {
     this.arguments = Collections.unmodifiableMap(arguments);
@@ -202,7 +200,7 @@ public final class CommandContext {
    * @return command.
    */
   @Nullable
-  public Function<CommandContext, CommandResult> getCommand() {
+  public Command getCommand() {
     return this.command;
   }
 
@@ -256,7 +254,7 @@ public final class CommandContext {
    * @return modifier.
    */
   @Nullable
-  public Function<CommandContext, Collection<CommandSender>> getRedirectModifier() {
+  public RedirectModifier getRedirectModifier() {
     return this.modifier;
   }
 
@@ -316,5 +314,14 @@ public final class CommandContext {
       Objects.equals(this.command, that.command) &&
       this.sender.equals(that.sender) &&
       Objects.equals(this.child, that.child);
+  }
+
+  /**
+   * obtains the fork.
+   *
+   * @return fork.
+   */
+  public boolean isFork() {
+    return this.fork;
   }
 }

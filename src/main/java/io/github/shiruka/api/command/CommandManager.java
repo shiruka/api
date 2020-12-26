@@ -52,6 +52,16 @@ public interface CommandManager {
    * registers the given commands.
    *
    * @param plugin the plugin to register.
+   * @param commands the commands to register.
+   *
+   * @throws IllegalArgumentException if any of given command is already registered.
+   */
+  void register(@NotNull Plugin plugin, @NotNull CommandNode... commands);
+
+  /**
+   * registers the given commands.
+   *
+   * @param plugin the plugin to register.
    * @param builders the builders to register.
    *
    * @throws IllegalArgumentException if any of given command is already registered.
@@ -61,16 +71,6 @@ public interface CommandManager {
       .map(LiteralBuilder::build)
       .toArray(CommandNode[]::new));
   }
-
-  /**
-   * registers the given commands.
-   *
-   * @param plugin the plugin to register.
-   * @param commands the commands to register.
-   *
-   * @throws IllegalArgumentException if any of given command is already registered.
-   */
-  void register(@NotNull Plugin plugin, @NotNull CommandNode... commands);
 
   /**
    * obtains the registered command map.
@@ -83,6 +83,13 @@ public interface CommandManager {
   Map<String, CommandNode> registered(@NotNull Plugin plugin);
 
   /**
+   * unregisters the given commands.
+   *
+   * @param commands the commands to unregister.
+   */
+  void unregister(@NotNull String... commands);
+
+  /**
    * unregister the given commands.
    *
    * @param commands the commands to unregister.
@@ -92,11 +99,4 @@ public interface CommandManager {
       .map(Named::name)
       .toArray(String[]::new));
   }
-
-  /**
-   * unregisters the given commands.
-   *
-   * @param commands the commands to unregister.
-   */
-  void unregister(@NotNull String... commands);
 }

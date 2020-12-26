@@ -25,12 +25,11 @@
 
 package io.github.shiruka.api.command.tree;
 
-import io.github.shiruka.api.command.CommandResult;
+import io.github.shiruka.api.command.Command;
 import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.RedirectModifier;
 import io.github.shiruka.api.command.TextReader;
-import io.github.shiruka.api.command.context.CommandContext;
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,7 +63,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the modifier.
    */
   @Nullable
-  private final Function<CommandContext, Collection<CommandSender>> modifier;
+  private final RedirectModifier modifier;
 
   /**
    * the redirect.
@@ -82,7 +81,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the command.
    */
   @Nullable
-  private Function<CommandContext, CommandResult> command;
+  private Command command;
 
   /**
    * ctor.
@@ -94,10 +93,10 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * @param command the command.
    */
   protected CommandNodeEnvelope(final boolean fork,
-                                @Nullable final Function<CommandContext, Collection<CommandSender>> modifier,
+                                @Nullable final RedirectModifier modifier,
                                 @Nullable final CommandNode redirect,
                                 @NotNull final Set<Predicate<CommandSender>> requirements,
-                                @Nullable final Function<CommandContext, CommandResult> command) {
+                                @Nullable final Command command) {
     this.fork = fork;
     this.modifier = modifier;
     this.redirect = redirect;
@@ -143,12 +142,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
 
   @Nullable
   @Override
-  public final Function<CommandContext, CommandResult> getCommand() {
+  public final Command getCommand() {
     return this.command;
   }
 
   @Override
-  public final void setCommand(final @Nullable Function<CommandContext, CommandResult> command) {
+  public final void setCommand(@Nullable final Command command) {
     this.command = command;
   }
 
@@ -160,7 +159,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
 
   @Nullable
   @Override
-  public final Function<CommandContext, Collection<CommandSender>> getRedirectModifier() {
+  public final RedirectModifier getRedirectModifier() {
     return this.modifier;
   }
 

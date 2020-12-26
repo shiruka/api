@@ -27,10 +27,9 @@ package io.github.shiruka.api.command.tree;
 
 import io.github.shiruka.api.base.Keyed;
 import io.github.shiruka.api.base.Named;
-import io.github.shiruka.api.command.CommandResult;
-import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.command.TextReader;
+import io.github.shiruka.api.command.*;
 import io.github.shiruka.api.command.context.CommandContext;
+import io.github.shiruka.api.command.context.CommandContextBuilder;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import java.util.Collection;
@@ -89,14 +88,14 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
    * @return the executor.
    */
   @Nullable
-  Function<CommandContext, CommandResult> getCommand();
+  Command getCommand();
 
   /**
    * sets the command.
    *
    * @param command the command to set.
    */
-  void setCommand(@Nullable Function<CommandContext, CommandResult> command);
+  void setCommand(@Nullable Command command);
 
   /**
    * obtains the examples.
@@ -120,7 +119,7 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
    * @return redirect modifier.
    */
   @Nullable
-  Function<CommandContext, Collection<CommandSender>> getRedirectModifier();
+  RedirectModifier getRedirectModifier();
 
   /**
    * collects the relevant command nodes.
@@ -165,6 +164,14 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
   boolean isValidInput(@NotNull final String input) throws CommandSyntaxException;
 
   /**
+   * parses the given reader to write into the builder.
+   *
+   * @param reader te reader to parse.
+   * @param builder the builder to parse.
+   */
+  void parse(@NotNull TextReader reader, @NotNull CommandContextBuilder builder) throws CommandSyntaxException;
+
+  /**
    * removes the given node from the root.
    *
    * @param node the node to remove.
@@ -189,5 +196,6 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
    * @return completable suggestions future.
    */
   @NotNull
-  CompletableFuture<Suggestions> suggestions(@NotNull CommandContext context, @NotNull Suggestions.Builder builder);
+  CompletableFuture<Suggestions> suggestions(@NotNull CommandContext context, @NotNull Suggestions.Builder builder)
+    throws CommandSyntaxException;
 }

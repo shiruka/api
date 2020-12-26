@@ -132,4 +132,13 @@ public final class TextRange {
   public int getStart() {
     return this.start;
   }
+
+  /**
+   * checks if the start and end is equal.
+   *
+   * @return {@code true} if the start and end are equal.
+   */
+  public boolean isEmpty() {
+    return this.start == this.end;
+  }
 }
