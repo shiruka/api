@@ -37,6 +37,7 @@ import io.github.shiruka.api.command.tree.RootNode;
 import io.github.shiruka.api.plugin.Plugin;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -409,7 +410,7 @@ public final class CommandDispatcher {
     final var command = parse.getReader().getText();
     final var original = parse.getBuilder().build(command);
     var contexts = Collections.singletonList(original);
-    List<CommandContext> next = null;
+    final var next = new AtomicReference<List<CommandContext>>();
     while (contexts != null) {
       for (final var context : contexts) {
         final var child = context.getChild();
@@ -419,19 +420,19 @@ public final class CommandDispatcher {
             foundCommand = true;
             final var modifier = context.getRedirectModifier();
             if (modifier == null) {
-              if (next == null) {
-                next = new ArrayList<>(1);
+              if (next.get() == null) {
+                next.set(new ArrayList<>(1));
               }
-              next.add(child.copyFor(context.getSender()));
+              next.get().add(child.copyFor(context.getSender()));
             } else {
               try {
                 final var results = modifier.apply(context);
                 if (!results.isEmpty()) {
-                  if (next == null) {
-                    next = new ArrayList<>(results.size());
+                  if (next.get() == null) {
+                    next.set(new ArrayList<>(results.size()));
                   }
                   for (final var sender : results) {
-                    next.add(child.copyFor(sender));
+                    next.get().add(child.copyFor(sender));
                   }
                 }
               } catch (final CommandSyntaxException ex) {
