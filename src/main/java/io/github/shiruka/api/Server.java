@@ -26,13 +26,18 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.command.CommandManager;
-import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.console.ConsoleCommandSender;
 import io.github.shiruka.api.events.EventFactory;
+import io.github.shiruka.api.resourcepack.ResourcePackManager;
 import io.github.shiruka.api.scheduler.Scheduler;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine Shiru ka's servers.
+ *
+ * @todo 1#:60m remove all getters for the interface classes which are singleton,
+ *   then create a new interface provider  system like
+ *   getInterface(CommandManager.class) getInterface(EventFactory.class) etc.
  */
 public interface Server {
 
@@ -50,7 +55,7 @@ public interface Server {
    * @return a console command sender.
    */
   @NotNull
-  CommandSender getConsoleCommandSender();
+  ConsoleCommandSender getConsoleCommandSender();
 
   /**
    * obtains the event factory instance.
@@ -73,6 +78,14 @@ public interface Server {
    * @return current player count of the server.
    */
   int getPlayerCount();
+
+  /**
+   * obtains the resource pack manager.
+   *
+   * @return resource pack manager.
+   */
+  @NotNull
+  ResourcePackManager getResourcePackManager();
 
   /**
    * obtains the scheduler instance.
