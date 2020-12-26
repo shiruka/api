@@ -3,8 +3,9 @@
 
 package io.github.shiruka.api.command.arguments;
 
+import io.github.shiruka.api.command.ArgumentType;
+import io.github.shiruka.api.command.CommandException;
 import io.github.shiruka.api.command.TextReader;
-import io.github.shiruka.api.command.exceptions.CommandException;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import java.util.Collection;
 import java.util.List;

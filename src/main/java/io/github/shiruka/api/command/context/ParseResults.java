@@ -25,9 +25,9 @@
 
 package io.github.shiruka.api.command.context;
 
+import io.github.shiruka.api.command.CommandNode;
 import io.github.shiruka.api.command.TextReader;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
-import io.github.shiruka.api.command.tree.CommandNode;
 import java.util.Collections;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;

@@ -25,8 +25,8 @@
 
 package io.github.shiruka.api.command.context;
 
+import io.github.shiruka.api.command.CommandNode;
 import io.github.shiruka.api.command.TextRange;
-import io.github.shiruka.api.command.tree.CommandNode;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 

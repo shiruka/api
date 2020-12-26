@@ -25,21 +25,15 @@
 
 package io.github.shiruka.api.command.tree;
 
-import io.github.shiruka.api.command.Command;
-import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.command.RedirectModifier;
-import io.github.shiruka.api.command.TextReader;
-import io.github.shiruka.api.command.arguments.ArgumentType;
+import io.github.shiruka.api.command.*;
 import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.context.CommandContextBuilder;
 import io.github.shiruka.api.command.context.ParsedArgument;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
-import io.github.shiruka.api.command.suggestion.SuggestionProvider;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -91,7 +85,7 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * @param type the type.
    */
   public ArgumentNode(final boolean fork, @Nullable final RedirectModifier modifier,
-                      @Nullable final CommandNode redirect, @NotNull final Set<Predicate<CommandSender>> requirements,
+                      @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
                       @Nullable final Command command, @NotNull final String name,
                       @Nullable final SuggestionProvider suggestions, @NotNull final ArgumentType<V> type) {
     super(fork, modifier, redirect, requirements, command);
@@ -112,7 +106,7 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * @param type the type.
    */
   public ArgumentNode(final boolean fork, @Nullable final RedirectModifier modifier,
-                      @Nullable final CommandNode redirect, @NotNull final Set<Predicate<CommandSender>> requirements,
+                      @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
                       @Nullable final Command command, @NotNull final String name,
                       @NotNull final ArgumentType<V> type) {
     this(fork, modifier, redirect, requirements, command, name, null, type);

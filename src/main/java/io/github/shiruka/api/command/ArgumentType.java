@@ -23,30 +23,56 @@
  *
  */
 
-package io.github.shiruka.api.command.suggestion;
+package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
+import io.github.shiruka.api.command.suggestion.Suggestions;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a functional interface to determine suggestion providers.
+ * an interface to determine argument types.
+ *
+ * @param <V> type of the argument.
  */
-@FunctionalInterface
-public interface SuggestionProvider {
+public interface ArgumentType<V> {
 
   /**
-   * collects the suggestions.
+   * obtains the examples.
    *
-   * @param context the context to suggest.
-   * @param builder the builder to suggest.
+   * @return examples.
+   */
+  @NotNull
+  default Collection<String> getExamples() {
+    return Collections.emptyList();
+  }
+
+  /**
+   * parses the given reader into the {@code V} value.
    *
-   * @return completed suggestions future.
+   * @param reader the reader to parse.
+   *
+   * @return the parsed {@code V} value.
    *
    * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
   @NotNull
-  CompletableFuture<Suggestions> getSuggestions(@NotNull CommandContext context,
-                                                @NotNull Suggestions.Builder builder) throws CommandSyntaxException;
+  V parse(@NotNull TextReader reader) throws CommandSyntaxException;
+
+  /**
+   * collects the suggestion list.
+   *
+   * @param context the context to collect.
+   * @param builder the builder to collect.
+   *
+   * @return collected suggestion list.
+   */
+  @NotNull
+  default CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
+                                                     @NotNull final Suggestions.Builder builder) {
+    return Suggestions.empty();
+  }
 }

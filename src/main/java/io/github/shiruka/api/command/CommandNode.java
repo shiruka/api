@@ -23,14 +23,10 @@
  *
  */
 
-package io.github.shiruka.api.command.tree;
+package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Keyed;
 import io.github.shiruka.api.base.Named;
-import io.github.shiruka.api.command.Command;
-import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.command.RedirectModifier;
-import io.github.shiruka.api.command.TextReader;
 import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.context.CommandContextBuilder;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
@@ -39,7 +35,6 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -139,7 +134,7 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
    * @return requirements.
    */
   @NotNull
-  Set<Predicate<CommandSender>> getRequirements();
+  Set<Requirement> getRequirements();
 
   /**
    * obtains the usage text.

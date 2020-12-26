@@ -26,16 +26,11 @@
 package io.github.shiruka.api.command.builder;
 
 import io.github.shiruka.api.base.Self;
-import io.github.shiruka.api.command.Command;
-import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.command.RedirectModifier;
-import io.github.shiruka.api.command.SingleRedirectModifier;
-import io.github.shiruka.api.command.tree.CommandNode;
+import io.github.shiruka.api.command.*;
 import io.github.shiruka.api.command.tree.RootNode;
 import io.github.shiruka.api.entity.Player;
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,7 +50,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * the requirements.
    */
   @NotNull
-  private final Set<Predicate<CommandSender>> requirements = new HashSet<>();
+  private final Set<Requirement> requirements = new HashSet<>();
 
   /**
    * the command.
@@ -173,7 +168,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @return requirements.
    */
   @NotNull
-  public final Set<Predicate<CommandSender>> getRequirements() {
+  public final Set<Requirement> getRequirements() {
     return Collections.unmodifiableSet(this.requirements);
   }
 
@@ -258,9 +253,8 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @return {@link #self()} for builder chain.
    */
-  @SafeVarargs
   @NotNull
-  public final T requires(@NotNull final Predicate<CommandSender>... requirements) {
+  public final T requires(@NotNull final Requirement... requirements) {
     return this.requires(List.of(requirements));
   }
 
@@ -272,7 +266,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @return {@link #self()} for builder chain.
    */
   @NotNull
-  public final T requires(@NotNull final Iterable<Predicate<CommandSender>> requirements) {
+  public final T requires(@NotNull final Iterable<Requirement> requirements) {
     requirements.forEach(this.requirements::add);
     return this.self();
   }

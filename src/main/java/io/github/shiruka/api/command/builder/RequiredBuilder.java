@@ -25,10 +25,10 @@
 
 package io.github.shiruka.api.command.builder;
 
-import io.github.shiruka.api.command.arguments.ArgumentType;
-import io.github.shiruka.api.command.suggestion.SuggestionProvider;
+import io.github.shiruka.api.command.ArgumentType;
+import io.github.shiruka.api.command.CommandNode;
+import io.github.shiruka.api.command.SuggestionProvider;
 import io.github.shiruka.api.command.tree.ArgumentNode;
-import io.github.shiruka.api.command.tree.CommandNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

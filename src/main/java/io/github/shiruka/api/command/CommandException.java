@@ -23,7 +23,11 @@
  *
  */
 
-package io.github.shiruka.api.command.exceptions;
+package io.github.shiruka.api.command;
+
+import io.github.shiruka.api.command.exceptions.CeDynamic;
+import io.github.shiruka.api.command.exceptions.CeDynamic2;
+import io.github.shiruka.api.command.exceptions.CeSimple;
 
 /**
  * a marker interface class to determine command exception classes.

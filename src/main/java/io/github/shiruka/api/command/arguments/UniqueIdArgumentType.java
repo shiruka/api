@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.command.arguments;
 
+import io.github.shiruka.api.command.ArgumentType;
 import io.github.shiruka.api.command.TextReader;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import java.util.UUID;

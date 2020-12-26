@@ -25,12 +25,8 @@
 
 package io.github.shiruka.api.command.tree;
 
-import io.github.shiruka.api.command.Command;
-import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.command.RedirectModifier;
-import io.github.shiruka.api.command.TextReader;
+import io.github.shiruka.api.command.*;
 import java.util.*;
-import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,7 +71,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the requirement.
    */
   @NotNull
-  private final Set<Predicate<CommandSender>> requirements;
+  private final Set<Requirement> requirements;
 
   /**
    * the command.
@@ -92,10 +88,8 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * @param requirements the requirement.
    * @param command the command.
    */
-  protected CommandNodeEnvelope(final boolean fork,
-                                @Nullable final RedirectModifier modifier,
-                                @Nullable final CommandNode redirect,
-                                @NotNull final Set<Predicate<CommandSender>> requirements,
+  protected CommandNodeEnvelope(final boolean fork, @Nullable final RedirectModifier modifier,
+                                @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
                                 @Nullable final Command command) {
     this.fork = fork;
     this.modifier = modifier;
@@ -184,7 +178,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
 
   @NotNull
   @Override
-  public final Set<Predicate<CommandSender>> getRequirements() {
+  public final Set<Requirement> getRequirements() {
     return this.requirements;
   }
 
