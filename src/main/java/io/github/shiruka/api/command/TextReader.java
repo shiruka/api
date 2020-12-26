@@ -98,7 +98,7 @@ public final class TextReader {
    *
    * @return {@code true} if it's allowed.}
    */
-  public static boolean isAllowedInteger(final char ch) {
+  private static boolean isAllowedInteger(final char ch) {
     return ch >= '0' && ch <= '9' || ch == '+' || ch == '-';
   }
 
@@ -109,7 +109,7 @@ public final class TextReader {
    *
    * @return {@code true} if it's allowed.}
    */
-  public static boolean isAllowedNumber(final char ch) {
+  private static boolean isAllowedNumber(final char ch) {
     return TextReader.isAllowedInteger(ch) || ch == '.' || ch == 'e' || ch == 'E';
   }
 
@@ -120,7 +120,7 @@ public final class TextReader {
    *
    * @return {@code true} if it starts with quote.
    */
-  public static boolean isQuotedTextStart(final char ch) {
+  private static boolean isQuotedTextStart(final char ch) {
     return ch == TextReader.SYNTAX_DOUBLE_QUOTE || ch == TextReader.SYNTAX_SINGLE_QUOTE;
   }
 
