@@ -43,19 +43,13 @@ final class CommandManagerTest {
       .executes(context -> {
         return CommandResult.succeed();
       })
-      .then(arg("test", stringArg())
+      .then(arg("test", termArg("red", "blue"))
         .requires(sender -> {
           return true;
         })
-        .suggests((context, builder) -> {
-          builder.suggest("player-1");
-          builder.suggest("player-2");
-          builder.suggest("player-3");
-          return builder.buildFuture();
-        })
         .executes(context -> {
           final var value = getString(context, "test");
-          if (!value.equalsIgnoreCase("asd")) {
+          if (!value.equalsIgnoreCase("red")) {
             return CommandResult.empty();
           }
           return CommandResult.succeed();

@@ -22,7 +22,7 @@ public final class StringArgumentType implements ArgumentType<String> {
    * the options.
    */
   @NotNull
-  private final Set<String> options;
+  private final Collection<String> options;
 
   /**
    * the type.
@@ -36,8 +36,8 @@ public final class StringArgumentType implements ArgumentType<String> {
    * @param options the options.
    * @param type the type.
    */
-  public StringArgumentType(@NotNull final Set<String> options, @NotNull final StringType type) {
-    this.options = Collections.unmodifiableSet(options);
+  public StringArgumentType(@NotNull final Collection<String> options, @NotNull final StringType type) {
+    this.options = Collections.unmodifiableCollection(options);
     this.type = type;
   }
 

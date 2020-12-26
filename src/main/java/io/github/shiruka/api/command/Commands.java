@@ -29,6 +29,8 @@ import io.github.shiruka.api.command.arguments.*;
 import io.github.shiruka.api.command.builder.LiteralBuilder;
 import io.github.shiruka.api.command.builder.RequiredBuilder;
 import io.github.shiruka.api.command.context.CommandContext;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
@@ -364,6 +366,30 @@ public interface Commands {
   @NotNull
   static StringArgumentType stringArg() {
     return new StringArgumentType(StringArgumentType.StringType.QUOTABLE_PHRASE);
+  }
+
+  /**
+   * creates a simple term argument type.
+   *
+   * @param terms the terms to create.
+   *
+   * @return a new instance of {@code this}.
+   */
+  @NotNull
+  static StringArgumentType termArg(@NotNull final String... terms) {
+    return Commands.termArg(Arrays.asList(terms));
+  }
+
+  /**
+   * creates a simple term argument type.
+   *
+   * @param terms the terms to create.
+   *
+   * @return a new instance of {@code this}.
+   */
+  @NotNull
+  static StringArgumentType termArg(@NotNull final Collection<String> terms) {
+    return new StringArgumentType(terms, StringArgumentType.StringType.TERM);
   }
 
   /**

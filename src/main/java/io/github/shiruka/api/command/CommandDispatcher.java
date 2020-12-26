@@ -123,39 +123,6 @@ public final class CommandDispatcher {
     return CommandDispatcher.getCompletionSuggestions(parse, parse.getReader().getTotalLength());
   }
 
-  public static void main(final String[] args) throws CommandSyntaxException {
-    final var dispatcher = new CommandDispatcher();
-    dispatcher.register(Commands.literal("test")
-      .describe("Main command.")
-      .requires(sender -> {
-        return sender.name().equals("null");
-      })
-      .executes(context -> {
-        context.getSender().sendMessage("test");
-        return CommandResult.succeed();
-      })
-      .then(Commands.literal("asd")
-        .describe("Asd sub command.")
-        .requires(sender -> false)
-        .executes(context -> {
-          System.out.println("asd");
-          return CommandResult.succeed();
-        })));
-    final CommandSender sender = new CommandSender() {
-      @NotNull
-      @Override
-      public String name() {
-        return "null";
-      }
-
-      @Override
-      public void sendMessage(@NotNull final String message) {
-        System.out.println("sender: " + message);
-      }
-    };
-    dispatcher.execute("test asd", sender);
-  }
-
   /**
    * collects completion suggestions.
    *
