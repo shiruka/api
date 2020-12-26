@@ -27,20 +27,34 @@ package io.github.shiruka.api.command;
 
 import static io.github.shiruka.api.command.Commands.*;
 import io.github.shiruka.api.Shiruka;
+import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
 import io.github.shiruka.api.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Test;
 
-final class CommandManagerTest {
+final class CommandDispatcherTest {
 
-  private static final Plugin PLUGIN = new Plugin() {
-  };
+  @Test
+  void create() throws CommandSyntaxException {
+    final CommandSender commandSender = new CommandSender() {
+      @NotNull
+      @Override
+      public String name() {
+        return "null";
+      }
 
-  void create() {
+      @Override
+      public void sendMessage(@NotNull final String message) {
+        System.out.println("sender: " + message);
+      }
+    };
     final var built = literal("heal")
-      .playerOnly()
+//      .playerOnly()
       .requires(sender -> {
         return true;
       })
       .executes(context -> {
+        context.getSender().sendMessage("Main command.");
         return CommandResult.succeed();
       })
       .then(arg("test", termArg("red", "blue"))
@@ -50,10 +64,14 @@ final class CommandManagerTest {
         .executes(context -> {
           final var value = getString(context, "test");
           if (!value.equalsIgnoreCase("red")) {
-            return CommandResult.empty();
+            context.getSender().sendMessage("blue");
+            return CommandResult.succeed();
           }
+          context.getSender().sendMessage("red");
           return CommandResult.succeed();
         }));
-    Shiruka.getCommandManager().register(CommandManagerTest.PLUGIN, built);
+    final var dispatcher = new CommandDispatcher();
+    dispatcher.register(built);
+    dispatcher.execute("heal red", commandSender);
   }
 }
