@@ -4,16 +4,25 @@
 package io.github.shiruka.api.command.arguments;
 
 import io.github.shiruka.api.command.ArgumentType;
+import io.github.shiruka.api.command.CommandException;
 import io.github.shiruka.api.command.TextReader;
+import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
-import java.util.Collection;
-import java.util.List;
+import io.github.shiruka.api.command.suggestion.Suggestions;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a simple string argument type implementation for {@link ArgumentType}.
  */
 public final class StringArgumentType implements ArgumentType<String> {
+
+  /**
+   * the options.
+   */
+  @NotNull
+  private final Set<String> options;
 
   /**
    * the type.
@@ -24,54 +33,30 @@ public final class StringArgumentType implements ArgumentType<String> {
   /**
    * ctor.
    *
+   * @param options the options.
    * @param type the type.
    */
-  public StringArgumentType(@NotNull final StringType type) {
+  public StringArgumentType(@NotNull final Set<String> options, @NotNull final StringType type) {
+    this.options = Collections.unmodifiableSet(options);
     this.type = type;
   }
 
   /**
-   * puts escape if required.
+   * ctor.
    *
-   * @param input the input to put.
-   *
-   * @return modified input.
+   * @param type the type.
    */
-  @NotNull
-  public static String escapeIfRequired(@NotNull final String input) {
-    for (final var c : input.toCharArray()) {
-      if (!TextReader.isAllowedInUnquotedText(c)) {
-        return StringArgumentType.escape(input);
-      }
-    }
-    return input;
-  }
-
-  /**
-   * puts escapes around of the {@code input}.
-   *
-   * @param input the input to put.
-   *
-   * @return escaped input.
-   */
-  @NotNull
-  private static String escape(@NotNull final String input) {
-    final var result = new StringBuilder("\"");
-    for (var i = 0; i < input.length(); i++) {
-      final var c = input.charAt(i);
-      if (c == '\\' || c == '"') {
-        result.append('\\');
-      }
-      result.append(c);
-    }
-    result.append("\"");
-    return result.toString();
+  public StringArgumentType(@NotNull final StringType type) {
+    this(Collections.emptySet(), type);
   }
 
   @NotNull
   @Override
   public Collection<String> getExamples() {
-    return this.type.getExamples();
+    if (this.type != StringType.TERM) {
+      return this.type.getExamples();
+    }
+    return this.options;
   }
 
   @NotNull
@@ -85,12 +70,35 @@ public final class StringArgumentType implements ArgumentType<String> {
     if (this.type == StringType.SINGLE_WORD) {
       return reader.readUnquotedText();
     }
+    if (this.type == StringType.TERM) {
+      final String term = reader.readUnquotedText();
+      if (!this.options.contains(term)) {
+        throw CommandException.TERM_INVALID.createWithContext(reader, term);
+      }
+    }
     return reader.readText();
+  }
+
+  @NotNull
+  @Override
+  public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
+                                                    @NotNull final Suggestions.Builder builder) {
+    if (this.type != StringType.TERM) {
+      return Suggestions.empty();
+    }
+    this.options.stream()
+      .filter(s -> s.toLowerCase(Locale.ROOT).startsWith(builder.getRemaining().toLowerCase(Locale.ROOT)))
+      .sorted()
+      .forEachOrdered(builder::suggest);
+    return builder.buildFuture();
   }
 
   @Override
   public String toString() {
-    return "string()";
+    if (this.type != StringType.TERM) {
+      return "string()";
+    }
+    return "term(" + this.options + ")";
   }
 
   /**
@@ -99,7 +107,8 @@ public final class StringArgumentType implements ArgumentType<String> {
   public enum StringType {
     SINGLE_WORD("word", "words_with_underscores"),
     QUOTABLE_PHRASE("\"quoted phrase\"", "word", "\"\""),
-    GREEDY_PHRASE("word", "words with spaces", "\"and symbols\"");
+    GREEDY_PHRASE("word", "words with spaces", "\"and symbols\""),
+    TERM("predefined_token", "red", "green", "blue");
 
     /**
      * the examples.

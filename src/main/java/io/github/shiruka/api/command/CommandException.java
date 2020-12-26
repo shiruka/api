@@ -111,4 +111,6 @@ public interface CommandException {
   CeDynamic2 SHORT_TOO_BIG = new CeDynamic2((found, max) -> "Short must not be more than " + max + ", found " + found);
 
   CeDynamic2 SHORT_TOO_SMALL = new CeDynamic2((found, min) -> "Short must not be less than " + min + ", found " + found);
+
+  CeDynamic TERM_INVALID = new CeDynamic(term -> "Invalid term '" + term + "'");
 }
