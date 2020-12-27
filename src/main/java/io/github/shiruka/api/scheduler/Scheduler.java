@@ -25,13 +25,14 @@
 
 package io.github.shiruka.api.scheduler;
 
+import io.github.shiruka.api.base.Tick;
 import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * generates tasks that are queued for execution in the specified method.
  */
-public interface Scheduler {
+public interface Scheduler extends Tick {
 
   /**
    * run a task after a specified time has passed.
