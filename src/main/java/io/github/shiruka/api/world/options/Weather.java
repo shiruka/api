@@ -25,10 +25,12 @@
 
 package io.github.shiruka.api.world.options;
 
+import io.github.shiruka.api.base.Tick;
+
 /**
  * allows access to the world's current weather state such as rain, thunder, and sun time.
  */
-public interface Weather {
+public interface Weather extends Tick {
 
   /**
    * specifier passed to any method taking time to set the time to a random value.
