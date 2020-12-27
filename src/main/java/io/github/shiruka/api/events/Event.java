@@ -37,7 +37,7 @@ public interface Event {
    * calls the event itself.
    *
    * @return {@code true} if the event isn't a {@link Cancellable} or
-   *   the event is a {@link Cancellable} and not cancelled.
+   * the event is a {@link Cancellable} and not cancelled.
    */
   default boolean callEvent() {
     Shiruka.getEventFactory().call(this);
