@@ -25,12 +25,13 @@
 
 package io.github.shiruka.api.world.options;
 
+import io.github.shiruka.api.base.Tick;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents the world border.
  */
-public interface WorldBorder {
+public interface WorldBorder extends Tick {
 
   /**
    * the default center of a world border.
