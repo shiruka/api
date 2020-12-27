@@ -25,45 +25,24 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.api.command.CommandManager;
-import io.github.shiruka.api.console.ConsoleCommandSender;
-import io.github.shiruka.api.events.EventFactory;
-import io.github.shiruka.api.resourcepack.ResourcePackManager;
-import io.github.shiruka.api.scheduler.Scheduler;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine servers.
- *
- * @todo #1:5m remove all getters for the interface classes which are singleton.
- * @todo #1:15m create a new interface provider system that you can register and
- *  get interface's implementations from the interface class.
  */
 public interface Server {
 
   /**
-   * obtains the command manager.
+   * obtains the given class's implementation.
    *
-   * @return a command manager.
-   */
-  @NotNull
-  CommandManager getCommandManager();
-
-  /**
-   * obtains the console command sender.
+   * @param cls the class to get.
+   * @param <I> type of the interface.
    *
-   * @return a console command sender.
-   */
-  @NotNull
-  ConsoleCommandSender getConsoleCommandSender();
-
-  /**
-   * obtains the event factory instance.
+   * @return given class's implementation.
    *
-   * @return an event factory.
+   * @throws IllegalArgumentException if the given class's implementation not found.
    */
-  @NotNull
-  EventFactory getEventFactory();
+  @NotNull <I> I getInterface(@NotNull Class<I> cls);
 
   /**
    * obtains maximum player count of the server.
@@ -78,22 +57,6 @@ public interface Server {
    * @return current player count of the server.
    */
   int getPlayerCount();
-
-  /**
-   * obtains the resource pack manager.
-   *
-   * @return resource pack manager.
-   */
-  @NotNull
-  ResourcePackManager getResourcePackManager();
-
-  /**
-   * obtains the scheduler instance.
-   *
-   * @return a scheduler.
-   */
-  @NotNull
-  Scheduler getScheduler();
 
   /**
    * obtains server's descriptions a.k.a. MOTD.
@@ -118,6 +81,15 @@ public interface Server {
   boolean isRunning();
 
   /**
+   * registers the given class and it's implementation.
+   *
+   * @param cls the class to register.
+   * @param implementation the implementation to register.
+   * @param <I> type of the interface.
+   */
+  <I> void registerInterface(@NotNull Class<I> cls, @NotNull I implementation);
+
+  /**
    * initiates the server.
    *
    * @param startTime the start time to start.
@@ -128,4 +100,12 @@ public interface Server {
    * closes the server.
    */
   void stopServer();
+
+  /**
+   * unregisters the given class and it's implementation.
+   *
+   * @param cls the class to unregister.
+   * @param <I> type of the interface.
+   */
+  <I> void unregisterInterface(@NotNull Class<I> cls);
 }
