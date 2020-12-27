@@ -25,11 +25,6 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.api.command.CommandManager;
-import io.github.shiruka.api.console.ConsoleCommandSender;
-import io.github.shiruka.api.events.EventFactory;
-import io.github.shiruka.api.resourcepack.ResourcePackManager;
-import io.github.shiruka.api.scheduler.Scheduler;
 import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.MethodOrderer;
@@ -42,20 +37,10 @@ import org.llorllale.cactoos.matchers.Throws;
 final class ImplementationTest {
 
   private static final Server SERVER = new Server() {
-    @NotNull
-    @Override
-    public CommandManager getCommandManager() {
-      return null;
-    }
-
-    @Override
-    public @NotNull ConsoleCommandSender getConsoleCommandSender() {
-      return null;
-    }
 
     @NotNull
     @Override
-    public EventFactory getEventFactory() {
+    public <I> I getInterface(@NotNull final Class<I> cls) {
       return null;
     }
 
@@ -67,18 +52,6 @@ final class ImplementationTest {
     @Override
     public int getPlayerCount() {
       return 0;
-    }
-
-    @NotNull
-    @Override
-    public ResourcePackManager getResourcePackManager() {
-      return null;
-    }
-
-    @NotNull
-    @Override
-    public Scheduler getScheduler() {
-      return null;
     }
 
     @NotNull
@@ -98,11 +71,19 @@ final class ImplementationTest {
     }
 
     @Override
+    public <I> void registerInterface(@NotNull final Class<I> cls, @NotNull final I implementation) {
+    }
+
+    @Override
     public void startServer(final long startTime) {
     }
 
     @Override
     public void stopServer() {
+    }
+
+    @Override
+    public <I> void unregisterInterface(@NotNull final Class<I> cls) {
     }
   };
 

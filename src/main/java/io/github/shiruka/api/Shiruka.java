@@ -41,50 +41,60 @@ public interface Shiruka {
    * obtains the command manager instance.
    *
    * @return a {@link CommandManager} instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
    */
   @NotNull
   static CommandManager getCommandManager() {
-    return Shiruka.getServer().getCommandManager();
+    return Shiruka.getServer().getInterface(CommandManager.class);
   }
 
   /**
    * obtains the console command sender instance..
    *
    * @return the console command sender instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
    */
   @NotNull
   static ConsoleCommandSender getConsoleCommandSender() {
-    return Shiruka.getServer().getConsoleCommandSender();
+    return Shiruka.getServer().getInterface(ConsoleCommandSender.class);
   }
 
   /**
    * obtains the currently running {@link Server}'s event factory.
    *
    * @return an {@link EventFactory} instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
    */
   @NotNull
   static EventFactory getEventFactory() {
-    return Shiruka.getServer().getEventFactory();
+    return Shiruka.getServer().getInterface(EventFactory.class);
   }
 
   /**
    * obtains the resource pack manager.
    *
    * @return resource pack manager.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
    */
   @NotNull
   static ResourcePackManager getResourcePackManager() {
-    return Shiruka.getServer().getResourcePackManager();
+    return Shiruka.getServer().getInterface(ResourcePackManager.class);
   }
 
   /**
    * obtains the scheduler instance.
    *
    * @return scheduler instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
    */
   @NotNull
   static Scheduler getScheduler() {
-    return Shiruka.getServer().getScheduler();
+    return Shiruka.getServer().getInterface(Scheduler.class);
   }
 
   /**
