@@ -163,7 +163,7 @@ public interface WorldBorder {
    *
    * @param delta the size to grow or shrink, if it is negative.
    * @param time the time in MILLIS that the border to grow or shrink to the new size, or
-   * {@code 0} to take immediate effect.
+   *   {@code 0} to take immediate effect.
    */
   void grow(double delta, long time);
 
@@ -185,7 +185,7 @@ public interface WorldBorder {
    *
    * @param size the new size to set the world border to.
    * @param time the time in MILLIS that the border to grow or shrink to the new size, or
-   * {@code 0} to take immediate effect.
+   *   {@code 0} to take immediate effect.
    */
   void setSize(double size, long time);
 

@@ -33,11 +33,11 @@ import io.github.shiruka.api.scheduler.Scheduler;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine Shiru ka's servers.
+ * an interface to determine servers.
  *
  * @todo #1:5m remove all getters for the interface classes which are singleton.
  * @todo #1:15m create a new interface provider system that you can register and
- * get interface's implementations from the interface class.
+ *  get interface's implementations from the interface class.
  */
 public interface Server {
 

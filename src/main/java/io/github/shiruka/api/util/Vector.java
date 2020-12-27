@@ -68,7 +68,7 @@ public final class Vector {
    * @param z the new Z value.
    *
    * @return the new vector containing the specified XYZ coordinates, but retaining the same fields that may
-   * be possessed by a subclass.
+   *   be possessed by a subclass.
    */
   @NotNull
   public static Vector create(final int x, final int y, final int z) {
@@ -83,7 +83,7 @@ public final class Vector {
    * @param z the new Z value.
    *
    * @return the new vector containing the specified XYZ coordinates, but retaining the same fields that may
-   * be possessed by a subclass.
+   *   be possessed by a subclass.
    */
   @NotNull
   public static Vector create(final double x, final double y, final double z) {
