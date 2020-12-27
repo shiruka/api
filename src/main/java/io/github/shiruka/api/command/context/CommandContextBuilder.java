@@ -139,7 +139,7 @@ public final class CommandContextBuilder {
    * @return the {@link SuggestionContext} for the given cursor value.
    *
    * @throws IllegalStateException if the cursor position is smaller than the {@link #getRange()} or not within the
-   *   bounds of any registered node.
+   * bounds of any registered node.
    */
   @NotNull
   public SuggestionContext findSuggestionContext(final int cursor) {

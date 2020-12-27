@@ -53,7 +53,7 @@ public interface WorldLoader {
    * @param world the world to delete.
    *
    * @return {@code true} if the operation resulted in a  change, {@code false} if it failed or the world does
-   *   not exist.
+   * not exist.
    */
   boolean delete(@NotNull World world);
 

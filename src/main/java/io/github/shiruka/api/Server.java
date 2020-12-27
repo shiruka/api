@@ -37,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @todo #1:5m remove all getters for the interface classes which are singleton.
  * @todo #1:15m create a new interface provider system that you can register and get interface's implementations from
- *   the interface class.
+ * the interface class.
  */
 public interface Server {
 

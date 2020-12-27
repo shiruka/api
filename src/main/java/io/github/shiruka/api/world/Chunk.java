@@ -36,7 +36,7 @@ public interface Chunk {
    * checks to see whether this chunk is usable.
    *
    * @return {@code true} to indicate that this chunk may be used, {@code false} if this chunk is being saved
-   *   and cannot be used.
+   * and cannot be used.
    */
   boolean canUse();
 

@@ -146,7 +146,7 @@ public final class ImageData {
    * checks image legacy cape size.
    *
    * @throws IllegalArgumentException if image length not equals to zero and image length is not equals to
-   *   {@link Skin#SINGLE_SKIN_SIZE}
+   * {@link Skin#SINGLE_SKIN_SIZE}
    */
   public void checkLegacyCapeSize() {
     if (this.image.length != 0 && this.image.length != Skin.SINGLE_SKIN_SIZE) {
@@ -158,7 +158,7 @@ public final class ImageData {
    * checks image legacy skin size.
    *
    * @throws IllegalArgumentException if image length not equals to {@link Skin#SINGLE_SKIN_SIZE} or
-   *   {@link Skin#DOUBLE_SKIN_SIZE} or {@link Skin#SKIN_128_64_SIZE} or {@link Skin#SKIN_128_128_SIZE}.
+   * {@link Skin#DOUBLE_SKIN_SIZE} or {@link Skin#SKIN_128_64_SIZE} or {@link Skin#SKIN_128_128_SIZE}.
    */
   public void checkLegacySkinSize() {
     switch (this.image.length) {
