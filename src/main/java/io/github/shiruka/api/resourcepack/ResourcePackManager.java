@@ -25,38 +25,69 @@
 
 package io.github.shiruka.api.resourcepack;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine resource pack managers
  */
-public interface ResourcePackManager {
+public interface ResourcePackManager extends Closeable {
 
   /**
-   * obtains the directory resource pack loader.
+   * closes the registration of resource packs.
+   */
+  void closeRegistration();
+
+  /**
+   * get resource pack loader instance from the given path.
    *
    * @param path the path to get.
    *
-   * @return directory loader.
+   * @return resource pack loader.
+   *
+   * @throws IOException if an I/O error has occurred.
    */
   @NotNull
-  ResourcePackLoader getDirectoryLoader(@NotNull Path path);
+  Optional<ResourcePackLoader> getLoader(@NotNull Path path) throws IOException;
 
   /**
-   * obtains the zip resource pack loader.
+   * gets resource pack manifest instance from the given loader.
    *
-   * @param path the path to get.
+   * @param loader the loader to get.
    *
-   * @return zip loader.
+   * @return resource pack manifest.
    */
   @NotNull
-  ResourcePackLoader getZipLoader(@NotNull Path path);
+  ResourcePackManifest getManifest(@NotNull ResourcePackLoader loader);
 
   /**
-   * loads resource packs from the given path.
+   * loads resource pack from the given path.
    *
    * @param path the path to load.
    */
-  void loadResourcePacks(@NotNull Path path);
+  void loadResourcePack(@NotNull Path path);
+
+  /**
+   * loads resource packs from the given directory.
+   *
+   * @param directory the directory to load.
+   */
+  void loadResourcePacks(@NotNull Path directory);
+
+  /**
+   * registers the given resource pack loader class.
+   *
+   * @param cls the class to register.
+   * @param predicate the predicate to check if it's allowed for the given path.
+   * @param function the function to create instance of the loader.
+   *
+   * @throws IllegalArgumentException if the given cls is already registered.
+   */
+  void registerLoader(@NotNull Class<? extends ResourcePackLoader> cls, @NotNull Predicate<Path> predicate,
+                      @NotNull Function<Path, ResourcePackLoader> function);
 }
