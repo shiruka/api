@@ -76,6 +76,8 @@ public final class RplZip implements ResourcePackLoader {
    * ctor.
    *
    * @param path the path.
+   *
+   * @throws IOException if an I/O error has occurred.
    */
   public RplZip(@NotNull final Path path) throws IOException {
     this(path, new ZipFile(path.toFile()));

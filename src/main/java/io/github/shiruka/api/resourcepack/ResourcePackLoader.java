@@ -54,6 +54,8 @@ public interface ResourcePackLoader extends Closeable {
    * @param path the path to get.
    *
    * @return asset.
+   *
+   * @throws IOException if an I/O error has occurred.
    */
   @NotNull
   Optional<InputStream> getAsset(@NotNull Path path) throws IOException;
