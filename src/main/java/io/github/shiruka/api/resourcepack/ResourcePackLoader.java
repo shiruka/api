@@ -25,26 +25,9 @@
 
 package io.github.shiruka.api.resourcepack;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an interface to determine resource pack managers
+ * an interface to determine resource pack loaders.
  */
-public interface ResourcePackManager {
+public interface ResourcePackLoader {
 
-  /**
-   * obtains the directory resource pack loader.
-   *
-   * @return directory loader.
-   */
-  @NotNull
-  ResourcePackLoader getDirectoryLoader();
-
-  /**
-   * obtains the zip resource pack loader.
-   *
-   * @return zip loader.
-   */
-  @NotNull
-  ResourcePackLoader getZipLoader();
 }
