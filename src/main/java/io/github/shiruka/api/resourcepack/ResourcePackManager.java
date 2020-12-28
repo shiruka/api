@@ -52,4 +52,11 @@ public interface ResourcePackManager {
    */
   @NotNull
   ResourcePackLoader getZipLoader(@NotNull Path path);
+
+  /**
+   * loads resource packs from the given path.
+   *
+   * @param path the path to load.
+   */
+  void loadResourcePacks(@NotNull Path path);
 }
