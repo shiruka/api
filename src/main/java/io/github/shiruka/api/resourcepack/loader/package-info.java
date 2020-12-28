@@ -22,34 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.resourcepack;
-
-import java.nio.file.Path;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an interface to determine resource pack managers
+ * the package that contains implementations of {@link io.github.shiruka.api.resourcepack.ResourcePackLoader}.
  */
-public interface ResourcePackManager {
-
-  /**
-   * obtains the directory resource pack loader.
-   *
-   * @param path the path to get.
-   *
-   * @return directory loader.
-   */
-  @NotNull
-  ResourcePackLoader getDirectoryLoader(@NotNull Path path);
-
-  /**
-   * obtains the zip resource pack loader.
-   *
-   * @param path the path to get.
-   *
-   * @return zip loader.
-   */
-  @NotNull
-  ResourcePackLoader getZipLoader(@NotNull Path path);
-}
+package io.github.shiruka.api.resourcepack.loader;

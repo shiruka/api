@@ -25,31 +25,40 @@
 
 package io.github.shiruka.api.resourcepack;
 
-import java.nio.file.Path;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an interface to determine resource pack managers
+ * an enum class that represents resource pack types.
  */
-public interface ResourcePackManager {
-
+public enum ResourcePackType {
   /**
-   * obtains the directory resource pack loader.
-   *
-   * @param path the path to get.
-   *
-   * @return directory loader.
+   * the invalid.
    */
-  @NotNull
-  ResourcePackLoader getDirectoryLoader(@NotNull Path path);
-
+  INVALID,
   /**
-   * obtains the zip resource pack loader.
-   *
-   * @param path the path to get.
-   *
-   * @return zip loader.
+   * the resources.
    */
-  @NotNull
-  ResourcePackLoader getZipLoader(@NotNull Path path);
+  RESOURCES,
+  /**
+   * the data.
+   */
+  DATA,
+  /**
+   * the plugin.
+   */
+  PLUGIN,
+  /**
+   * the client data.
+   */
+  CLIENT_DATA,
+  /**
+   * the interface.
+   */
+  INTERFACE,
+  /**
+   * the mandatory.
+   */
+  MANDATORY,
+  /**
+   * the world template.
+   */
+  WORLD_TEMPLATE
 }
