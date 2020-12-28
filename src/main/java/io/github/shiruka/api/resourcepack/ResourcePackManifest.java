@@ -95,7 +95,7 @@ import org.jetbrains.annotations.NotNull;
  * </pre>
  *
  * @todo #1:60m Fill simple JavaDocs.
- * @todo #1:60m Make jackson like java class creator from json using minimal-json.
+ * @todo #1:60m Make jackson like java class creator from json using minimal-json then replace each load methods for it.
  */
 public final class ResourcePackManifest {
 
