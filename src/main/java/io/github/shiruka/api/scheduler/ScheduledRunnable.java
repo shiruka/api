@@ -116,20 +116,13 @@ public abstract class ScheduledRunnable implements Runnable {
   }
 
   /**
-   * runs after this runnable has finished asynchronously.
+   * runs after this runnable has finished.
    */
-  public void afterAsyncRun() {
+  public void afterRun() {
   }
 
   /**
-   * runs after this runnable has been executed synchronously.
-   */
-  public void afterSyncRun() {
-  }
-
-  /**
-   * guaranteed to be run before this Runnable on the main thread, even if this runnable is going to be run
-   * asynchronously, useful for collecting resources to work on.
+   * guaranteed to be run before this Runnable.
    */
   public void beforeRun() {
   }
