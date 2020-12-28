@@ -27,67 +27,75 @@ package io.github.shiruka.api.resourcepack;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine resource pack managers
+ * an interface to determine resource pack loaders.
  */
-public interface ResourcePackManager extends Closeable {
+public interface ResourcePackLoader extends Closeable {
 
   /**
-   * closes the registration of resource packs.
+   * collects and runs the {@code consumer} for each collected path in the {@code path}.
+   *
+   * @param path the path to collect.
+   * @param recurse the recurse to collect.
+   * @param consumer the consu  mer to collect.
    */
-  void closeRegistration();
+  void forEachIn(@NotNull Path path, boolean recurse, @NotNull Consumer<Path> consumer);
 
   /**
-   * get resource pack loader instance from the given path.
+   * obtains asset in the given path.
    *
    * @param path the path to get.
    *
-   * @return resource pack loader.
+   * @return asset.
    *
    * @throws IOException if an I/O error has occurred.
    */
   @NotNull
-  Optional<ResourcePackLoader> getLoader(@NotNull Path path) throws IOException;
+  Optional<InputStream> getAsset(@NotNull Path path) throws IOException;
 
   /**
-   * gets resource pack manifest instance from the given loader.
+   * obtains the location to load.
    *
-   * @param loader the loader to get.
-   *
-   * @return resource pack manifest.
+   * @return location to load.
    */
   @NotNull
-  ResourcePackManifest getManifest(@NotNull ResourcePackLoader loader);
+  Path getLocation();
 
   /**
-   * loads resource pack from the given path.
+   * obtains the prepared file.
    *
-   * @param path the path to load.
+   * @return prepared file.
    */
-  void loadResourcePack(@NotNull Path path);
+  @NotNull
+  CompletableFuture<Path> getPreparedFile();
 
   /**
-   * loads resource packs from the given directory.
+   * checks if the given path is exist.
    *
-   * @param directory the directory to load.
+   * @param path the path to check.
+   *
+   * @return {@code true} if the path is exist.
    */
-  void loadResourcePacks(@NotNull Path directory);
+  boolean hasAsset(@NotNull Path path);
 
   /**
-   * registers the given resource pack loader class.
+   * checks if the given path is exist as folder.
    *
-   * @param cls the class to register.
-   * @param predicate the predicate to check if it's allowed for the given path.
-   * @param function the function to create instance of the loader.
+   * @param path the path to check.
    *
-   * @throws IllegalArgumentException if the given cls is already registered.
+   * @return {@code true} if the path is exist.
    */
-  void registerLoader(@NotNull Class<? extends ResourcePackLoader> cls, @NotNull Predicate<Path> predicate,
-                      @NotNull Function<Path, ResourcePackLoader> function);
+  boolean hasFolder(@NotNull Path path);
+
+  /**
+   * runs when the server shutdown.
+   */
+  void shutdown();
 }
