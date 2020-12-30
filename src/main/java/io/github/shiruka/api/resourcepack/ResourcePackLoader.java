@@ -44,7 +44,7 @@ public interface ResourcePackLoader extends Closeable {
    *
    * @param path the path to collect.
    * @param recurse the recurse to collect.
-   * @param consumer the consu  mer to collect.
+   * @param consumer the consumer to collect.
    */
   void forEachIn(@NotNull Path path, boolean recurse, @NotNull Consumer<Path> consumer);
 
@@ -55,6 +55,7 @@ public interface ResourcePackLoader extends Closeable {
    *
    * @return asset.
    *
+   * @throws IOException if an I/O error has occurred.
    */
   @NotNull
   Optional<InputStream> getAsset(@NotNull Path path) throws IOException;
