@@ -69,8 +69,10 @@ public interface ResourcePackManager extends Closeable {
    * loads resource pack from the given path.
    *
    * @param path the path to load.
+   *
+   * @throws IOException if an I/O error has occurred.
    */
-  void loadResourcePack(@NotNull Path path);
+  void loadResourcePack(@NotNull Path path) throws IOException;
 
   /**
    * loads resource packs from the given directory.
