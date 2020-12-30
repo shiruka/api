@@ -157,6 +157,6 @@ public interface Pack extends Closeable {
      * @return a new pack instance.
      */
     @NotNull
-    Pack create(@NotNull PackLoader loader, @NotNull PackManifest manifest, @Nullable PackManifest.Module module);
+    Pack create(@NotNull PackLoader loader, @NotNull PackManifest manifest, @NotNull PackManifest.Module module);
   }
 }
