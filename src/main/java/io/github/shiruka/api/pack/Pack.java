@@ -129,7 +129,7 @@ public interface Pack extends Closeable {
    * @return type.
    */
   @NotNull
-  PackType getType();
+  ResourcePackType getType();
 
   /**
    * obtains the version.
