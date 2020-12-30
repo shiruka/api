@@ -23,9 +23,9 @@
  *
  */
 
-package io.github.shiruka.api.resourcepack.loader;
+package io.github.shiruka.api.pack.loader;
 
-import io.github.shiruka.api.resourcepack.ResourcePackLoader;
+import io.github.shiruka.api.pack.PackLoader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -43,9 +43,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a simple directory implementation for {@link ResourcePackLoader}.
+ * a simple directory implementation for {@link PackLoader}.
  */
-public final class RplDirectory implements ResourcePackLoader {
+public final class RplDirectory implements PackLoader {
 
   /**
    * the temp files.

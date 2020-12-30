@@ -22,7 +22,27 @@
  * SOFTWARE.
  *
  */
+
+package io.github.shiruka.api.pack;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
- * the package that contains resource pack classes.
+ * a functional interface to create {@link Pack}.
  */
-package io.github.shiruka.api.resourcepack;
+@FunctionalInterface
+public interface PackFactory {
+
+  /**
+   * create a new pack instance.
+   *
+   * @param loader the loader to create.
+   * @param manifest the manifest to create.
+   * @param module the module to create.
+   *
+   * @return a new pack instance.
+   */
+  @NotNull
+  Pack create(@NotNull PackLoader loader, @NotNull PackManifest manifest, @Nullable PackManifest.Module module);
+}

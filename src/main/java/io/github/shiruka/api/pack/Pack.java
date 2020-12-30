@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.shiruka.api.resourcepack;
+package io.github.shiruka.api.pack;
 
 import io.github.shiruka.api.util.SemanticVersion;
 import java.io.Closeable;
@@ -89,7 +89,7 @@ public interface Pack extends Closeable {
    * @return loader.
    */
   @NotNull
-  ResourcePackLoader getLoader();
+  PackLoader getLoader();
 
   /**
    * obtains the manifest.
@@ -97,7 +97,7 @@ public interface Pack extends Closeable {
    * @return manifest.
    */
   @NotNull
-  ResourcePackManifest getManifest();
+  PackManifest getManifest();
 
   /**
    * obtains the namr.
@@ -128,7 +128,7 @@ public interface Pack extends Closeable {
    * @return type.
    */
   @NotNull
-  ResourcePackType getType();
+  PackType getType();
 
   /**
    * obtains the version.

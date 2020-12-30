@@ -23,42 +23,33 @@
  *
  */
 
-package io.github.shiruka.api.resourcepack;
+package io.github.shiruka.api.pack;
+
+import java.nio.file.Path;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an enum class that represents resource pack types.
+ * an interface to create resource pack loaders.
  */
-public enum ResourcePackType {
+public interface PackLoaderFactory {
+
   /**
-   * the invalid.
+   * checks if the given path can be loaded by the factory.
+   *
+   * @param path the path to check.
+   *
+   * @return {@code true} if the factory can load the pack.
    */
-  INVALID,
+  boolean canLoad(@NotNull Path path);
+
   /**
-   * the resources.
+   * creates a new loader.
+   *
+   * @param path the path to create.
+   *
+   * @return a new resource pack loader instance.
    */
-  RESOURCES,
-  /**
-   * the data.
-   */
-  DATA,
-  /**
-   * the plugin.
-   */
-  PLUGIN,
-  /**
-   * the client data.
-   */
-  CLIENT_DATA,
-  /**
-   * the interface.
-   */
-  INTERFACE,
-  /**
-   * the mandatory.
-   */
-  MANDATORY,
-  /**
-   * the world template.
-   */
-  WORLD_TEMPLATE
+  @Nullable
+  PackLoader create(@NotNull Path path);
 }

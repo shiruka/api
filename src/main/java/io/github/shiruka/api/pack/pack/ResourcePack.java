@@ -23,12 +23,12 @@
  *
  */
 
-package io.github.shiruka.api.resourcepack.pack;
+package io.github.shiruka.api.pack.pack;
 
-import io.github.shiruka.api.resourcepack.Pack;
-import io.github.shiruka.api.resourcepack.ResourcePackLoader;
-import io.github.shiruka.api.resourcepack.ResourcePackManifest;
-import io.github.shiruka.api.resourcepack.ResourcePackType;
+import io.github.shiruka.api.pack.Pack;
+import io.github.shiruka.api.pack.PackLoader;
+import io.github.shiruka.api.pack.PackManifest;
+import io.github.shiruka.api.pack.PackType;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import org.jetbrains.annotations.NotNull;
@@ -42,13 +42,13 @@ public final class ResourcePack implements Pack {
    * the loader.
    */
   @NotNull
-  private final ResourcePackLoader loader;
+  private final PackLoader loader;
 
   /**
    * the manifest.
    */
   @NotNull
-  private final ResourcePackManifest manifest;
+  private final PackManifest manifest;
 
   /**
    * the hash.
@@ -61,7 +61,7 @@ public final class ResourcePack implements Pack {
    * @param loader the loader.
    * @param manifest the manifest.
    */
-  public ResourcePack(@NotNull final ResourcePackLoader loader, @NotNull final ResourcePackManifest manifest) {
+  public ResourcePack(@NotNull final PackLoader loader, @NotNull final PackManifest manifest) {
     this.loader = loader;
     this.manifest = manifest;
   }
@@ -81,19 +81,19 @@ public final class ResourcePack implements Pack {
 
   @NotNull
   @Override
-  public ResourcePackLoader getLoader() {
+  public PackLoader getLoader() {
     return this.loader;
   }
 
   @NotNull
   @Override
-  public ResourcePackManifest getManifest() {
+  public PackManifest getManifest() {
     return this.manifest;
   }
 
   @NotNull
   @Override
-  public ResourcePackType getType() {
-    return ResourcePackType.RESOURCES;
+  public PackType getType() {
+    return PackType.RESOURCES;
   }
 }

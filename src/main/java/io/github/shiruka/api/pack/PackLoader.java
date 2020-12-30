@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.shiruka.api.resourcepack;
+package io.github.shiruka.api.pack;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -37,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine resource pack loaders.
  */
-public interface ResourcePackLoader extends Closeable {
+public interface PackLoader extends Closeable {
 
   /**
    * collects and runs the {@code consumer} for each collected path in the {@code path}.

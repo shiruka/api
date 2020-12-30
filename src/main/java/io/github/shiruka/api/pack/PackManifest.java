@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.shiruka.api.resourcepack;
+package io.github.shiruka.api.pack;
 
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents resource pack manifests.
+ * a class that represents pack manifests.
  * <p>
  * full-example file:
  * <pre>
@@ -97,7 +97,7 @@ import org.jetbrains.annotations.NotNull;
  * @todo #1:60m Fill simple JavaDocs.
  * @todo #1:60m Make jackson like java class creator from json using minimal-json then replace each load method.
  */
-public final class ResourcePackManifest {
+public final class PackManifest {
 
   @NotNull
   private final List<String> capabilities;
@@ -118,23 +118,23 @@ public final class ResourcePackManifest {
   private final List<Module> modules;
 
   @NotNull
-  private final List<SubResourcePack> subResourcePacks;
+  private final List<SubResourcePack> subPacks;
 
-  public ResourcePackManifest(@NotNull final List<String> capabilities, @NotNull final List<Dependency> dependencies,
-                              @NotNull final String formatVersion, @NotNull final Header header,
-                              @NotNull final Metadata metadata, @NotNull final List<Module> modules,
-                              @NotNull final List<SubResourcePack> subResourcePacks) {
+  public PackManifest(@NotNull final List<String> capabilities, @NotNull final List<Dependency> dependencies,
+                      @NotNull final String formatVersion, @NotNull final Header header,
+                      @NotNull final Metadata metadata, @NotNull final List<Module> modules,
+                      @NotNull final List<SubResourcePack> subPacks) {
     this.capabilities = Collections.unmodifiableList(capabilities);
     this.dependencies = Collections.unmodifiableList(dependencies);
     this.formatVersion = formatVersion;
     this.header = header;
     this.metadata = metadata;
     this.modules = Collections.unmodifiableList(modules);
-    this.subResourcePacks = Collections.unmodifiableList(subResourcePacks);
+    this.subPacks = Collections.unmodifiableList(subPacks);
   }
 
   @NotNull
-  public static ResourcePackManifest load(@NotNull final InputStream stream) throws IOException {
+  public static PackManifest load(@NotNull final InputStream stream) throws IOException {
     final var parse = Json.parse(new InputStreamReader(stream));
     final var json = parse.asObject();
     final var capabilities = json.get("capabilities").asArray().values().stream()
@@ -146,7 +146,7 @@ public final class ResourcePackManifest {
     final var metadata = Metadata.load(json.get("metadata").asObject());
     final var modules = Module.load(json.get("modules").asArray());
     final var subPacks = SubResourcePack.load(json.get("subpacks").asArray());
-    return new ResourcePackManifest(capabilities, dependencies, formatVersion, header, metadata, modules, subPacks);
+    return new PackManifest(capabilities, dependencies, formatVersion, header, metadata, modules, subPacks);
   }
 
   @NotNull
@@ -181,7 +181,7 @@ public final class ResourcePackManifest {
 
   @NotNull
   public List<SubResourcePack> getSubPacks() {
-    return this.subResourcePacks;
+    return this.subPacks;
   }
 
   public static final class Dependency {
@@ -383,7 +383,7 @@ public final class ResourcePackManifest {
     private final String description;
 
     @NotNull
-    private final ResourcePackType type;
+    private final PackType type;
 
     @NotNull
     private final UUID uuid;
@@ -391,7 +391,7 @@ public final class ResourcePackManifest {
     @NotNull
     private final SemanticVersion version;
 
-    private Module(@NotNull final String description, @NotNull final ResourcePackType type, @NotNull final UUID uuid,
+    private Module(@NotNull final String description, @NotNull final PackType type, @NotNull final UUID uuid,
                    @NotNull final SemanticVersion version) {
       this.description = description;
       this.type = type;
@@ -406,7 +406,7 @@ public final class ResourcePackManifest {
         .map(JsonValue::asObject)
         .map(json ->
           new Module(json.get("description").asString(),
-            ResourcePackType.valueOf(json.get("type").asString().toLowerCase(Locale.ROOT)),
+            PackType.valueOf(json.get("type").asString().toLowerCase(Locale.ROOT)),
             UUID.fromString(json.get("uuid").asString()),
             SemanticVersion.load(json.get("version").asArray())))
         .collect(Collectors.toUnmodifiableList());
@@ -418,7 +418,7 @@ public final class ResourcePackManifest {
     }
 
     @NotNull
-    public ResourcePackType getType() {
+    public PackType getType() {
       return this.type;
     }
 
