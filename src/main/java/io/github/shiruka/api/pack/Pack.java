@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.shiruka.api.resourcepack;
+package io.github.shiruka.api.pack;
 
 import io.github.shiruka.api.util.SemanticVersion;
 import java.io.Closeable;
@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine smallest piece of resource packs.
@@ -89,7 +90,7 @@ public interface Pack extends Closeable {
    * @return loader.
    */
   @NotNull
-  ResourcePackLoader getLoader();
+  PackLoader getLoader();
 
   /**
    * obtains the manifest.
@@ -97,7 +98,7 @@ public interface Pack extends Closeable {
    * @return manifest.
    */
   @NotNull
-  ResourcePackManifest getManifest();
+  PackManifest getManifest();
 
   /**
    * obtains the namr.
@@ -128,7 +129,7 @@ public interface Pack extends Closeable {
    * @return type.
    */
   @NotNull
-  ResourcePackType getType();
+  PackType getType();
 
   /**
    * obtains the version.
@@ -138,5 +139,24 @@ public interface Pack extends Closeable {
   @NotNull
   default SemanticVersion getVersion() {
     return this.getManifest().getHeader().getVersion();
+  }
+
+  /**
+   * a functional interface to create {@link Pack}.
+   */
+  @FunctionalInterface
+  interface Factory {
+
+    /**
+     * create a new pack instance.
+     *
+     * @param loader the loader to create.
+     * @param manifest the manifest to create.
+     * @param module the module to create.
+     *
+     * @return a new pack instance.
+     */
+    @NotNull
+    Pack create(@NotNull PackLoader loader, @NotNull PackManifest manifest, @Nullable PackManifest.Module module);
   }
 }

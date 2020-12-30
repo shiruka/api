@@ -23,20 +23,18 @@
  *
  */
 
-package io.github.shiruka.api.resourcepack;
+package io.github.shiruka.api.pack;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine resource pack managers
  */
-public interface ResourcePackManager extends Closeable {
+public interface PackManager extends Closeable {
 
   /**
    * closes the registration of resource packs.
@@ -53,7 +51,7 @@ public interface ResourcePackManager extends Closeable {
    * @throws IOException if an I/O error has occurred.
    */
   @NotNull
-  Optional<ResourcePackLoader> getLoader(@NotNull Path path) throws IOException;
+  Optional<PackLoader> getLoader(@NotNull Path path) throws IOException;
 
   /**
    * gets resource pack manifest instance from the given loader.
@@ -63,34 +61,42 @@ public interface ResourcePackManager extends Closeable {
    * @return resource pack manifest.
    */
   @NotNull
-  Optional<ResourcePackManifest> getManifest(@NotNull ResourcePackLoader loader);
+  Optional<PackManifest> getManifest(@NotNull PackLoader loader);
 
   /**
-   * loads resource pack from the given path.
+   * loads pack from the given path.
    *
    * @param path the path to load.
    *
    * @throws IllegalStateException if no suitable loader found, if manifest not found, if the specified
-   *   {@link ResourcePackType} is no supported.
+   *   {@link PackType} is no supported.
    */
-  void loadResourcePack(@NotNull Path path);
+  void loadPack(@NotNull Path path);
 
   /**
-   * loads resource packs from the given directory.
+   * loads packs from the given directory.
    *
    * @param directory the directory to load.
    */
-  void loadResourcePacks(@NotNull Path directory);
+  void loadPacks(@NotNull Path directory);
 
   /**
-   * registers the given resource pack loader class.
+   * registers the given pack loader class.
    *
    * @param cls the class to register.
-   * @param predicate the predicate to check if it's allowed for the given path.
-   * @param function the function to create instance of the loader.
+   * @param factory the factory to register.
    *
    * @throws IllegalArgumentException if the given cls is already registered.
    */
-  void registerLoader(@NotNull Class<? extends ResourcePackLoader> cls, @NotNull Predicate<Path> predicate,
-                      @NotNull Function<Path, ResourcePackLoader> function);
+  void registerLoader(@NotNull Class<? extends PackLoader> cls, @NotNull PackLoader.Factory factory);
+
+  /**
+   * registers the given pack class.
+   *
+   * @param cls the class to register.
+   * @param factory the factory to register.
+   *
+   * @throws IllegalArgumentException if the given cls is already registered.
+   */
+  void registerPack(@NotNull Class<? extends Pack> cls, @NotNull Pack.Factory factory);
 }

@@ -23,6 +23,6 @@
  *
  */
 /**
- * the package that contains implementations of {@link io.github.shiruka.api.resourcepack.ResourcePackLoader}.
+ * the package that contains resource pack classes.
  */
-package io.github.shiruka.api.resourcepack.loader;
+package io.github.shiruka.api.pack;
