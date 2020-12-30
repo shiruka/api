@@ -61,7 +61,7 @@ public interface Pack extends Closeable {
       stream.skip(offset);
       stream.read(chunk);
     } catch (final Exception e) {
-      throw new IllegalStateException("Unable to read pack chunk");
+      throw new IllegalStateException("Unable to read pack chunk!");
     }
     return chunk;
   }
