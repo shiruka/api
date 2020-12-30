@@ -98,5 +98,5 @@ public interface PackManager extends Closeable {
    *
    * @throws IllegalArgumentException if the given cls is already registered.
    */
-  void registerPack(@NotNull ResourcePackType type, @NotNull Pack.Factory factory);
+  void registerPack(@NotNull PackManifest.PackType type, @NotNull Pack.Factory factory);
 }
