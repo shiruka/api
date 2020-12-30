@@ -88,7 +88,7 @@ public interface PackManager extends Closeable {
    *
    * @throws IllegalArgumentException if the given cls is already registered.
    */
-  void registerLoader(@NotNull Class<? extends PackLoader> cls, @NotNull PackLoaderFactory factory);
+  void registerLoader(@NotNull Class<? extends PackLoader> cls, @NotNull PackLoader.Factory factory);
 
   /**
    * registers the given pack class.
@@ -98,5 +98,5 @@ public interface PackManager extends Closeable {
    *
    * @throws IllegalArgumentException if the given cls is already registered.
    */
-  void registerPack(@NotNull Class<? extends Pack> cls, @NotNull PackFactory factory);
+  void registerPack(@NotNull Class<? extends Pack> cls, @NotNull Pack.Factory factory);
 }
