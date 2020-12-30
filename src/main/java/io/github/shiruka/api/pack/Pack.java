@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine smallest piece of resource packs.
@@ -138,5 +139,24 @@ public interface Pack extends Closeable {
   @NotNull
   default SemanticVersion getVersion() {
     return this.getManifest().getHeader().getVersion();
+  }
+
+  /**
+   * a functional interface to create {@link Pack}.
+   */
+  @FunctionalInterface
+  interface Factory {
+
+    /**
+     * create a new pack instance.
+     *
+     * @param loader the loader to create.
+     * @param manifest the manifest to create.
+     * @param module the module to create.
+     *
+     * @return a new pack instance.
+     */
+    @NotNull
+    Pack create(@NotNull PackLoader loader, @NotNull PackManifest manifest, @Nullable PackManifest.Module module);
   }
 }

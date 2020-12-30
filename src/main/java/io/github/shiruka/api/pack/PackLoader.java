@@ -33,6 +33,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine resource pack loaders.
@@ -98,4 +99,29 @@ public interface PackLoader extends Closeable {
    * runs when the server shutdown.
    */
   void shutdown();
+
+  /**
+   * an interface to create resource pack loaders.
+   */
+  interface Factory {
+
+    /**
+     * checks if the given path can be loaded by the factory.
+     *
+     * @param path the path to check.
+     *
+     * @return {@code true} if the factory can load the pack.
+     */
+    boolean canLoad(@NotNull Path path);
+
+    /**
+     * creates a new loader.
+     *
+     * @param path the path to create.
+     *
+     * @return a new resource pack loader instance.
+     */
+    @Nullable
+    PackLoader create(@NotNull Path path);
+  }
 }
