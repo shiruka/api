@@ -63,7 +63,7 @@ public interface ResourcePackManager extends Closeable {
    * @return resource pack manifest.
    */
   @NotNull
-  ResourcePackManifest getManifest(@NotNull ResourcePackLoader loader);
+  Optional<ResourcePackManifest> getManifest(@NotNull ResourcePackLoader loader);
 
   /**
    * loads resource pack from the given path.
