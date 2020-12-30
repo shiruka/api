@@ -93,10 +93,10 @@ public interface PackManager extends Closeable {
   /**
    * registers the given pack class.
    *
-   * @param cls the class to register.
+   * @param type the type to register.
    * @param factory the factory to register.
    *
    * @throws IllegalArgumentException if the given cls is already registered.
    */
-  void registerPack(@NotNull Class<? extends Pack> cls, @NotNull Pack.Factory factory);
+  void registerPack(@NotNull PackType type, @NotNull Pack.Factory factory);
 }
