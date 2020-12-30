@@ -70,9 +70,10 @@ public interface ResourcePackManager extends Closeable {
    *
    * @param path the path to load.
    *
-   * @throws IOException if an I/O error has occurred.
+   * @throws IllegalStateException if no suitable loader found, if manifest not found, if the specified
+   *   {@link ResourcePackType} is no supported.
    */
-  void loadResourcePack(@NotNull Path path) throws IOException;
+  void loadResourcePack(@NotNull Path path);
 
   /**
    * loads resource packs from the given directory.

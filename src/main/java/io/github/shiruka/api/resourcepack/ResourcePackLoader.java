@@ -26,6 +26,7 @@
 package io.github.shiruka.api.resourcepack;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -54,11 +55,9 @@ public interface ResourcePackLoader extends Closeable {
    *
    * @return asset.
    *
-   * @throws IllegalStateException if no suitable loader found, if manifest not found, if the specified
-   *   {@link ResourcePackType} is no supported.
    */
   @NotNull
-  Optional<InputStream> getAsset(@NotNull Path path);
+  Optional<InputStream> getAsset(@NotNull Path path) throws IOException;
 
   /**
    * obtains the location to load.
