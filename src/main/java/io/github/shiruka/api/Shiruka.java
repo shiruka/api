@@ -74,14 +74,14 @@ public interface Shiruka {
   }
 
   /**
-   * obtains the resource pack manager.
+   * obtains the pack manager.
    *
    * @return resource pack manager.
    *
    * @throws IllegalArgumentException if the implementation not found.
    */
   @NotNull
-  static PackManager getResourcePackManager() {
+  static PackManager getPackManager() {
     return Shiruka.getServer().getInterface(PackManager.class);
   }
 
