@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine smallest piece of resource packs.
