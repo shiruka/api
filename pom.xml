@@ -42,9 +42,6 @@
     <connection>scm:git:git://github.com/shiruka/api.git</connection>
     <developerConnection>scm:git:ssh://github.com/shiruka/api.git</developerConnection>
   </scm>
-  <properties>
-    <java.version>11</java.version>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>me.carleslc.Simple-YAML</groupId>
