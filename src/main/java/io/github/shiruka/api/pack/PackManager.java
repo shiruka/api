@@ -106,5 +106,5 @@ public interface PackManager extends Closeable {
    *
    * @param player the player to send.
    */
-  void sendPackInfos(@NotNull Player player);
+  void sendPackInfo(@NotNull Player player);
 }
