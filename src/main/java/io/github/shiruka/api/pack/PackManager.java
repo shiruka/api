@@ -102,7 +102,7 @@ public interface PackManager extends Closeable {
   void registerPack(@NotNull PackManifest.PackType type, @NotNull Pack.Factory factory);
 
   /**
-   * sends the pack infos packet to the given player.
+   * sends the pack info packet to the given player.
    *
    * @param player the player to send.
    */
