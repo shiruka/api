@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.pack;
 
+import io.github.shiruka.api.entity.Player;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -99,4 +100,11 @@ public interface PackManager extends Closeable {
    * @throws IllegalArgumentException if the given cls is already registered.
    */
   void registerPack(@NotNull PackManifest.PackType type, @NotNull Pack.Factory factory);
+
+  /**
+   * sends the pack infos packet to the given player.
+   *
+   * @param player the player to send.
+   */
+  void sendPackInfos(@NotNull Player player);
 }
