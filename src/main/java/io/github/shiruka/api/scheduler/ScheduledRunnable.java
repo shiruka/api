@@ -25,8 +25,10 @@
 
 package io.github.shiruka.api.scheduler;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a wrapper over {@link java.lang.Runnable} that provides access to the scheduling facilities after scheduled.
@@ -46,7 +48,8 @@ public abstract class ScheduledRunnable implements Runnable {
   /**
    * the task.
    */
-  private final ThreadLocal<ScheduledTask> task = new ThreadLocal<>();
+  @Nullable
+  private volatile ScheduledTask task;
 
   /**
    * ctor.
@@ -62,14 +65,14 @@ public abstract class ScheduledRunnable implements Runnable {
    */
   @NotNull
   public final ScheduledTask asScheduledTask() {
-    return this.task.get();
+    return Objects.requireNonNull(this.task);
   }
 
   /**
    * cancels the task and removes from execution. See {@link ScheduledTask#cancel()}
    */
   public final void cancel() {
-    this.task.get().cancel();
+    Objects.requireNonNull(this.task).cancel();
   }
 
   /**
@@ -87,7 +90,7 @@ public abstract class ScheduledRunnable implements Runnable {
    * @return interval value.
    */
   public final long interval() {
-    return this.task.get().interval();
+    return Objects.requireNonNull(this.task).interval();
   }
 
   /**
@@ -96,14 +99,7 @@ public abstract class ScheduledRunnable implements Runnable {
    * @param task the task to set.
    */
   public final void markSchedule(@NotNull final ScheduledTask task) {
-    this.task.set(task);
-  }
-
-  /**
-   * removes the task.
-   */
-  public final void removeSchedule() {
-    this.task.remove();
+    this.task = task;
   }
 
   /**
@@ -112,7 +108,7 @@ public abstract class ScheduledRunnable implements Runnable {
    * @param interval the interval to set.
    */
   public final void setInterval(final long interval) {
-    this.task.get().setInterval(interval);
+    Objects.requireNonNull(this.task).setInterval(interval);
   }
 
   /**
