@@ -67,7 +67,7 @@ public final class PluginDescriptionFile {
   /**
    * the load before key of the plugin.yml
    */
-  private static final String LOAD_BEFORE = "loadbefore";
+  private static final String LOAD_BEFORE = "load-before";
 
   /**
    * the main class key of the plugin.yml
@@ -92,7 +92,7 @@ public final class PluginDescriptionFile {
   /**
    * the soft depend key of the plugin.yml
    */
-  private static final String SOFT_DEPEND = "softdepend";
+  private static final String SOFT_DEPEND = "soft-depend";
 
   /**
    * validator pattern for plugin names.
@@ -370,9 +370,9 @@ public final class PluginDescriptionFile {
         list.add(entry.toString().replace(' ', '_'));
       }
     } catch (final ClassCastException ex) {
-      throw new InvalidDescriptionException(ex, key + " is of wrong type");
+      throw new InvalidDescriptionException(ex, String.format("%s is of wrong type", key));
     } catch (final NullPointerException ex) {
-      throw new InvalidDescriptionException(ex, "invalid " + key + " format");
+      throw new InvalidDescriptionException(ex, String.format("invalid %s format", key));
     }
     return list;
   }

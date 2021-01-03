@@ -25,6 +25,19 @@
 
 package io.github.shiruka.api.plugin;
 
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * an interface to determine plugins.
+ */
 public interface Plugin {
 
+  /**
+   * obtains the logger.
+   *
+   * @return logger.
+   */
+  @NotNull
+  Logger getLogger();
 }
