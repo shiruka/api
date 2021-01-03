@@ -29,6 +29,7 @@ import io.github.shiruka.api.command.CommandManager;
 import io.github.shiruka.api.console.ConsoleCommandSender;
 import io.github.shiruka.api.events.EventFactory;
 import io.github.shiruka.api.pack.PackManager;
+import io.github.shiruka.api.scheduler.Scheduler;
 import org.jetbrains.annotations.NotNull;
 
 /**
