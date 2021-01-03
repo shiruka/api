@@ -25,6 +25,8 @@
 
 package io.github.shiruka.api.scheduler;
 
+import java.util.Locale;
+
 /**
  * type of task that will be run by the scheduler, how it will be run, when it will be scheduled.
  */
@@ -52,5 +54,23 @@ public enum TaskType {
   /**
    * synchronously runs the task repeatedly, until stopped.
    */
-  SYNC_REPEAT
+  SYNC_REPEAT;
+
+  /**
+   * checks if {@code this} is an async task type.
+   *
+   * @return {@code true} if {@code this} is an async task type.
+   */
+  public boolean isAsync() {
+    return this.name().toLowerCase(Locale.ROOT).contains("async");
+  }
+
+  /**
+   * checks if {@code this} is an repeat task type.
+   *
+   * @return {@code true} if {@code this} is an repeat task type.
+   */
+  public boolean isRepeat() {
+    return this.name().toLowerCase(Locale.ROOT).contains("repeat");
+  }
 }
