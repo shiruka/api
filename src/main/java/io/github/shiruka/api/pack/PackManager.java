@@ -68,7 +68,7 @@ public interface PackManager extends Closeable {
   /**
    * obtains the pack from the given unique id.
    *
-   * @param id the  id to obtain.
+   * @param id the id to obtain.
    *
    * @return obtained pack.
    */
