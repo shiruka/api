@@ -128,4 +128,11 @@ public interface PackManager extends Closeable {
    * @param player the player to send.
    */
   void sendPackInfo(@NotNull Player player);
+
+  /**
+   * sends the pack stack packet to the given player.
+   *
+   * @param player the player to send.
+   */
+  void sendPackStack(@NotNull Player player);
 }
