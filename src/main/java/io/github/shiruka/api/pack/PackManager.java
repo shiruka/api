@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api.pack;
 
-import io.github.shiruka.api.entity.Player;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -86,6 +85,14 @@ public interface PackManager extends Closeable {
   Optional<Pack> getPackByUniqueId(@NotNull UUID uniqueId);
 
   /**
+   * obtains the pack stack packet.
+   *
+   * @return pack stack packet.
+   */
+  @NotNull
+  Object getPackStack();
+
+  /**
    * loads pack from the given path.
    *
    * @param path the path to load.
@@ -123,16 +130,10 @@ public interface PackManager extends Closeable {
   void registerPack(@NotNull PackManifest.PackType type, @NotNull Pack.Factory factory);
 
   /**
-   * sends the pack info packet to the given player.
+   * obtains the pack info packet.
    *
-   * @param player the player to send.
+   * @return pack info packet.
    */
-  void sendPackInfo(@NotNull Player player);
-
-  /**
-   * sends the pack stack packet to the given player.
-   *
-   * @param player the player to send.
-   */
-  void sendPackStack(@NotNull Player player);
+  @NotNull
+  Object sendPackInfo();
 }
