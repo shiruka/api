@@ -25,6 +25,8 @@
 
 package io.github.shiruka.api.pack;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * an enum class that represents resource pack types.
  */
@@ -32,37 +34,61 @@ public enum ResourcePackType {
   /**
    * the invalid.
    */
-  INVALID,
+  INVALID(0),
   /**
    * the resource.
    */
-  RESOURCE,
+  RESOURCE(6),
   /**
    * the behavior.
    */
-  BEHAVIOR,
+  BEHAVIOR(4),
   /**
    * the world template.
    */
-  WORLD_TEMPLATE,
+  WORLD_TEMPLATE(8),
   /**
    * the addon.
    */
-  ADDON,
+  ADDON(1),
   /**
    * the skins.
    */
-  SKINS,
+  SKINS(7),
   /**
    * the cached.
    */
-  CACHED,
+  CACHED(2),
   /**
    * the copy protected.
    */
-  COPY_PROTECTED,
+  COPY_PROTECTED(3),
   /**
    * the persona piece.
    */
-  PERSONA_PIECE
+  PERSONA_PIECE(5);
+
+  /**
+   * the id.
+   */
+  @NotNull
+  private final Number id;
+
+  /**
+   * ctor.
+   *
+   * @param id the id.
+   */
+  ResourcePackType(@NotNull final Number id) {
+    this.id = id;
+  }
+
+  /**
+   * obtains the id.
+   *
+   * @return id.
+   */
+  public byte getId() {
+    return this.id.byteValue();
+  }
 }
