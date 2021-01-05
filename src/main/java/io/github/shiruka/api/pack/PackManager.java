@@ -85,6 +85,14 @@ public interface PackManager extends Closeable {
   Optional<Pack> getPackByUniqueId(@NotNull UUID uniqueId);
 
   /**
+   * obtains the pack info packet.
+   *
+   * @return pack info packet.
+   */
+  @NotNull
+  Object getPackInfo();
+
+  /**
    * obtains the pack stack packet.
    *
    * @return pack stack packet.
@@ -128,12 +136,4 @@ public interface PackManager extends Closeable {
    * @throws IllegalArgumentException if the given cls is already registered.
    */
   void registerPack(@NotNull PackManifest.PackType type, @NotNull Pack.Factory factory);
-
-  /**
-   * obtains the pack info packet.
-   *
-   * @return pack info packet.
-   */
-  @NotNull
-  Object sendPackInfo();
 }
