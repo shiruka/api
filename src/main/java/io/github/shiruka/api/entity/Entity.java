@@ -26,11 +26,12 @@
 package io.github.shiruka.api.entity;
 
 import io.github.shiruka.api.base.Named;
+import io.github.shiruka.api.base.Tick;
 import io.github.shiruka.api.metadata.Metadatable;
 
 /**
  * an interface to determine entities on the Minecraft.
  */
-public interface Entity extends Metadatable, Named {
+public interface Entity extends Metadatable, Named, Tick {
 
 }
