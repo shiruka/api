@@ -26,6 +26,8 @@
 package io.github.shiruka.api.plugin;
 
 import io.github.shiruka.api.misc.Optionals;
+import io.github.shiruka.api.permission.Permission;
+import io.github.shiruka.api.permission.PermissionDefault;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.*;
@@ -38,6 +40,10 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
  * a file interface to describes the plugins.
  */
 public final class PluginDescriptionFile {
+
+  public static final String DEFAULT_PERMISSION = "default-permission";
+
+  public static final String PERMISSIONS = "permissions";
 
   /**
    * the authors key of the plugin.yml.
@@ -128,6 +134,12 @@ public final class PluginDescriptionFile {
   private final List<String> contributors;
 
   /**
+   * the default perm of the plugin.
+   */
+  @NotNull
+  private final PermissionDefault defaultPerm;
+
+  /**
    * the dependency of the plugin.
    */
   @NotNull
@@ -166,6 +178,12 @@ public final class PluginDescriptionFile {
   private final PluginLoadOrder order;
 
   /**
+   * the permissions of the plugin.
+   */
+  @NotNull
+  private final List<Permission> permissions;
+
+  /**
    * the prefix of the plugin.
    */
   @NotNull
@@ -192,37 +210,42 @@ public final class PluginDescriptionFile {
   /**
    * ctor.
    *
-   * @param name the name.
-   * @param main the main.
-   * @param version the version.
-   * @param description the description.
-   * @param website the website.
-   * @param prefix the prefix.
-   * @param order the order.
-   * @param contributors the contributors.
    * @param authors the authors.
+   * @param contributors the contributors.
+   * @param defaultPerm the default perm.
    * @param depend the depend.
-   * @param softDepend the soft dependency.
+   * @param description the description.
    * @param loadBefore the load before.
+   * @param main the main.
+   * @param name the name.
+   * @param order the order.
+   * @param permissions the permissions.
+   * @param prefix the prefix.
+   * @param softDepend the soft dependency.
+   * @param version the version.
+   * @param website the website.
    */
-  private PluginDescriptionFile(@NotNull final String name, @NotNull final String main,
-                                @NotNull final String version, @NotNull final String description,
-                                @NotNull final String website, @NotNull final String prefix,
-                                @NotNull final PluginLoadOrder order, @NotNull final List<String> contributors,
-                                @NotNull final List<String> authors, @NotNull final List<String> depend,
-                                @NotNull final List<String> softDepend, @NotNull final List<String> loadBefore) {
-    this.name = name;
-    this.main = main;
-    this.version = version;
+  private PluginDescriptionFile(@NotNull final List<String> authors, @NotNull final List<String> contributors,
+                                @NotNull final PermissionDefault defaultPerm, @NotNull final List<String> depend,
+                                @NotNull final String description, @NotNull final List<String> loadBefore,
+                                @NotNull final String main, @NotNull final String name,
+                                @NotNull final PluginLoadOrder order, @NotNull final List<Permission> permissions,
+                                @NotNull final String prefix, @NotNull final List<String> softDepend,
+                                @NotNull final String version, @NotNull final String website) {
+    this.authors = Collections.unmodifiableList(authors);
+    this.contributors = Collections.unmodifiableList(contributors);
+    this.defaultPerm = defaultPerm;
+    this.depend = Collections.unmodifiableList(depend);
     this.description = description;
-    this.website = website;
-    this.prefix = prefix;
+    this.loadBefore = Collections.unmodifiableList(loadBefore);
+    this.main = main;
+    this.name = name;
     this.order = order;
-    this.contributors = contributors;
-    this.authors = authors;
-    this.depend = depend;
-    this.softDepend = softDepend;
-    this.loadBefore = loadBefore;
+    this.permissions = Collections.unmodifiableList(permissions);
+    this.prefix = prefix;
+    this.softDepend = Collections.unmodifiableList(softDepend);
+    this.version = version;
+    this.website = website;
   }
 
   /**
@@ -271,13 +294,13 @@ public final class PluginDescriptionFile {
    */
   @NotNull
   public static PluginDescriptionFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
-    String name;
+    final String name;
     try {
-      name = map.get(PluginDescriptionFile.NAME).toString();
-      if (!PluginDescriptionFile.VALID_NAME.matcher(name).matches()) {
-        throw new InvalidDescriptionException("name '" + name + "' contains invalid characters.");
+      final var rawName = map.get(PluginDescriptionFile.NAME).toString();
+      if (!PluginDescriptionFile.VALID_NAME.matcher(rawName).matches()) {
+        throw new InvalidDescriptionException(String.format("name '%s' contains invalid characters.", rawName));
       }
-      name = name.replace(' ', '_');
+      name = rawName.replace(' ', '_');
     } catch (final NullPointerException ex) {
       throw new InvalidDescriptionException(ex, "name is not defined");
     } catch (final ClassCastException ex) {
@@ -295,7 +318,7 @@ public final class PluginDescriptionFile {
     try {
       main = map.get(PluginDescriptionFile.MAIN).toString();
       if (main.startsWith("io.github.shiruka.")) {
-        throw new InvalidDescriptionException("main may not be within the org.bukkit namespace");
+        throw new InvalidDescriptionException("main may not be within the io.github.shiruka namespace");
       }
     } catch (final NullPointerException ex) {
       throw new InvalidDescriptionException(ex, "main is not defined");
@@ -331,7 +354,7 @@ public final class PluginDescriptionFile {
     if (map.containsKey(PluginDescriptionFile.LOAD)) {
       try {
         order = PluginLoadOrder.valueOf(((String) map.get(PluginDescriptionFile.LOAD))
-          .toUpperCase(Locale.ENGLISH)
+          .toUpperCase(Locale.ROOT)
           .replaceAll("\\W", ""));
       } catch (final ClassCastException ex) {
         throw new InvalidDescriptionException(ex, "load is of wrong type");
@@ -344,8 +367,27 @@ public final class PluginDescriptionFile {
     final var depend = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.DEPEND);
     final var softDepend = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.SOFT_DEPEND);
     final var loadBefore = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.LOAD_BEFORE);
-    return new PluginDescriptionFile(name, main, version, description, website, prefix, order, contributors, authors,
-      depend, softDepend, loadBefore);
+    PermissionDefault defaultPerm = PermissionDefault.OP;
+    final var defaultPermission = map.get(PluginDescriptionFile.DEFAULT_PERMISSION);
+    if (defaultPermission != null) {
+      try {
+        defaultPerm = PermissionDefault.getByName(defaultPermission.toString()).orElse(PermissionDefault.OP);
+      } catch (final ClassCastException ex) {
+        throw new InvalidDescriptionException(ex, "default-permission is of wrong type");
+      } catch (final IllegalArgumentException ex) {
+        throw new InvalidDescriptionException(ex, "default-permission is not a valid choice");
+      }
+    }
+    final Map<?, ?> lazyPermissions;
+    try {
+      lazyPermissions = (Map<?, ?>) map.get(PluginDescriptionFile.PERMISSIONS);
+    } catch (final ClassCastException ex) {
+      throw new InvalidDescriptionException(ex, "permissions are of the wrong type");
+    }
+    final var permissions = Permission.loadPermissions(lazyPermissions,
+      "Permission node '%s' in plugin description file for " + name + " v" + version + " is invalid!", defaultPerm);
+    return new PluginDescriptionFile(authors, contributors, defaultPerm, depend, description, loadBefore, main, name,
+      order, permissions, prefix, softDepend, version, website);
   }
 
   /**
@@ -378,6 +420,16 @@ public final class PluginDescriptionFile {
   }
 
   /**
+   * returns the name of a plugin, including the version.
+   *
+   * @return a descriptive name of the plugin and respective version.
+   */
+  @NotNull
+  public String getFullName() {
+    return this.name + " v" + this.version;
+  }
+
+  /**
    * saves {@code this} to the given writer.
    *
    * @param writer the writer to save.
@@ -398,6 +450,8 @@ public final class PluginDescriptionFile {
     map.put(PluginDescriptionFile.MAIN, this.main);
     map.put(PluginDescriptionFile.VERSION, this.version);
     map.put(PluginDescriptionFile.ORDER, this.order.toString());
+    map.put(PluginDescriptionFile.DEFAULT_PERMISSION, this.defaultPerm.toString());
+    map.put(PluginDescriptionFile.PERMISSIONS, this.permissions);
     map.put(PluginDescriptionFile.DEPEND, this.depend);
     map.put(PluginDescriptionFile.SOFT_DEPEND, this.softDepend);
     map.put(PluginDescriptionFile.LOAD_BEFORE, this.loadBefore);

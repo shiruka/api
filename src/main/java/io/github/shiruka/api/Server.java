@@ -25,12 +25,24 @@
 
 package io.github.shiruka.api;
 
+import io.github.shiruka.api.base.BanList;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine servers.
  */
 public interface Server {
+
+  /**
+   * obtains the ban list instance.
+   *
+   * @param type the type to get.
+   *
+   * @return a ban list instance.
+   */
+  @NotNull
+  BanList getBanList(@NotNull BanList.Type type);
 
   /**
    * obtains the given class's implementation.
@@ -43,6 +55,14 @@ public interface Server {
    * @throws IllegalArgumentException if the given class's implementation not found.
    */
   @NotNull <I> I getInterface(@NotNull Class<I> cls);
+
+  /**
+   * obtains the server logger instance.
+   *
+   * @return server logger.
+   */
+  @NotNull
+  Logger getLogger();
 
   /**
    * obtains maximum player count of the server.

@@ -38,5 +38,5 @@ public interface Self<T> {
    * @return itself.
    */
   @NotNull
-  T self();
+  T getSelf();
 }

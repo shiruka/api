@@ -23,36 +23,14 @@
  *
  */
 
-package io.github.shiruka.api.plugin;
+package io.github.shiruka.api.permission;
 
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
+import java.util.function.Consumer;
 
 /**
- * an interface to determine plugins.
+ * an interface to determine permission removed executors.
  */
-public interface Plugin {
+@FunctionalInterface
+public interface PermissionRemovedExecutor extends Consumer<PermissionAttachment> {
 
-  /**
-   * obtains the plugin description file interface.
-   *
-   * @return plugin description.
-   */
-  @NotNull
-  PluginDescriptionFile getDescription();
-
-  /**
-   * obtains the logger.
-   *
-   * @return logger.
-   */
-  @NotNull
-  Logger getLogger();
-
-  /**
-   * checks if the plugin is enabled.
-   *
-   * @return {@code true} if the plugin is enabled.
-   */
-  boolean isEnabled();
 }

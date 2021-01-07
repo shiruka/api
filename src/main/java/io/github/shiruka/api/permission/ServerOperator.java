@@ -23,36 +23,26 @@
  *
  */
 
-package io.github.shiruka.api.plugin;
+package io.github.shiruka.api.permission;
 
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
+import io.github.shiruka.api.entity.Player;
 
 /**
- * an interface to determine plugins.
+ * an interface to determine an object that may become a server operator, such as a {@link Player}.
  */
-public interface Plugin {
+public interface ServerOperator {
 
   /**
-   * obtains the plugin description file interface.
+   * checks if this object is a server operator.
    *
-   * @return plugin description.
+   * @return {@code true} if this is an operator, otherwise {@code false}.
    */
-  @NotNull
-  PluginDescriptionFile getDescription();
+  boolean isOp();
 
   /**
-   * obtains the logger.
+   * sets the operator status of this object.
    *
-   * @return logger.
+   * @param value the value to set.
    */
-  @NotNull
-  Logger getLogger();
-
-  /**
-   * checks if the plugin is enabled.
-   *
-   * @return {@code true} if the plugin is enabled.
-   */
-  boolean isEnabled();
+  void setOp(boolean value);
 }

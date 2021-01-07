@@ -29,6 +29,8 @@ import io.github.shiruka.api.world.options.Dimension;
 import io.github.shiruka.api.world.options.WorldCreateSpec;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -60,12 +62,22 @@ public interface WorldLoader {
   /**
    * obtains the world from the set of loaded worlds, or if it has not loaded yet, attempt to load the world.
    *
-   * @param name the name of the world.
+   * @param name the name to get.
    *
-   * @return the world, or if it doesn't exist, throw an  exception.
+   * @return the world.
    */
   @NotNull
-  World get(@NotNull String name);
+  Optional<World> get(@NotNull String name);
+
+  /**
+   * obtains the world from the set of loaded worlds, or if it has not loaded yet, attempt to load the world.
+   *
+   * @param uniqueId the unique id to get.
+   *
+   * @return the world.
+   */
+  @NotNull
+  Optional<World> get(@NotNull UUID uniqueId);
 
   /**
    * obtains the default world that new players will join upon connection to the server.
@@ -81,7 +93,15 @@ public interface WorldLoader {
    * @return all of the loaded worlds.
    */
   @NotNull
-  Map<String, World> getWorlds();
+  Map<String, World> getWorldsByName();
+
+  /**
+   * obtains all of the worlds that are currently loaded on the server.
+   *
+   * @return all of the loaded worlds.
+   */
+  @NotNull
+  Map<UUID, World> getWorldsByUniqueId();
 
   /**
    * loads method for shortcutting NBT decoding.

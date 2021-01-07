@@ -23,36 +23,35 @@
  *
  */
 
-package io.github.shiruka.api.plugin;
-
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
+package io.github.shiruka.api.base;
 
 /**
- * an interface to determine plugins.
+ * an enum class that represents height maps.
  */
-public interface Plugin {
+public enum HeightMap {
 
   /**
-   * obtains the plugin description file interface.
-   *
-   * @return plugin description.
+   * the highest block that blocks motion or contains a fluid.
    */
-  @NotNull
-  PluginDescriptionFile getDescription();
-
+  MOTION_BLOCKING,
   /**
-   * obtains the logger.
-   *
-   * @return logger.
+   * the highest block that blocks motion or contains a fluid or is in the
    */
-  @NotNull
-  Logger getLogger();
-
+  MOTION_BLOCKING_NO_LEAVES,
   /**
-   * checks if the plugin is enabled.
-   *
-   * @return {@code true} if the plugin is enabled.
+   * the highest non-air block, solid block.
    */
-  boolean isEnabled();
+  OCEAN_FLOOR,
+  /**
+   * the highest block that is neither air nor contains a fluid, for world generation.
+   */
+  OCEAN_FLOOR_WG,
+  /**
+   * the highest non-air block.
+   */
+  WORLD_SURFACE,
+  /**
+   * the highest non-air block, for world generation.
+   */
+  WORLD_SURFACE_WG,
 }

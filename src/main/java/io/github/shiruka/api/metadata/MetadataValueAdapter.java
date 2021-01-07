@@ -23,36 +23,36 @@
  *
  */
 
-package io.github.shiruka.api.plugin;
+package io.github.shiruka.api.metadata;
 
-import org.apache.logging.log4j.Logger;
+import io.github.shiruka.api.plugin.Plugin;
+import java.lang.ref.WeakReference;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine plugins.
+ * an abstract implementation for {@link MetadataValue}.
  */
-public interface Plugin {
+public abstract class MetadataValueAdapter implements MetadataValue {
 
   /**
-   * obtains the plugin description file interface.
-   *
-   * @return plugin description.
+   * the plugin.
    */
   @NotNull
-  PluginDescriptionFile getDescription();
+  protected final WeakReference<Plugin> plugin;
 
   /**
-   * obtains the logger.
+   * ctor.
    *
-   * @return logger.
+   * @param plugin the plugin.
    */
-  @NotNull
-  Logger getLogger();
+  protected MetadataValueAdapter(@NotNull final Plugin plugin) {
+    this.plugin = new WeakReference<>(plugin);
+  }
 
-  /**
-   * checks if the plugin is enabled.
-   *
-   * @return {@code true} if the plugin is enabled.
-   */
-  boolean isEnabled();
+  @Nullable
+  @Override
+  public final Plugin plugin() {
+    return this.plugin.get();
+  }
 }

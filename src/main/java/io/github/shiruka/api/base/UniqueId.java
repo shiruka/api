@@ -23,36 +23,21 @@
  *
  */
 
-package io.github.shiruka.api.plugin;
+package io.github.shiruka.api.base;
 
-import org.apache.logging.log4j.Logger;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine plugins.
+ * an interface to determine classes which have unique id in it.
  */
-public interface Plugin {
+public interface UniqueId {
 
   /**
-   * obtains the plugin description file interface.
+   * obtains the unique id.
    *
-   * @return plugin description.
+   * @return unique id.
    */
   @NotNull
-  PluginDescriptionFile getDescription();
-
-  /**
-   * obtains the logger.
-   *
-   * @return logger.
-   */
-  @NotNull
-  Logger getLogger();
-
-  /**
-   * checks if the plugin is enabled.
-   *
-   * @return {@code true} if the plugin is enabled.
-   */
-  boolean isEnabled();
+  UUID getUniqueId();
 }

@@ -38,5 +38,5 @@ public interface Keyed {
    * @return the key.
    */
   @NotNull
-  String key();
+  String getKey();
 }

@@ -83,12 +83,12 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param command the command to set.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T executes(@Nullable final Command command) {
     this.command = command;
-    return this.self();
+    return this.getSelf();
   }
 
   /**
@@ -97,7 +97,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @param target the target to set.
    * @param modifier the modifier to set.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T fork(@NotNull final CommandNode target, @NotNull final RedirectModifier modifier) {
@@ -111,7 +111,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @param modifier the modifier to set.
    * @param fork the modifier to set.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T forward(@NotNull final CommandNode target, @Nullable final RedirectModifier modifier,
@@ -122,7 +122,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
     this.redirect = target;
     this.modifier = modifier;
     this.fork = fork;
-    return this.self();
+    return this.getSelf();
   }
 
   /**
@@ -187,7 +187,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   /**
    * adds a requirement which control is the {@link CommandSender} is a {@link Player}.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T playerOnly() {
@@ -199,7 +199,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param errorMessage the error message to display to sender which is not a {@link Player}.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T playerOnly(@NotNull final String errorMessage) {
@@ -211,7 +211,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param errorMessage the error message to display to sender which is not a {@link Player}.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T playerOnly(@NotNull final Function<CommandSender, String> errorMessage) {
@@ -229,7 +229,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param target the target to set.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T redirect(@NotNull final CommandNode target) {
@@ -242,7 +242,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @param target the target to set.
    * @param modifier the modifier to set.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T redirect(@NotNull final CommandNode target, @Nullable final SingleRedirectModifier modifier) {
@@ -254,7 +254,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param requirements the requirements to set.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T requires(@NotNull final Requirement... requirements) {
@@ -266,12 +266,12 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param requirements the requirements to set.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T requires(@NotNull final Iterable<Requirement> requirements) {
     requirements.forEach(this.requirements::add);
-    return this.self();
+    return this.getSelf();
   }
 
   /**
@@ -279,7 +279,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param argument the argument to add.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T then(@NotNull final ArgumentBuilder<?> argument) {
@@ -291,7 +291,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param argument the argument to add.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public final T then(@NotNull final CommandNode argument) {
@@ -299,7 +299,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
       throw new IllegalStateException("Cannot add children to a redirected node");
     }
     this.arguments.addChild(argument);
-    return this.self();
+    return this.getSelf();
   }
 
   /**
@@ -315,12 +315,12 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param description the description to set.
    *
-   * @return {@link #self()} for builder chain.
+   * @return {@link #getSelf()} for builder chain.
    */
   @NotNull
   public T describe(@Nullable final String description) {
     this.description = description;
-    return this.self();
+    return this.getSelf();
   }
 
   /**

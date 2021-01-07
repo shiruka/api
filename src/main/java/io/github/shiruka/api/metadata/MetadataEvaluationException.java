@@ -23,36 +23,16 @@
  *
  */
 
-package io.github.shiruka.api.plugin;
+package io.github.shiruka.api.metadata;
 
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine plugins.
+ * an exception that thrown any time a {@link LazyMetadataValue} fails to evaluate its value due to an exception.
  */
-public interface Plugin {
+class MetadataEvaluationException extends RuntimeException {
 
-  /**
-   * obtains the plugin description file interface.
-   *
-   * @return plugin description.
-   */
-  @NotNull
-  PluginDescriptionFile getDescription();
-
-  /**
-   * obtains the logger.
-   *
-   * @return logger.
-   */
-  @NotNull
-  Logger getLogger();
-
-  /**
-   * checks if the plugin is enabled.
-   *
-   * @return {@code true} if the plugin is enabled.
-   */
-  boolean isEnabled();
+  MetadataEvaluationException(@NotNull final Throwable cause) {
+    super(cause);
+  }
 }

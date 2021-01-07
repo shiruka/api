@@ -399,7 +399,7 @@ public final class CommandDispatcher {
       .findFirst()
       .map(list -> (List<String>) list.stream()
         .filter(node -> node != this.root)
-        .map(Named::name)
+        .map(Named::getName)
         .collect(Collectors.toCollection(() -> new ArrayList<>(list.size()))))
       .orElse(Collections.emptyList());
   }
@@ -517,7 +517,7 @@ public final class CommandDispatcher {
    */
   public void unregister(@NotNull final CommandNode... commands) {
     this.unregister(Arrays.stream(commands)
-      .map(Named::name)
+      .map(Named::getName)
       .toArray(String[]::new));
   }
 

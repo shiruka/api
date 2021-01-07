@@ -23,36 +23,41 @@
  *
  */
 
-package io.github.shiruka.api.plugin;
+package io.github.shiruka.api.metadata;
 
-import org.apache.logging.log4j.Logger;
+import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine plugins.
+ * a class that represents fixed metadata values.
  */
-public interface Plugin {
+public final class FixedMetadataValue extends LazyMetadataValue {
 
   /**
-   * obtains the plugin description file interface.
-   *
-   * @return plugin description.
+   * the value.
    */
   @NotNull
-  PluginDescriptionFile getDescription();
+  private final Object value;
 
   /**
-   * obtains the logger.
+   * ctor.
    *
-   * @return logger.
+   * @param plugin the plugin.
+   * @param value the value.
    */
+  public FixedMetadataValue(@NotNull final Plugin plugin, @NotNull final Object value) {
+    super(plugin);
+    this.value = value;
+  }
+
+  @Override
+  public void invalidate() {
+    // ignored.
+  }
+
   @NotNull
-  Logger getLogger();
-
-  /**
-   * checks if the plugin is enabled.
-   *
-   * @return {@code true} if the plugin is enabled.
-   */
-  boolean isEnabled();
+  @Override
+  public Object value() {
+    return this.value;
+  }
 }

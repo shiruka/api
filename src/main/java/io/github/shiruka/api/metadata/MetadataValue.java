@@ -27,30 +27,73 @@ package io.github.shiruka.api.metadata;
 
 import io.github.shiruka.api.plugin.Plugin;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine metaadata values.
+ * an interface to determine metadata values.
  */
 public interface MetadataValue {
 
   /**
-   * attempts to convert the value of this metadata item into a boolean.
+   * creates a new {@link FixedMetadataValue} instance.
    *
-   * @return the value as a boolean.
+   * @param plugin the plugin to create.
+   * @param object the object to create.
+   *
+   * @return a new fixed metadata value instance.
    */
   @NotNull
-  Optional<Boolean> asBoolean();
+  static FixedMetadataValue fixed(@NotNull final Plugin plugin, @NotNull final Object object) {
+    return new FixedMetadataValue(plugin, object);
+  }
+
+  /**
+   * creates a new {@link LazyMetadataValue} instance.
+   *
+   * @param plugin the plugin to create.
+   * @param value the value to create.
+   *
+   * @return a new lazy metadata value instance.
+   */
+  @NotNull
+  static LazyMetadataValue lazy(@NotNull final Plugin plugin, @NotNull final Callable<Object> value) {
+    return new LazyMetadataValue(plugin, value);
+  }
+
+  /**
+   * creates a new {@link LazyMetadataValue} instance.
+   *
+   * @param plugin the plugin to create.
+   * @param strategy the strategy to create.
+   * @param value the value to create.
+   *
+   * @return a new lazy metadata value instance.
+   */
+  @NotNull
+  static LazyMetadataValue lazy(@NotNull final Plugin plugin, @NotNull final CacheStrategy strategy,
+                                @NotNull final Callable<Object> value) {
+    return new LazyMetadataValue(plugin, strategy, value);
+  }
 
   /**
    * attempts to convert the value of this metadata item into a boolean.
    *
    * @return the value as a boolean.
-   *
-   * @throws UnsupportedOperationException if the value is not a {@link Boolean}.
    */
-  default boolean asBooleanOrThrow() {
-    return this.asBoolean().orElseThrow(UnsupportedOperationException::new);
+  default boolean asBoolean() {
+    final var value = this.value();
+    if (value instanceof Boolean) {
+      return (Boolean) value;
+    }
+    if (value instanceof Number) {
+      return ((Number) value).byteValue() != 0;
+    }
+    if (value instanceof String) {
+      return Boolean.parseBoolean((String) value);
+    }
+    return true;
   }
 
   /**
@@ -59,7 +102,13 @@ public interface MetadataValue {
    * @return the value as a Number.
    */
   @NotNull
-  Optional<Number> asNumber();
+  default Optional<Number> asNumber() {
+    final var value = this.value();
+    if (value instanceof Number) {
+      return Optional.of((Number) value);
+    }
+    return Optional.empty();
+  }
 
   /**
    * attempts to convert the value of this metadata item into a Number.
@@ -79,18 +128,12 @@ public interface MetadataValue {
    * @return the value as a string.
    */
   @NotNull
-  Optional<String> asString();
-
-  /**
-   * attempts to convert the value of this metadata item into a string.
-   *
-   * @return the value as a string.
-   *
-   * @throws UnsupportedOperationException if the value is not a {@link String}.
-   */
-  @NotNull
-  default String asStringOrThrow() {
-    return this.asString().orElseThrow(UnsupportedOperationException::new);
+  default String asString() {
+    final var value = this.value();
+    if (value == null) {
+      return "";
+    }
+    return value.toString();
   }
 
   /**
@@ -103,7 +146,7 @@ public interface MetadataValue {
    *
    * @return the plugin that owns this metadata value. Could be null if the plugin was already unloaded.
    */
-  @NotNull
+  @Nullable
   Plugin plugin();
 
   /**
@@ -111,6 +154,6 @@ public interface MetadataValue {
    *
    * @return the metadata value.
    */
-  @NotNull
+  @Nullable
   Object value();
 }

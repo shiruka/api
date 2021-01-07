@@ -70,7 +70,7 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
 
   @NotNull
   @Override
-  public LiteralBuilder self() {
+  public LiteralBuilder getSelf() {
     return this;
   }
 }

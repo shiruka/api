@@ -38,5 +38,5 @@ public interface Named {
    * @return the name.
    */
   @NotNull
-  String name();
+  String getName();
 }

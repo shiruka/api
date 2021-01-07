@@ -29,7 +29,13 @@ import io.github.shiruka.api.command.CommandManager;
 import io.github.shiruka.api.console.ConsoleCommandSender;
 import io.github.shiruka.api.events.EventFactory;
 import io.github.shiruka.api.pack.PackManager;
+import io.github.shiruka.api.permission.PermissionManager;
 import io.github.shiruka.api.scheduler.Scheduler;
+import io.github.shiruka.api.world.World;
+import io.github.shiruka.api.world.WorldLoader;
+import java.util.Optional;
+import java.util.UUID;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -74,6 +80,16 @@ public interface Shiruka {
   }
 
   /**
+   * obtains the server logger instance.
+   *
+   * @return server logger.
+   */
+  @NotNull
+  static Logger getLogger() {
+    return Shiruka.getServer().getLogger();
+  }
+
+  /**
    * obtains the pack manager.
    *
    * @return resource pack manager.
@@ -83,6 +99,18 @@ public interface Shiruka {
   @NotNull
   static PackManager getPackManager() {
     return Shiruka.getServer().getInterface(PackManager.class);
+  }
+
+  /**
+   * obtains the permission manager instance.
+   *
+   * @return a {@link PermissionManager} instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
+   */
+  @NotNull
+  static PermissionManager getPermissionManager() {
+    return Shiruka.getServer().getInterface(PermissionManager.class);
   }
 
   /**
@@ -114,5 +142,41 @@ public interface Shiruka {
    */
   static void setServer(@NotNull final Server server) {
     Implementation.setServer(server);
+  }
+
+  /**
+   * obtains the world from the given name.
+   *
+   * @param name the name to get.
+   *
+   * @return the world instance.
+   */
+  @NotNull
+  static Optional<World> getWorld(@NotNull final String name) {
+    return Optional.ofNullable(Shiruka.getWorldLoader().getWorldsByName().get(name));
+  }
+
+  /**
+   * obtains the world from the given unique id.
+   *
+   * @param uniqueId the uniqueId to get.
+   *
+   * @return the world instance.
+   */
+  @NotNull
+  static Optional<World> getWorld(@NotNull final UUID uniqueId) {
+    return Optional.ofNullable(Shiruka.getWorldLoader().getWorldsByUniqueId().get(uniqueId));
+  }
+
+  /**
+   * obtains the world loader instance.
+   *
+   * @return world loader instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
+   */
+  @NotNull
+  static WorldLoader getWorldLoader() {
+    return Shiruka.getServer().getInterface(WorldLoader.class);
   }
 }
