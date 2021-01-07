@@ -39,7 +39,7 @@ public final class Permission {
   /**
    * the default permission.
    */
-  public static final PermissionDefault DEFAULT_PERMISSION = PermissionDefault.OP;
+  static final PermissionDefault DEFAULT_PERMISSION = PermissionDefault.OP;
 
   /**
    * the children.
@@ -250,7 +250,8 @@ public final class Permission {
    * @return extracted children.
    */
   @NotNull
-  private static LinkedHashMap<String, Boolean> extractChildren(@NotNull final Map<?, ?> input, @NotNull final String name,
+  private static LinkedHashMap<String, Boolean> extractChildren(@NotNull final Map<?, ?> input,
+                                                                @NotNull final String name,
                                                                 @Nullable final PermissionDefault def,
                                                                 @Nullable final List<Permission> output) {
     final var children = new LinkedHashMap<String, Boolean>();

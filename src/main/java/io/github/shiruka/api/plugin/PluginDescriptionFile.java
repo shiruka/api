@@ -41,6 +41,10 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
  */
 public final class PluginDescriptionFile {
 
+  public static final String DEFAULT_PERMISSION = "default-permission";
+
+  public static final String PERMISSIONS = "permissions";
+
   /**
    * the authors key of the plugin.yml.
    */
@@ -314,7 +318,7 @@ public final class PluginDescriptionFile {
     try {
       main = map.get(PluginDescriptionFile.MAIN).toString();
       if (main.startsWith("io.github.shiruka.")) {
-        throw new InvalidDescriptionException("main may not be within the org.bukkit namespace");
+        throw new InvalidDescriptionException("main may not be within the io.github.shiruka namespace");
       }
     } catch (final NullPointerException ex) {
       throw new InvalidDescriptionException(ex, "main is not defined");
@@ -364,7 +368,7 @@ public final class PluginDescriptionFile {
     final var softDepend = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.SOFT_DEPEND);
     final var loadBefore = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.LOAD_BEFORE);
     PermissionDefault defaultPerm = PermissionDefault.OP;
-    final var defaultPermission = map.get("default-permission");
+    final var defaultPermission = map.get(PluginDescriptionFile.DEFAULT_PERMISSION);
     if (defaultPermission != null) {
       try {
         defaultPerm = PermissionDefault.getByName(defaultPermission.toString()).orElse(PermissionDefault.OP);
@@ -376,12 +380,12 @@ public final class PluginDescriptionFile {
     }
     final Map<?, ?> lazyPermissions;
     try {
-      lazyPermissions = (Map<?, ?>) map.get("permissions");
+      lazyPermissions = (Map<?, ?>) map.get(PluginDescriptionFile.PERMISSIONS);
     } catch (final ClassCastException ex) {
       throw new InvalidDescriptionException(ex, "permissions are of the wrong type");
     }
     final var permissions = Permission.loadPermissions(lazyPermissions,
-      "Permission node '%s' in plugin description file for " + name + " v" + version + " is invalid", defaultPerm);
+      "Permission node '%s' in plugin description file for " + name + " v" + version + " is invalid!", defaultPerm);
     return new PluginDescriptionFile(authors, contributors, defaultPerm, depend, description, loadBefore, main, name,
       order, permissions, prefix, softDepend, version, website);
   }
@@ -446,6 +450,8 @@ public final class PluginDescriptionFile {
     map.put(PluginDescriptionFile.MAIN, this.main);
     map.put(PluginDescriptionFile.VERSION, this.version);
     map.put(PluginDescriptionFile.ORDER, this.order.toString());
+    map.put(PluginDescriptionFile.DEFAULT_PERMISSION, this.defaultPerm.toString());
+    map.put(PluginDescriptionFile.PERMISSIONS, this.permissions);
     map.put(PluginDescriptionFile.DEPEND, this.depend);
     map.put(PluginDescriptionFile.SOFT_DEPEND, this.softDepend);
     map.put(PluginDescriptionFile.LOAD_BEFORE, this.loadBefore);
