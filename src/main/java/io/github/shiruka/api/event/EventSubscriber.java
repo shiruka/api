@@ -26,7 +26,6 @@
 package io.github.shiruka.api.event;
 
 import io.github.shiruka.api.events.Event;
-import java.lang.reflect.Type;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -73,7 +72,7 @@ public interface EventSubscriber {
    * @return the generic type of the subscriber.
    */
   @Nullable
-  default Type type() {
+  default Class<?> type() {
     return null;
   }
 }

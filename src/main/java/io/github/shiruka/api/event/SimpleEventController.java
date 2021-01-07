@@ -60,7 +60,11 @@ public final class SimpleEventController implements EventController {
       event instanceof Cancellable && ((Cancellable) event).cancelled()) {
       return false;
     }
-    return Objects.equals(event.getClass(), subscriber.type());
+    final var type = subscriber.type();
+    if (type == null) {
+      return false;
+    }
+    return type.isAssignableFrom(event.getClass());
   }
 
   @Override

@@ -31,7 +31,6 @@ import io.github.shiruka.api.event.EventSubscriber;
 import io.github.shiruka.api.event.Listener;
 import io.github.shiruka.api.events.Event;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -74,7 +73,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
    * the generic.
    */
   @Nullable
-  private final Type type;
+  private final Class<?> type;
 
   /**
    * ctpr.
@@ -114,7 +113,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
 
   @Nullable
   @Override
-  public Type type() {
+  public Class<?> type() {
     return this.type;
   }
 
