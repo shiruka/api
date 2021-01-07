@@ -154,6 +154,18 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
     return this.suggestions.getSuggestions(context, builder);
   }
 
+  @NotNull
+  @Override
+  public String getKey() {
+    return this.name;
+  }
+
+  @NotNull
+  @Override
+  public String getName() {
+    return this.name;
+  }
+
   @Override
   public int hashCode() {
     var result = this.name.hashCode();
@@ -173,17 +185,5 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
     return this.name.equals(that.name) &&
       this.type.equals(that.type) &&
       super.equals(obj);
-  }
-
-  @NotNull
-  @Override
-  public String key() {
-    return this.name;
-  }
-
-  @NotNull
-  @Override
-  public String name() {
-    return this.name;
   }
 }

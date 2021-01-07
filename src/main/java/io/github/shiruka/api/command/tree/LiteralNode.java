@@ -109,13 +109,13 @@ public final class LiteralNode extends CommandNodeEnvelope {
 
   @NotNull
   @Override
-  public String key() {
+  public String getKey() {
     return this.literal;
   }
 
   @NotNull
   @Override
-  public String name() {
+  public String getName() {
     return this.literal;
   }
 

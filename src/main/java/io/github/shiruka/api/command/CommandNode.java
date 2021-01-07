@@ -186,7 +186,7 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
    * @param node the node to remove.
    */
   default void removeChild(@NotNull final CommandNode node) {
-    this.removeChild(node.name());
+    this.removeChild(node.getName());
   }
 
   /**

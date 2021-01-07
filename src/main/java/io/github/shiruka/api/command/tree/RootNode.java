@@ -89,13 +89,13 @@ public final class RootNode extends CommandNodeEnvelope {
 
   @NotNull
   @Override
-  public String key() {
+  public String getKey() {
     return "";
   }
 
   @NotNull
   @Override
-  public String name() {
+  public String getName() {
     return "";
   }
 }

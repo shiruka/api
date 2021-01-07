@@ -30,6 +30,10 @@ import io.github.shiruka.api.console.ConsoleCommandSender;
 import io.github.shiruka.api.events.EventFactory;
 import io.github.shiruka.api.pack.PackManager;
 import io.github.shiruka.api.scheduler.Scheduler;
+import io.github.shiruka.api.world.World;
+import io.github.shiruka.api.world.WorldLoader;
+import java.util.Optional;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -114,5 +118,41 @@ public interface Shiruka {
    */
   static void setServer(@NotNull final Server server) {
     Implementation.setServer(server);
+  }
+
+  /**
+   * obtains the world from the given name.
+   *
+   * @param name the name to get.
+   *
+   * @return the world instance.
+   */
+  @NotNull
+  static Optional<World> getWorld(@NotNull final String name) {
+    return Optional.ofNullable(Shiruka.getWorldLoader().getWorldsByName().get(name));
+  }
+
+  /**
+   * obtains the world from the given unique id.
+   *
+   * @param uniqueId the uniqueId to get.
+   *
+   * @return the world instance.
+   */
+  @NotNull
+  static Optional<World> getWorld(@NotNull final UUID uniqueId) {
+    return Optional.ofNullable(Shiruka.getWorldLoader().getWorldsByUniqueId().get(uniqueId));
+  }
+
+  /**
+   * obtains the world loader instance.
+   *
+   * @return world loader instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
+   */
+  @NotNull
+  static WorldLoader getWorldLoader() {
+    return Shiruka.getServer().getInterface(WorldLoader.class);
   }
 }

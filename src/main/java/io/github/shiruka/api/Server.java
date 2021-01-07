@@ -25,12 +25,23 @@
 
 package io.github.shiruka.api;
 
+import io.github.shiruka.api.base.BanList;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine servers.
  */
 public interface Server {
+
+  /**
+   * obtains the ban list instance.
+   *
+   * @param type the type to get.
+   *
+   * @return a ban list instance.
+   */
+  @NotNull
+  BanList getBanList(@NotNull BanList.Type type);
 
   /**
    * obtains the given class's implementation.

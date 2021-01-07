@@ -107,7 +107,7 @@ public interface CommandManager {
    */
   default void unregister(@NotNull final CommandNode... commands) {
     this.unregister(Arrays.stream(commands)
-      .map(Named::name)
+      .map(Named::getName)
       .toArray(String[]::new));
   }
 }

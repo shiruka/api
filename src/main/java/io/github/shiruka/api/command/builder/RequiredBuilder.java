@@ -88,6 +88,12 @@ public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>
     return this.name;
   }
 
+  @NotNull
+  @Override
+  public RequiredBuilder<V> getSelf() {
+    return this;
+  }
+
   /**
    * obtains the suggestion override.
    *
@@ -108,22 +114,16 @@ public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>
     return this.type;
   }
 
-  @NotNull
-  @Override
-  public RequiredBuilder<V> self() {
-    return this;
-  }
-
   /**
    * sets the {@link #suggestions}.
    *
    * @param suggestions the suggestion override to set.
    *
-   * @return {@link #self()} for buider chain.
+   * @return {@link #getSelf()} for buider chain.
    */
   @NotNull
   public RequiredBuilder<V> suggests(@NotNull final SuggestionProvider suggestions) {
     this.suggestions = suggestions;
-    return this.self();
+    return this.getSelf();
   }
 }

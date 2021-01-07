@@ -17,7 +17,7 @@ public class ParsingBenchmarks {
   private final CommandSender sender1 = new CommandSender() {
     @NotNull
     @Override
-    public String name() {
+    public String getName() {
       return "null1";
     }
 

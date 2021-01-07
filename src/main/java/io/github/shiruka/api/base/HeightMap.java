@@ -23,54 +23,35 @@
  *
  */
 
-package io.github.shiruka.api.command.builder;
-
-import io.github.shiruka.api.command.CommandNode;
-import io.github.shiruka.api.command.tree.LiteralNode;
-import org.jetbrains.annotations.NotNull;
+package io.github.shiruka.api.base;
 
 /**
- * a simple literal implementation for {@link ArgumentBuilder}.
+ * an enum class that represents height maps.
  */
-public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
+public enum HeightMap {
 
   /**
-   * the literal.
+   * the highest block that blocks motion or contains a fluid.
    */
-  @NotNull
-  private final String literal;
-
+  MOTION_BLOCKING,
   /**
-   * ctor.
-   *
-   * @param literal the literal.
+   * the highest block that blocks motion or contains a fluid or is in the
    */
-  public LiteralBuilder(@NotNull final String literal) {
-    this.literal = literal;
-  }
-
-  @NotNull
-  @Override
-  public CommandNode build() {
-    final var result = new LiteralNode(this.getDescription(), this.isFork(), this.getModifier(), this.getRedirect(),
-      this.getRequirements(), this.getCommand(), this.getLiteral());
-    this.getArguments().forEach(result::addChild);
-    return result;
-  }
-
+  MOTION_BLOCKING_NO_LEAVES,
   /**
-   * obtains the literal.
-   *
-   * @return literal.
+   * the highest non-air block, solid block.
    */
-  @NotNull
-  public String getLiteral() {
-    return this.literal;
-  }
-
-  @NotNull
-  @Override
-  public LiteralBuilder getSelf() {
-    return this;
-  }
+  OCEAN_FLOOR,
+  /**
+   * the highest block that is neither air nor contains a fluid, for world generation.
+   */
+  OCEAN_FLOOR_WG,
+  /**
+   * the highest non-air block.
+   */
+  WORLD_SURFACE,
+  /**
+   * the highest non-air block, for world generation.
+   */
+  WORLD_SURFACE_WG,
 }

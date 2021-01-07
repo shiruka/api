@@ -37,7 +37,7 @@ final class CommandDispatcherTest {
     final CommandSender commandSender = new CommandSender() {
       @NotNull
       @Override
-      public String name() {
+      public String getName() {
         return "null";
       }
 

@@ -93,7 +93,7 @@ public interface Metadatable {
    * @param value the value to set.
    */
   default void setFixedMetadata(@NotNull final String key, @NotNull final Plugin plugin, @NotNull final Object value) {
-    this.setMetadata(key, new FixedMetadata(plugin, value));
+    this.setMetadata(key, new FixedMetadataValue(plugin, value));
   }
 
   /**

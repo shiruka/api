@@ -23,54 +23,26 @@
  *
  */
 
-package io.github.shiruka.api.command.builder;
+package io.github.shiruka.api.permission;
 
-import io.github.shiruka.api.command.CommandNode;
-import io.github.shiruka.api.command.tree.LiteralNode;
-import org.jetbrains.annotations.NotNull;
+import io.github.shiruka.api.entity.Player;
 
 /**
- * a simple literal implementation for {@link ArgumentBuilder}.
+ * an interface to determine an object that may become a server operator, such as a {@link Player}.
  */
-public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
+public interface ServerOperator {
 
   /**
-   * the literal.
-   */
-  @NotNull
-  private final String literal;
-
-  /**
-   * ctor.
+   * checks if this object is a server operator.
    *
-   * @param literal the literal.
+   * @return {@code true} if this is an operator, otherwise {@code false}.
    */
-  public LiteralBuilder(@NotNull final String literal) {
-    this.literal = literal;
-  }
-
-  @NotNull
-  @Override
-  public CommandNode build() {
-    final var result = new LiteralNode(this.getDescription(), this.isFork(), this.getModifier(), this.getRedirect(),
-      this.getRequirements(), this.getCommand(), this.getLiteral());
-    this.getArguments().forEach(result::addChild);
-    return result;
-  }
+  boolean isOp();
 
   /**
-   * obtains the literal.
+   * sets the operator status of this object.
    *
-   * @return literal.
+   * @param value the value to set.
    */
-  @NotNull
-  public String getLiteral() {
-    return this.literal;
-  }
-
-  @NotNull
-  @Override
-  public LiteralBuilder getSelf() {
-    return this;
-  }
+  void setOp(boolean value);
 }

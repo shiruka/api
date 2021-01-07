@@ -20,7 +20,7 @@ public class ExecuteBenchmarks {
   private final CommandSender sender1 = new CommandSender() {
     @NotNull
     @Override
-    public String name() {
+    public String getName() {
       return "null1";
     }
 
@@ -33,7 +33,7 @@ public class ExecuteBenchmarks {
   private final CommandSender sender2 = new CommandSender() {
     @NotNull
     @Override
-    public String name() {
+    public String getName() {
       return "null2";
     }
 
@@ -46,7 +46,7 @@ public class ExecuteBenchmarks {
   private final CommandSender sender3 = new CommandSender() {
     @NotNull
     @Override
-    public String name() {
+    public String getName() {
       return "null3";
     }
 

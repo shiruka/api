@@ -23,54 +23,36 @@
  *
  */
 
-package io.github.shiruka.api.command.builder;
+package io.github.shiruka.api.metadata;
 
-import io.github.shiruka.api.command.CommandNode;
-import io.github.shiruka.api.command.tree.LiteralNode;
+import io.github.shiruka.api.plugin.Plugin;
+import java.lang.ref.WeakReference;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * a simple literal implementation for {@link ArgumentBuilder}.
+ * an abstract implementation for {@link MetadataValue}.
  */
-public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
+public abstract class MetadataValueAdapter implements MetadataValue {
 
   /**
-   * the literal.
+   * the plugin.
    */
   @NotNull
-  private final String literal;
+  protected final WeakReference<Plugin> plugin;
 
   /**
    * ctor.
    *
-   * @param literal the literal.
+   * @param plugin the plugin.
    */
-  public LiteralBuilder(@NotNull final String literal) {
-    this.literal = literal;
+  protected MetadataValueAdapter(@NotNull final Plugin plugin) {
+    this.plugin = new WeakReference<>(plugin);
   }
 
-  @NotNull
+  @Nullable
   @Override
-  public CommandNode build() {
-    final var result = new LiteralNode(this.getDescription(), this.isFork(), this.getModifier(), this.getRedirect(),
-      this.getRequirements(), this.getCommand(), this.getLiteral());
-    this.getArguments().forEach(result::addChild);
-    return result;
-  }
-
-  /**
-   * obtains the literal.
-   *
-   * @return literal.
-   */
-  @NotNull
-  public String getLiteral() {
-    return this.literal;
-  }
-
-  @NotNull
-  @Override
-  public LiteralBuilder getSelf() {
-    return this;
+  public final Plugin plugin() {
+    return this.plugin.get();
   }
 }

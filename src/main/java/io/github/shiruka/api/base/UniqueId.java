@@ -23,54 +23,21 @@
  *
  */
 
-package io.github.shiruka.api.command.builder;
+package io.github.shiruka.api.base;
 
-import io.github.shiruka.api.command.CommandNode;
-import io.github.shiruka.api.command.tree.LiteralNode;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a simple literal implementation for {@link ArgumentBuilder}.
+ * an interface to determine classes which have unique id in it.
  */
-public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
+public interface UniqueId {
 
   /**
-   * the literal.
-   */
-  @NotNull
-  private final String literal;
-
-  /**
-   * ctor.
+   * obtains the unique id.
    *
-   * @param literal the literal.
-   */
-  public LiteralBuilder(@NotNull final String literal) {
-    this.literal = literal;
-  }
-
-  @NotNull
-  @Override
-  public CommandNode build() {
-    final var result = new LiteralNode(this.getDescription(), this.isFork(), this.getModifier(), this.getRedirect(),
-      this.getRequirements(), this.getCommand(), this.getLiteral());
-    this.getArguments().forEach(result::addChild);
-    return result;
-  }
-
-  /**
-   * obtains the literal.
-   *
-   * @return literal.
+   * @return unique id.
    */
   @NotNull
-  public String getLiteral() {
-    return this.literal;
-  }
-
-  @NotNull
-  @Override
-  public LiteralBuilder getSelf() {
-    return this;
-  }
+  UUID getUniqueId();
 }

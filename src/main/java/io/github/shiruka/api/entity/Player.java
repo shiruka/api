@@ -26,6 +26,7 @@
 package io.github.shiruka.api.entity;
 
 import io.github.shiruka.api.Server;
+import io.github.shiruka.api.base.OfflinePlayer;
 import io.github.shiruka.api.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,14 +34,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an interface to determine players on the Minecraft.
  */
-public interface Player extends Entity, CommandSender {
-
-  /**
-   * runs when the player disconnected.
-   *
-   * @param reason the reason to disconnect.
-   */
-  void disconnect(@Nullable String reason);
+public interface Player extends Entity, CommandSender, OfflinePlayer {
 
   /**
    * obtains the server.
@@ -49,4 +43,11 @@ public interface Player extends Entity, CommandSender {
    */
   @NotNull
   Server getServer();
+
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   */
+  void kick(@Nullable String reason);
 }

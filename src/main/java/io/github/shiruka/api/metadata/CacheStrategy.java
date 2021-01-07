@@ -25,54 +25,20 @@
 
 package io.github.shiruka.api.metadata;
 
-import io.github.shiruka.api.plugin.Plugin;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
-
-public final class FixedMetadata implements MetadataValue {
-
-  @NotNull
-  private final Plugin plugin;
-
-  @NotNull
-  private final Object value;
-
-  public FixedMetadata(@NotNull final Plugin plugin, @NotNull final Object value) {
-    this.plugin = plugin;
-    this.value = value;
-  }
-
-  @NotNull
-  @Override
-  public Optional<Boolean> asBoolean() {
-    return Optional.empty();
-  }
-
-  @NotNull
-  @Override
-  public Optional<Number> asNumber() {
-    return Optional.empty();
-  }
-
-  @NotNull
-  @Override
-  public Optional<String> asString() {
-    return Optional.empty();
-  }
-
-  @Override
-  public void invalidate() {
-  }
-
-  @NotNull
-  @Override
-  public Plugin plugin() {
-    return null;
-  }
-
-  @NotNull
-  @Override
-  public Object value() {
-    return null;
-  }
+/**
+ * an enum class that represents possible caching strategies for metadata.
+ */
+public enum CacheStrategy {
+  /**
+   * once the metadata value has been evaluated, do not re-evaluate the value until it is manually invalidated.
+   */
+  CACHE_AFTER_FIRST_EVAL,
+  /**
+   * re-evaluate the metadata item every time it is requested.
+   */
+  NEVER_CACHE,
+  /**
+   * once the metadata value has been evaluated, do not re-evaluate the value in spite of manual invalidation.
+   */
+  CACHE_ETERNALLY
 }
