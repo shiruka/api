@@ -26,6 +26,7 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.base.BanList;
+import org.apache.logging.log4j.Logger;
 import org.hamcrest.MatcherAssert;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.MethodOrderer;
@@ -47,6 +48,12 @@ final class ImplementationTest {
     @NotNull
     @Override
     public <I> I getInterface(@NotNull final Class<I> cls) {
+      return null;
+    }
+
+    @NotNull
+    @Override
+    public Logger getLogger() {
       return null;
     }
 
