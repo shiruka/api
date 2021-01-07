@@ -165,7 +165,7 @@ public final class PermissibleBase implements Permissible {
     final var defaults = manager.getDefaultPermissions(this.isOp());
     manager.subscribeToDefaultPerms(this.isOp(), this.parent);
     defaults.forEach(perm -> {
-      final var name = perm.getName().toLowerCase(Locale.ENGLISH);
+      final var name = perm.getName().toLowerCase(Locale.ROOT);
       this.permissions.put(name, new PermissionAttachmentInfo(this.parent, name, null, true));
       manager.subscribeToPermission(name, this.parent);
       this.calculateChildPermissions(perm.getChildren(), false, null);
@@ -217,7 +217,7 @@ public final class PermissibleBase implements Permissible {
       final var manager = Shiruka.getPermissionManager();
       final var perm = manager.getPermission(name);
       final var value = value1 ^ invert;
-      final var lname = name.toLowerCase(Locale.ENGLISH);
+      final var lname = name.toLowerCase(Locale.ROOT);
       this.permissions.put(lname, new PermissionAttachmentInfo(this.parent, lname, attachment, value));
       manager.subscribeToPermission(name, this.parent);
       perm.ifPresent(permission ->

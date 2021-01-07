@@ -288,7 +288,7 @@ public final class Permission {
   @NotNull
   public Permission addParent(@NotNull final String name, final boolean value) {
     final var pm = Shiruka.getPermissionManager();
-    final var lname = name.toLowerCase(java.util.Locale.ENGLISH);
+    final var lname = name.toLowerCase(Locale.ROOT);
     final var perm = pm.getPermission(lname);
     final Permission permission;
     if (perm.isEmpty()) {

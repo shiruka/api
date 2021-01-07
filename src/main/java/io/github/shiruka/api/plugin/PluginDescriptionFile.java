@@ -294,13 +294,13 @@ public final class PluginDescriptionFile {
    */
   @NotNull
   public static PluginDescriptionFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
-    String name;
+    final String name;
     try {
-      name = map.get(PluginDescriptionFile.NAME).toString();
-      if (!PluginDescriptionFile.VALID_NAME.matcher(name).matches()) {
-        throw new InvalidDescriptionException("name '" + name + "' contains invalid characters.");
+      final var rawName = map.get(PluginDescriptionFile.NAME).toString();
+      if (!PluginDescriptionFile.VALID_NAME.matcher(rawName).matches()) {
+        throw new InvalidDescriptionException(String.format("name '%s' contains invalid characters.", rawName));
       }
-      name = name.replace(' ', '_');
+      name = rawName.replace(' ', '_');
     } catch (final NullPointerException ex) {
       throw new InvalidDescriptionException(ex, "name is not defined");
     } catch (final ClassCastException ex) {
@@ -354,7 +354,7 @@ public final class PluginDescriptionFile {
     if (map.containsKey(PluginDescriptionFile.LOAD)) {
       try {
         order = PluginLoadOrder.valueOf(((String) map.get(PluginDescriptionFile.LOAD))
-          .toUpperCase(Locale.ENGLISH)
+          .toUpperCase(Locale.ROOT)
           .replaceAll("\\W", ""));
       } catch (final ClassCastException ex) {
         throw new InvalidDescriptionException(ex, "load is of wrong type");
