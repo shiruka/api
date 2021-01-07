@@ -27,10 +27,12 @@ package io.github.shiruka.api.event;
 
 import io.github.shiruka.api.event.method.MethodAdapter;
 import io.github.shiruka.api.event.method.SimpleMethodAdapter;
-import io.github.shiruka.api.events.Event;
+import io.github.shiruka.api.events.player.PlayerPreLoginEvent;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 final class EventTest {
@@ -60,15 +62,14 @@ final class EventTest {
   public static final class ListenerTest implements Listener {
 
     @EventHandler
-    public void simpleEvent(final SimpleEvent event) {
-      final var count = EventTest.COUNTER.incrementAndGet();
-      if (count >= 5) {
+    public void simpleEvent(final PlayerPreLoginEvent event) {
+      if (EventTest.COUNTER.incrementAndGet() >= 5) {
         event.cancel();
       }
     }
   }
 
-  public static final class SimpleEvent implements Event, Cancellable {
+  public static final class SimpleEvent implements PlayerPreLoginEvent {
 
     private boolean cancelled = false;
 
@@ -85,6 +86,22 @@ final class EventTest {
     @Override
     public void dontCancel() {
       this.cancelled = false;
+    }
+
+    @Nullable
+    @Override
+    public String kickMessage() {
+      return null;
+    }
+
+    @Override
+    public void kickMessage(@Nullable final String message) {
+    }
+
+    @NotNull
+    @Override
+    public LoginData loginData() {
+      return null;
     }
   }
 }
