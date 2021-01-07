@@ -26,6 +26,8 @@
 package io.github.shiruka.api.plugin;
 
 import io.github.shiruka.api.misc.Optionals;
+import io.github.shiruka.api.permission.Permission;
+import io.github.shiruka.api.permission.PermissionDefault;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.*;
@@ -128,6 +130,12 @@ public final class PluginDescriptionFile {
   private final List<String> contributors;
 
   /**
+   * the default perm of the plugin.
+   */
+  @NotNull
+  private final PermissionDefault defaultPerm;
+
+  /**
    * the dependency of the plugin.
    */
   @NotNull
@@ -166,6 +174,12 @@ public final class PluginDescriptionFile {
   private final PluginLoadOrder order;
 
   /**
+   * the permissions of the plugin.
+   */
+  @NotNull
+  private final List<Permission> permissions;
+
+  /**
    * the prefix of the plugin.
    */
   @NotNull
@@ -192,37 +206,42 @@ public final class PluginDescriptionFile {
   /**
    * ctor.
    *
-   * @param name the name.
-   * @param main the main.
-   * @param version the version.
-   * @param description the description.
-   * @param website the website.
-   * @param prefix the prefix.
-   * @param order the order.
-   * @param contributors the contributors.
    * @param authors the authors.
+   * @param contributors the contributors.
+   * @param defaultPerm the default perm.
    * @param depend the depend.
-   * @param softDepend the soft dependency.
+   * @param description the description.
    * @param loadBefore the load before.
+   * @param main the main.
+   * @param name the name.
+   * @param order the order.
+   * @param permissions the permissions.
+   * @param prefix the prefix.
+   * @param softDepend the soft dependency.
+   * @param version the version.
+   * @param website the website.
    */
-  private PluginDescriptionFile(@NotNull final String name, @NotNull final String main,
-                                @NotNull final String version, @NotNull final String description,
-                                @NotNull final String website, @NotNull final String prefix,
-                                @NotNull final PluginLoadOrder order, @NotNull final List<String> contributors,
-                                @NotNull final List<String> authors, @NotNull final List<String> depend,
-                                @NotNull final List<String> softDepend, @NotNull final List<String> loadBefore) {
-    this.name = name;
-    this.main = main;
-    this.version = version;
+  private PluginDescriptionFile(@NotNull final List<String> authors, @NotNull final List<String> contributors,
+                                @NotNull final PermissionDefault defaultPerm, @NotNull final List<String> depend,
+                                @NotNull final String description, @NotNull final List<String> loadBefore,
+                                @NotNull final String main, @NotNull final String name,
+                                @NotNull final PluginLoadOrder order, @NotNull final List<Permission> permissions,
+                                @NotNull final String prefix, @NotNull final List<String> softDepend,
+                                @NotNull final String version, @NotNull final String website) {
+    this.authors = Collections.unmodifiableList(authors);
+    this.contributors = Collections.unmodifiableList(contributors);
+    this.defaultPerm = defaultPerm;
+    this.depend = Collections.unmodifiableList(depend);
     this.description = description;
-    this.website = website;
-    this.prefix = prefix;
+    this.loadBefore = Collections.unmodifiableList(loadBefore);
+    this.main = main;
+    this.name = name;
     this.order = order;
-    this.contributors = contributors;
-    this.authors = authors;
-    this.depend = depend;
-    this.softDepend = softDepend;
-    this.loadBefore = loadBefore;
+    this.permissions = Collections.unmodifiableList(permissions);
+    this.prefix = prefix;
+    this.softDepend = Collections.unmodifiableList(softDepend);
+    this.version = version;
+    this.website = website;
   }
 
   /**
@@ -344,8 +363,27 @@ public final class PluginDescriptionFile {
     final var depend = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.DEPEND);
     final var softDepend = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.SOFT_DEPEND);
     final var loadBefore = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.LOAD_BEFORE);
-    return new PluginDescriptionFile(name, main, version, description, website, prefix, order, contributors, authors,
-      depend, softDepend, loadBefore);
+    PermissionDefault defaultPerm = PermissionDefault.OP;
+    final var defaultPermission = map.get("default-permission");
+    if (defaultPermission != null) {
+      try {
+        defaultPerm = PermissionDefault.getByName(defaultPermission.toString()).orElse(PermissionDefault.OP);
+      } catch (final ClassCastException ex) {
+        throw new InvalidDescriptionException(ex, "default-permission is of wrong type");
+      } catch (final IllegalArgumentException ex) {
+        throw new InvalidDescriptionException(ex, "default-permission is not a valid choice");
+      }
+    }
+    final Map<?, ?> lazyPermissions;
+    try {
+      lazyPermissions = (Map<?, ?>) map.get("permissions");
+    } catch (final ClassCastException ex) {
+      throw new InvalidDescriptionException(ex, "permissions are of the wrong type");
+    }
+    final var permissions = Permission.loadPermissions(lazyPermissions,
+      "Permission node '%s' in plugin description file for " + name + " v" + version + " is invalid", defaultPerm);
+    return new PluginDescriptionFile(authors, contributors, defaultPerm, depend, description, loadBefore, main, name,
+      order, permissions, prefix, softDepend, version, website);
   }
 
   /**
