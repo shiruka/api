@@ -378,6 +378,16 @@ public final class PluginDescriptionFile {
   }
 
   /**
+   * returns the name of a plugin, including the version.
+   *
+   * @return a descriptive name of the plugin and respective version.
+   */
+  @NotNull
+  public String getFullName() {
+    return this.name + " v" + this.version;
+  }
+
+  /**
    * saves {@code this} to the given writer.
    *
    * @param writer the writer to save.

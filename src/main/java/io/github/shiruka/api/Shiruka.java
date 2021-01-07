@@ -29,11 +29,13 @@ import io.github.shiruka.api.command.CommandManager;
 import io.github.shiruka.api.console.ConsoleCommandSender;
 import io.github.shiruka.api.events.EventFactory;
 import io.github.shiruka.api.pack.PackManager;
+import io.github.shiruka.api.permission.PermissionManager;
 import io.github.shiruka.api.scheduler.Scheduler;
 import io.github.shiruka.api.world.World;
 import io.github.shiruka.api.world.WorldLoader;
 import java.util.Optional;
 import java.util.UUID;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -78,6 +80,16 @@ public interface Shiruka {
   }
 
   /**
+   * obtains the server logger instance.
+   *
+   * @return server logger.
+   */
+  @NotNull
+  static Logger getLogger() {
+    return Shiruka.getServer().getLogger();
+  }
+
+  /**
    * obtains the pack manager.
    *
    * @return resource pack manager.
@@ -87,6 +99,18 @@ public interface Shiruka {
   @NotNull
   static PackManager getPackManager() {
     return Shiruka.getServer().getInterface(PackManager.class);
+  }
+
+  /**
+   * obtains the permission manager instance.
+   *
+   * @return a {@link PermissionManager} instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
+   */
+  @NotNull
+  static PermissionManager getPermissionManager() {
+    return Shiruka.getServer().getInterface(PermissionManager.class);
   }
 
   /**

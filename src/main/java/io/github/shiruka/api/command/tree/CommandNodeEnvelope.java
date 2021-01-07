@@ -43,7 +43,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   /**
    * the children.
    */
-  private final Map<String, CommandNode> children = new LinkedHashMap<>();
+  private final Map<String, CommandNode> children = new TreeMap<>();
 
   /**
    * the description.
