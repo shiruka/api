@@ -25,11 +25,20 @@
 
 package io.github.shiruka.api.block;
 
+import io.github.shiruka.api.base.Material;
 import io.github.shiruka.api.metadata.Metadatable;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine block in Minecraft game.
  */
 public interface Block extends Metadatable {
 
+  /**
+   * obtains the block type.
+   *
+   * @return block type.
+   */
+  @NotNull
+  Material getType();
 }

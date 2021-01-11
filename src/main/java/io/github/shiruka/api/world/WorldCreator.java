@@ -38,6 +38,11 @@ import org.jetbrains.annotations.Nullable;
 public final class WorldCreator {
 
   /**
+   * the random.
+   */
+  private static final Random RANDOM = new Random();
+
+  /**
    * the name.
    */
   @NotNull
@@ -61,8 +66,9 @@ public final class WorldCreator {
   private ChunkGenerator generator;
 
   /**
-   * the genrator settings.
+   * the generator settings.
    */
+  @NotNull
   private String generatorSettings = "";
 
   /**
@@ -73,11 +79,12 @@ public final class WorldCreator {
   /**
    * the seed.
    */
-  private long seed;
+  private long seed = WorldCreator.RANDOM.nextLong();
 
   /**
    * the type.
    */
+  @NotNull
   private WorldType type = WorldType.NORMAL;
 
   /**
@@ -87,7 +94,18 @@ public final class WorldCreator {
    */
   public WorldCreator(@NotNull final String name) {
     this.name = name;
-    this.seed = new Random().nextLong();
+  }
+
+  /**
+   * creates a new world creator instance.
+   *
+   * @param name the name to create.
+   *
+   * @return a new world creator instance.
+   */
+  @NotNull
+  public static WorldCreator builder(@NotNull final String name) {
+    return new WorldCreator(name);
   }
 
   /**
@@ -272,7 +290,7 @@ public final class WorldCreator {
   @NotNull
   public WorldCreator generator(@Nullable final String generator, @NotNull final CommandSender output) {
     this.generator = WorldCreator.getGeneratorForName(this.name, generator, output)
-      .orElse(this.generator);
+      .orElse(null);
     return this;
   }
 

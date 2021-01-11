@@ -34,6 +34,28 @@ import org.jetbrains.annotations.NotNull;
 public interface WorldManager {
 
   /**
+   * creates a chunk data for use in a generator.
+   *
+   * @param world the world to create.
+   *
+   * @return a new chunk data for the world.
+   */
+  @NotNull
+  ChunkData createChunkData(@NotNull World world);
+
+  /**
+   * creates a chunk data for use in a generator, that is populated by the vanilla generator for that world.
+   *
+   * @param world the world to create.
+   * @param x the x to create.
+   * @param z the z to create.
+   *
+   * @return a new chunk data for the world.
+   */
+  @NotNull
+  ChunkData createNativeChunkData(@NotNull World world, int x, int z);
+
+  /**
    * creates a new world from the given {@code worldCreator}.
    *
    * @param worldCreator the world creator to create.
