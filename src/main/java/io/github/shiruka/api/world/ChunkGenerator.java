@@ -75,8 +75,11 @@ public abstract class ChunkGenerator {
    * @return ChunkData containing the types for each block created by this generator
    */
   @NotNull
-  public ChunkData generateChunkData(@NotNull final World world, @NotNull final Random random, final int x, final int z, @NotNull final BiomeGrid biome) {
-    throw new UnsupportedOperationException("Custom generator " + this.getClass().getName() + " is missing required method generateChunkData");
+  public ChunkData generateChunkData(@NotNull final World world, @NotNull final Random random, final int x, final int z,
+                                     @NotNull final BiomeGrid biome) {
+    throw new UnsupportedOperationException(String.format(
+      "Custom generator %s is missing required method generateChunkData",
+      this.getClass().getName()));
   }
 
   /**

@@ -75,7 +75,8 @@ public interface ChunkData {
    *
    * @return the type of the block or Material.AIR if x, y or z are outside the chunk's bounds
    */
-  @NotNull Material getType(int x, int y, int z);
+  @NotNull
+  Material getType(int x, int y, int z);
 
   /**
    * Get the type and data of the block at x, y, z.
@@ -86,7 +87,8 @@ public interface ChunkData {
    *
    * @return the type and data of the block or the MaterialData for air if x, y or z are outside the chunk's bounds
    */
-  @NotNull MaterialData getTypeAndData(int x, int y, int z);
+  @NotNull
+  MaterialData getTypeAndData(int x, int y, int z);
 
   /**
    * Set the block at x,y,z in the chunk data to material.
