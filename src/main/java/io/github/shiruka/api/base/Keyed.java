@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,15 +28,15 @@ package io.github.shiruka.api.base;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine keyed object.
+ * an interface to determine objects which have a {@link NamespacedKey}.
  */
 public interface Keyed {
 
   /**
    * obtains the key.
    *
-   * @return the key.
+   * @return key.
    */
   @NotNull
-  String getKey();
+  NamespacedKey getKey();
 }

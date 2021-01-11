@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,15 +27,12 @@ package io.github.shiruka.api;
 
 import io.github.shiruka.api.command.CommandManager;
 import io.github.shiruka.api.console.ConsoleCommandSender;
-import io.github.shiruka.api.events.EventFactory;
+import io.github.shiruka.api.events.EventManager;
 import io.github.shiruka.api.pack.PackManager;
 import io.github.shiruka.api.permission.PermissionManager;
 import io.github.shiruka.api.plugin.PluginManager;
 import io.github.shiruka.api.scheduler.Scheduler;
-import io.github.shiruka.api.world.World;
-import io.github.shiruka.api.world.WorldLoader;
-import java.util.Optional;
-import java.util.UUID;
+import io.github.shiruka.api.world.WorldManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,7 +44,7 @@ public interface Shiruka {
   /**
    * obtains the command manager instance.
    *
-   * @return a {@link CommandManager} instance.
+   * @return command manager instance.
    *
    * @throws IllegalArgumentException if the implementation not found.
    */
@@ -57,7 +54,7 @@ public interface Shiruka {
   }
 
   /**
-   * obtains the console command sender instance..
+   * obtains the console command sender instance.
    *
    * @return the console command sender instance.
    *
@@ -69,15 +66,15 @@ public interface Shiruka {
   }
 
   /**
-   * obtains the currently running {@link Server}'s event factory.
+   * obtains the event manager instance.
    *
-   * @return an {@link EventFactory} instance.
+   * @return event manager instance.
    *
    * @throws IllegalArgumentException if the implementation not found.
    */
   @NotNull
-  static EventFactory getEventFactory() {
-    return Shiruka.getServer().getInterface(EventFactory.class);
+  static EventManager getEventFactory() {
+    return Shiruka.getServer().getInterface(EventManager.class);
   }
 
   /**
@@ -105,7 +102,7 @@ public interface Shiruka {
   /**
    * obtains the permission manager instance.
    *
-   * @return a {@link PermissionManager} instance.
+   * @return permission manager instance.
    *
    * @throws IllegalArgumentException if the implementation not found.
    */
@@ -117,7 +114,7 @@ public interface Shiruka {
   /**
    * obtains the plugin manager.
    *
-   * @return plugin amanager instance.
+   * @return plugin manager instance.
    *
    * @throws IllegalArgumentException if the implementation not found.
    */
@@ -158,38 +155,14 @@ public interface Shiruka {
   }
 
   /**
-   * obtains the world from the given name.
+   * obtains the world manager instance.
    *
-   * @param name the name to get.
-   *
-   * @return the world instance.
-   */
-  @NotNull
-  static Optional<World> getWorld(@NotNull final String name) {
-    return Optional.ofNullable(Shiruka.getWorldLoader().getWorldsByName().get(name));
-  }
-
-  /**
-   * obtains the world from the given unique id.
-   *
-   * @param uniqueId the uniqueId to get.
-   *
-   * @return the world instance.
-   */
-  @NotNull
-  static Optional<World> getWorld(@NotNull final UUID uniqueId) {
-    return Optional.ofNullable(Shiruka.getWorldLoader().getWorldsByUniqueId().get(uniqueId));
-  }
-
-  /**
-   * obtains the world loader instance.
-   *
-   * @return world loader instance.
+   * @return world manager instance.
    *
    * @throws IllegalArgumentException if the implementation not found.
    */
   @NotNull
-  static WorldLoader getWorldLoader() {
-    return Shiruka.getServer().getInterface(WorldLoader.class);
+  static WorldManager getWorldManager() {
+    return Shiruka.getServer().getInterface(WorldManager.class);
   }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,6 @@ package io.github.shiruka.api.base;
  * an enum class that represents height maps.
  */
 public enum HeightMap {
-
   /**
    * the highest block that blocks motion or contains a fluid.
    */

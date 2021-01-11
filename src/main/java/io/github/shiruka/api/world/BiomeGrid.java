@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,34 @@
  *
  */
 
-package io.github.shiruka.api.world.generators;
+package io.github.shiruka.api.world;
 
-import io.github.shiruka.api.world.options.GeneratorOptions;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * this class generates world features that are enabled by {@link GeneratorOptions#isAllowFeatures()}.
+ * an interface to determine biome section for chunk to be generated.
  */
-public interface FeatureGenerator {
+public interface BiomeGrid {
 
   /**
-   * a feature generator is implemented by overriding this method and writing the changes to the context.
+   * gets biome at x, z within chunk being generated.
    *
-   * @param chunkX the x coordinate of the chunk.
-   * @param chunkZ the z coordinate of the chunk.
-   * @param context the context.
+   * @param x the x to get.
+   * @param y the y to get.
+   * @param z the z to get.
+   *
+   * @return biome value.
    */
-  void generate(int chunkX, int chunkZ, @NotNull GeneratorContext context);
+  @NotNull
+  Biome getBiome(int x, int y, int z);
+
+  /**
+   * sets biome at x, z within chunk being generated.
+   *
+   * @param x the x to set.
+   * @param y the y to set.
+   * @param z the z to set.
+   * @param biome the biome to set
+   */
+  void setBiome(int x, int y, int z, @NotNull Biome biome);
 }

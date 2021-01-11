@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,9 @@ package io.github.shiruka.api.base;
  * represents the type of a block or an item.
  */
 public enum Material {
-
+  /**
+   * the air.
+   */
   AIR(0);
 
   /**

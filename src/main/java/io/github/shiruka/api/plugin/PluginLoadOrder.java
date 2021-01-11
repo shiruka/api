@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,6 @@ package io.github.shiruka.api.plugin;
  * represents the order in which a plugin should be initialized and enabled.
  */
 public enum PluginLoadOrder {
-
   /**
    * indicates that the plugin will be loaded at startup.
    */

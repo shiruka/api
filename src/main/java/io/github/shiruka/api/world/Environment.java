@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,62 +25,72 @@
 
 package io.github.shiruka.api.world;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents a Minecraft chunk, a 16x16 section of the world which is individually loaded as needed.
+ * an enum class that represents various map environment types that a world may be.
  */
-public interface Chunk {
-
+public enum Environment {
   /**
-   * checks to see whether this chunk is usable.
-   *
-   * @return {@code true} to indicate that this chunk may be used, {@code false} if this chunk is being saved
-   *   and cannot be used.
+   * "normal"/"surface world" map.
    */
-  boolean canUse();
-
+  NORMAL(0),
   /**
-   * generates the chunk.
+   * a nether based map ("hell").
    */
-  void generate();
-
+  NETHER(-1),
   /**
-   * obtains the highest Y value at the given chunk relative X/Z coordinates.
-   *
-   * @param x the relative X.
-   * @param z the relative Z.
-   *
-   * @return the highest Y value.
+   * the "end" map.
    */
-  int getHighestY(int x, int z);
+  THE_END(1);
 
   /**
-   * obtains the world of the chunk.
+   * the cache.
+   */
+  private static final Map<Byte, Environment> CACHE = new HashMap<>();
+
+  /**
+   * the id.
+   */
+  private final byte id;
+
+  static {
+    Arrays.stream(Environment.values())
+      .forEach(env -> Environment.CACHE.put(env.getId(), env));
+  }
+
+  /**
+   * ctor.
    *
-   * @return the world of the chunk.
+   * @param id the id.
+   */
+  Environment(final Number id) {
+    this.id = id.byteValue();
+  }
+
+  /**
+   * obtains an environment by id.
+   *
+   * @param id the id to get.
+   *
+   * @return the environment.
    */
   @NotNull
-  World getWorld();
+  public static Environment getEnvironment(final byte id) {
+    return Optional.ofNullable(Environment.CACHE.get(id))
+      .orElseThrow();
+  }
 
   /**
-   * obtains the x coordinate at which this chunk is located.
+   * obtains the id.
    *
-   * @return the x coordinate.
+   * @return id.
    */
-  int getX();
-
-  /**
-   * obtains the z coordinate at which this chunk is located.
-   *
-   * @return the z coordinate.
-   */
-  int getZ();
-
-  /**
-   * awaits for the chunk ready getState to finish, indicating that the chunk has finished generation.
-   *
-   * @return the chunk, when ready.
-   */
-  Chunk waitReady();
+  public byte getId() {
+    return this.id;
+  }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an interface to determine event factory that helps to create and call events.
  */
-public interface EventFactory {
+public interface EventManager {
 
   /**
    * calls the given event.

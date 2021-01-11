@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,21 +23,28 @@
  *
  */
 
-package io.github.shiruka.api.world.generators;
+package io.github.shiruka.api.base;
 
 import org.jetbrains.annotations.NotNull;
 
 /**
- * this class generates props in the world such as trees, flowers, tall grass, etc.
+ * an interface that represents a namespaced resource.
  */
-public interface PropGenerator {
+public interface Namespaced {
 
   /**
-   * a prop generator is implemented by overriding this method and writing the generated blocks to the context.
+   * gets the key corresponding to this resource.
    *
-   * @param chunkX the chunk x.
-   * @param chunkZ the chunk z.
-   * @param context the context.
+   * @return resource key.
    */
-  void generate(int chunkX, int chunkZ, @NotNull GeneratorContext context);
+  @NotNull
+  String getKey();
+
+  /**
+   * gets the namespace this resource is a part of.
+   *
+   * @return resource namespace.
+   */
+  @NotNull
+  String getNamespace();
 }

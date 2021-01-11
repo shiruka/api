@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,68 +23,81 @@
  *
  */
 
-package io.github.shiruka.api.world.options;
+package io.github.shiruka.api.world;
 
-import io.github.shiruka.api.misc.Misc;
-import java.util.stream.Stream;
+import com.google.common.collect.Maps;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that contains the set of all the possible level types that a world can generate as.
+ * Represents various types of worlds that may exist
  */
-public enum LevelType {
+public enum WorldType {
   /**
-   * the default level type
+   * the normal.
    */
-  DEFAULT("default"),
+  NORMAL("DEFAULT"),
   /**
-   * generates a world using the default flat generator
+   * the flat.
    */
-  FLAT("flat"),
+  FLAT("FLAT"),
   /**
-   * generates a world with enlarged biomes
+   * the large biomes.
    */
-  LARGE_BIOMES("largeBiomes"),
+  LARGE_BIOMES("LARGEBIOMES"),
   /**
-   * generates a world with amplified hills and valleys
+   * the amplified.
    */
-  AMPLIFIED("amplified");
+  AMPLIFIED("AMPLIFIED");
 
   /**
-   * this is the NBT value for the level type.
+   * the cache by name.
    */
+  private static final Map<String, WorldType> BY_NAME = Maps.newHashMap();
+
+  /**
+   * the name.
+   */
+  @NotNull
   private final String name;
+
+  static {
+    Arrays.stream(WorldType.values())
+      .forEach(type -> WorldType.BY_NAME.put(type.name, type));
+  }
 
   /**
    * ctor.
    *
-   * @param name the NBT value.
+   * @param name the name.
    */
-  LevelType(@NotNull final String name) {
+  WorldType(@NotNull final String name) {
     this.name = name;
   }
 
   /**
-   * obtains the level type which uses the given string as its NBT format, ignoring case.
+   * gets a WorldType by its name.
    *
-   * @param s the level type's NBT string form.
+   * @param name the name to get.
    *
-   * @return the level type, if found.
-   *
-   * @throws IllegalArgumentException if the level type is not found.
+   * @return requested world type.
    */
   @NotNull
-  public static LevelType from(@NotNull final String s) {
-    return Stream.of(LevelType.values())
-      .filter(levelType -> levelType.toString().equalsIgnoreCase(s))
-      .findFirst()
-      .orElseThrow(() ->
-        new IllegalArgumentException(
-          String.format(Misc.NBT_BOUND_FAIL, "io.github.shiruka.api.world.options.LevelType")));
+  public static WorldType getByName(@NotNull final String name) {
+    return Optional.ofNullable(WorldType.BY_NAME.get(name.toUpperCase(Locale.ENGLISH)))
+      .orElseThrow();
   }
 
-  @Override
-  public String toString() {
+  /**
+   * obtains the name.
+   *
+   * @return name.
+   */
+  @NotNull
+  public String getName() {
     return this.name;
   }
 }

@@ -108,9 +108,21 @@ public final class StringArgumentType implements ArgumentType<String> {
    * an enum class to determine string types.
    */
   public enum StringType {
+    /**
+     * the single word.
+     */
     SINGLE_WORD("word", "words_with_underscores"),
+    /**
+     * the quotable phrase.
+     */
     QUOTABLE_PHRASE("\"quoted phrase\"", "word", "\"\""),
+    /**
+     * the greedy phrase.
+     */
     GREEDY_PHRASE("word", "words with spaces", "\"and symbols\""),
+    /**
+     * the term.
+     */
     TERM("predefined_token", "red", "green", "blue");
 
     /**

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,24 @@
  * SOFTWARE.
  *
  */
+
+package io.github.shiruka.api.world;
+
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
+
 /**
- * the package that contains generator classes.
+ * an interface to determine world managers.
  */
-package io.github.shiruka.api.world.generators;
+public interface WorldManager {
+
+  /**
+   * creates a new world from the given {@code worldCreator}.
+   *
+   * @param worldCreator the world creator to create.
+   *
+   * @return a newly created world.
+   */
+  @NotNull
+  Optional<World> createWorld(@NotNull WorldCreator worldCreator);
+}
