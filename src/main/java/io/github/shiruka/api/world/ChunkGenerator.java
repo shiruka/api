@@ -33,19 +33,19 @@ import java.util.Random;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an abstract class that represents chunk generators.
+ * an interface to determine chunk generators.
  */
-public abstract class ChunkGenerator {
+public interface ChunkGenerator {
 
   /**
-   * Create a ChunkData for a world.
+   * creates a chunk data for a world.
    *
-   * @param world the world the ChunkData is for
+   * @param world the world to create.
    *
-   * @return a new ChunkData for world
+   * @return a new chunk data for world.
    */
   @NotNull
-  protected static ChunkData createChunkData(@NotNull final World world) {
+  static ChunkData createChunkData(@NotNull final World world) {
     return Shiruka.getWorldManager().createChunkData(world);
   }
 
@@ -59,24 +59,24 @@ public abstract class ChunkGenerator {
    * @return a new chunk data for the world.
    */
   @NotNull
-  public ChunkData createNativeChunkData(@NotNull final World world, final int x, final int z) {
+  default ChunkData createNativeChunkData(@NotNull final World world, final int x, final int z) {
     return Shiruka.getWorldManager().createNativeChunkData(world, x, z);
   }
 
   /**
-   * Shapes the chunk for the given coordinates.
+   * shapes the chunk for the given coordinates.
    *
-   * @param world The world this chunk will be used for
-   * @param random The random generator to use
-   * @param x The X-coordinate of the chunk
-   * @param z The Z-coordinate of the chunk
-   * @param biome Proposed biome values for chunk - can be updated by generator
+   * @param world the world to generate.
+   * @param random the random to generate.
+   * @param x the X to generate.
+   * @param z the Z to generate.
+   * @param biome the biome to generate.
    *
-   * @return ChunkData containing the types for each block created by this generator
+   * @return a chunk data containing the types for each block created by this generator.
    */
   @NotNull
-  public ChunkData generateChunkData(@NotNull final World world, @NotNull final Random random, final int x, final int z,
-                                     @NotNull final BiomeGrid biome) {
+  default ChunkData generateChunkData(@NotNull final World world, @NotNull final Random random, final int x,
+                                      final int z, @NotNull final BiomeGrid biome) {
     throw new UnsupportedOperationException(String.format(
       "Custom generator %s is missing required method generateChunkData",
       this.getClass().getName()));
@@ -90,7 +90,7 @@ public abstract class ChunkGenerator {
    * @return List containing any amount of BlockPopulators
    */
   @NotNull
-  public List<BlockPopulator> getDefaultPopulators(@NotNull final World world) {
+  default List<BlockPopulator> getDefaultPopulators(@NotNull final World world) {
     return new ArrayList<>();
   }
 
@@ -103,7 +103,7 @@ public abstract class ChunkGenerator {
    * @return Location containing a new spawn point, otherwise null
    */
   @NotNull
-  public Optional<Location> getFixedSpawnLocation(@NotNull final World world, @NotNull final Random random) {
+  default Optional<Location> getFixedSpawnLocation(@NotNull final World world, @NotNull final Random random) {
     return Optional.empty();
   }
 
@@ -112,7 +112,7 @@ public abstract class ChunkGenerator {
    *
    * @return parallel capable status
    */
-  public boolean isParallelCapable() {
+  default boolean isParallelCapable() {
     return false;
   }
 
@@ -121,7 +121,7 @@ public abstract class ChunkGenerator {
    *
    * @return true if the server should generate Vanilla caves
    */
-  public boolean shouldGenerateCaves() {
+  default boolean shouldGenerateCaves() {
     return false;
   }
 
@@ -130,7 +130,7 @@ public abstract class ChunkGenerator {
    *
    * @return true if the server should generate Vanilla decorations
    */
-  public boolean shouldGenerateDecorations() {
+  default boolean shouldGenerateDecorations() {
     return false;
   }
 
@@ -139,7 +139,7 @@ public abstract class ChunkGenerator {
    *
    * @return true if the server should generate Vanilla mobs
    */
-  public boolean shouldGenerateMobs() {
+  default boolean shouldGenerateMobs() {
     return false;
   }
 
@@ -148,7 +148,7 @@ public abstract class ChunkGenerator {
    *
    * @return true if the server should generate Vanilla structures
    */
-  public boolean shouldGenerateStructures() {
+  default boolean shouldGenerateStructures() {
     return false;
   }
 }
