@@ -50,6 +50,16 @@ public interface Plugin {
   Logger getLogger();
 
   /**
+   * obtains the plugin name.
+   *
+   * @return plugin name.
+   */
+  @NotNull
+  default String getName() {
+    return this.getDescription().getName();
+  }
+
+  /**
    * checks if the plugin is enabled.
    *
    * @return {@code true} if the plugin is enabled.
