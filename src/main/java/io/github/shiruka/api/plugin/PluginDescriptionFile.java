@@ -41,10 +41,6 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
  */
 public final class PluginDescriptionFile {
 
-  public static final String DEFAULT_PERMISSION = "default-permission";
-
-  public static final String PERMISSIONS = "permissions";
-
   /**
    * the authors key of the plugin.yml.
    */
@@ -54,6 +50,11 @@ public final class PluginDescriptionFile {
    * the contributors of the plugin.yml.
    */
   private static final String CONTRIBUTORS = "contributors";
+
+  /**
+   * the default permission.
+   */
+  private static final String DEFAULT_PERMISSION = "default-permission";
 
   /**
    * the depend key of the plugin.yml
@@ -89,6 +90,11 @@ public final class PluginDescriptionFile {
    * the order key of the plugin.yml
    */
   private static final String ORDER = "order";
+
+  /**
+   * the permissions.
+   */
+  private static final String PERMISSIONS = "permissions";
 
   /**
    * the prefix key of the plugin.yml
@@ -427,6 +433,16 @@ public final class PluginDescriptionFile {
   @NotNull
   public String getFullName() {
     return this.name + " v" + this.version;
+  }
+
+  /**
+   * obtains the plugin name.
+   *
+   * @return plugin name.
+   */
+  @NotNull
+  public String getName() {
+    return this.name;
   }
 
   /**
