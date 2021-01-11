@@ -30,6 +30,7 @@ import io.github.shiruka.api.console.ConsoleCommandSender;
 import io.github.shiruka.api.events.EventFactory;
 import io.github.shiruka.api.pack.PackManager;
 import io.github.shiruka.api.permission.PermissionManager;
+import io.github.shiruka.api.plugin.PluginManager;
 import io.github.shiruka.api.scheduler.Scheduler;
 import io.github.shiruka.api.world.World;
 import io.github.shiruka.api.world.WorldLoader;
@@ -111,6 +112,18 @@ public interface Shiruka {
   @NotNull
   static PermissionManager getPermissionManager() {
     return Shiruka.getServer().getInterface(PermissionManager.class);
+  }
+
+  /**
+   * obtains the plugin manager.
+   *
+   * @return plugin amanager instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
+   */
+  @NotNull
+  static PluginManager getPluginManager() {
+    return Shiruka.getServer().getInterface(PluginManager.class);
   }
 
   /**
