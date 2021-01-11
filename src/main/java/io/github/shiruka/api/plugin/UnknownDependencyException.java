@@ -28,26 +28,41 @@ package io.github.shiruka.api.plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an exception that thrown when attempting to load an invalid {@link PluginDescriptionFile}.
+ * an exception that thrown when attempting to load an invalid Plugin file
  */
-final class InvalidDescriptionException extends Exception {
+public class UnknownDependencyException extends RuntimeException {
 
   /**
    * ctor.
    *
-   * @param message the message to print.
-   * @param cause the cause to print.
+   * @param cause the throwable.
    */
-  InvalidDescriptionException(@NotNull final Throwable cause, @NotNull final String message) {
-    super(message, cause);
+  public UnknownDependencyException(@NotNull final Throwable cause) {
+    super(cause);
   }
 
   /**
    * ctor.
    *
-   * @param message the message to print.
+   * @param message the message.
    */
-  InvalidDescriptionException(@NotNull final String message) {
+  public UnknownDependencyException(@NotNull final String message) {
     super(message);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param cause the cause.
+   * @param message the message.
+   */
+  public UnknownDependencyException(@NotNull final Throwable cause, @NotNull final String message) {
+    super(message, cause);
+  }
+
+  /**
+   * ctor.
+   */
+  public UnknownDependencyException() {
   }
 }
