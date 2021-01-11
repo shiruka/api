@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an exception that thrown when attempting to load an invalid {@link PluginDescriptionFile}.
  */
-final class InvalidDescriptionException extends Exception {
+public final class InvalidDescriptionException extends Exception {
 
   /**
    * ctor.
