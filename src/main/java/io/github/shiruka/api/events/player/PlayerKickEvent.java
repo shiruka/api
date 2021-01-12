@@ -27,7 +27,7 @@ package io.github.shiruka.api.events.player;
 
 import io.github.shiruka.api.event.Cancellable;
 import io.github.shiruka.api.events.KickEvent;
-import io.github.shiruka.api.text.TranslatedText;
+import io.github.shiruka.api.language.TranslatedText;
 import org.jetbrains.annotations.Nullable;
 
 /**

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 Shiru ka
+ * Copyright (c) 2020 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,9 @@
  *
  */
 
-package io.github.shiruka.api.text;
+package io.github.shiruka.api.language;
 
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.language.Language;
-import io.github.shiruka.api.language.TranslatableText;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.NotNull;

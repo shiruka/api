@@ -30,7 +30,7 @@ import io.github.shiruka.api.event.Listener;
 import io.github.shiruka.api.events.player.PlayerAsyncLoginEvent;
 import io.github.shiruka.api.events.player.PlayerKickEvent;
 import io.github.shiruka.api.events.player.PlayerPreLoginEvent;
-import io.github.shiruka.api.text.TranslatedText;
+import io.github.shiruka.api.language.TranslatedText;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
