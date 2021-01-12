@@ -28,12 +28,19 @@ package io.github.shiruka.api.text;
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.language.Language;
 import io.github.shiruka.api.language.TranslatableText;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents translated texts.
  */
 public final class TranslatedText implements TranslatableText {
+
+  /**
+   * the cache.
+   */
+  private static final Map<String, TranslatedText> CACHE = new ConcurrentHashMap<>();
 
   /**
    * the text.
@@ -60,7 +67,7 @@ public final class TranslatedText implements TranslatableText {
   @NotNull
   public static TranslatedText get(@NotNull final String key) {
     Shiruka.getLanguageManager().check(key);
-    return new TranslatedText(key);
+    return TranslatedText.CACHE.computeIfAbsent(key, TranslatedText::new);
   }
 
   @Override
