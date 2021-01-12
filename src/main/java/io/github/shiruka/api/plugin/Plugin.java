@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,13 +25,30 @@
 
 package io.github.shiruka.api.plugin;
 
+import io.github.shiruka.api.world.ChunkGenerator;
+import java.util.Optional;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine plugins.
  */
 public interface Plugin {
+
+  /**
+   * gets a {@link ChunkGenerator} for use in a default world, as specified in the server configuration.
+   *
+   * @param worldName the world name to get.
+   * @param id the id to get.
+   *
+   * @return chunkGenerator for use in the default world generation.
+   */
+  @NotNull
+  default Optional<ChunkGenerator> getDefaultWorldGenerator(@NotNull final String worldName,
+                                                            @Nullable final String id) {
+    return Optional.empty();
+  }
 
   /**
    * obtains the plugin description file interface.

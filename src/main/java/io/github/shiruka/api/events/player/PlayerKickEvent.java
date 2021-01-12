@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,14 @@
  *
  */
 
-package io.github.shiruka.api.world.generators;
+package io.github.shiruka.api.events.player;
 
-import org.jetbrains.annotations.NotNull;
+import io.github.shiruka.api.event.Cancellable;
+import io.github.shiruka.api.events.KickEvent;
 
 /**
- * this generator produces the chunk data pertaining to the general terrain, i.e. hills and valleys.
+ * an interface to determine player kick events.
  */
-public interface TerrainGenerator {
+public interface PlayerKickEvent extends KickEvent, Cancellable {
 
-  /**
-   * a terrain generator is implemented by overriding this  method and writing the chunk data to the generator
-   * context.
-   *
-   * @param chunkX the x coordinate of the chunk to be generated.
-   * @param chunkZ the z coordinate of the chunk to be generated.
-   * @param context the context which to generate the chunk.
-   */
-  void generate(int chunkX, int chunkZ, @NotNull GeneratorContext context);
 }

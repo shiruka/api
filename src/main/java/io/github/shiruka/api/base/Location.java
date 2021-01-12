@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -221,26 +221,6 @@ public final class Location implements Cloneable {
   }
 
   /**
-   * gets the block at the represented location.
-   *
-   * @return Block at the represented location.
-   */
-  @NotNull
-  public Optional<Block> getBlock() {
-    return this.getWorld().map(w -> w.getBlockAt(this));
-  }
-
-  /**
-   * gets the chunk at the represented location.
-   *
-   * @return chunk at the represented location.
-   */
-  @NotNull
-  public Optional<Chunk> getChunk() {
-    return this.getWorld().map(w -> w.getChunkAt(this));
-  }
-
-  /**
    * gets a unit-vector pointing in the direction that this location is facing.
    *
    * @return a vector pointing the direction of this location's {@link #getPitch()} and {@link #getYaw()}.
@@ -315,7 +295,6 @@ public final class Location implements Cloneable {
    * @return world that contains this location.
    *
    * @throws IllegalArgumentException when world is unloaded
-   * @see #isWorldLoaded()
    */
   @NotNull
   public Optional<World> getWorld() {
@@ -484,41 +463,6 @@ public final class Location implements Cloneable {
   }
 
   /**
-   * checks if a {@link Chunk} has been loaded at this location.
-   *
-   * @return {@code true} if a chunk has been loaded at this location.
-   */
-  public boolean isChunkLoaded() {
-    final var thisWorld = this.getWorld();
-    Preconditions.checkState(thisWorld.isPresent(), "Location has no world!");
-    return thisWorld.get().isChunkLoaded(Location.locToBlock(this.x) >> 4, Location.locToBlock(this.z) >> 4);
-  }
-
-  /**
-   * checks if a {@link Chunk} has been generated at this location.
-   *
-   * @return {@code true} if a chunk has been generated at this location.
-   */
-  public boolean isGenerated() {
-    final var thisWorld = this.getWorld();
-    Preconditions.checkState(thisWorld.isPresent(), "Location has no world!");
-    return thisWorld.get().isChunkGenerated(Location.locToBlock(this.x) >> 4, Location.locToBlock(this.z) >> 4);
-  }
-
-  /**
-   * checks if world in this location is present and loaded.
-   *
-   * @return {@code true} if is loaded, otherwise {@code false}
-   */
-  public boolean isWorldLoaded() {
-    if (this.world == null) {
-      return false;
-    }
-    final var reference = this.world.get();
-    return reference != null && Shiruka.getWorld(reference.getUniqueId()).isPresent();
-  }
-
-  /**
    * performs scalar multiplication, multiplying all components with a scalar.
    *
    * @param multiply the multiply to multiply.
@@ -657,34 +601,6 @@ public final class Location implements Cloneable {
     location.setY(this.getYAsNumber().intValue() + 0.5);
     location.setZ(this.getZAsNumber().intValue() + 0.5);
     return location;
-  }
-
-  /**
-   * gives the highest location of the world surface.
-   *
-   * @return the highest location, {@link Optional#empty()} if {@link #getWorld()} is empty.
-   */
-  @NotNull
-  public Optional<Location> toHighestLocation() {
-    return this.toHighestLocation(HeightMap.WORLD_SURFACE);
-  }
-
-  /**
-   * gives the highest location from the given height map.
-   *
-   * @param heightMap the height map to get.
-   *
-   * @return the highest location, {@link Optional#empty()} if {@link #getWorld()} is empty.
-   */
-  @NotNull
-  public Optional<Location> toHighestLocation(@NotNull final HeightMap heightMap) {
-    final var thisWorld = this.getWorld();
-    if (thisWorld.isEmpty()) {
-      return Optional.empty();
-    }
-    final Location ret = this.clone();
-    ret.setY(thisWorld.get().getHighestBlockYAt(this, heightMap));
-    return Optional.of(ret);
   }
 
   /**

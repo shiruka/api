@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,29 @@
  * SOFTWARE.
  *
  */
+
+package io.github.shiruka.api.base;
+
+import org.jetbrains.annotations.NotNull;
+
 /**
- * the package that contains option classes of worlds.
+ * an interface that represents a namespaced resource.
  */
-package io.github.shiruka.api.world.options;
+public interface Namespaced {
+
+  /**
+   * gets the key corresponding to this resource.
+   *
+   * @return resource key.
+   */
+  @NotNull
+  String getKey();
+
+  /**
+   * gets the namespace this resource is a part of.
+   *
+   * @return resource namespace.
+   */
+  @NotNull
+  String getNamespace();
+}

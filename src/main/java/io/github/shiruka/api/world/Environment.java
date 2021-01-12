@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,52 +23,74 @@
  *
  */
 
-package io.github.shiruka.api.world.options;
+package io.github.shiruka.api.world;
 
-import io.github.shiruka.api.world.generators.GeneratorProvider;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the options pertaining to how the chunks within the world
- * that uses these options will generate.
+ * an enum class that represents various map environment types that a world may be.
  */
-public interface GeneratorOptions {
+public enum Environment {
+  /**
+   * "normal"/"surface world" map.
+   */
+  NORMAL(0),
+  /**
+   * a nether based map ("hell").
+   */
+  NETHER(-1),
+  /**
+   * the "end" map.
+   */
+  THE_END(1);
 
   /**
-   * obtains the level type of the world, which also defines what generator the world uses.
+   * the cache.
+   */
+  private static final Map<Byte, Environment> CACHE = new HashMap<>();
+
+  /**
+   * the id.
+   */
+  private final byte id;
+
+  static {
+    Arrays.stream(Environment.values())
+      .forEach(env -> Environment.CACHE.put(env.getId(), env));
+  }
+
+  /**
+   * ctor.
    *
-   * @return the world's level type.
+   * @param id the id.
+   */
+  Environment(final Number id) {
+    this.id = id.byteValue();
+  }
+
+  /**
+   * obtains an environment by id.
+   *
+   * @param id the id to get.
+   *
+   * @return the environment.
    */
   @NotNull
-  LevelType getLevelType();
+  public static Environment getEnvironment(final byte id) {
+    return Optional.ofNullable(Environment.CACHE.get(id))
+      .orElseThrow();
+  }
 
   /**
-   * obtains the option string used to generate super-flat and customized worlds.
+   * obtains the id.
    *
-   * @return the layer options string.
+   * @return id.
    */
-  @NotNull
-  String getOptionString();
-
-  /**
-   * obtains the generator factory which provided the world with the facilities necessary for world generation.
-   *
-   * @return the factory responsible for providing generation facilitated.
-   */
-  @NotNull
-  GeneratorProvider getProvider();
-
-  /**
-   * obtains the seed used to generate the terrain and features on the world.
-   *
-   * @return the world seed.
-   */
-  long getSeed();
-
-  /**
-   * determine whether world features such as villages, strongholds, and mine-shafts should be generated.
-   *
-   * @return {@code true} to indicate that features should be generated, {@code false} if not.
-   */
-  boolean isAllowFeatures();
+  public byte getId() {
+    return this.id;
+  }
 }

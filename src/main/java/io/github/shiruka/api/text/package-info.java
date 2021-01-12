@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.world.options;
-
-import io.github.shiruka.api.util.Vector;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * a class that represents the world's options.
+ * the main package that contains text classes.
  */
-public interface WorldOptions {
-
-  /**
-   * obtains the XYZ coordinates of this world's spawn position.
-   *
-   * @return the spawn position.
-   */
-  @NotNull
-  Vector getSpawn();
-
-  /**
-   * sets the spawn XYZ coordinates to the given vector.
-   *
-   * @param spawn the spawn to set.
-   */
-  void setSpawn(@NotNull Vector spawn);
-}
+package io.github.shiruka.api.text;

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,20 @@
 
 package io.github.shiruka.api.block;
 
+import io.github.shiruka.api.base.Material;
 import io.github.shiruka.api.metadata.Metadatable;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine block in Minecraft game.
  */
 public interface Block extends Metadatable {
 
+  /**
+   * obtains the block type.
+   *
+   * @return block type.
+   */
+  @NotNull
+  Material getType();
 }

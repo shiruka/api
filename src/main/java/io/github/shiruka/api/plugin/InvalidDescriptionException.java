@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an exception that thrown when attempting to load an invalid {@link PluginDescriptionFile}.
  */
-final class InvalidDescriptionException extends Exception {
+public final class InvalidDescriptionException extends Exception {
 
   /**
    * ctor.

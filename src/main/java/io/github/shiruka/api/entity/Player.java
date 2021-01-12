@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,8 @@ package io.github.shiruka.api.entity;
 import io.github.shiruka.api.Server;
 import io.github.shiruka.api.base.OfflinePlayer;
 import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.events.player.PlayerKickEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine players on the Minecraft.
@@ -47,7 +47,78 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
   /**
    * kicks the player.
    *
-   * @param reason the reason to kick.
+   * @return {@code true} if the player is kicked successfully.
    */
-  void kick(@Nullable String reason);
+  default boolean kick() {
+    return this.kick("");
+  }
+
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   * @param isAdmin the is admin to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
+  default boolean kick(@NotNull final String reason, final boolean isAdmin) {
+    return this.kick(PlayerKickEvent.Reason.UNKNOWN, reason, isAdmin);
+  }
+
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
+  default boolean kick(@NotNull final String reason) {
+    return this.kick(PlayerKickEvent.Reason.UNKNOWN, reason);
+  }
+
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
+  default boolean kick(@NotNull final PlayerKickEvent.Reason reason) {
+    return this.kick(reason, true);
+  }
+
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   * @param reasonString the reason string.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
+  default boolean kick(@NotNull final PlayerKickEvent.Reason reason, @NotNull final String reasonString) {
+    return this.kick(reason, reasonString, true);
+  }
+
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   * @param isAdmin the is admin to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
+  default boolean kick(@NotNull final PlayerKickEvent.Reason reason, final boolean isAdmin) {
+    return this.kick(reason, reason.toString(), isAdmin);
+  }
+
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   * @param reasonString the reason string.
+   * @param isAdmin the is admin to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
+  boolean kick(@NotNull PlayerKickEvent.Reason reason, @NotNull String reasonString, boolean isAdmin);
 }

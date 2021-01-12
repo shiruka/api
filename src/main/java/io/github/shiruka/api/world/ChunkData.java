@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,42 @@
  *
  */
 
-package io.github.shiruka.api.world.generators;
+package io.github.shiruka.api.world;
 
-import io.github.shiruka.api.world.options.GeneratorOptions;
+import io.github.shiruka.api.base.Material;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * this class generates world features that are enabled by {@link GeneratorOptions#isAllowFeatures()}.
+ * an interface to determine chunk data.
  */
-public interface FeatureGenerator {
+public interface ChunkData {
 
   /**
-   * a feature generator is implemented by overriding this method and writing the changes to the context.
+   * Get the maximum height for the chunk.
    *
-   * @param chunkX the x coordinate of the chunk.
-   * @param chunkZ the z coordinate of the chunk.
-   * @param context the context.
+   * @return the maximum height
    */
-  void generate(int chunkX, int chunkZ, @NotNull GeneratorContext context);
+  int getMaxHeight();
+
+  /**
+   * Get the type of the block at x, y, z.
+   *
+   * @param x the x location in the chunk from 0-15 inclusive
+   * @param y the y location in the chunk from 0 (inclusive) - maxHeight (exclusive)
+   * @param z the z location in the chunk from 0-15 inclusive
+   *
+   * @return the type of the block or Material.AIR if x, y or z are outside the chunk's bounds
+   */
+  @NotNull
+  Material getType(int x, int y, int z);
+
+  /**
+   * Set the block at x,y,z in the chunk data to material.
+   *
+   * @param x the x location in the chunk from 0-15 inclusive
+   * @param y the y location in the chunk from 0 (inclusive) - maxHeight (exclusive)
+   * @param z the z location in the chunk from 0-15 inclusive
+   * @param material the type to set the block to
+   */
+  void setBlock(int x, int y, int z, @NotNull Material material);
 }

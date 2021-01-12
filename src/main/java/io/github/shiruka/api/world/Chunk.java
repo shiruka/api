@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,62 +25,9 @@
 
 package io.github.shiruka.api.world;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
- * a class that represents a Minecraft chunk, a 16x16 section of the world which is individually loaded as needed.
+ * an interface to determine chunks.
  */
 public interface Chunk {
 
-  /**
-   * checks to see whether this chunk is usable.
-   *
-   * @return {@code true} to indicate that this chunk may be used, {@code false} if this chunk is being saved
-   *   and cannot be used.
-   */
-  boolean canUse();
-
-  /**
-   * generates the chunk.
-   */
-  void generate();
-
-  /**
-   * obtains the highest Y value at the given chunk relative X/Z coordinates.
-   *
-   * @param x the relative X.
-   * @param z the relative Z.
-   *
-   * @return the highest Y value.
-   */
-  int getHighestY(int x, int z);
-
-  /**
-   * obtains the world of the chunk.
-   *
-   * @return the world of the chunk.
-   */
-  @NotNull
-  World getWorld();
-
-  /**
-   * obtains the x coordinate at which this chunk is located.
-   *
-   * @return the x coordinate.
-   */
-  int getX();
-
-  /**
-   * obtains the z coordinate at which this chunk is located.
-   *
-   * @return the z coordinate.
-   */
-  int getZ();
-
-  /**
-   * awaits for the chunk ready getState to finish, indicating that the chunk has finished generation.
-   *
-   * @return the chunk, when ready.
-   */
-  Chunk waitReady();
 }

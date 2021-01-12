@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,4 +34,8 @@ import io.github.shiruka.api.metadata.Metadatable;
  */
 public interface Entity extends Metadatable, Named, Tick {
 
+  /**
+   * removes the entity from the server.
+   */
+  void remove();
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,4 +46,50 @@ public interface KickEvent extends Event {
    * @param message the message to set.
    */
   void kickMessage(@Nullable String message);
+
+  /**
+   * an enum class that represents the kick's reason.
+   */
+  enum Reason {
+    /**
+     * the new connection.
+     */
+    NEW_CONNECTION,
+    /**
+     * the kicked by admin.
+     */
+    KICKED_BY_ADMIN,
+    /**
+     * the not whitelisted.
+     */
+    NOT_WHITELISTED,
+    /**
+     * the ip banned.
+     */
+    IP_BANNED,
+    /**
+     * the name banned.
+     */
+    NAME_BANNED,
+    /**
+     * the invalid pve.
+     */
+    INVALID_PVE,
+    /**
+     * the login timeout.
+     */
+    LOGIN_TIMEOUT,
+    /**
+     * the server full.
+     */
+    SERVER_FULL,
+    /**
+     * the flying disabled.
+     */
+    FLYING_DISABLED,
+    /**
+     * the unknown.
+     */
+    UNKNOWN
+  }
 }

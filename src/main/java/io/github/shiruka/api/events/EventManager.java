@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,16 +25,19 @@
 
 package io.github.shiruka.api.events;
 
+import io.github.shiruka.api.entity.Player;
 import io.github.shiruka.api.event.Listener;
 import io.github.shiruka.api.events.player.PlayerAsyncLoginEvent;
+import io.github.shiruka.api.events.player.PlayerKickEvent;
 import io.github.shiruka.api.events.player.PlayerPreLoginEvent;
+import io.github.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine event factory that helps to create and call events.
  */
-public interface EventFactory {
+public interface EventManager {
 
   /**
    * calls the given event.
@@ -52,6 +55,18 @@ public interface EventFactory {
    */
   @NotNull
   PlayerAsyncLoginEvent playerAsyncLogin(@NotNull LoginDataEvent.LoginData loginData);
+
+  /**
+   * creates a new {@link PlayerKickEvent} instance.
+   *
+   * @param player the player to create.
+   * @param reason the reason to create.
+   * @param text the text to create.
+   *
+   * @return a new instance of {@link PlayerKickEvent}.
+   */
+  @NotNull
+  PlayerKickEvent playerKick(@NotNull Player player, @NotNull KickEvent.Reason reason, @NotNull TranslatedText text);
 
   /**
    * creates a new {@link PlayerPreLoginEvent} instance.

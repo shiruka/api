@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,21 +23,8 @@
  *
  */
 
-package io.github.shiruka.api.world.generators;
+package io.github.shiruka.api.text;
 
-import org.jetbrains.annotations.NotNull;
+public final class TranslatedText {
 
-/**
- * this class generates props in the world such as trees, flowers, tall grass, etc.
- */
-public interface PropGenerator {
-
-  /**
-   * a prop generator is implemented by overriding this method and writing the generated blocks to the context.
-   *
-   * @param chunkX the chunk x.
-   * @param chunkZ the chunk z.
-   * @param context the context.
-   */
-  void generate(int chunkX, int chunkZ, @NotNull GeneratorContext context);
 }

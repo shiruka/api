@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Shiru ka
+ * Copyright (c) 2021 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,34 @@
  *
  */
 
-package io.github.shiruka.api.world.generators;
+package io.github.shiruka.api.world;
 
-import java.util.concurrent.Executor;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * a generator container is a context which specifies what threading context to run a world generation task.
+ * an interface to determine biome section for chunk to be generated.
  */
-public interface GeneratorContainer extends Executor {
+public interface BiomeGrid {
 
   /**
-   * an arbitrary container, useful for developers who are familiar with multithreaded code and would like their
-   * world generation code offloaded to the world handler.
+   * gets biome at x, z within chunk being generated.
+   *
+   * @param x the x to get.
+   * @param y the y to get.
+   * @param z the z to get.
+   *
+   * @return biome value.
    */
-  GeneratorContainer ARBITRARY = c -> {
-    throw new RuntimeException();
-  };
+  @NotNull
+  Biome getBiome(int x, int y, int z);
 
   /**
-   * the default container.
+   * sets biome at x, z within chunk being generated.
+   *
+   * @param x the x to set.
+   * @param y the y to set.
+   * @param z the z to set.
+   * @param biome the biome to set
    */
-  GeneratorContainer DEFAULT = c -> {
-    throw new RuntimeException();
-  };
+  void setBiome(int x, int y, int z, @NotNull Biome biome);
 }
