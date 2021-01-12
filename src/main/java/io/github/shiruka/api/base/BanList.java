@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.base;
 
+import io.github.shiruka.api.text.Text;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
@@ -47,7 +48,7 @@ public interface BanList {
    * @return the entry for the newly created ban, or the entry for the (updated) previous ban.
    */
   @NotNull
-  Optional<BanEntry> addBan(@NotNull String target, @Nullable String reason, @Nullable Date expires,
+  Optional<BanEntry> addBan(@NotNull String target, @Nullable Text reason, @Nullable Date expires,
                             @Nullable String source);
 
   /**

@@ -27,6 +27,7 @@ package io.github.shiruka.api.base;
 
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.entity.Player;
+import io.github.shiruka.api.text.Text;
 import java.util.Date;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +46,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @return a new ban entry instance.
    */
   @NotNull
-  default Optional<BanEntry> banPlayer(@Nullable final String reason) {
+  default Optional<BanEntry> banPlayer(@Nullable final Text reason) {
     return this.banPlayer(reason, null, null);
   }
 
@@ -58,7 +59,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @return a new ban entry instance.
    */
   @NotNull
-  default Optional<BanEntry> banPlayer(@Nullable final String reason, @Nullable final String source) {
+  default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final String source) {
     return this.banPlayer(reason, null, source);
   }
 
@@ -71,7 +72,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @return a new ban entry instance.
    */
   @NotNull
-  default Optional<BanEntry> banPlayer(@Nullable final String reason, @Nullable final Date expires) {
+  default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires) {
     return this.banPlayer(reason, expires, null);
   }
 
@@ -85,7 +86,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @return a new ban entry instance.
    */
   @NotNull
-  default Optional<BanEntry> banPlayer(@Nullable final String reason, @Nullable final Date expires,
+  default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires,
                                        @Nullable final String source) {
     return this.banPlayer(reason, expires, source, true);
   }
@@ -101,7 +102,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @return a new ban entry instance.
    */
   @NotNull
-  default Optional<BanEntry> banPlayer(@Nullable final String reason, @Nullable final Date expires,
+  default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires,
                                        @Nullable final String source, final boolean kickIfOnline) {
     final var banEntry = Shiruka.getServer()
       .getBanList(BanList.Type.NAME)
