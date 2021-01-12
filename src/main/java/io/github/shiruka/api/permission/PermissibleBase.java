@@ -61,6 +61,7 @@ public final class PermissibleBase implements Permissible {
 
   /**
    * ctor.
+   *
    * @param opable the opable.
    */
   public PermissibleBase(@Nullable final ServerOperator opable) {
