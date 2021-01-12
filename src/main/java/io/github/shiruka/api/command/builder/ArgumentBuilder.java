@@ -81,7 +81,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param command the command to set.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T executes(@Nullable final Command command) {
@@ -95,7 +95,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @param target the target to set.
    * @param modifier the modifier to set.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T fork(@NotNull final CommandNode target, @NotNull final RedirectModifier modifier) {
@@ -109,7 +109,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @param modifier the modifier to set.
    * @param fork the modifier to set.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T forward(@NotNull final CommandNode target, @Nullable final RedirectModifier modifier,
@@ -187,7 +187,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param target the target to set.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T redirect(@NotNull final CommandNode target) {
@@ -200,7 +200,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @param target the target to set.
    * @param modifier the modifier to set.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T redirect(@NotNull final CommandNode target, @Nullable final SingleRedirectModifier modifier) {
@@ -212,7 +212,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param requirements the requirements to set.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T requires(@NotNull final Requirement... requirements) {
@@ -224,7 +224,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param requirements the requirements to set.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T requires(@NotNull final Iterable<Requirement> requirements) {
@@ -237,7 +237,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param argument the argument to add.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T then(@NotNull final ArgumentBuilder<?> argument) {
@@ -249,7 +249,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param argument the argument to add.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T then(@NotNull final CommandNode argument) {
@@ -273,7 +273,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param description the description to set.
    *
-   * @return {@link this} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public T describe(@Nullable final String description) {
