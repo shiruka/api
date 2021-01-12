@@ -19,7 +19,7 @@ jobs:
 
       - name: Build with Maven
         run: |
-          mvn clean install -Dgpg.skip=true -ntp -B
+          mvn clean install -ntp -B
           mvn test -Pcoverage jacoco:report -ntp -B
 
       - name: Codecov
