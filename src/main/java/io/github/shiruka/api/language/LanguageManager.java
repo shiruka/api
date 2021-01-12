@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.language;
 
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -40,6 +41,15 @@ public interface LanguageManager {
    * @throws IllegalArgumentException if the given {@code key} does not contain in the language cache.
    */
   void check(@NotNull String key);
+
+  /**
+   * obtains the language instance from the given {@code code}.
+   *
+   * @param code the code to get.
+   *
+   * @return language instance.
+   */
+  Optional<Language> getLanguage(@NotNull String code);
 
   /**
    * translates the given {@code key} in terms of the given {@code language}.

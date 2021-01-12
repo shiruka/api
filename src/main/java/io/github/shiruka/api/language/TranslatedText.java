@@ -29,6 +29,7 @@ import io.github.shiruka.api.Shiruka;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents translated texts.
@@ -45,6 +46,12 @@ public final class TranslatedText implements TranslatableText {
    */
   @NotNull
   private final String text;
+
+  /**
+   * the static cache which has not parameters in it.
+   */
+  @Nullable
+  private String staticCache;
 
   /**
    * ctor.
@@ -69,18 +76,19 @@ public final class TranslatedText implements TranslatableText {
   }
 
   @Override
-  public String asString() {
+  public String toString() {
     return this.text;
   }
 
   @NotNull
   @Override
-  public String translate(@NotNull final Language input, @NotNull final Object... params) {
-    return Shiruka.getLanguageManager().translate(input, this.text, params);
-  }
-
-  @Override
-  public String toString() {
-    return this.asString();
+  public String translate(@NotNull final Language language, @NotNull final Object... params) {
+    if (params.length == 0) {
+      if (this.staticCache == null) {
+        this.staticCache = Shiruka.getLanguageManager().translate(language, this.text, params);
+      }
+      return this.staticCache;
+    }
+    return Shiruka.getLanguageManager().translate(language, this.text, params);
   }
 }

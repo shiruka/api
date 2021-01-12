@@ -25,22 +25,41 @@
 
 package io.github.shiruka.api.language;
 
+import io.github.shiruka.api.Shiruka;
+import io.github.shiruka.api.entity.Player;
+import java.util.Optional;
 import org.cactoos.Text;
 import org.jetbrains.annotations.NotNull;
 
 public interface TranslatableText extends Text {
 
   @Override
-  String asString();
+  default String asString() {
+    return this.toString();
+  }
 
   /**
    * gives the translated string.
    *
-   * @param input the input to get.
+   * @param player the player to get.
    * @param params the params to get.
    *
    * @return translated string.
    */
   @NotNull
-  String translate(@NotNull final Language input, @NotNull final Object... params);
+  default Optional<String> translate(@NotNull final Player player, @NotNull final Object... params) {
+    return Shiruka.getLanguageManager().getLanguage(player.getChainData().languageCode())
+      .map(language -> this.translate(language, params));
+  }
+
+  /**
+   * gives the translated string.
+   *
+   * @param language the language to get.
+   * @param params the params to get.
+   *
+   * @return translated string.
+   */
+  @NotNull
+  String translate(@NotNull Language language, @NotNull Object... params);
 }
