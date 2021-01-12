@@ -30,7 +30,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents translated texts.
@@ -43,16 +42,15 @@ public final class TranslatedText implements TranslatableText {
   private static final Map<String, TranslatedText> CACHE = new ConcurrentHashMap<>();
 
   /**
+   * the non param cache.
+   */
+  private final Map<Locale, String> nonParamCache = new ConcurrentHashMap<>();
+
+  /**
    * the text.
    */
   @NotNull
   private final String text;
-
-  /**
-   * the static cache which has not parameters in it.
-   */
-  @Nullable
-  private String staticCache;
 
   /**
    * ctor.
@@ -85,10 +83,8 @@ public final class TranslatedText implements TranslatableText {
   @Override
   public String translate(@NotNull final Locale locale, @NotNull final Object... params) {
     if (params.length == 0) {
-      if (this.staticCache == null) {
-        this.staticCache = Shiruka.getLanguageManager().translate(locale, this.text, params);
-      }
-      return this.staticCache;
+      return this.nonParamCache.computeIfAbsent(locale, l ->
+        Shiruka.getLanguageManager().translate(locale, this.text));
     }
     return Shiruka.getLanguageManager().translate(locale, this.text, params);
   }
