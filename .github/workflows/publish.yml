@@ -50,8 +50,8 @@ jobs:
 
       - run: |
           [[ "${{ steps.bump-semver.outputs.new_version }}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
-          mvn versions:set -DnewVersion="${{ steps.bump-semver.outputs.new_version }}" -ntp -B
-          mvn deploy -Partipie -ntp -B
+          mvn versions:set -DnewVersion="${{ steps.bump-semver.outputs.new_version }}" -B
+          mvn deploy -Partipie -B
 
       - uses: actions/create-release@v1.1.4
         env:
