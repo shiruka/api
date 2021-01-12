@@ -54,30 +54,7 @@ public interface LanguageManager {
   Optional<Locale> getLanguage(@NotNull String code);
 
   /**
-   * obtains the server language.
-   *
-   * @return server language.
-   */
-  @NotNull
-  Locale getServerLanguage();
-
-  /**
-   * translates the given {@code key} using the {@link #getServerLanguage()}.
-   *
-   * @param key the key to translate.
-   * @param params the params to translate.
-   *
-   * @return translated string.
-   *
-   * @throws IllegalArgumentException if the given {@code key} does not contain in the locale cache.
-   */
-  @NotNull
-  default String translate(@NotNull final String key, @NotNull final Object... params) {
-    return this.translate(this.getServerLanguage(), key, params);
-  }
-
-  /**
-   * translates the given {@code key} using the given {@code locale}.
+   * translates the given {@code key} in terms of the given {@code locale}.
    *
    * @param locale the locale to translate.
    * @param key the key to translate.
