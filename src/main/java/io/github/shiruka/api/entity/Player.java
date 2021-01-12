@@ -31,8 +31,10 @@ import io.github.shiruka.api.base.OfflinePlayer;
 import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.events.KickEvent;
 import io.github.shiruka.api.events.LoginDataEvent;
+import io.github.shiruka.api.text.Text;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine players on the Minecraft.
@@ -49,7 +51,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
 
   @NotNull
   @Override
-  default String getName() {
+  default Text getName() {
     return this.getProfile().getName();
   }
 
@@ -92,7 +94,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final String reason, final boolean isAdmin) {
+  default boolean kick(@Nullable final String reason, final boolean isAdmin) {
     return this.kick(KickEvent.Reason.UNKNOWN, reason, isAdmin);
   }
 
@@ -103,7 +105,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final String reason) {
+  default boolean kick(@Nullable final String reason) {
     return this.kick(KickEvent.Reason.UNKNOWN, reason);
   }
 
@@ -126,7 +128,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final KickEvent.Reason reason, @NotNull final String reasonString) {
+  default boolean kick(@NotNull final KickEvent.Reason reason, @Nullable final String reasonString) {
     return this.kick(reason, reasonString, true);
   }
 
@@ -151,7 +153,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  boolean kick(@NotNull KickEvent.Reason reason, @NotNull String reasonString, boolean isAdmin);
+  boolean kick(@NotNull KickEvent.Reason reason, @Nullable String reasonString, boolean isAdmin);
 
   @Override
   default void remove() {

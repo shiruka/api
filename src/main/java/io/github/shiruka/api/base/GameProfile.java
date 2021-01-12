@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.base;
 
+import io.github.shiruka.api.text.Text;
 import java.util.Objects;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +39,7 @@ public final class GameProfile {
    * the name.
    */
   @NotNull
-  private final String name;
+  private final Text name;
 
   /**
    * the unique id.
@@ -59,7 +60,7 @@ public final class GameProfile {
    * @param uniqueId the unique id.
    * @param xboxId the xbox id.
    */
-  public GameProfile(@NotNull final String name, @NotNull final UUID uniqueId, @NotNull final String xboxId) {
+  public GameProfile(@NotNull final Text name, @NotNull final UUID uniqueId, @NotNull final String xboxId) {
     this.name = name;
     this.uniqueId = uniqueId;
     this.xboxId = xboxId;
@@ -71,7 +72,7 @@ public final class GameProfile {
    * @return name.
    */
   @NotNull
-  public String getName() {
+  public Text getName() {
     return this.name;
   }
 

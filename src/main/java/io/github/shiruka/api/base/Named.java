@@ -25,18 +25,19 @@
 
 package io.github.shiruka.api.base;
 
+import io.github.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine named object.
+ * an interface to determine named classes.
  */
 public interface Named {
 
   /**
    * obtains the name.
    *
-   * @return the name.
+   * @return name.
    */
   @NotNull
-  String getName();
+  Text getName();
 }

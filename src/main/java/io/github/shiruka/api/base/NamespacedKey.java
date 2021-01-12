@@ -75,16 +75,31 @@ public final class NamespacedKey implements Namespaced {
    * @param namespace the namespace.
    * @param key the key.
    */
-  public NamespacedKey(@NotNull final String namespace, @NotNull final String key) {
+  private NamespacedKey(@NotNull final String namespace, @NotNull final String key) {
     this.namespace = namespace.toLowerCase(Locale.ROOT);
     this.key = key.toLowerCase(Locale.ROOT);
-    Preconditions.checkArgument(NamespacedKey.VALID_NAMESPACE.matcher(this.namespace).matches(),
-      "Invalid namespace. Must be [a-z0-9._-]: %s", this.namespace);
-    Preconditions.checkArgument(NamespacedKey.VALID_KEY.matcher(this.key).matches(), "" +
-      "Invalid key. Must be [a-z0-9/._-]: %s", this.key);
-    final var string = this.toString();
+  }
+
+  /**
+   * creates a new namespaced key instance.
+   *
+   * @param namespace the namespace to create.
+   * @param key the key to create.
+   *
+   * @return a newly created namespaced key.
+   */
+  @NotNull
+  public static NamespacedKey create(@NotNull final String namespace, @NotNull final String key) {
+    final var finalNamespace = namespace.toLowerCase(Locale.ROOT);
+    final var finalKey = key.toLowerCase(Locale.ROOT);
+    Preconditions.checkArgument(NamespacedKey.VALID_NAMESPACE.matcher(finalNamespace).matches(),
+      "Invalid namespace. Must be [a-z0-9._-]: %s", finalNamespace);
+    Preconditions.checkArgument(NamespacedKey.VALID_KEY.matcher(finalKey).matches(), "" +
+      "Invalid key. Must be [a-z0-9/._-]: %s", finalKey);
+    final var string = String.format("%s : %s", finalNamespace, finalKey);
     Preconditions.checkArgument(string.length() < 256,
       "NamespacedKey must be less than 256 characters", string);
+    return new NamespacedKey(finalNamespace, finalKey);
   }
 
   /**
@@ -96,7 +111,7 @@ public final class NamespacedKey implements Namespaced {
    */
   @NotNull
   public static NamespacedKey minecraft(@NotNull final String key) {
-    return new NamespacedKey(NamespacedKey.MINECRAFT, key);
+    return NamespacedKey.create(NamespacedKey.MINECRAFT, key);
   }
 
   /**
@@ -109,7 +124,7 @@ public final class NamespacedKey implements Namespaced {
    */
   @NotNull
   public static NamespacedKey plugin(@NotNull final Plugin plugin, @NotNull final String key) {
-    return new NamespacedKey(plugin.getName(), key);
+    return NamespacedKey.create(plugin.getName(), key);
   }
 
   /**
@@ -119,7 +134,7 @@ public final class NamespacedKey implements Namespaced {
    */
   @NotNull
   public static NamespacedKey randomKey() {
-    return new NamespacedKey(NamespacedKey.SHIRU_KA, UUID.randomUUID().toString());
+    return NamespacedKey.create(NamespacedKey.SHIRU_KA, UUID.randomUUID().toString());
   }
 
   @NotNull

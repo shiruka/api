@@ -50,6 +50,7 @@ public interface LanguageManager {
    *
    * @return language instance.
    */
+  @NotNull
   Optional<Locale> getLanguage(@NotNull String code);
 
   /**

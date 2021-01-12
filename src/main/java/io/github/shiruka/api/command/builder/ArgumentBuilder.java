@@ -28,9 +28,7 @@ package io.github.shiruka.api.command.builder;
 import io.github.shiruka.api.base.Self;
 import io.github.shiruka.api.command.*;
 import io.github.shiruka.api.command.tree.RootNode;
-import io.github.shiruka.api.entity.Player;
 import java.util.*;
-import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,7 +81,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param command the command to set.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T executes(@Nullable final Command command) {
@@ -97,7 +95,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @param target the target to set.
    * @param modifier the modifier to set.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T fork(@NotNull final CommandNode target, @NotNull final RedirectModifier modifier) {
@@ -111,7 +109,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @param modifier the modifier to set.
    * @param fork the modifier to set.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T forward(@NotNull final CommandNode target, @Nullable final RedirectModifier modifier,
@@ -185,51 +183,11 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   }
 
   /**
-   * adds a requirement which control is the {@link CommandSender} is a {@link Player}.
-   *
-   * @return {@link #getSelf()} for builder chain.
-   */
-  @NotNull
-  public final T playerOnly() {
-    return this.playerOnly("&cYou have to use this command as a Player!");
-  }
-
-  /**
-   * adds a requirement which control is the {@link CommandSender} is a {@link Player}.
-   *
-   * @param errorMessage the error message to display to sender which is not a {@link Player}.
-   *
-   * @return {@link #getSelf()} for builder chain.
-   */
-  @NotNull
-  public final T playerOnly(@NotNull final String errorMessage) {
-    return this.playerOnly(sender -> errorMessage);
-  }
-
-  /**
-   * adds a requirement which control is the {@link CommandSender} is a {@link Player}.
-   *
-   * @param errorMessage the error message to display to sender which is not a {@link Player}.
-   *
-   * @return {@link #getSelf()} for builder chain.
-   */
-  @NotNull
-  public final T playerOnly(@NotNull final Function<CommandSender, String> errorMessage) {
-    return this.requires(sender -> {
-      if (sender instanceof Player) {
-        return true;
-      }
-      sender.sendMessage(errorMessage.apply(sender));
-      return false;
-    });
-  }
-
-  /**
    * sets the redirect.
    *
    * @param target the target to set.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T redirect(@NotNull final CommandNode target) {
@@ -242,7 +200,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * @param target the target to set.
    * @param modifier the modifier to set.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T redirect(@NotNull final CommandNode target, @Nullable final SingleRedirectModifier modifier) {
@@ -254,7 +212,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param requirements the requirements to set.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T requires(@NotNull final Requirement... requirements) {
@@ -266,7 +224,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param requirements the requirements to set.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T requires(@NotNull final Iterable<Requirement> requirements) {
@@ -279,7 +237,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param argument the argument to add.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T then(@NotNull final ArgumentBuilder<?> argument) {
@@ -291,7 +249,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param argument the argument to add.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public final T then(@NotNull final CommandNode argument) {
@@ -315,7 +273,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    *
    * @param description the description to set.
    *
-   * @return {@link #getSelf()} for builder chain.
+   * @return {@code this} for builder chain.
    */
   @NotNull
   public T describe(@Nullable final String description) {

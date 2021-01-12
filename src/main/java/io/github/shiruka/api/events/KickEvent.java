@@ -25,6 +25,9 @@
 
 package io.github.shiruka.api.events;
 
+import io.github.shiruka.api.text.Text;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -37,15 +40,28 @@ public interface KickEvent extends Event {
    *
    * @return kick message.
    */
-  @Nullable
-  String kickMessage();
+  @NotNull
+  Optional<Text> kickMessage();
 
   /**
    * sets the kick message.
    *
    * @param message the message to set.
    */
-  void kickMessage(@Nullable String message);
+  void kickMessage(@Nullable Text message);
+
+  /**
+   * sets the kick message.
+   *
+   * @param message the message to set.
+   */
+  default void kickMessage(@Nullable final String message) {
+    if (message == null) {
+      this.kickMessage((Text) null);
+    } else {
+      this.kickMessage(() -> message);
+    }
+  }
 
   /**
    * an enum class that represents the kick's reason.

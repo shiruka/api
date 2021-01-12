@@ -28,6 +28,8 @@ package io.github.shiruka.api.event;
 import io.github.shiruka.api.event.method.MethodAdapter;
 import io.github.shiruka.api.event.method.SimpleMethodAdapter;
 import io.github.shiruka.api.events.player.PlayerPreLoginEvent;
+import io.github.shiruka.api.text.Text;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
@@ -88,14 +90,14 @@ final class EventTest {
       this.cancelled = false;
     }
 
-    @Nullable
+    @NotNull
     @Override
-    public String kickMessage() {
+    public Optional<Text> kickMessage() {
       return null;
     }
 
     @Override
-    public void kickMessage(@Nullable final String message) {
+    public void kickMessage(@Nullable final Text message) {
     }
 
     @NotNull

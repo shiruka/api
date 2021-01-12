@@ -59,6 +59,11 @@ public final class PermissibleBase implements Permissible {
    */
   private Permissible parent = this;
 
+  /**
+   * ctor.
+   *
+   * @param opable the opable.
+   */
   public PermissibleBase(@Nullable final ServerOperator opable) {
     this.opable = opable;
     if (opable instanceof Permissible) {

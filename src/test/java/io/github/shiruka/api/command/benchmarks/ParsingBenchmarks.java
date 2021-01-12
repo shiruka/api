@@ -7,6 +7,8 @@ import static io.github.shiruka.api.command.Commands.literal;
 import io.github.shiruka.api.command.CommandDispatcher;
 import io.github.shiruka.api.command.CommandResult;
 import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.SCommandSender;
+import io.github.shiruka.api.text.Text;
 import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
 import org.openjdk.jmh.annotations.*;
@@ -14,18 +16,7 @@ import org.openjdk.jmh.annotations.*;
 @State(Scope.Benchmark)
 public class ParsingBenchmarks {
 
-  private final CommandSender sender1 = new CommandSender() {
-    @NotNull
-    @Override
-    public String getName() {
-      return "null1";
-    }
-
-    @Override
-    public void sendMessage(@NotNull final String message) {
-      System.out.println(message);
-    }
-  };
+  private final CommandSender sender1 = new SCommandSender("null1");
 
   private CommandDispatcher subject;
 

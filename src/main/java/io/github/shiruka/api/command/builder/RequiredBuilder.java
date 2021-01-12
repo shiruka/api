@@ -119,7 +119,7 @@ public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>
    *
    * @param suggestions the suggestion override to set.
    *
-   * @return {@link #getSelf()} for buider chain.
+   * @return {@code this} for buider chain.
    */
   @NotNull
   public RequiredBuilder<V> suggests(@NotNull final SuggestionProvider suggestions) {

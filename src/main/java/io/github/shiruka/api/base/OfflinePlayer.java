@@ -105,7 +105,7 @@ public interface OfflinePlayer extends Named, UniqueId {
                                        @Nullable final String source, final boolean kickIfOnline) {
     final var banEntry = Shiruka.getServer()
       .getBanList(BanList.Type.NAME)
-      .addBan(this.getName(), reason, expires, source);
+      .addBan(this.getName().asString(), reason, expires, source);
     if (kickIfOnline && this.isOnline()) {
       this.getPlayer().ifPresent(player -> player.kick(reason));
     }
