@@ -26,7 +26,6 @@
 package io.github.shiruka.api.entity;
 
 import io.github.shiruka.api.Server;
-import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.base.OfflinePlayer;
 import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.events.player.PlayerKickEvent;
@@ -121,28 +120,5 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final PlayerKickEvent.Reason reason, @NotNull final String reasonString,
-                       final boolean isAdmin) {
-    final var event = Shiruka.getEventManager().playerKick(this, reason, this.getLeaveMessage());
-    event.callEvent();
-    if (event.cancelled()) {
-      return false;
-    }
-    final String message;
-    if (isAdmin) {
-      if (!this.isBanned()) {
-        message = "Kicked by admin." + (!reasonString.isEmpty() ? " Reason: " + reasonString : "");
-      } else {
-        message = reasonString;
-      }
-    } else {
-      if (reasonString.isEmpty()) {
-        message = "disconnectionScreen.noReason";
-      } else {
-        message = reasonString;
-      }
-    }
-    this.close(event.kickMessage(), message);
-    return true;
-  }
+  boolean kick(@NotNull PlayerKickEvent.Reason reason, @NotNull String reasonString, boolean isAdmin);
 }
