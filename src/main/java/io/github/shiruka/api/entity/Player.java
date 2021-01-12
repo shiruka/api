@@ -28,7 +28,7 @@ package io.github.shiruka.api.entity;
 import io.github.shiruka.api.Server;
 import io.github.shiruka.api.base.OfflinePlayer;
 import io.github.shiruka.api.command.CommandSender;
-import io.github.shiruka.api.events.player.PlayerKickEvent;
+import io.github.shiruka.api.events.KickEvent;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -62,7 +62,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    * @return {@code true} if the player is kicked successfully.
    */
   default boolean kick(@NotNull final String reason, final boolean isAdmin) {
-    return this.kick(PlayerKickEvent.Reason.UNKNOWN, reason, isAdmin);
+    return this.kick(KickEvent.Reason.UNKNOWN, reason, isAdmin);
   }
 
   /**
@@ -73,7 +73,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    * @return {@code true} if the player is kicked successfully.
    */
   default boolean kick(@NotNull final String reason) {
-    return this.kick(PlayerKickEvent.Reason.UNKNOWN, reason);
+    return this.kick(KickEvent.Reason.UNKNOWN, reason);
   }
 
   /**
@@ -83,7 +83,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final PlayerKickEvent.Reason reason) {
+  default boolean kick(@NotNull final KickEvent.Reason reason) {
     return this.kick(reason, true);
   }
 
@@ -95,7 +95,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final PlayerKickEvent.Reason reason, @NotNull final String reasonString) {
+  default boolean kick(@NotNull final KickEvent.Reason reason, @NotNull final String reasonString) {
     return this.kick(reason, reasonString, true);
   }
 
@@ -107,7 +107,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final PlayerKickEvent.Reason reason, final boolean isAdmin) {
+  default boolean kick(@NotNull final KickEvent.Reason reason, final boolean isAdmin) {
     return this.kick(reason, reason.toString(), isAdmin);
   }
 
@@ -120,5 +120,10 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  boolean kick(@NotNull PlayerKickEvent.Reason reason, @NotNull String reasonString, boolean isAdmin);
+  boolean kick(@NotNull KickEvent.Reason reason, @NotNull String reasonString, boolean isAdmin);
+
+  @Override
+  default void remove() {
+    // ignored.
+  }
 }

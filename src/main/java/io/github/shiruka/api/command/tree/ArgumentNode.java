@@ -122,6 +122,12 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
 
   @NotNull
   @Override
+  public String getKey() {
+    return this.name;
+  }
+
+  @NotNull
+  @Override
   public String getUsage() {
     return ArgumentNode.USAGE_ARGUMENT_OPEN + this.name + ArgumentNode.USAGE_ARGUMENT_CLOSE;
   }
@@ -152,12 +158,6 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
       return this.type.suggestions(context, builder);
     }
     return this.suggestions.getSuggestions(context, builder);
-  }
-
-  @NotNull
-  @Override
-  public String getKey() {
-    return this.name;
   }
 
   @NotNull

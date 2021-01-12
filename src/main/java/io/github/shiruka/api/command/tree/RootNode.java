@@ -66,6 +66,12 @@ public final class RootNode extends CommandNodeEnvelope {
 
   @NotNull
   @Override
+  public String getKey() {
+    return "";
+  }
+
+  @NotNull
+  @Override
   public String getUsage() {
     return "";
   }
@@ -85,12 +91,6 @@ public final class RootNode extends CommandNodeEnvelope {
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
                                                     @NotNull final Suggestions.Builder builder) throws CommandSyntaxException {
     return Suggestions.empty();
-  }
-
-  @NotNull
-  @Override
-  public String getKey() {
-    return "";
   }
 
   @NotNull
