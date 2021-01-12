@@ -25,11 +25,13 @@
 
 package io.github.shiruka.api.event;
 
+import io.github.shiruka.api.events.Event;
+
 /**
  * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
  * was initially planned.
  */
-public interface Cancellable {
+public interface Cancellable extends Event {
 
   /**
    * cancels state of the event.
