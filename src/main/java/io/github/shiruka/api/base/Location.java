@@ -26,10 +26,7 @@
 package io.github.shiruka.api.base;
 
 import com.google.common.base.Preconditions;
-import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.block.Block;
 import io.github.shiruka.api.util.Vector;
-import io.github.shiruka.api.world.Chunk;
 import io.github.shiruka.api.world.World;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
