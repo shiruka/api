@@ -71,7 +71,7 @@ public final class TranslatedText implements TranslatableText {
   @NotNull
   @Override
   public String translate(@NotNull final Language input, @NotNull final Object... params) {
-    return this.translate(input, params);
+    return Shiruka.getLanguageManager().translate(input, this.text, params);
   }
 
   @Override
