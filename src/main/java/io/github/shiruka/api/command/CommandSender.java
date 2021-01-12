@@ -26,12 +26,13 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.base.Named;
+import io.github.shiruka.api.permission.Permissible;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine command senders.
  */
-public interface CommandSender extends Named {
+public interface CommandSender extends Named, Permissible {
 
   /**
    * sends the given message to the command sender.
