@@ -23,16 +23,68 @@
  *
  */
 
-package io.github.shiruka.api.language;
+package io.github.shiruka.api.text;
 
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.entity.Player;
-import io.github.shiruka.api.text.Text;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.NotNull;
 
-public interface TranslatableText extends Text {
+/**
+ * a class that represents translated texts.
+ */
+public final class TranslatedText implements Text {
+
+  /**
+   * the cache.
+   */
+  private static final Map<String, TranslatedText> CACHE = new ConcurrentHashMap<>();
+
+  /**
+   * the non param cache.
+   */
+  private final Map<Locale, String> nonParamCache = new ConcurrentHashMap<>();
+
+  /**
+   * the text.
+   */
+  @NotNull
+  private final String text;
+
+  /**
+   * ctor.
+   *
+   * @param text the text.
+   */
+  private TranslatedText(@NotNull final String text) {
+    this.text = text;
+  }
+
+  /**
+   * gets the translated text from the cache.
+   *
+   * @param key the key to get.
+   *
+   * @return a cached translated text instance from the language manager.
+   */
+  @NotNull
+  public static TranslatedText get(@NotNull final String key) {
+    Shiruka.getLanguageManager().check(key);
+    return TranslatedText.CACHE.computeIfAbsent(key, TranslatedText::new);
+  }
+
+  @Override
+  public String asString() {
+    return this.text;
+  }
+
+  @Override
+  public String toString() {
+    return this.asString();
+  }
 
   /**
    * gives the translated string.
@@ -43,7 +95,7 @@ public interface TranslatableText extends Text {
    * @return translated string.
    */
   @NotNull
-  default Optional<String> translate(@NotNull final Player player, @NotNull final Object... params) {
+  public Optional<String> translate(@NotNull final Player player, @NotNull final Object... params) {
     return Shiruka.getLanguageManager().getLanguage(player.getChainData().languageCode())
       .map(language -> this.translate(language, params));
   }
@@ -57,5 +109,11 @@ public interface TranslatableText extends Text {
    * @return translated string.
    */
   @NotNull
-  String translate(@NotNull Locale locale, @NotNull Object... params);
+  public String translate(@NotNull final Locale locale, @NotNull final Object... params) {
+    if (params.length == 0) {
+      return this.nonParamCache.computeIfAbsent(locale, l ->
+        Shiruka.getLanguageManager().translate(l, this.text));
+    }
+    return Shiruka.getLanguageManager().translate(locale, this.text, params);
+  }
 }
