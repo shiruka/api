@@ -83,18 +83,6 @@ public interface ChunkGenerator {
   }
 
   /**
-   * Gets a list of default {@link BlockPopulator}s to apply to a given world
-   *
-   * @param world World to apply to
-   *
-   * @return List containing any amount of BlockPopulators
-   */
-  @NotNull
-  default List<BlockPopulator> getDefaultPopulators(@NotNull final World world) {
-    return new ArrayList<>();
-  }
-
-  /**
    * Gets a fixed spawn location to use for a given world.
    *
    * @param world The world to locate a spawn point for
