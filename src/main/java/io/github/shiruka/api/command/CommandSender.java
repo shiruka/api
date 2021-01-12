@@ -48,6 +48,7 @@ public interface CommandSender extends Named, Permissible {
    * sends the given message to the command sender.
    *
    * @param message the message to send.
+   * @param params the params to send.
    */
-  void sendMessage(@NotNull Text message);
+  void sendMessage(@NotNull Text message, @NotNull Object... params);
 }

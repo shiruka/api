@@ -27,6 +27,7 @@ package io.github.shiruka.api.world;
 
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.text.TranslatedText;
 import java.util.Optional;
 import java.util.Random;
 import org.jetbrains.annotations.NotNull;
@@ -127,14 +128,13 @@ public final class WorldCreator {
     final var id = split.length > 1 ? split[1] : null;
     final var pluginOptional = Shiruka.getPluginManager().getPlugin(split[0]);
     if (pluginOptional.isEmpty()) {
-      output.sendMessage(String.format("Could not set generator for world '%s': Plugin '%s' does not exist",
-        world, split[0]));
+      output.sendMessage(TranslatedText.get("shiruka.world.plugin_not_found"), world, split[0]);
       return Optional.empty();
     }
     final var plugin = pluginOptional.get();
     if (!plugin.isEnabled()) {
-      output.sendMessage(String.format("Could not set generator for world '%s': Plugin '%s' is not enabled",
-        world, plugin.getDescription().getFullName()));
+      output.sendMessage(TranslatedText.get("shiruka.world.plugin_not_enabled"),
+        world, plugin.getDescription().getFullName());
       return Optional.empty();
     }
     return plugin.getDefaultWorldGenerator(world, id);

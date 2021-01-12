@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.command;
 
+import io.github.shiruka.api.Server;
 import io.github.shiruka.api.permission.Permission;
 import io.github.shiruka.api.permission.PermissionAttachment;
 import io.github.shiruka.api.permission.PermissionAttachmentInfo;
@@ -107,6 +108,16 @@ public final class SCommandSender implements CommandSender {
     return () -> this.name;
   }
 
+  @NotNull
+  @Override
+  public Server getServer() {
+    return null;
+  }
+
+  @Override
+  public void sendMessage(@NotNull final Text message, final @NotNull Object... params) {
+  }
+
   @Override
   public boolean isOp() {
     return false;
@@ -114,9 +125,5 @@ public final class SCommandSender implements CommandSender {
 
   @Override
   public void setOp(final boolean value) {
-  }
-
-  @Override
-  public void sendMessage(@NotNull final String message) {
   }
 }
