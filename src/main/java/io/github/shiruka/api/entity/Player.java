@@ -83,7 +83,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    * @return {@code true} if the player is kicked successfully.
    */
   default boolean kick() {
-    return this.kick("");
+    return this.kick(() -> "");
   }
 
   /**
@@ -94,7 +94,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@Nullable final String reason, final boolean isAdmin) {
+  default boolean kick(@Nullable final Text reason, final boolean isAdmin) {
     return this.kick(KickEvent.Reason.UNKNOWN, reason, isAdmin);
   }
 
@@ -105,7 +105,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@Nullable final String reason) {
+  default boolean kick(@Nullable final Text reason) {
     return this.kick(KickEvent.Reason.UNKNOWN, reason);
   }
 
@@ -128,7 +128,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final KickEvent.Reason reason, @Nullable final String reasonString) {
+  default boolean kick(@NotNull final KickEvent.Reason reason, @Nullable final Text reasonString) {
     return this.kick(reason, reasonString, true);
   }
 
@@ -141,7 +141,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    * @return {@code true} if the player is kicked successfully.
    */
   default boolean kick(@NotNull final KickEvent.Reason reason, final boolean isAdmin) {
-    return this.kick(reason, reason.toString(), isAdmin);
+    return this.kick(reason, reason::toString, isAdmin);
   }
 
   /**
@@ -153,7 +153,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  boolean kick(@NotNull KickEvent.Reason reason, @Nullable String reasonString, boolean isAdmin);
+  boolean kick(@NotNull KickEvent.Reason reason, @Nullable Text reasonString, boolean isAdmin);
 
   @Override
   default void remove() {
