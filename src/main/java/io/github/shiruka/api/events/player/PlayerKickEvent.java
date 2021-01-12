@@ -27,10 +27,26 @@ package io.github.shiruka.api.events.player;
 
 import io.github.shiruka.api.event.Cancellable;
 import io.github.shiruka.api.events.KickEvent;
+import io.github.shiruka.api.language.TranslatedText;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine player kick events.
  */
 public interface PlayerKickEvent extends KickEvent, Cancellable {
 
+  /**
+   * sets the kick message.
+   *
+   * @param text the text to set.
+   */
+  void translatedKickMessage(@Nullable TranslatedText text);
+
+  /**
+   * obtains the kick message.
+   *
+   * @return kick message.
+   */
+  @Nullable
+  TranslatedText translatedKickMessage();
 }

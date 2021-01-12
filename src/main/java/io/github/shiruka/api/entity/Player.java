@@ -26,9 +26,12 @@
 package io.github.shiruka.api.entity;
 
 import io.github.shiruka.api.Server;
+import io.github.shiruka.api.base.GameProfile;
 import io.github.shiruka.api.base.OfflinePlayer;
 import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.events.KickEvent;
+import io.github.shiruka.api.events.LoginDataEvent;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -37,12 +40,40 @@ import org.jetbrains.annotations.NotNull;
 public interface Player extends Entity, CommandSender, OfflinePlayer {
 
   /**
+   * obtains the chain data.
+   *
+   * @return chain data.
+   */
+  @NotNull
+  LoginDataEvent.ChainData getChainData();
+
+  @NotNull
+  @Override
+  default String getName() {
+    return this.getProfile().getName();
+  }
+
+  /**
+   * obtains the profile.
+   *
+   * @return profile.
+   */
+  @NotNull
+  GameProfile getProfile();
+
+  /**
    * obtains the server.
    *
    * @return the server.
    */
   @NotNull
   Server getServer();
+
+  @NotNull
+  @Override
+  default UUID getUniqueId() {
+    return this.getProfile().getUniqueId();
+  }
 
   /**
    * kicks the player.
