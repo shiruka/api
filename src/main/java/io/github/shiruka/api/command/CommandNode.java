@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api.command;
 
-import io.github.shiruka.api.base.Keyed;
 import io.github.shiruka.api.base.Named;
 import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.context.CommandContextBuilder;
@@ -41,7 +40,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an interface for the command tree, just representing a single command node.
  */
-public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
+public interface CommandNode extends Comparable<CommandNode>, Named {
 
   /**
    * adds a new child node to this command node.
@@ -109,6 +108,14 @@ public interface CommandNode extends Comparable<CommandNode>, Named, Keyed {
    */
   @NotNull
   Collection<String> getExamples();
+
+  /**
+   * obtains the key.
+   *
+   * @return key.
+   */
+  @NotNull
+  String getKey();
 
   /**
    * obtains the redirect.

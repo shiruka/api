@@ -45,30 +45,82 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
   @NotNull
   Server getServer();
 
+  /**
+   * kicks the player.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
   default boolean kick() {
     return this.kick("");
   }
 
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   * @param isAdmin the is admin to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
   default boolean kick(@NotNull final String reason, final boolean isAdmin) {
     return this.kick(PlayerKickEvent.Reason.UNKNOWN, reason, isAdmin);
   }
 
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
   default boolean kick(@NotNull final String reason) {
     return this.kick(PlayerKickEvent.Reason.UNKNOWN, reason);
   }
 
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
   default boolean kick(@NotNull final PlayerKickEvent.Reason reason) {
     return this.kick(reason, true);
   }
 
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   * @param reasonString the reason string.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
   default boolean kick(@NotNull final PlayerKickEvent.Reason reason, @NotNull final String reasonString) {
     return this.kick(reason, reasonString, true);
   }
 
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   * @param isAdmin the is admin to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
   default boolean kick(@NotNull final PlayerKickEvent.Reason reason, final boolean isAdmin) {
     return this.kick(reason, reason.toString(), isAdmin);
   }
 
+  /**
+   * kicks the player.
+   *
+   * @param reason the reason to kick.
+   * @param reasonString the reason string.
+   * @param isAdmin the is admin to kick.
+   *
+   * @return {@code true} if the player is kicked successfully.
+   */
   default boolean kick(@NotNull final PlayerKickEvent.Reason reason, @NotNull final String reasonString,
                        final boolean isAdmin) {
     final var event = Shiruka.getEventManager().playerKick(this, reason, this.getLeaveMessage());
@@ -90,7 +142,7 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
         message = reasonString;
       }
     }
-    this.close(event.getQuitMessage(), message);
+    this.close(event.kickMessage(), message);
     return true;
   }
 }

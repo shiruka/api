@@ -34,4 +34,8 @@ import io.github.shiruka.api.metadata.Metadatable;
  */
 public interface Entity extends Metadatable, Named, Tick {
 
+  /**
+   * removes the entity from the server.
+   */
+  void remove();
 }
