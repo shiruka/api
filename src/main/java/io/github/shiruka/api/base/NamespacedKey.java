@@ -102,6 +102,7 @@ public final class NamespacedKey implements Namespaced {
   /**
    * creates a key in the {@link Plugin#getName()} namespace.
    *
+   * @param plugin the plugin to use.
    * @param key the key to use.
    *
    * @return new key in the plugin name namespace.
