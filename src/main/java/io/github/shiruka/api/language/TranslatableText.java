@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 Shiru ka
+ * Copyright (c) 2020 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,30 +23,24 @@
  *
  */
 
-package io.github.shiruka.api.events.player;
+package io.github.shiruka.api.language;
 
-import io.github.shiruka.api.event.Cancellable;
-import io.github.shiruka.api.events.KickEvent;
-import io.github.shiruka.api.text.TranslatedText;
-import org.jetbrains.annotations.Nullable;
+import org.cactoos.Text;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * an interface to determine player kick events.
- */
-public interface PlayerKickEvent extends KickEvent, Cancellable {
+public interface TranslatableText extends Text {
+
+  @Override
+  String asString();
 
   /**
-   * sets the kick message.
+   * gives the translated string.
    *
-   * @param text the text to set.
-   */
-  void translatedKickMessage(@Nullable TranslatedText text);
-
-  /**
-   * obtains the kick message.
+   * @param input the input to get.
+   * @param params the params to get.
    *
-   * @return kick message.
+   * @return translated string.
    */
-  @Nullable
-  TranslatedText translatedKickMessage();
+  @NotNull
+  String translate(@NotNull final Language input, @NotNull final Object... params);
 }

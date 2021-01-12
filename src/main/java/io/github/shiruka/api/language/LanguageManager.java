@@ -25,9 +25,33 @@
 
 package io.github.shiruka.api.language;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * an interface to determine language managers.
  */
 public interface LanguageManager {
 
+  /**
+   * checks the given {@code key}.
+   *
+   * @param key the key to check.
+   *
+   * @throws IllegalArgumentException if the given {@code key} does not contain in the language cache.
+   */
+  void check(@NotNull String key);
+
+  /**
+   * translates the given {@code key} in terms of the given {@code language}.
+   *
+   * @param language the language to translate.
+   * @param key the key to translate.
+   * @param params the params to translate.
+   *
+   * @return translated string.
+   *
+   * @throws IllegalArgumentException if the given {@code key} does not contain in the language cache.
+   */
+  @NotNull
+  String translate(@NotNull Language language, @NotNull String key, @NotNull Object... params);
 }

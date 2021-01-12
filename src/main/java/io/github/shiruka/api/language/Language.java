@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 Shiru ka
+ * Copyright (c) 2020 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,30 +23,21 @@
  *
  */
 
-package io.github.shiruka.api.events.player;
+package io.github.shiruka.api.language;
 
-import io.github.shiruka.api.event.Cancellable;
-import io.github.shiruka.api.events.KickEvent;
-import io.github.shiruka.api.text.TranslatedText;
-import org.jetbrains.annotations.Nullable;
+import java.util.Locale;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine player kick events.
+ * an interface to determine languages.
  */
-public interface PlayerKickEvent extends KickEvent, Cancellable {
+public interface Language {
 
   /**
-   * sets the kick message.
+   * obtains the locale.
    *
-   * @param text the text to set.
+   * @return locale.
    */
-  void translatedKickMessage(@Nullable TranslatedText text);
-
-  /**
-   * obtains the kick message.
-   *
-   * @return kick message.
-   */
-  @Nullable
-  TranslatedText translatedKickMessage();
+  @NotNull
+  Locale getLocale();
 }

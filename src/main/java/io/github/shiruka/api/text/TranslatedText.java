@@ -25,6 +25,57 @@
 
 package io.github.shiruka.api.text;
 
-public final class TranslatedText {
+import io.github.shiruka.api.Shiruka;
+import io.github.shiruka.api.language.Language;
+import io.github.shiruka.api.language.TranslatableText;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * a class that represents translated texts.
+ */
+public final class TranslatedText implements TranslatableText {
+
+  /**
+   * the text.
+   */
+  @NotNull
+  private final String text;
+
+  /**
+   * ctor.
+   *
+   * @param text the text.
+   */
+  private TranslatedText(@NotNull final String text) {
+    this.text = text;
+  }
+
+  /**
+   * gets the translated text from the cache.
+   *
+   * @param key the key to get.
+   *
+   * @return a cached translated text instance from the language manager.
+   */
+  @NotNull
+  public static TranslatedText get(@NotNull final String key) {
+    Shiruka.getLanguageManager().check(key);
+    return new TranslatedText(key);
+  }
+
+  @Override
+  public String asString() {
+    return this.text;
+  }
+
+  @NotNull
+  @Override
+  public String translate(@NotNull final Language input, @NotNull final Object... params) {
+    return this.translate(input, params);
+  }
+
+  @Override
+  public String toString() {
+    return this.asString();
+  }
 }
