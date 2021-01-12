@@ -103,6 +103,18 @@ public final class TranslatedText implements Text {
   /**
    * gives the translated string.
    *
+   * @param params the params to get.
+   *
+   * @return translated string.
+   */
+  @NotNull
+  public String translate(@NotNull final Object... params) {
+    return this.translate(Shiruka.getLanguageManager().getServerLanguage(), params);
+  }
+
+  /**
+   * gives the translated string.
+   *
    * @param locale the locale to get.
    * @param params the params to get.
    *
