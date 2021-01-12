@@ -5,6 +5,11 @@
 [![Hits-of-Code](https://hitsofcode.com/github/shiruka/api)](https://hitsofcode.com/github/shiruka/api/view)
 ## How to Use
 ```xml
+<repository>
+  <url>http://shiruka.minecraftevi.com:8080/portlek/shiruka</url>
+  <id>artipie</id>
+</repository>
+
 <dependency>
     <groupId>io.github.shiruka</groupId>
     <artifactId>api</artifactId>
