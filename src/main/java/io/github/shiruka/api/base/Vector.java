@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.shiruka.api.util;
+package io.github.shiruka.api.base;
 
 import org.jetbrains.annotations.NotNull;
 
