@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.language;
 
+import java.util.Locale;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,19 +50,19 @@ public interface LanguageManager {
    *
    * @return language instance.
    */
-  Optional<Language> getLanguage(@NotNull String code);
+  Optional<Locale> getLanguage(@NotNull String code);
 
   /**
-   * translates the given {@code key} in terms of the given {@code language}.
+   * translates the given {@code key} in terms of the given {@code locale}.
    *
-   * @param language the language to translate.
+   * @param locale the locale to translate.
    * @param key the key to translate.
    * @param params the params to translate.
    *
    * @return translated string.
    *
-   * @throws IllegalArgumentException if the given {@code key} does not contain in the language cache.
+   * @throws IllegalArgumentException if the given {@code key} does not contain in the locale cache.
    */
   @NotNull
-  String translate(@NotNull Language language, @NotNull String key, @NotNull Object... params);
+  String translate(@NotNull Locale locale, @NotNull String key, @NotNull Object... params);
 }

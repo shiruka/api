@@ -27,6 +27,7 @@ package io.github.shiruka.api.language;
 
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.entity.Player;
+import java.util.Locale;
 import java.util.Optional;
 import org.cactoos.Text;
 import org.jetbrains.annotations.NotNull;
@@ -55,11 +56,11 @@ public interface TranslatableText extends Text {
   /**
    * gives the translated string.
    *
-   * @param language the language to get.
+   * @param locale the locale to get.
    * @param params the params to get.
    *
    * @return translated string.
    */
   @NotNull
-  String translate(@NotNull Language language, @NotNull Object... params);
+  String translate(@NotNull Locale locale, @NotNull Object... params);
 }

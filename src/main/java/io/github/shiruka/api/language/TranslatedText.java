@@ -26,6 +26,7 @@
 package io.github.shiruka.api.language;
 
 import io.github.shiruka.api.Shiruka;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.NotNull;
@@ -82,13 +83,13 @@ public final class TranslatedText implements TranslatableText {
 
   @NotNull
   @Override
-  public String translate(@NotNull final Language language, @NotNull final Object... params) {
+  public String translate(@NotNull final Locale locale, @NotNull final Object... params) {
     if (params.length == 0) {
       if (this.staticCache == null) {
-        this.staticCache = Shiruka.getLanguageManager().translate(language, this.text, params);
+        this.staticCache = Shiruka.getLanguageManager().translate(locale, this.text, params);
       }
       return this.staticCache;
     }
-    return Shiruka.getLanguageManager().translate(language, this.text, params);
+    return Shiruka.getLanguageManager().translate(locale, this.text, params);
   }
 }
