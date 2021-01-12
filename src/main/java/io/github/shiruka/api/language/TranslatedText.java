@@ -75,8 +75,13 @@ public final class TranslatedText implements TranslatableText {
   }
 
   @Override
-  public String toString() {
+  public String asString() {
     return this.text;
+  }
+
+  @Override
+  public String toString() {
+    return this.asString();
   }
 
   @NotNull

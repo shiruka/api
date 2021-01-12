@@ -23,74 +23,13 @@
  *
  */
 
-package io.github.shiruka.api.events;
-
-import io.github.shiruka.api.text.Text;
-import org.jetbrains.annotations.Nullable;
+package io.github.shiruka.api.text;
 
 /**
- * an interface to determine kick events.
+ * an interface to determine texts.
  */
-public interface KickEvent extends Event {
+public interface Text extends org.cactoos.Text {
 
-  /**
-   * obtains the kick message.
-   *
-   * @return kick message.
-   */
-  @Nullable
-  Text kickMessage();
-
-  /**
-   * sets the kick message.
-   *
-   * @param text the text to set.
-   */
-  void kickMessage(@Nullable Text text);
-
-  /**
-   * an enum class that represents the kick's reason.
-   */
-  enum Reason {
-    /**
-     * the new connection.
-     */
-    NEW_CONNECTION,
-    /**
-     * the kicked by admin.
-     */
-    KICKED_BY_ADMIN,
-    /**
-     * the not whitelisted.
-     */
-    NOT_WHITELISTED,
-    /**
-     * the ip banned.
-     */
-    IP_BANNED,
-    /**
-     * the name banned.
-     */
-    NAME_BANNED,
-    /**
-     * the invalid pve.
-     */
-    INVALID_PVE,
-    /**
-     * the login timeout.
-     */
-    LOGIN_TIMEOUT,
-    /**
-     * the server full.
-     */
-    SERVER_FULL,
-    /**
-     * the flying disabled.
-     */
-    FLYING_DISABLED,
-    /**
-     * the unknown.
-     */
-    UNKNOWN
-  }
+  @Override
+  String asString();
 }

@@ -10,6 +10,7 @@ import io.github.shiruka.api.command.CommandResult;
 import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.command.context.ParseResults;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
+import io.github.shiruka.api.text.Text;
 import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
 import org.openjdk.jmh.annotations.*;
@@ -20,8 +21,8 @@ public class ExecuteBenchmarks {
   private final CommandSender sender1 = new CommandSender() {
     @NotNull
     @Override
-    public String getName() {
-      return "null1";
+    public Text getName() {
+      return () -> "null1";
     }
 
     @Override
@@ -33,8 +34,8 @@ public class ExecuteBenchmarks {
   private final CommandSender sender2 = new CommandSender() {
     @NotNull
     @Override
-    public String getName() {
-      return "null2";
+    public Text getName() {
+      return () -> "null2";
     }
 
     @Override
@@ -46,8 +47,8 @@ public class ExecuteBenchmarks {
   private final CommandSender sender3 = new CommandSender() {
     @NotNull
     @Override
-    public String getName() {
-      return "null3";
+    public Text getName() {
+      return () -> "null3";
     }
 
     @Override

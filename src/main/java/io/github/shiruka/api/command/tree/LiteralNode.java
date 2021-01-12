@@ -81,6 +81,12 @@ public final class LiteralNode extends CommandNodeEnvelope {
 
   @NotNull
   @Override
+  public String getName() {
+    return this.literal;
+  }
+
+  @NotNull
+  @Override
   public String getUsage() {
     return this.literal;
   }
@@ -111,12 +117,6 @@ public final class LiteralNode extends CommandNodeEnvelope {
       return builder.suggest(this.literal).buildFuture();
     }
     return Suggestions.empty();
-  }
-
-  @NotNull
-  @Override
-  public String getName() {
-    return this.literal;
   }
 
   /**

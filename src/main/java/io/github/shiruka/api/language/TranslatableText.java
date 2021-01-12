@@ -27,17 +27,12 @@ package io.github.shiruka.api.language;
 
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.entity.Player;
+import io.github.shiruka.api.text.Text;
 import java.util.Locale;
 import java.util.Optional;
-import org.cactoos.Text;
 import org.jetbrains.annotations.NotNull;
 
 public interface TranslatableText extends Text {
-
-  @Override
-  default String asString() {
-    return this.toString();
-  }
 
   /**
    * gives the translated string.

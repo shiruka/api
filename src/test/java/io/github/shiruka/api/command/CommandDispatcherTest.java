@@ -27,6 +27,7 @@ package io.github.shiruka.api.command;
 
 import static io.github.shiruka.api.command.Commands.*;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
+import io.github.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
@@ -37,8 +38,8 @@ final class CommandDispatcherTest {
     final CommandSender commandSender = new CommandSender() {
       @NotNull
       @Override
-      public String getName() {
-        return "null";
+      public Text getName() {
+        return () -> "null";
       }
 
       @Override

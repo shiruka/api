@@ -30,7 +30,7 @@ import io.github.shiruka.api.event.Listener;
 import io.github.shiruka.api.events.player.PlayerAsyncLoginEvent;
 import io.github.shiruka.api.events.player.PlayerKickEvent;
 import io.github.shiruka.api.events.player.PlayerPreLoginEvent;
-import io.github.shiruka.api.language.TranslatedText;
+import io.github.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,12 +61,12 @@ public interface EventManager {
    *
    * @param player the player to create.
    * @param reason the reason to create.
-   * @param text the text to create.
+   * @param kickMessage the kickMessage to create.
    *
    * @return a new instance of {@link PlayerKickEvent}.
    */
   @NotNull
-  PlayerKickEvent playerKick(@NotNull Player player, @NotNull KickEvent.Reason reason, @NotNull TranslatedText text);
+  PlayerKickEvent playerKick(@NotNull Player player, @NotNull KickEvent.Reason reason, @NotNull Text kickMessage);
 
   /**
    * creates a new {@link PlayerPreLoginEvent} instance.
@@ -89,7 +89,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerPreLoginEvent}.
    */
   @NotNull
-  PlayerPreLoginEvent playerPreLogin(@NotNull LoginDataEvent.LoginData loginData, @Nullable String kickMessage);
+  PlayerPreLoginEvent playerPreLogin(@NotNull LoginDataEvent.LoginData loginData, @Nullable Text kickMessage);
 
   /**
    * registers the given listener.

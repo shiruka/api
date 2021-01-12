@@ -30,6 +30,7 @@ import io.github.shiruka.api.events.KickEvent;
 import io.github.shiruka.api.events.LoginDataEvent;
 import io.github.shiruka.api.events.LoginResultEvent;
 import io.github.shiruka.api.events.ObjectListEvent;
+import io.github.shiruka.api.text.Text;
 import java.util.function.Consumer;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,10 +50,10 @@ public interface PlayerAsyncLoginEvent extends LoginDataEvent, KickEvent, LoginR
   /**
    * kicks the player with the given kick message.
    *
-   * @param message the message to kick.
+   * @param text the text to kick.
    */
-  default void disAllow(@Nullable final String message) {
+  default void disAllow(@Nullable final Text text) {
     this.loginResult(LoginResult.KICK);
-    this.kickMessage(message);
+    this.kickMessage(text);
   }
 }

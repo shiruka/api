@@ -26,7 +26,6 @@
 package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.base.Named;
 import io.github.shiruka.api.command.builder.LiteralBuilder;
 import io.github.shiruka.api.plugin.Plugin;
 import java.util.Arrays;
@@ -107,7 +106,7 @@ public interface CommandManager {
    */
   default void unregister(@NotNull final CommandNode... commands) {
     this.unregister(Arrays.stream(commands)
-      .map(Named::getName)
+      .map(CommandNode::getName)
       .toArray(String[]::new));
   }
 }
