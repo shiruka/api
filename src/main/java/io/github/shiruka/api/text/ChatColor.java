@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 Shiru ka
+ * Copyright (c) 2020 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
  * SOFTWARE.
  *
  */
-package io.github.shiruka.api.chat;
+package io.github.shiruka.api.text;
 
 import java.util.regex.Pattern;
 import java.util.stream.Stream;

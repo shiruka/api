@@ -28,6 +28,7 @@ package io.github.shiruka.api;
 import io.github.shiruka.api.command.CommandManager;
 import io.github.shiruka.api.console.ConsoleCommandSender;
 import io.github.shiruka.api.events.EventManager;
+import io.github.shiruka.api.language.LanguageManager;
 import io.github.shiruka.api.pack.PackManager;
 import io.github.shiruka.api.permission.PermissionManager;
 import io.github.shiruka.api.plugin.PluginManager;
@@ -73,8 +74,20 @@ public interface Shiruka {
    * @throws IllegalArgumentException if the implementation not found.
    */
   @NotNull
-  static EventManager getEventFactory() {
+  static EventManager getEventManager() {
     return Shiruka.getServer().getInterface(EventManager.class);
+  }
+
+  /**
+   * obtains the language manager instance.
+   *
+   * @return language manager instance.
+   *
+   * @throws IllegalArgumentException if the implementation not found.
+   */
+  @NotNull
+  static LanguageManager getLanguageManager() {
+    return Shiruka.getServer().getInterface(LanguageManager.class);
   }
 
   /**

@@ -26,10 +26,11 @@
 package io.github.shiruka.api.entity;
 
 import io.github.shiruka.api.Server;
+import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.base.OfflinePlayer;
 import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.events.player.PlayerKickEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine players on the Minecraft.
@@ -44,10 +45,52 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
   @NotNull
   Server getServer();
 
-  /**
-   * kicks the player.
-   *
-   * @param reason the reason to kick.
-   */
-  void kick(@Nullable String reason);
+  default boolean kick() {
+    return this.kick("");
+  }
+
+  default boolean kick(@NotNull final String reason, final boolean isAdmin) {
+    return this.kick(PlayerKickEvent.Reason.UNKNOWN, reason, isAdmin);
+  }
+
+  default boolean kick(@NotNull final String reason) {
+    return this.kick(PlayerKickEvent.Reason.UNKNOWN, reason);
+  }
+
+  default boolean kick(@NotNull final PlayerKickEvent.Reason reason) {
+    return this.kick(reason, true);
+  }
+
+  default boolean kick(@NotNull final PlayerKickEvent.Reason reason, @NotNull final String reasonString) {
+    return this.kick(reason, reasonString, true);
+  }
+
+  default boolean kick(@NotNull final PlayerKickEvent.Reason reason, final boolean isAdmin) {
+    return this.kick(reason, reason.toString(), isAdmin);
+  }
+
+  default boolean kick(@NotNull final PlayerKickEvent.Reason reason, @NotNull final String reasonString,
+                       final boolean isAdmin) {
+    final var event = Shiruka.getEventManager().playerKick(this, reason, this.getLeaveMessage());
+    event.callEvent();
+    if (event.cancelled()) {
+      return false;
+    }
+    final String message;
+    if (isAdmin) {
+      if (!this.isBanned()) {
+        message = "Kicked by admin." + (!reasonString.isEmpty() ? " Reason: " + reasonString : "");
+      } else {
+        message = reasonString;
+      }
+    } else {
+      if (reasonString.isEmpty()) {
+        message = "disconnectionScreen.noReason";
+      } else {
+        message = reasonString;
+      }
+    }
+    this.close(event.getQuitMessage(), message);
+    return true;
+  }
 }

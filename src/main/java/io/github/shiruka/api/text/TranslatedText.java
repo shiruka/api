@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 Shiru ka
+ * Copyright (c) 2020 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,28 +23,8 @@
  *
  */
 
-package io.github.shiruka.api.events;
+package io.github.shiruka.api.text;
 
-import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.Cancellable;
+public final class TranslatedText {
 
-/**
- * this class represents the superinterface of all classes that are events.
- */
-public interface Event {
-
-  /**
-   * calls the event itself.
-   *
-   * @return {@code true} if the event isn't a {@link Cancellable} or
-   *   the event is a {@link Cancellable} and not cancelled.
-   */
-  default boolean callEvent() {
-    Shiruka.getEventManager().call(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
-    } else {
-      return true;
-    }
-  }
 }

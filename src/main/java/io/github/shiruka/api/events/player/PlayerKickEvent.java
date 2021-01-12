@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 Shiru ka
+ * Copyright (c) 2020 Shiru ka
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,15 @@
  * SOFTWARE.
  *
  */
+
+package io.github.shiruka.api.events.player;
+
+import io.github.shiruka.api.event.Cancellable;
+import io.github.shiruka.api.events.KickEvent;
+
 /**
- * the main package that contains most of classes of the project.
+ * an interface to determine player kick events.
  */
-package io.github.shiruka.api.chat;
+public interface PlayerKickEvent extends KickEvent, Cancellable {
+
+}
