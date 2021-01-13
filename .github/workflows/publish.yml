@@ -12,9 +12,6 @@ jobs:
       - uses: actions-ecosystem/action-release-label@v1
         id: release-label
 
-      - if: ${{ steps.release-label.outputs.level == null }}
-        run: exit 1
-
       - uses: softprops/turnstyle@v1
         with:
           poll-interval-seconds: 10
@@ -29,7 +26,8 @@ jobs:
           owner: shiruka
           repo: api
 
-      - uses: actions-ecosystem/action-bump-semver@v1
+      - if: ${{ steps.release-label.outputs.level != null }}
+        uses: actions-ecosystem/action-bump-semver@v1
         id: bump-semver
         with:
           current_version: ${{ steps.version.outputs.release }}
@@ -39,21 +37,23 @@ jobs:
         with:
           java-version: 11
 
-      - uses: crazy-max/ghaction-import-gpg@v3
-        with:
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
       - uses: whelk-io/maven-settings-xml-action@v12
         with:
-          servers: '[{ "id": "artipie", "username": "${{ secrets.ARTIPIE_USERNAME }}", "password": "${{ secrets.ARTIPIE_PASSWORD }}"}]'
+          servers: '[{ "id": "shiruka", "username": "${{ secrets.SHIRUKA_USERNAME }}", "password": "${{ secrets.SHIRUKA_PASSWORD }}"}]'
 
-      - run: |
+      - if: ${{ steps.release-label.outputs.level != null }}
+        run: |
           [[ "${{ steps.bump-semver.outputs.new_version }}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
-          mvn versions:set -DnewVersion="${{ steps.bump-semver.outputs.new_version }}" -B
-          mvn deploy -Partipie -B
+          mvn versions:set -DnewVersion="${{ steps.bump-semver.outputs.new_version }}"
+          mvn deploy -Pshiruka
 
-      - uses: actions/create-release@v1.1.4
+      - if: ${{ steps.release-label.outputs.level == null }}
+        run: |
+          mvn versions:set -DnewVersion="${{ steps.version.outputs.release }}-SNAPSHOT"
+          mvn deploy -Pshiruka
+
+      - if: ${{ steps.release-label.outputs.level != null }}
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
