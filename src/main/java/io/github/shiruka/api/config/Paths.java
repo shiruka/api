@@ -232,7 +232,7 @@ public final class Paths {
    * @return a config path instance.
    */
   @NotNull
-  public static ApLocale stringPath(@NotNull final String path, @Nullable final Locale def) {
+  public static ApLocale localePath(@NotNull final String path, @Nullable final Locale def) {
     return new ApLocale(path, def);
   }
 
