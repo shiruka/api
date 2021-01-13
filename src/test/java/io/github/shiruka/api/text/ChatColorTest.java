@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api.text;
 
-import io.github.shiruka.api.text.ChatColor;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;

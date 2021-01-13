@@ -8,9 +8,7 @@ import io.github.shiruka.api.command.CommandDispatcher;
 import io.github.shiruka.api.command.CommandResult;
 import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.command.SCommandSender;
-import io.github.shiruka.api.text.Text;
 import java.util.concurrent.TimeUnit;
-import org.jetbrains.annotations.NotNull;
 import org.openjdk.jmh.annotations.*;
 
 @State(Scope.Benchmark)
