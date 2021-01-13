@@ -16,8 +16,10 @@
     <groupId>io.github.shiruka</groupId>
     <artifactId>api</artifactId>
     <version>${version}</version>
+    <!--<version>${version}-SNAPSHOT</version>-->
 </dependency>
 ```
 ```groovy
 implementation("io.github.shiruka:api:${version}")
+//implementation("io.github.shiruka:api:${version}-SNAPSHOT")
 ```
