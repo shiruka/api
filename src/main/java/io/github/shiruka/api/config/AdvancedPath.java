@@ -79,7 +79,7 @@ public interface AdvancedPath<R, T> extends ConfigPath<T> {
   default void setValue(@Nullable final T value) {
     this.getConfig().ifPresent(config ->
       config.set(this.getPath(), Optional.ofNullable(value)
-        .map(this::convertToRaw)
+        .flatMap(this::convertToRaw)
         .orElse(null)));
   }
 
