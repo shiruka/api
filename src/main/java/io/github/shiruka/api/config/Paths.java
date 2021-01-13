@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.config;
 
+import io.github.shiruka.api.config.path.advanced.ApLocale;
 import io.github.shiruka.api.config.path.advanced.ApUniqueId;
 import io.github.shiruka.api.config.path.advanced.ApUniqueIdList;
 import io.github.shiruka.api.config.path.commentable.CmBasic;
@@ -220,6 +221,19 @@ public final class Paths {
     return Paths.stringPath(path, Optional.ofNullable(def)
       .map(StringBuilder::toString)
       .orElse(null));
+  }
+
+  /**
+   * represents {@link ApLocale} instance.
+   *
+   * @param path the path.
+   * @param def th default value.
+   *
+   * @return a config path instance.
+   */
+  @NotNull
+  public static ApLocale stringPath(@NotNull final String path, @Nullable final Locale def) {
+    return new ApLocale(path, def);
   }
 
   /**
