@@ -44,13 +44,13 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
    * the convert to final value function.
    */
   @NotNull
-  private final Function<R, T> convertToFinal;
+  private final Function<R, Optional<T>> convertToFinal;
 
   /**
    * the convert to raw value function.
    */
   @NotNull
-  private final Function<T, R> convertToRaw;
+  private final Function<T, Optional<R>> convertToRaw;
 
   /**
    * the default value.
@@ -85,7 +85,7 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
    * @param path the path.
    * @param rawValue the raw value function.
    */
-  public ApBasic(@NotNull final Function<R, T> convertToFinal, @NotNull final Function<T, R> convertToRaw,
+  public ApBasic(@NotNull final Function<R, Optional<T>> convertToFinal, @NotNull final Function<T, Optional<R>> convertToRaw,
                  @Nullable final T def, @NotNull final String path, @NotNull final Function<Config, R> rawValue) {
     this.convertToFinal = convertToFinal;
     this.convertToRaw = convertToRaw;
@@ -97,13 +97,13 @@ public final class ApBasic<R, T> implements AdvancedPath<R, T> {
   @NotNull
   @Override
   public Optional<T> convertToFinal(@NotNull final R rawValue) {
-    return Optional.ofNullable(this.convertToFinal.apply(rawValue));
+    return this.convertToFinal.apply(rawValue);
   }
 
   @NotNull
   @Override
   public Optional<R> convertToRaw(@NotNull final T finalValue) {
-    return Optional.ofNullable(this.convertToRaw.apply(finalValue));
+    return this.convertToRaw.apply(finalValue);
   }
 
   @NotNull

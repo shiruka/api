@@ -27,6 +27,7 @@ package io.github.shiruka.api.config.path.advanced;
 
 import io.github.shiruka.api.config.AdvancedPath;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,8 +48,8 @@ public abstract class ApListString<T> extends ApEnvelope<List<String>, List<T>> 
    * @param convertToRaw the convert to raw value function.
    */
   protected ApListString(@NotNull final String path, @Nullable final List<T> def,
-                         @NotNull final Function<List<String>, List<T>> convertToFinal,
-                         @NotNull final Function<List<T>, List<String>> convertToRaw) {
+                         @NotNull final Function<List<String>, Optional<List<T>>> convertToFinal,
+                         @NotNull final Function<List<T>, Optional<List<String>>> convertToRaw) {
     super(new ApBasic<>(convertToFinal, convertToRaw, def, path,
       config -> (List<String>) config.get(path)
         .filter(o -> o instanceof List<?>)

@@ -29,9 +29,15 @@ import io.github.shiruka.api.command.CommandException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * an exception that thrown when a command has syntax error.
+ */
 public final class CommandSyntaxException extends Exception {
 
-  public static final int CONTEXT_AMOUNT = 10;
+  /**
+   * the context amount.
+   */
+  private static final int CONTEXT_AMOUNT = 10;
 
   /**
    * the cursor.

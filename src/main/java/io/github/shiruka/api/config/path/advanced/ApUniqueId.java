@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.config.path.advanced;
 
+import java.util.Optional;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +42,6 @@ public final class ApUniqueId extends ApString<UUID> {
    * @param def the def.
    */
   public ApUniqueId(@NotNull final String path, @Nullable final UUID def) {
-    super(path, def, UUID::fromString, UUID::toString);
+    super(path, def, s -> Optional.of(UUID.fromString(s)), uuid -> Optional.ofNullable(uuid.toString()));
   }
 }

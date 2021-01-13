@@ -27,6 +27,7 @@ package io.github.shiruka.api.config.path.advanced;
 
 import io.github.shiruka.api.config.AdvancedPath;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,8 +57,8 @@ public abstract class ApMap<T> extends ApEnvelope<Map<String, Object>, T> {
    * @param convertToRaw the convert to raw value function.
    */
   protected ApMap(@NotNull final String path, @Nullable final T def,
-                  @NotNull final Function<Map<String, Object>, T> convertToFinal,
-                  @NotNull final Function<T, Map<String, Object>> convertToRaw) {
+                  @NotNull final Function<Map<String, Object>, Optional<T>> convertToFinal,
+                  @NotNull final Function<T, Optional<Map<String, Object>>> convertToRaw) {
     this(new ApBasic<>(convertToFinal, convertToRaw, def, path,
       config -> (Map<String, Object>) config.get(path)
         .filter(o -> o instanceof Map<?, ?>)
