@@ -31,6 +31,7 @@ import io.github.shiruka.api.command.exceptions.CeSimple;
 
 /**
  * a marker interface class to determine command exception classes.
+ *
  * @todo #1:15m Fill Javadocs of the exception fields.
  */
 public interface CommandException {

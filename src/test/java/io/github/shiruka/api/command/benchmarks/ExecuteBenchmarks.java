@@ -11,15 +11,7 @@ import io.github.shiruka.api.command.CommandSender;
 import io.github.shiruka.api.command.SCommandSender;
 import io.github.shiruka.api.command.context.ParseResults;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
-import io.github.shiruka.api.permission.Permission;
-import io.github.shiruka.api.permission.PermissionAttachment;
-import io.github.shiruka.api.permission.PermissionAttachmentInfo;
-import io.github.shiruka.api.plugin.Plugin;
-import io.github.shiruka.api.text.Text;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import org.jetbrains.annotations.NotNull;
 import org.openjdk.jmh.annotations.*;
 
 @State(Scope.Benchmark)
