@@ -191,6 +191,9 @@ public final class PermissibleBase implements Permissible {
     this.recalculatePermissions();
   }
 
+  /**
+   * clears the permissions.
+   */
   public synchronized void clearPermissions() {
     final var perms = this.permissions.keySet();
     final var manager = Shiruka.getPermissionManager();

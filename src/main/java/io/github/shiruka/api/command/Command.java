@@ -35,6 +35,15 @@ import org.jetbrains.annotations.NotNull;
 @FunctionalInterface
 public interface Command {
 
+  /**
+   * runs the command with the given {@code context}.
+   *
+   * @param context the context to run.
+   *
+   * @return ran command result.
+   *
+   * @throws CommandSyntaxException if something went wrong when running the command.
+   */
   @NotNull
   CommandResult run(@NotNull CommandContext context) throws CommandSyntaxException;
 }

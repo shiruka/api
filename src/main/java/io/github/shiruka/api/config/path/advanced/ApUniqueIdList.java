@@ -26,6 +26,7 @@
 package io.github.shiruka.api.config.path.advanced;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
@@ -45,13 +46,13 @@ public final class ApUniqueIdList extends ApListString<UUID> {
   public ApUniqueIdList(@NotNull final String path, @Nullable final List<UUID> def) {
     super(path, def,
       strings ->
-        strings.stream()
+        Optional.of(strings.stream()
           .map(UUID::fromString)
-          .collect(Collectors.toList()),
+          .collect(Collectors.toList())),
       uuids ->
-        uuids.stream()
+        Optional.of(uuids.stream()
           .map(UUID::toString)
-          .collect(Collectors.toList()));
+          .collect(Collectors.toList())));
   }
 
   /**

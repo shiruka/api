@@ -26,6 +26,7 @@
 package io.github.shiruka.api.config.path.advanced;
 
 import io.github.shiruka.api.config.AdvancedPath;
+import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -54,8 +55,9 @@ public abstract class ApString<T> extends ApEnvelope<String, T> {
    * @param convertToFinal the convert to final value function.
    * @param convertToRaw the convert to raw value function.
    */
-  protected ApString(@NotNull final String path, @Nullable final T def, @NotNull final Function<String, T> convertToFinal,
-                     @NotNull final Function<T, String> convertToRaw) {
+  protected ApString(@NotNull final String path, @Nullable final T def,
+                     @NotNull final Function<String, Optional<T>> convertToFinal,
+                     @NotNull final Function<T, Optional<String>> convertToRaw) {
     this(new ApBasic<>(convertToFinal, convertToRaw, def, path,
       config -> (String) config.get(path)
         .filter(o -> o instanceof String)

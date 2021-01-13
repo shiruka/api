@@ -26,6 +26,7 @@
 package io.github.shiruka.api.config.path.advanced;
 
 import java.util.Locale;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,9 +42,10 @@ public final class ApLocale extends ApString<Locale> {
    * @param def the def.
    */
   public ApLocale(@NotNull final String path, @Nullable final Locale def) {
-    super(path, def, s -> {
-      final var split = s.split("_");
-      return new Locale(split[0], split[1]);
-    }, locale -> locale.getLanguage() + "_" + locale.getCountry());
+    super(path, def,
+      s -> Optional.of(s.trim().split("_"))
+        .filter(strings -> strings.length == 2)
+        .map(strings -> new Locale(strings[0], strings[1])),
+      locale -> Optional.of(locale.getLanguage() + "_" + locale.getCountry()));
   }
 }
