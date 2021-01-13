@@ -6,8 +6,8 @@
 ## How to Use
 ```xml
 <repository>
-  <url>http://shiruka.minecraftevi.com:8080/portlek/shiruka</url>
-  <id>artipie</id>
+  <url>http://shiruka.minecraftevi.com:8081/repository/maven-public/</url>
+  <id>shiruka</id>
 </repository>
 
 <dependency>
