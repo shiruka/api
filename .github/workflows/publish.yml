@@ -44,13 +44,19 @@ jobs:
       - if: ${{ steps.release-label.outputs.level != null }}
         run: |
           [[ "${{ steps.bump-semver.outputs.new_version }}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
-          mvn versions:set -DnewVersion="${{ steps.bump-semver.outputs.new_version }}" -ntp -B
-          mvn deploy -Pshiruka -ntp -B
+          mvn clean versions:set -DnewVersion="${{ steps.bump-semver.outputs.new_version }}-SNAPSHOT" -ntp -B
+          mvn clean deploy -Pshiruka -ntp -B
+
+      - if: ${{ steps.release-label.outputs.level != null }}
+        run: |
+          [[ "${{ steps.bump-semver.outputs.new_version }}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
+          mvn clean versions:set -DnewVersion="${{ steps.bump-semver.outputs.new_version }}" -ntp -B
+          mvn clean deploy -Pshiruka -ntp -B
 
       - if: ${{ steps.release-label.outputs.level == null }}
         run: |
-          mvn versions:set -DnewVersion="${{ steps.version.outputs.release }}-SNAPSHOT" -ntp -B
-          mvn deploy -Pshiruka -ntp -B
+          mvn clean versions:set -DnewVersion="${{ steps.version.outputs.release }}-SNAPSHOT" -ntp -B
+          mvn clean deploy -Pshiruka -ntp -B
 
       - if: ${{ steps.release-label.outputs.level != null }}
         uses: actions/create-release@v1.1.4
