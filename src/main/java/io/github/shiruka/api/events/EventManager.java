@@ -31,6 +31,7 @@ import io.github.shiruka.api.events.player.PlayerAsyncLoginEvent;
 import io.github.shiruka.api.events.player.PlayerKickEvent;
 import io.github.shiruka.api.events.player.PlayerPreLoginEvent;
 import io.github.shiruka.api.text.Text;
+import io.github.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,6 +39,11 @@ import org.jetbrains.annotations.Nullable;
  * an interface to determine event factory that helps to create and call events.
  */
 public interface EventManager {
+
+  /**
+   * the key of the player left message.
+   */
+  String KEY_MULTIPLAYER_PLAYER_LEFT = "multiplayer.player.left";
 
   /**
    * calls the given event.
@@ -67,6 +73,20 @@ public interface EventManager {
    */
   @NotNull
   PlayerKickEvent playerKick(@NotNull Player player, @NotNull KickEvent.Reason reason, @NotNull Text kickMessage);
+
+  /**
+   * creates a new {@link PlayerKickEvent} instance.
+   *
+   * @param player the player to create.
+   * @param reason the reason to create.
+   *
+   * @return a new instance of {@link PlayerKickEvent}.
+   */
+  @NotNull
+  default PlayerKickEvent playerKick(@NotNull final Player player, @NotNull final KickEvent.Reason reason) {
+    return this.playerKick(player, reason,
+      TranslatedText.get(EventManager.KEY_MULTIPLAYER_PLAYER_LEFT, player.getName()));
+  }
 
   /**
    * creates a new {@link PlayerPreLoginEvent} instance.
