@@ -31,12 +31,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.logging.log4j.message.Message;
+import org.apache.logging.log4j.util.MessageSupplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents translated texts.
  */
-public final class TranslatedText implements Text {
+public final class TranslatedText implements Text, MessageSupplier {
 
   /**
    * the non param cache.
@@ -54,6 +56,31 @@ public final class TranslatedText implements Text {
    */
   @NotNull
   private final String text;
+
+  /**
+   * the log message for {@link MessageSupplier}.
+   */
+  private final Message message = new Message() {
+    @Override
+    public String getFormattedMessage() {
+      return TranslatedText.this.asString();
+    }
+
+    @Override
+    public String getFormat() {
+      return this.getFormattedMessage();
+    }
+
+    @Override
+    public Object[] getParameters() {
+      return null;
+    }
+
+    @Override
+    public Throwable getThrowable() {
+      return null;
+    }
+  };
 
   /**
    * ctor.
@@ -82,6 +109,11 @@ public final class TranslatedText implements Text {
   @Override
   public String asString() {
     return this.translate(Shiruka.getLanguageManager().getServerLanguage());
+  }
+
+  @Override
+  public Message get() {
+    return this.message;
   }
 
   @Override
