@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents translated texts.
@@ -95,7 +96,10 @@ public final class TranslatedText implements Text {
    * @return translated string.
    */
   @NotNull
-  public Optional<String> translate(@NotNull final Player player, @NotNull final Object... params) {
+  public Optional<String> translate(@Nullable final Player player, @NotNull final Object... params) {
+    if (player == null) {
+      return Optional.of(this.translate(params));
+    }
     return Shiruka.getLanguageManager().getLanguage(player.getChainData().languageCode())
       .map(language -> this.translate(language, params));
   }
