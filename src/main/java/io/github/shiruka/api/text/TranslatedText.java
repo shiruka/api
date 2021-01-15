@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents translated texts.
@@ -40,14 +39,15 @@ import org.jetbrains.annotations.Nullable;
 public final class TranslatedText implements Text {
 
   /**
-   * the cache.
-   */
-  private static final Map<String, TranslatedText> CACHE = new ConcurrentHashMap<>();
-
-  /**
    * the non param cache.
    */
   private final Map<Locale, String> nonParamCache = new ConcurrentHashMap<>();
+
+  /**
+   * the params.
+   */
+  @NotNull
+  private final Object[] params;
 
   /**
    * the text.
@@ -59,9 +59,11 @@ public final class TranslatedText implements Text {
    * ctor.
    *
    * @param text the text.
+   * @param params the params.
    */
-  private TranslatedText(@NotNull final String text) {
+  public TranslatedText(@NotNull final String text, @NotNull final Object... params) {
     this.text = text;
+    this.params = params.clone();
   }
 
   /**
@@ -72,14 +74,14 @@ public final class TranslatedText implements Text {
    * @return a cached translated text instance from the language manager.
    */
   @NotNull
-  public static TranslatedText get(@NotNull final String key) {
+  public static TranslatedText get(@NotNull final String key, @NotNull final Object... params) {
     Shiruka.getLanguageManager().check(key);
-    return TranslatedText.CACHE.computeIfAbsent(key, TranslatedText::new);
+    return new TranslatedText(key, params);
   }
 
   @Override
   public String asString() {
-    return this.text;
+    return this.translate(Shiruka.getLanguageManager().getServerLanguage());
   }
 
   @Override
@@ -91,45 +93,28 @@ public final class TranslatedText implements Text {
    * gives the translated string.
    *
    * @param player the player to get.
-   * @param params the params to get.
    *
    * @return translated string.
    */
   @NotNull
-  public Optional<String> translate(@Nullable final Player player, @NotNull final Object... params) {
-    if (player == null) {
-      return Optional.of(this.translate(params));
-    }
+  public Optional<String> translate(@NotNull final Player player) {
     return Shiruka.getLanguageManager().getLanguage(player.getChainData().languageCode())
-      .map(language -> this.translate(language, params));
-  }
-
-  /**
-   * gives the translated string.
-   *
-   * @param params the params to get.
-   *
-   * @return translated string.
-   */
-  @NotNull
-  public String translate(@NotNull final Object... params) {
-    return this.translate(Shiruka.getLanguageManager().getServerLanguage(), params);
+      .map(this::translate);
   }
 
   /**
    * gives the translated string.
    *
    * @param locale the locale to get.
-   * @param params the params to get.
    *
    * @return translated string.
    */
   @NotNull
-  public String translate(@NotNull final Locale locale, @NotNull final Object... params) {
-    if (params.length == 0) {
+  public String translate(@NotNull final Locale locale) {
+    if (this.params.length == 0) {
       return this.nonParamCache.computeIfAbsent(locale, l ->
         Shiruka.getLanguageManager().translate(l, this.text));
     }
-    return Shiruka.getLanguageManager().translate(locale, this.text, params);
+    return Shiruka.getLanguageManager().translate(locale, this.text, this.params);
   }
 }
