@@ -28,6 +28,6 @@ package io.github.shiruka.api.registry;
 /**
  * a class that represents material registries.
  */
-public final class MaterialRegistry {
+public final class MaterialRegistry implements Registry {
 
 }
