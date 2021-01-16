@@ -9,29 +9,7 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions-ecosystem/action-release-label@v1
-        id: release-label
-
-      - uses: softprops/turnstyle@v1
-        with:
-          poll-interval-seconds: 10
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: actions/checkout@v2
-
-      - uses: pozetroninc/github-action-get-latest-release@v0.5.0
-        id: version
-        with:
-          owner: shiruka
-          repo: api
-
-      - if: ${{ steps.release-label.outputs.level != null }}
-        uses: actions-ecosystem/action-bump-semver@v1
-        id: bump-semver
-        with:
-          current_version: ${{ steps.version.outputs.release }}
-          level: ${{ steps.release-label.outputs.level }}
 
       - uses: actions/setup-java@v1
         with:
@@ -41,28 +19,10 @@ jobs:
         with:
           servers: '[{ "id": "shiruka", "username": "${{ secrets.SHIRUKA_USERNAME }}", "password": "${{ secrets.SHIRUKA_PASSWORD }}"}]'
 
-      - if: ${{ steps.release-label.outputs.level != null }}
-        run: |
-          [[ "${{ steps.bump-semver.outputs.new_version }}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
-          mvn clean versions:set -DnewVersion="${{ steps.bump-semver.outputs.new_version }}" -ntp -B
-          mvn clean deploy -Pshiruka -ntp -B
-
-      - if: ${{ steps.release-label.outputs.level != null }}
-        run: |
-          [[ "${{ steps.bump-semver.outputs.new_version }}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
-          mvn clean versions:set -DnewVersion="${{ steps.bump-semver.outputs.new_version }}-SNAPSHOT" -ntp -B
-          mvn clean deploy -Pshiruka -ntp -B
-
-      - if: ${{ steps.release-label.outputs.level == null }}
-        run: |
-          mvn clean versions:set -DnewVersion="${{ steps.version.outputs.release }}-SNAPSHOT" -ntp -B
-          mvn clean deploy -Pshiruka -ntp -B
-
-      - if: ${{ steps.release-label.outputs.level != null }}
-        uses: actions/create-release@v1.1.4
+      - uses: softprops/turnstyle@v1
+        with:
+          poll-interval-seconds: 10
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.bump-semver.outputs.new_version }}
-          release_name: ${{ steps.bump-semver.outputs.new_version }}
-          body: '[Changelog](https://github.com/shiruka/api/compare/${{ steps.version.outputs.release }}...${{ steps.bump-semver.outputs.new_version }})'
+
+      - run: mvn clean deploy -Pshiruka
