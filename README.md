@@ -7,7 +7,7 @@
 ## How to Use
 ```xml
 <repository>
-  <url>http://shiruka.minecraftevi.com:8081/repository/maven-public/</url>
+  <url>http://repo.shiruka.net/repository/maven-public/</url>
   <id>shiruka</id>
 </repository>
 
