@@ -14,13 +14,9 @@
 <dependency>
     <groupId>io.github.shiruka</groupId>
     <artifactId>api</artifactId>
-    <version>${version}</version>
-    <!-- Get latest commits on the version. -->
-    <!--<version>${version}-SNAPSHOT</version>-->
+    <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
 ```groovy
-implementation("io.github.shiruka:api:${version}")
-// Get latest commits on the version.
-//implementation("io.github.shiruka:api:${version}-SNAPSHOT")
+implementation("io.github.shiruka:api:1.0.0-SNAPSHOT")
 ```
