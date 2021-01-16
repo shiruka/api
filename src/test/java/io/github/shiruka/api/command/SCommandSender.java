@@ -108,12 +108,6 @@ public final class SCommandSender implements CommandSender {
     return () -> this.name;
   }
 
-  @NotNull
-  @Override
-  public Server getServer() {
-    return null;
-  }
-
   @Override
   public void sendMessage(@NotNull final Text message, final @NotNull Object... params) {
   }

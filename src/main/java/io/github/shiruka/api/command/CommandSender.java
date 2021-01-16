@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api.command;
 
-import io.github.shiruka.api.Server;
 import io.github.shiruka.api.base.Named;
 import io.github.shiruka.api.permission.Permissible;
 import io.github.shiruka.api.text.Text;
@@ -35,14 +34,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine command senders.
  */
 public interface CommandSender extends Named, Permissible {
-
-  /**
-   * obtains the server instance that this command is running on.
-   *
-   * @return server instance.
-   */
-  @NotNull
-  Server getServer();
 
   /**
    * sends the given message to the command sender.

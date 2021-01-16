@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api.entity;
 
-import io.github.shiruka.api.Server;
 import io.github.shiruka.api.base.GameProfile;
 import io.github.shiruka.api.base.OfflinePlayer;
 import io.github.shiruka.api.command.CommandSender;
@@ -62,14 +61,6 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
    */
   @NotNull
   GameProfile getProfile();
-
-  /**
-   * obtains the server.
-   *
-   * @return the server.
-   */
-  @NotNull
-  Server getServer();
 
   @NotNull
   @Override
