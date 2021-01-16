@@ -33,7 +33,7 @@
     <version>2.1.5</version>
   </parent>
   <artifactId>api</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <name>api</name>
   <description>A new API for developers to continue developing Minecraft.</description>
   <url>https://github.com/shiruka/api</url>
