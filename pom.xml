@@ -42,35 +42,6 @@
     <connection>scm:git:git://github.com/shiruka/api.git</connection>
     <developerConnection>scm:git:ssh://github.com/shiruka/api.git</developerConnection>
   </scm>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
-        <configuration>
-          <source>${java.version}</source>
-          <failOnError>true</failOnError>
-          <splitindex>true</splitindex>
-          <tags>
-            <tag>
-              <name>todo</name>
-              <placement>a</placement>
-              <head>To do:</head>
-            </tag>
-          </tags>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
   <dependencies>
     <dependency>
       <groupId>me.carleslc.Simple-YAML</groupId>
