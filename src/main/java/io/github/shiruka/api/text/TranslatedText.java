@@ -97,6 +97,7 @@ public final class TranslatedText implements Text, MessageSupplier {
    * gets the translated text from the cache.
    *
    * @param key the key to get.
+   * @param params the params to get.
    *
    * @return a cached translated text instance from the language manager.
    */
