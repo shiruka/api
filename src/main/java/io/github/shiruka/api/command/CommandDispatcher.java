@@ -139,7 +139,8 @@ public final class CommandDispatcher {
     final var start = Math.min(nodeBeforeCursor.getStartPos(), cursor);
     final var fullInput = parse.getReader().getText();
     final var truncatedInput = fullInput.substring(0, cursor);
-    final var futures = new CompletableFuture[parent.getChildren().size()];
+    //noinspection unchecked
+    final CompletableFuture<Suggestions>[] futures = new CompletableFuture[parent.getChildren().size()];
     var i = 0;
     for (final var node : parent.getChildren()) {
       CompletableFuture<Suggestions> future = Suggestions.empty();
@@ -149,14 +150,12 @@ public final class CommandDispatcher {
       }
       futures[i++] = future;
     }
-    final var result = new CompletableFuture<Suggestions>();
-    //noinspection unchecked
-    CompletableFuture.allOf(futures).thenRun(() ->
-      result.complete(Suggestions.merge(fullInput,
-        Stream.of((CompletableFuture<Suggestions>[]) futures)
+    return CompletableFuture.allOf(futures)
+      .handle((voidResult, exception) ->
+        Suggestions.merge(fullInput, Stream.of(futures)
+          .filter(future -> !future.isCompletedExceptionally())
           .map(CompletableFuture::join)
-          .collect(Collectors.toCollection(ArrayList::new)))));
-    return result;
+          .collect(Collectors.toCollection(ArrayList::new))));
   }
 
   /**
