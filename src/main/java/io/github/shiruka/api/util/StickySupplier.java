@@ -23,55 +23,55 @@
  *
  */
 
-package io.github.shiruka.api.misc;
+package io.github.shiruka.api.util;
 
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains {@link Optional} like methods.
+ * a class that uses {@link Supplier} and caches it to use after.
+ *
+ * @param <T> the value's type.
  */
-public final class Optionals {
+public final class StickySupplier<T> implements Supplier<T> {
+
+  /**
+   * the original {@link Supplier}.
+   */
+  @NotNull
+  private final Supplier<T> origin;
+
+  /**
+   * the cache value.
+   */
+  @Nullable
+  private T cache;
 
   /**
    * ctor.
+   *
+   * @param origin the original {@link Supplier}.
    */
-  private Optionals() {
+  public StickySupplier(@NotNull final Supplier<T> origin) {
+    this.origin = origin;
   }
 
   /**
-   * runs the given consumer and returns the given object itself.
+   * ctor.
    *
-   * @param object the object to return and use.
-   * @param consumer the consumer to run.
-   * @param <T> the object type.
-   *
-   * @return the given object itself.
+   * @param origin the original {@link T}.
    */
-  @NotNull
-  public static <T> T useAndGet(@NotNull final T object, @NotNull final Consumer<T> consumer) {
-    consumer.accept(object);
-    return object;
+  public StickySupplier(@NotNull final T origin) {
+    this(() -> origin);
   }
 
-  /**
-   * runs the given consumer if the given predicate returns true, and returns the given object itself.
-   *
-   * @param object the object to return and use.
-   * @param predicate the predicate to check.
-   * @param consumer the consumer to run.
-   * @param <T> the object type.
-   *
-   * @return the given object itself.
-   */
-  @NotNull
-  public static <T> T useAndGet(@NotNull final T object, @NotNull final Predicate<T> predicate,
-                                @NotNull final Consumer<T> consumer) {
-    if (predicate.test(object)) {
-      consumer.accept(object);
-    }
-    return object;
+  @Override
+  public T get() {
+    return Optional.ofNullable(this.cache).orElseGet(() -> {
+      this.cache = this.origin.get();
+      return this.cache;
+    });
   }
 }

@@ -23,55 +23,27 @@
  *
  */
 
-package io.github.shiruka.api.misc;
-
-import java.util.Optional;
-import java.util.function.Supplier;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+package io.github.shiruka.api.util;
 
 /**
- * a class that uses {@link Supplier} and caches it to use after.
- *
- * @param <T> the value's type.
+ * an functional interface to avoid runnable functions which have to add try-catch.
  */
-public final class StickySupplier<T> implements Supplier<T> {
+@FunctionalInterface
+public interface ThrowableRunnable extends Runnable {
 
   /**
-   * the original {@link Supplier}.
-   */
-  @NotNull
-  private final Supplier<T> origin;
-
-  /**
-   * the cache value.
-   */
-  @Nullable
-  private T cache;
-
-  /**
-   * ctor.
+   * runs the function.
    *
-   * @param origin the original {@link Supplier}.
+   * @throws Exception if the function throws an exception.
    */
-  public StickySupplier(@NotNull final Supplier<T> origin) {
-    this.origin = origin;
-  }
-
-  /**
-   * ctor.
-   *
-   * @param origin the original {@link T}.
-   */
-  public StickySupplier(@NotNull final T origin) {
-    this(() -> origin);
-  }
+  void call() throws Exception;
 
   @Override
-  public T get() {
-    return Optional.ofNullable(this.cache).orElseGet(() -> {
-      this.cache = this.origin.get();
-      return this.cache;
-    });
+  default void run() {
+    try {
+      this.call();
+    } catch (final Exception e) {
+      e.printStackTrace();
+    }
   }
 }

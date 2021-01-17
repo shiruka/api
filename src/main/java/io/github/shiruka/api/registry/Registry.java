@@ -23,27 +23,11 @@
  *
  */
 
-package io.github.shiruka.api.misc;
+package io.github.shiruka.api.registry;
 
 /**
- * an functional interface to avoid runnable functions which have to add try-catch.
+ * an interface to determine registries.
  */
-@FunctionalInterface
-public interface ThrowableRunnable extends Runnable {
+public interface Registry {
 
-  /**
-   * runs the function.
-   *
-   * @throws Exception if the function throws an exception.
-   */
-  void call() throws Exception;
-
-  @Override
-  default void run() {
-    try {
-      this.call();
-    } catch (final Exception e) {
-      e.printStackTrace();
-    }
-  }
 }

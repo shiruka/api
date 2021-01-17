@@ -22,23 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.misc;
-
 /**
- * miscellaneous functions that only serve to shorten code.
+ * the package that contains registry classes.
  */
-public final class Misc {
-
-  /**
-   * the string constant for NBT values in world option enums
-   * where the value to be found does not exist.
-   */
-  public static final String NBT_BOUND_FAIL = "NBT value out of range for class %s";
-
-  /**
-   * ctor.
-   */
-  private Misc() {
-  }
-}
+package io.github.shiruka.api.registry;

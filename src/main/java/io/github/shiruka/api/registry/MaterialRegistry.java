@@ -22,7 +22,12 @@
  * SOFTWARE.
  *
  */
+
+package io.github.shiruka.api.registry;
+
 /**
- * the package that contains misc classes.
+ * a class that represents material registries.
  */
-package io.github.shiruka.api.misc;
+public final class MaterialRegistry implements Registry {
+
+}
