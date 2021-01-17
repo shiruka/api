@@ -60,8 +60,15 @@ public abstract class ApMap<T> extends ApEnvelope<Map<String, Object>, T> {
                   @NotNull final Function<Map<String, Object>, Optional<T>> convertToFinal,
                   @NotNull final Function<T, Optional<Map<String, Object>>> convertToRaw) {
     this(new ApBasic<>(convertToFinal, convertToRaw, def, path,
-      config -> (Map<String, Object>) config.get(path)
-        .filter(o -> o instanceof Map<?, ?>)
-        .orElse(null)));
+      config -> Optional.ofNullable(config.getConfiguration().getConfigurationSection(path))
+        .map(section -> Optional.of(section.getMapValues(false)))
+        .orElseGet(() -> {
+          final var mapObj = config.get(path);
+          if (mapObj.isEmpty() || !(mapObj.get() instanceof Map<?, ?>)) {
+            return Optional.empty();
+          }
+          //noinspection unchecked
+          return Optional.of((Map<String, Object>) mapObj.get());
+        })));
   }
 }
