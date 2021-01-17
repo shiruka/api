@@ -23,22 +23,27 @@
  *
  */
 
-package io.github.shiruka.api.misc;
+package io.github.shiruka.api.util;
 
 /**
- * miscellaneous functions that only serve to shorten code.
+ * an functional interface to avoid runnable functions which have to add try-catch.
  */
-public final class Misc {
+@FunctionalInterface
+public interface ThrowableRunnable extends Runnable {
 
   /**
-   * the string constant for NBT values in world option enums
-   * where the value to be found does not exist.
+   * runs the function.
+   *
+   * @throws Exception if the function throws an exception.
    */
-  public static final String NBT_BOUND_FAIL = "NBT value out of range for class %s";
+  void call() throws Exception;
 
-  /**
-   * ctor.
-   */
-  private Misc() {
+  @Override
+  default void run() {
+    try {
+      this.call();
+    } catch (final Exception e) {
+      e.printStackTrace();
+    }
   }
 }

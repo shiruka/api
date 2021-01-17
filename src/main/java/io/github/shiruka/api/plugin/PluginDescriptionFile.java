@@ -25,7 +25,6 @@
 
 package io.github.shiruka.api.plugin;
 
-import io.github.shiruka.api.misc.Optionals;
 import io.github.shiruka.api.permission.Permission;
 import io.github.shiruka.api.permission.PermissionDefault;
 import java.io.InputStream;
@@ -268,11 +267,11 @@ public final class PluginDescriptionFile {
   @NotNull
   public static PluginDescriptionFile init(@NotNull final String name, @NotNull final String version,
                                            @NotNull final String main) throws InvalidDescriptionException {
-    return PluginDescriptionFile.init(Optionals.useAndGet(new HashMap<>(), map -> {
-      map.put(PluginDescriptionFile.NAME, name);
-      map.put(PluginDescriptionFile.VERSION, version);
-      map.put(PluginDescriptionFile.MAIN, main);
-    }));
+    final var map = new HashMap<String, Object>();
+    map.put(PluginDescriptionFile.NAME, name);
+    map.put(PluginDescriptionFile.VERSION, version);
+    map.put(PluginDescriptionFile.MAIN, main);
+    return PluginDescriptionFile.init(map);
   }
 
   /**

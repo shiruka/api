@@ -26,7 +26,6 @@
 package io.github.shiruka.api.config.provider;
 
 import io.github.shiruka.api.config.Provider;
-import io.github.shiruka.api.misc.Optionals;
 import java.io.File;
 import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
@@ -41,12 +40,12 @@ public final class YamlProvider implements Provider<YamlFile> {
   @NotNull
   @Override
   public YamlFile load(@NotNull final File file) {
-    return Optionals.useAndGet(new YamlFile(file), yamlFile -> {
-      try {
-        yamlFile.loadWithComments();
-      } catch (final InvalidConfigurationException | IOException e) {
-        e.printStackTrace();
-      }
-    });
+    final var yamlFile = new YamlFile(file);
+    try {
+      yamlFile.loadWithComments();
+    } catch (final InvalidConfigurationException | IOException e) {
+      e.printStackTrace();
+    }
+    return yamlFile;
   }
 }
