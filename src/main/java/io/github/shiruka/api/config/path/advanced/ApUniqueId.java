@@ -42,6 +42,12 @@ public final class ApUniqueId extends ApString<UUID> {
    * @param def the def.
    */
   public ApUniqueId(@NotNull final String path, @Nullable final UUID def) {
-    super(path, def, s -> Optional.of(UUID.fromString(s)), uuid -> Optional.ofNullable(uuid.toString()));
+    super(path, def, s -> {
+      try {
+        return Optional.of(UUID.fromString(s));
+      } catch (final Exception e) {
+      }
+      return Optional.empty();
+    }, uuid -> Optional.ofNullable(uuid.toString()));
   }
 }
