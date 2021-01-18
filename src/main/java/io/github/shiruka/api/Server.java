@@ -26,6 +26,8 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.base.BanList;
+import io.github.shiruka.api.entity.Player;
+import java.util.Collection;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,6 +72,14 @@ public interface Server {
    * @return maximum player count to join the server.
    */
   int getMaxPlayerCount();
+
+  /**
+   * obtains the online players.
+   *
+   * @return online players.
+   */
+  @NotNull
+  Collection<? extends Player> getOnlinePlayers();
 
   /**
    * obtains current player count of the server.

@@ -425,6 +425,26 @@ public final class PluginDescriptionFile {
   }
 
   /**
+   * obtains the authors.
+   *
+   * @return author list.
+   */
+  @NotNull
+  public List<String> getAuthors() {
+    return this.authors;
+  }
+
+  /**
+   * obtains the description.
+   *
+   * @return description.
+   */
+  @NotNull
+  public String getDescription() {
+    return this.description;
+  }
+
+  /**
    * returns the name of a plugin, including the version.
    *
    * @return a descriptive name of the plugin and respective version.
@@ -442,6 +462,26 @@ public final class PluginDescriptionFile {
   @NotNull
   public String getName() {
     return this.name;
+  }
+
+  /**
+   * obtains the version.
+   *
+   * @return version.
+   */
+  @NotNull
+  public String getVersion() {
+    return this.version;
+  }
+
+  /**
+   * obtains the website.
+   *
+   * @return website.
+   */
+  @NotNull
+  public String getWebsite() {
+    return this.website;
   }
 
   /**
