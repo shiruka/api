@@ -89,6 +89,14 @@ public interface World extends Metadatable {
   int getHighestBlockYAt(int x, int z);
 
   /**
+   * obtains the world name.
+   *
+   * @return world name.
+   */
+  @NotNull
+  String getName();
+
+  /**
    * obtains the seed for this world.
    *
    * @return seed of the world.
