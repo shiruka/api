@@ -28,6 +28,7 @@ package io.github.shiruka.api.scheduler;
 import io.github.shiruka.api.plugin.Plugin;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -84,59 +85,39 @@ public interface Scheduler {
   boolean isQueued(int taskId);
 
   /**
-   * executes the given runnable on the next tick.
+   * executes the given {@code job} on the next tick.
    *
    * @param plugin the plugin to schedule.
-   * @param runnable the runnable to schedule.
+   * @param job the job to schedule.
    *
    * @return scheduled task.
    */
   @NotNull
-  Task schedule(@NotNull Plugin plugin, @NotNull Runnable runnable);
+  default Task schedule(@NotNull final Plugin plugin, @NotNull final Runnable job) {
+    return this.schedule(plugin, task -> job.run());
+  }
 
   /**
-   * executes a runnable with a delay.
+   * executes the given {@code job} with a delay.
    *
    * @param plugin the plugin to schedule.
-   * @param runnable the runnable to schedule.
+   * @param job the job to schedule.
    * @param delay the delay to schedule.
    * @param timeUnit the time unit to schedule.
    *
    * @return scheduled task.
    */
   @NotNull
-  Task schedule(@NotNull Plugin plugin, @NotNull Runnable runnable, long delay, @NotNull TimeUnit timeUnit);
+  default Task schedule(@NotNull final Plugin plugin, @NotNull final Runnable job, final long delay,
+                        @NotNull final TimeUnit timeUnit) {
+    return this.schedule(plugin, task -> job.run(), delay, timeUnit);
+  }
 
   /**
-   * executes a runnable with a delay.
+   * executes the given {@code job} with a delay.
    *
    * @param plugin the plugin to schedule.
-   * @param runnable the runnable to scheduler.
-   * @param delay the delay to schedule.
-   * @param period the period to schedule.
-   * @param timeUnit the time unit to schedule.
-   *
-   * @return scheduled task.
-   */
-  @NotNull
-  Task schedule(@NotNull Plugin plugin, @NotNull Runnable runnable, long delay, long period, @NotNull TimeUnit timeUnit);
-
-  /**
-   * runs the runnable in another thread.
-   *
-   * @param plugin the plugin to schedule.
-   * @param runnable the runnable to schedule.
-   *
-   * @return scheduled task.
-   */
-  @NotNull
-  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Runnable runnable);
-
-  /**
-   * executes a runnable with a delay.
-   *
-   * @param plugin the plugin to schedule.
-   * @param runnable the runnable to schedule.
+   * @param job the job to scheduler.
    * @param delay the delay to schedule.
    * @param period the period to schedule.
    * @param timeUnit the time unit to schedule.
@@ -144,19 +125,132 @@ public interface Scheduler {
    * @return scheduled task.
    */
   @NotNull
-  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Runnable runnable, long delay, long period,
+  default Task schedule(@NotNull final Plugin plugin, @NotNull final Runnable job, final long delay,
+                        final long period, @NotNull final TimeUnit timeUnit) {
+    return this.schedule(plugin, task -> job.run(), delay, period, timeUnit);
+  }
+
+  /**
+   * executes the given {@code job} on the next tick.
+   *
+   * @param plugin the plugin to schedule.
+   * @param job the job to schedule.
+   *
+   * @return scheduled task.
+   */
+  @NotNull
+  Task schedule(@NotNull Plugin plugin, @NotNull Consumer<Task> job);
+
+  /**
+   * executes the given {@code job} with a delay.
+   *
+   * @param plugin the plugin to schedule.
+   * @param job the job to schedule.
+   * @param delay the delay to schedule.
+   * @param timeUnit the time unit to schedule.
+   *
+   * @return scheduled task.
+   */
+  @NotNull
+  Task schedule(@NotNull Plugin plugin, @NotNull Consumer<Task> job, long delay, @NotNull TimeUnit timeUnit);
+
+  /**
+   * executes the given {@code job} with a delay.
+   *
+   * @param plugin the plugin to schedule.
+   * @param job the job to scheduler.
+   * @param delay the delay to schedule.
+   * @param period the period to schedule.
+   * @param timeUnit the time unit to schedule.
+   *
+   * @return scheduled task.
+   */
+  @NotNull
+  Task schedule(@NotNull Plugin plugin, @NotNull Consumer<Task> job, long delay, long period,
+                @NotNull TimeUnit timeUnit);
+
+  /**
+   * runs the given {@code job} in another thread.
+   *
+   * @param plugin the plugin to schedule.
+   * @param job the job to schedule.
+   *
+   * @return scheduled task.
+   */
+  @NotNull
+  default Task scheduleAsync(@NotNull final Plugin plugin, @NotNull final Runnable job) {
+    return this.scheduleAsync(plugin, task -> job.run());
+  }
+
+  /**
+   * executes the given {@code job} with a delay.
+   *
+   * @param plugin the plugin to schedule.
+   * @param job the job to schedule.
+   * @param delay the delay to schedule.
+   * @param period the period to schedule.
+   * @param timeUnit the time unit to schedule.
+   *
+   * @return scheduled task.
+   */
+  @NotNull
+  default Task scheduleAsync(@NotNull final Plugin plugin, @NotNull final Runnable job, final long delay,
+                             final long period, @NotNull final TimeUnit timeUnit) {
+    return this.scheduleAsync(plugin, task -> job.run(), delay, period, timeUnit);
+  }
+
+  /**
+   * executes the given {@code job} with a delay.
+   *
+   * @param plugin the plugin to schedule.
+   * @param job the job to schedule.
+   * @param delay the delay to schedule.
+   * @param timeUnit the time unit to schedule.
+   *
+   * @return scheduled task.
+   */
+  @NotNull
+  default Task scheduleAsync(@NotNull final Plugin plugin, @NotNull final Runnable job, final long delay,
+                             @NotNull final TimeUnit timeUnit) {
+    return this.scheduleAsync(plugin, task -> job.run(), delay, timeUnit);
+  }
+
+  /**
+   * runs the given {@code job} in another thread.
+   *
+   * @param plugin the plugin to schedule.
+   * @param job the job to schedule.
+   *
+   * @return scheduled task.
+   */
+  @NotNull
+  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Consumer<Task> job);
+
+  /**
+   * executes the given {@code job} with a delay.
+   *
+   * @param plugin the plugin to schedule.
+   * @param job the job to schedule.
+   * @param delay the delay to schedule.
+   * @param period the period to schedule.
+   * @param timeUnit the time unit to schedule.
+   *
+   * @return scheduled task.
+   */
+  @NotNull
+  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Consumer<Task> job, long delay, long period,
                      @NotNull TimeUnit timeUnit);
 
   /**
-   * executes a runnable with a delay.
+   * executes the given {@code job} with a delay.
    *
    * @param plugin the plugin to schedule.
-   * @param runnable the runnable to schedule.
+   * @param job the job to schedule.
    * @param delay the delay to schedule.
    * @param timeUnit the time unit to schedule.
    *
    * @return scheduled task.
    */
   @NotNull
-  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Runnable runnable, long delay, @NotNull TimeUnit timeUnit);
+  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Consumer<Task> job, long delay, @NotNull TimeUnit timeUnit);
 }

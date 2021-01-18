@@ -121,7 +121,7 @@ public final class PermissibleBase implements Permissible {
   public synchronized Optional<PermissionAttachment> addAttachment(@NotNull final Plugin plugin, final long ticks) {
     PermissibleBase.checkPlugin(plugin);
     final var result = this.addAttachment(plugin);
-    Shiruka.getScheduler().schedule(plugin, result::remove, ticks * 50L, TimeUnit.MILLISECONDS);
+    Shiruka.getScheduler().schedule(plugin, task -> result.remove(), ticks * 50L, TimeUnit.MILLISECONDS);
     return Optional.of(result);
   }
 
