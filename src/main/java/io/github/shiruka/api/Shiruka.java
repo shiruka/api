@@ -187,4 +187,13 @@ public interface Shiruka {
   static boolean isPrimaryThread() {
     return Shiruka.getServer().isPrimaryThread();
   }
+
+  /**
+   * checks if the server is in the shutdown statement.
+   *
+   * @return {@code true} if the server is in the shutdown statement.
+   */
+  static boolean isStopping() {
+    return Shiruka.getServer().isStopping();
+  }
 }

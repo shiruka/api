@@ -25,10 +25,7 @@
 
 package io.github.shiruka.api;
 
-import io.github.shiruka.api.base.BanList;
-import org.apache.logging.log4j.Logger;
 import org.hamcrest.MatcherAssert;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -38,72 +35,7 @@ import org.llorllale.cactoos.matchers.Throws;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 final class ImplementationTest {
 
-  private static final Server SERVER = new Server() {
-    @NotNull
-    @Override
-    public BanList getBanList(final BanList.@NotNull Type type) {
-      return null;
-    }
-
-    @NotNull
-    @Override
-    public <I> I getInterface(@NotNull final Class<I> cls) {
-      return null;
-    }
-
-    @NotNull
-    @Override
-    public Logger getLogger() {
-      return null;
-    }
-
-    @Override
-    public int getMaxPlayerCount() {
-      return 0;
-    }
-
-    @Override
-    public int getPlayerCount() {
-      return 0;
-    }
-
-    @NotNull
-    @Override
-    public String getServerDescription() {
-      return "null";
-    }
-
-    @Override
-    public boolean isInShutdownState() {
-      return false;
-    }
-
-    @Override
-    public boolean isPrimaryThread() {
-      return false;
-    }
-
-    @Override
-    public boolean isRunning() {
-      return false;
-    }
-
-    @Override
-    public <I> void registerInterface(@NotNull final Class<I> cls, @NotNull final I implementation) {
-    }
-
-    @Override
-    public void startServer(final long startTime) {
-    }
-
-    @Override
-    public void stopServer() {
-    }
-
-    @Override
-    public <I> void unregisterInterface(@NotNull final Class<I> cls) {
-    }
-  };
+  private static final Server SERVER = new MockServer();
 
   @Test
   @Order(1)
