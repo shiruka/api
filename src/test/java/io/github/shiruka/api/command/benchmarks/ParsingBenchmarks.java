@@ -1,5 +1,3 @@
-
-
 package io.github.shiruka.api.command.benchmarks;
 
 import static io.github.shiruka.api.command.Commands.literal;
