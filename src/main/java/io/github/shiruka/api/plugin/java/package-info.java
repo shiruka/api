@@ -22,12 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.scheduler;
-
 /**
- * an interface to determine tasks.
+ * the package that contains Java implementations for {@link io.github.shiruka.api.plugin.Plugin}.
  */
-public interface Task {
-
-}
+package io.github.shiruka.api.plugin.java;
