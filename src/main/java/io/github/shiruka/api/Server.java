@@ -94,6 +94,13 @@ public interface Server {
   boolean isInShutdownState();
 
   /**
+   * checks the current thread against the expected primary thread for the server.
+   *
+   * @return {@code true} if the current thread matches the expected primary thread, otherwise {@code false}.
+   */
+  boolean isPrimaryThread();
+
+  /**
    * obtains server's running statement.
    *
    * @return {@code true} if the server is running.
