@@ -56,6 +56,9 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   @Nullable
   private Command command;
 
+  /**
+   * the description.
+   */
   @Nullable
   private String description;
 
