@@ -25,6 +25,8 @@
 
 package io.github.shiruka.api.scheduler;
 
+import io.github.shiruka.api.plugin.Plugin;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,18 +36,68 @@ import org.jetbrains.annotations.NotNull;
 public interface Scheduler {
 
   /**
+   * removes task from scheduler.
+   *
+   * @param taskId the task id to remove.
+   */
+  void cancelTask(int taskId);
+
+  /**
+   * removes all tasks associated with a particular plugin from the scheduler.
+   *
+   * @param plugin the plugin to remove.
+   */
+  void cancelTasks(@NotNull Plugin plugin);
+
+  /**
+   * obtains a list of all active workers.
+   *
+   * @return active workers.
+   */
+  @NotNull
+  List<TaskWorker> getActiveWorkers();
+
+  /**
+   * obtains a list of all pending tasks.
+   *
+   * @return active workers.
+   */
+  @NotNull
+  List<Task> getPendingTasks();
+
+  /**
+   * checks if the task currently running.
+   *
+   * @param taskId the task id to check.
+   *
+   * @return {@code true} if the task is currently running.
+   */
+  boolean isCurrentlyRunning(int taskId);
+
+  /**
+   * checks if the task queued to be run later.
+   *
+   * @param taskId the task id to check.
+   *
+   * @return {@code true} if the task is queued to be run.
+   */
+  boolean isQueued(int taskId);
+
+  /**
    * executes the given runnable on the next tick.
    *
+   * @param plugin the plugin to schedule.
    * @param runnable the runnable to schedule.
    *
    * @return scheduled task.
    */
   @NotNull
-  Task schedule(@NotNull Runnable runnable);
+  Task schedule(@NotNull Plugin plugin, @NotNull Runnable runnable);
 
   /**
    * executes a runnable with a delay.
    *
+   * @param plugin the plugin to schedule.
    * @param runnable the runnable to schedule.
    * @param delay the delay to schedule.
    * @param timeUnit the time unit to schedule.
@@ -53,11 +105,12 @@ public interface Scheduler {
    * @return scheduled task.
    */
   @NotNull
-  Task schedule(@NotNull Runnable runnable, long delay, @NotNull TimeUnit timeUnit);
+  Task schedule(@NotNull Plugin plugin, @NotNull Runnable runnable, long delay, @NotNull TimeUnit timeUnit);
 
   /**
    * executes a runnable with a delay.
    *
+   * @param plugin the plugin to schedule.
    * @param runnable the runnable to scheduler.
    * @param delay the delay to schedule.
    * @param period the period to schedule.
@@ -66,21 +119,23 @@ public interface Scheduler {
    * @return scheduled task.
    */
   @NotNull
-  Task schedule(@NotNull Runnable runnable, long delay, long period, @NotNull TimeUnit timeUnit);
+  Task schedule(@NotNull Plugin plugin, @NotNull Runnable runnable, long delay, long period, @NotNull TimeUnit timeUnit);
 
   /**
    * runs the runnable in another thread.
    *
+   * @param plugin the plugin to schedule.
    * @param runnable the runnable to schedule.
    *
    * @return scheduled task.
    */
   @NotNull
-  Task scheduleAsync(@NotNull Runnable runnable);
+  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Runnable runnable);
 
   /**
    * executes a runnable with a delay.
    *
+   * @param plugin the plugin to schedule.
    * @param runnable the runnable to schedule.
    * @param delay the delay to schedule.
    * @param period the period to schedule.
@@ -89,11 +144,13 @@ public interface Scheduler {
    * @return scheduled task.
    */
   @NotNull
-  Task scheduleAsync(@NotNull Runnable runnable, long delay, long period, @NotNull TimeUnit timeUnit);
+  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Runnable runnable, long delay, long period,
+                     @NotNull TimeUnit timeUnit);
 
   /**
    * executes a runnable with a delay.
    *
+   * @param plugin the plugin to schedule.
    * @param runnable the runnable to schedule.
    * @param delay the delay to schedule.
    * @param timeUnit the time unit to schedule.
@@ -101,5 +158,5 @@ public interface Scheduler {
    * @return scheduled task.
    */
   @NotNull
-  Task scheduleAsync(@NotNull Runnable runnable, long delay, @NotNull TimeUnit timeUnit);
+  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Runnable runnable, long delay, @NotNull TimeUnit timeUnit);
 }

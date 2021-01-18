@@ -80,7 +80,7 @@ public final class PermissibleBase implements Permissible {
    * @throws IllegalArgumentException if the plugin is not enabled.
    */
   private static void checkPlugin(@NotNull final Plugin plugin) {
-    Preconditions.checkArgument(plugin.isEnabled(), "Plugin %s is disabled", plugin.getDescription().getFullName());
+    Preconditions.checkArgument(plugin.isEnabled(), "Plugin %s not enabled yet!", plugin.getDescription().getFullName());
   }
 
   @NotNull
@@ -121,7 +121,7 @@ public final class PermissibleBase implements Permissible {
   public synchronized Optional<PermissionAttachment> addAttachment(@NotNull final Plugin plugin, final long ticks) {
     PermissibleBase.checkPlugin(plugin);
     final var result = this.addAttachment(plugin);
-    Shiruka.getScheduler().schedule(result::remove, ticks * 50L, TimeUnit.MILLISECONDS);
+    Shiruka.getScheduler().schedule(plugin, result::remove, ticks * 50L, TimeUnit.MILLISECONDS);
     return Optional.of(result);
   }
 

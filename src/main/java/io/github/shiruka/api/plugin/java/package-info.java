@@ -22,48 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.scheduler;
-
-import io.github.shiruka.api.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an interface to determine tasks.
+ * the package that contains Java implementations for {@link io.github.shiruka.api.plugin.Plugin}.
  */
-public interface Task {
-
-  /**
-   * will attempt to cancel this task.
-   */
-  void cancel();
-
-  /**
-   * obtains the plugin.
-   *
-   * @return plugin.
-   */
-  @NotNull
-  Plugin getOwner();
-
-  /**
-   * obtains the task id.
-   *
-   * @return task id.
-   */
-  int getTaskId();
-
-  /**
-   * checks if the task is cancelled.
-   *
-   * @return {@code true} if the task has been cancelled.
-   */
-  boolean isCancelled();
-
-  /**
-   * checks if the task is sync.
-   *
-   * @return {@code true} if the task is run by main thread.
-   */
-  boolean isSync();
-}
+package io.github.shiruka.api.plugin.java;

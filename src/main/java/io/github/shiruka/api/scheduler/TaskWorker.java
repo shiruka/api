@@ -29,14 +29,9 @@ import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine tasks.
+ * an interface to determine task workers.
  */
-public interface Task {
-
-  /**
-   * will attempt to cancel this task.
-   */
-  void cancel();
+public interface TaskWorker {
 
   /**
    * obtains the plugin.
@@ -54,16 +49,10 @@ public interface Task {
   int getTaskId();
 
   /**
-   * checks if the task is cancelled.
+   * obtains the thread.
    *
-   * @return {@code true} if the task has been cancelled.
+   * @return thread.
    */
-  boolean isCancelled();
-
-  /**
-   * checks if the task is sync.
-   *
-   * @return {@code true} if the task is run by main thread.
-   */
-  boolean isSync();
+  @NotNull
+  Thread getThread();
 }
