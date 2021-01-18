@@ -385,7 +385,7 @@ public final class PluginDescriptionFile {
     }
     final Map<?, ?> lazyPermissions;
     try {
-      lazyPermissions = (Map<?, ?>) map.getOrDefault(PluginDescriptionFile.PERMISSIONS, new ArrayList<>());
+      lazyPermissions = (Map<?, ?>) map.getOrDefault(PluginDescriptionFile.PERMISSIONS, new HashMap<>());
     } catch (final ClassCastException ex) {
       throw new InvalidDescriptionException(ex, "permissions are of the wrong type");
     }
