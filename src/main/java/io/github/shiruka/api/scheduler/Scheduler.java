@@ -26,6 +26,7 @@
 package io.github.shiruka.api.scheduler;
 
 import io.github.shiruka.api.plugin.Plugin;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +34,54 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine schedulers.
  */
 public interface Scheduler {
+
+  /**
+   * removes task from scheduler.
+   *
+   * @param taskId the task id to remove.
+   */
+  void cancelTask(int taskId);
+
+  /**
+   * removes all tasks associated with a particular plugin from the scheduler.
+   *
+   * @param plugin the plugin to remove.
+   */
+  void cancelTasks(@NotNull Plugin plugin);
+
+  /**
+   * obtains a list of all active workers.
+   *
+   * @return active workers.
+   */
+  @NotNull
+  List<TaskWorker> getActiveWorkers();
+
+  /**
+   * obtains a list of all pending tasks.
+   *
+   * @return active workers.
+   */
+  @NotNull
+  List<Task> getPendingTasks();
+
+  /**
+   * checks if the task currently running.
+   *
+   * @param taskId the task id to check.
+   *
+   * @return {@code true} if the task is currently running.
+   */
+  boolean isCurrentlyRunning(int taskId);
+
+  /**
+   * checks if the task queued to be run later.
+   *
+   * @param taskId the task id to check.
+   *
+   * @return {@code true} if the task is queued to be run.
+   */
+  boolean isQueued(int taskId);
 
   /**
    * executes the given runnable on the next tick.
