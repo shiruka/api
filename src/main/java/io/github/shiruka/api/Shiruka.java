@@ -27,6 +27,7 @@ package io.github.shiruka.api;
 
 import io.github.shiruka.api.command.CommandManager;
 import io.github.shiruka.api.console.ConsoleCommandSender;
+import io.github.shiruka.api.entity.Player;
 import io.github.shiruka.api.events.EventManager;
 import io.github.shiruka.api.language.LanguageManager;
 import io.github.shiruka.api.pack.PackManager;
@@ -34,6 +35,7 @@ import io.github.shiruka.api.permission.PermissionManager;
 import io.github.shiruka.api.plugin.PluginManager;
 import io.github.shiruka.api.scheduler.Scheduler;
 import io.github.shiruka.api.world.WorldManager;
+import java.util.Collection;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -98,6 +100,16 @@ public interface Shiruka {
   @NotNull
   static Logger getLogger() {
     return Shiruka.getServer().getLogger();
+  }
+
+  /**
+   * obtains the online players.
+   *
+   * @return online players.
+   */
+  @NotNull
+  static Collection<? extends Player> getOnlinePlayer() {
+    return Shiruka.getServer().getOnlinePlayers();
   }
 
   /**

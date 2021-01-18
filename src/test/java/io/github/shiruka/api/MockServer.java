@@ -26,32 +26,44 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.base.BanList;
+import io.github.shiruka.api.entity.Player;
+import java.util.Collection;
+import java.util.Collections;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-public class MockServer implements Server {
+public final class MockServer implements Server {
+
+  private static final Logger LOGGER = LogManager.getLogger("MockServer");
 
   @NotNull
   @Override
   public BanList getBanList(final BanList.@NotNull Type type) {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @NotNull
   @Override
   public <I> I getInterface(@NotNull final Class<I> cls) {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @NotNull
   @Override
   public Logger getLogger() {
-    return null;
+    return MockServer.LOGGER;
   }
 
   @Override
   public int getMaxPlayerCount() {
     return 0;
+  }
+
+  @NotNull
+  @Override
+  public Collection<? extends Player> getOnlinePlayers() {
+    return Collections.emptyList();
   }
 
   @Override
