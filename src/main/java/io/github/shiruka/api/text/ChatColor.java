@@ -152,12 +152,19 @@ public enum ChatColor {
   private final char colorChar;
 
   /**
+   * the to string.
+   */
+  @NotNull
+  private final String toString;
+
+  /**
    * ctor.
    *
    * @param colorChar the color character.
    */
   ChatColor(final char colorChar) {
     this.colorChar = colorChar;
+    this.toString = new String(new char[]{ChatColor.ESCAPE, colorChar});
   }
 
   /**
@@ -212,5 +219,10 @@ public enum ChatColor {
    */
   public char getColorChar() {
     return this.colorChar;
+  }
+
+  @Override
+  public String toString() {
+    return this.toString;
   }
 }
