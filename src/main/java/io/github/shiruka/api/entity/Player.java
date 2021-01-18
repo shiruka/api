@@ -55,6 +55,13 @@ public interface Player extends Entity, CommandSender, OfflinePlayer {
   }
 
   /**
+   * obtains the ping.
+   *
+   * @return ping.
+   */
+  long getPing();
+
+  /**
    * obtains the profile.
    *
    * @return profile.
