@@ -43,6 +43,15 @@ import org.jetbrains.annotations.NotNull;
 public interface Shiruka {
 
   /**
+   * checks if the server is in the shutdown statement.
+   *
+   * @return {@code true} if the server is in the shutdown statement.
+   */
+  static boolean isStopping() {
+    return getServer().isStopping();
+  }
+
+  /**
    * obtains the command manager instance.
    *
    * @return command manager instance.

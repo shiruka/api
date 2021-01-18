@@ -108,6 +108,13 @@ public interface Server {
   boolean isRunning();
 
   /**
+   * checks if the server is in the shutdown statement.
+   *
+   * @return {@code true} if the server is in the shutdown statement.
+   */
+  boolean isStopping();
+
+  /**
    * registers the given class and it's implementation.
    *
    * @param cls the class to register.
