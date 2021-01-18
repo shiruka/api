@@ -178,4 +178,13 @@ public interface Shiruka {
   static WorldManager getWorldManager() {
     return Shiruka.getServer().getInterface(WorldManager.class);
   }
+
+  /**
+   * checks the current thread against the expected primary thread for the server.
+   *
+   * @return {@code true} if the current thread matches the expected primary thread, otherwise {@code false}.
+   */
+  static boolean isPrimaryThread() {
+    return Shiruka.getServer().isPrimaryThread();
+  }
 }

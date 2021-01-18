@@ -79,6 +79,11 @@ final class ImplementationTest {
     }
 
     @Override
+    public boolean isPrimaryThread() {
+      return false;
+    }
+
+    @Override
     public boolean isRunning() {
       return false;
     }
