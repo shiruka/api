@@ -108,7 +108,7 @@ public interface Shiruka {
    * @return online players.
    */
   @NotNull
-  static Collection<? extends Player> getOnlinePlayer() {
+  static Collection<? extends Player> getOnlinePlayers() {
     return Shiruka.getServer().getOnlinePlayers();
   }
 
