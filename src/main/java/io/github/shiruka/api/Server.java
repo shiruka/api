@@ -92,10 +92,22 @@ public interface Server {
   /**
    * obtains server's descriptions.
    *
+   * @param forceUpdate the force update to get.
+   *
    * @return server's descriptions.
    */
   @NotNull
-  ServerDescription getServerDescription();
+  ServerDescription getServerDescription(boolean forceUpdate);
+
+  /**
+   * obtains server's descriptions.
+   *
+   * @return server's descriptions.
+   */
+  @NotNull
+  default ServerDescription getServerDescription() {
+    return this.getServerDescription(false);
+  }
 
   /**
    * obtains server's shutdown statement.
