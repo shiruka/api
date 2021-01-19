@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.server;
 
+import java.util.concurrent.atomic.AtomicReference;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -33,18 +34,26 @@ import org.jetbrains.annotations.NotNull;
 public final class ServerDescription {
 
   /**
-   * the description a.k.a. MOTD.
+   * the description.
    */
   @NotNull
-  private final String description;
+  private final AtomicReference<String> description = new AtomicReference<>();
+
+  /**
+   * the sub description.
+   */
+  @NotNull
+  private final AtomicReference<String> subDescription = new AtomicReference<>();
 
   /**
    * ctor.
    *
    * @param description the description.
+   * @param subDescription the sub description.
    */
-  public ServerDescription(@NotNull final String description) {
-    this.description = description;
+  public ServerDescription(@NotNull final String description, @NotNull final String subDescription) {
+    this.description.set(description);
+    this.subDescription.set(subDescription);
   }
 
   /**
@@ -54,6 +63,34 @@ public final class ServerDescription {
    */
   @NotNull
   public String getDescription() {
-    return this.description;
+    return this.description.get();
+  }
+
+  /**
+   * obtains the sub description.
+   *
+   * @return sub description.
+   */
+  @NotNull
+  public String getSubDescription() {
+    return this.subDescription.get();
+  }
+
+  /**
+   * sets the description.
+   *
+   * @param description description to set.
+   */
+  public void updateDescription(@NotNull final String description) {
+    this.description.set(description);
+  }
+
+  /**
+   * sets the sub description.
+   *
+   * @param subDescription sub description to set.
+   */
+  public void updateSubDescription(@NotNull final String subDescription) {
+    this.subDescription.set(subDescription);
   }
 }
