@@ -117,6 +117,6 @@ public final class SCommandSender implements CommandSender {
   }
 
   @Override
-  public void sendMessage(@NotNull final Text message, final @NotNull Object... params) {
+  public void sendMessage(@NotNull final String message) {
   }
 }

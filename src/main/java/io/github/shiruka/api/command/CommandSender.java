@@ -28,6 +28,8 @@ package io.github.shiruka.api.command;
 import io.github.shiruka.api.base.Named;
 import io.github.shiruka.api.permission.Permissible;
 import io.github.shiruka.api.text.Text;
+import io.github.shiruka.api.text.TranslatedText;
+import java.text.MessageFormat;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -41,5 +43,18 @@ public interface CommandSender extends Named, Permissible {
    * @param message the message to send.
    * @param params the params to send.
    */
-  void sendMessage(@NotNull Text message, @NotNull Object... params);
+  default void sendMessage(@NotNull final Text message, @NotNull final Object... params) {
+    if (message instanceof TranslatedText) {
+      this.sendMessage(message.asString());
+    } else {
+      this.sendMessage(MessageFormat.format(message.asString(), params));
+    }
+  }
+
+  /**
+   * sends the given message to the command sender.
+   *
+   * @param message the message to send.
+   */
+  void sendMessage(@NotNull String message);
 }
