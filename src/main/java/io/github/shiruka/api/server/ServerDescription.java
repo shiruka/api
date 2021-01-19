@@ -231,7 +231,7 @@ public final class ServerDescription {
   /**
    * obtains the maximum player count.
    *
-   * @return
+   * @return maximum player count.
    */
   public int getMaximumPlayerCount() {
     return this.maximumPlayerCount;
