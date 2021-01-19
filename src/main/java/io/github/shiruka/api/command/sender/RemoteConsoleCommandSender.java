@@ -25,11 +25,9 @@
 
 package io.github.shiruka.api.command.sender;
 
-import io.github.shiruka.api.console.ConsoleCommandSender;
-
 /**
  * an interface to determine remove console command senders.
  */
-public interface RemoteConsoleCommandSender extends ConsoleCommandSender {
+public interface RemoteConsoleCommandSender extends CommandSender {
 
 }
