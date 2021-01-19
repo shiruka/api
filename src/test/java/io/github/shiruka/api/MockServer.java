@@ -31,6 +31,7 @@ import io.github.shiruka.api.entity.Player;
 import io.github.shiruka.api.server.ServerDescription;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -72,9 +73,9 @@ public final class MockServer implements Server {
 
   @NotNull
   @Override
-  public ServerDescription getServerDescription(final boolean forceUpdate) {
-    return new ServerDescription(GameMode.SURVIVAL, 0, 0, 0, 0, 0L, "", "", ServerDescription.Edition.MCPE,
-      new String[0], 0, "");
+  public CompletableFuture<ServerDescription> getServerDescription(final boolean forceUpdate) {
+    return CompletableFuture.completedFuture(new ServerDescription(
+      GameMode.SURVIVAL, 0, 0, 0, 0, 0L, "", "", ServerDescription.Edition.MCPE, new String[0], 0, ""));
   }
 
   @Override
