@@ -29,7 +29,7 @@ import static io.github.shiruka.api.command.Commands.literal;
 import com.google.common.collect.Lists;
 import io.github.shiruka.api.command.CommandDispatcher;
 import io.github.shiruka.api.command.CommandResult;
-import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.sender.CommandSender;
 import io.github.shiruka.api.command.SCommandSender;
 import io.github.shiruka.api.command.context.ParseResults;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;

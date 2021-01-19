@@ -25,7 +25,7 @@
 
 package io.github.shiruka.api.console;
 
-import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.sender.CommandSender;
 
 /**
  * an interface to determine console command senders.

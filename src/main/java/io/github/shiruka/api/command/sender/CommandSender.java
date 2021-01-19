@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.shiruka.api.command;
+package io.github.shiruka.api.command.sender;
 
 import io.github.shiruka.api.base.Named;
 import io.github.shiruka.api.permission.Permissible;

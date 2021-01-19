@@ -22,30 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.shiruka.api.command;
-
-import io.github.shiruka.api.command.context.CommandContext;
-import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
-import io.github.shiruka.api.command.sender.CommandSender;
-import java.util.Collection;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * a functional interface to determine redirect modifiers.
+ * the package that contains command sender classes.
  */
-@FunctionalInterface
-public interface RedirectModifier {
-
-  /**
-   * applies the parameters.
-   *
-   * @param context the context to apply.
-   *
-   * @return sender list.
-   *
-   * @throws CommandSyntaxException if something is wrong in the command syntax.
-   */
-  @NotNull
-  Collection<CommandSender> apply(@NotNull CommandContext context) throws CommandSyntaxException;
-}
+package io.github.shiruka.api.command.sender;

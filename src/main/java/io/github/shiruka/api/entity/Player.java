@@ -27,7 +27,7 @@ package io.github.shiruka.api.entity;
 
 import io.github.shiruka.api.base.GameProfile;
 import io.github.shiruka.api.base.OfflinePlayer;
-import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.sender.CommandSender;
 import io.github.shiruka.api.events.KickEvent;
 import io.github.shiruka.api.events.LoginDataEvent;
 import io.github.shiruka.api.text.Text;

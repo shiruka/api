@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.command;
 
+import io.github.shiruka.api.command.sender.CommandSender;
 import io.github.shiruka.api.permission.Permission;
 import io.github.shiruka.api.permission.PermissionAttachment;
 import io.github.shiruka.api.permission.PermissionAttachmentInfo;

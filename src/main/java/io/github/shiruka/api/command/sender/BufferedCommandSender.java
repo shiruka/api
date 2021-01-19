@@ -23,29 +23,40 @@
  *
  */
 
-package io.github.shiruka.api.command;
+package io.github.shiruka.api.command.sender;
 
-import io.github.shiruka.api.command.context.CommandContext;
-import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
-import io.github.shiruka.api.command.sender.CommandSender;
-import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a functional interface to determine redirect modifiers.
+ * a class that represents buffered command senders.
  */
-@FunctionalInterface
-public interface RedirectModifier {
+public final class BufferedCommandSender implements MessageCommandSender {
 
   /**
-   * applies the parameters.
+   * the buffer.
+   */
+  private final StringBuffer buffer = new StringBuffer();
+
+  /**
+   * obtains the message in the {@link #buffer}.
    *
-   * @param context the context to apply.
-   *
-   * @return sender list.
-   *
-   * @throws CommandSyntaxException if something is wrong in the command syntax.
+   * @return message in the buffer.
    */
   @NotNull
-  Collection<CommandSender> apply(@NotNull CommandContext context) throws CommandSyntaxException;
+  public String getBuffer() {
+    return this.buffer.toString();
+  }
+
+  /**
+   * clears the buffer.
+   */
+  public void reset() {
+    this.buffer.setLength(0);
+  }
+
+  @Override
+  public void sendMessage(@NotNull final String message) {
+    this.buffer.append(message);
+    this.buffer.append("\n");
+  }
 }
