@@ -27,6 +27,7 @@ package io.github.shiruka.api;
 
 import io.github.shiruka.api.base.BanList;
 import io.github.shiruka.api.entity.Player;
+import io.github.shiruka.api.server.ServerDescription;
 import java.util.Collection;
 import java.util.Collections;
 import org.apache.logging.log4j.LogManager;
@@ -73,8 +74,8 @@ public final class MockServer implements Server {
 
   @NotNull
   @Override
-  public String getServerDescription() {
-    return "null";
+  public ServerDescription getServerDescription() {
+    return new ServerDescription("null");
   }
 
   @Override

@@ -29,5 +29,5 @@ package io.github.shiruka.api.entity;
  * an enum class that contains entity types.
  */
 public enum EntityType {
-  
+
 }
