@@ -75,6 +75,13 @@ public enum GameMode {
     this.type = type;
   }
 
+  /**
+   * gets a game mode instance from the given {@code id}.
+   *
+   * @param id the id to get.
+   *
+   * @return a game mode instance.
+   */
   @NotNull
   public static Optional<GameMode> fromId(final int id) {
     return Stream.of(GameMode.values())
@@ -82,6 +89,13 @@ public enum GameMode {
       .findFirst();
   }
 
+  /**
+   * gets a game mode instance from the given {@code type}.
+   *
+   * @param type the type to get.
+   *
+   * @return a game mode instance.
+   */
   @NotNull
   public static Optional<GameMode> fromType(@NotNull final String type) {
     return Stream.of(GameMode.values())
