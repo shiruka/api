@@ -29,6 +29,7 @@ import io.github.shiruka.api.base.BanList;
 import io.github.shiruka.api.entity.Player;
 import io.github.shiruka.api.server.ServerDescription;
 import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -97,7 +98,7 @@ public interface Server {
    * @return server's descriptions.
    */
   @NotNull
-  ServerDescription getServerDescription(boolean forceUpdate);
+  CompletableFuture<ServerDescription> getServerDescription(boolean forceUpdate);
 
   /**
    * obtains server's descriptions.
@@ -105,7 +106,7 @@ public interface Server {
    * @return server's descriptions.
    */
   @NotNull
-  default ServerDescription getServerDescription() {
+  default CompletableFuture<ServerDescription> getServerDescription() {
     return this.getServerDescription(false);
   }
 
