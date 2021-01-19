@@ -28,6 +28,7 @@ package io.github.shiruka.api.pack;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
@@ -99,6 +100,14 @@ public interface PackManager extends Closeable {
    */
   @NotNull
   Object getPackStack();
+
+  /**
+   * obtains the loaded packs.
+   *
+   * @return loaded packs.
+   */
+  @NotNull
+  Map<String, Pack> getPacks();
 
   /**
    * loads pack from the given path.
