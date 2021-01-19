@@ -26,7 +26,7 @@
 package io.github.shiruka.api.world;
 
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.sender.CommandSender;
 import io.github.shiruka.api.text.TranslatedText;
 import java.util.Optional;
 import java.util.Random;

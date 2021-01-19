@@ -3,7 +3,7 @@ package io.github.shiruka.api.command.benchmarks;
 import static io.github.shiruka.api.command.Commands.literal;
 import io.github.shiruka.api.command.CommandDispatcher;
 import io.github.shiruka.api.command.CommandResult;
-import io.github.shiruka.api.command.CommandSender;
+import io.github.shiruka.api.command.sender.CommandSender;
 import io.github.shiruka.api.command.SCommandSender;
 import java.util.concurrent.TimeUnit;
 import org.openjdk.jmh.annotations.*;

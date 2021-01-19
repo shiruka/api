@@ -30,6 +30,7 @@ import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.context.CommandContextBuilder;
 import io.github.shiruka.api.command.context.ParseResults;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
+import io.github.shiruka.api.command.sender.CommandSender;
 import io.github.shiruka.api.command.suggestion.Suggestions;
 import io.github.shiruka.api.command.tree.RootNode;
 import java.util.*;

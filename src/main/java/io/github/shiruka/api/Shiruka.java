@@ -26,7 +26,7 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.command.CommandManager;
-import io.github.shiruka.api.console.ConsoleCommandSender;
+import io.github.shiruka.api.command.sender.ConsoleCommandSender;
 import io.github.shiruka.api.entity.Player;
 import io.github.shiruka.api.events.EventManager;
 import io.github.shiruka.api.language.LanguageManager;

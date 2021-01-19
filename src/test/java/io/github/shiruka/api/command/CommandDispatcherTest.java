@@ -40,7 +40,7 @@ final class CommandDispatcherTest {
         return true;
       })
       .executes(context -> {
-        context.getSender().sendMessage(() -> "Main command.");
+        context.getSender().sendMessage("Main command.");
         return CommandResult.succeed();
       })
       .then(arg("test", termArg("red", "blue"))
@@ -50,10 +50,10 @@ final class CommandDispatcherTest {
         .executes(context -> {
           final var value = getString(context, "test");
           if (!value.equalsIgnoreCase("red")) {
-            context.getSender().sendMessage(() -> "blue");
+            context.getSender().sendMessage("blue");
             return CommandResult.succeed();
           }
-          context.getSender().sendMessage(() -> "red");
+          context.getSender().sendMessage("red");
           return CommandResult.succeed();
         }));
     final var dispatcher = new CommandDispatcher();

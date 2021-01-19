@@ -26,16 +26,15 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.base.BanList;
+import io.github.shiruka.api.base.GameMode;
 import io.github.shiruka.api.entity.Player;
+import io.github.shiruka.api.server.ServerDescription;
 import java.util.Collection;
 import java.util.Collections;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 public final class MockServer implements Server {
-
-  private static final Logger LOGGER = LogManager.getLogger("MockServer");
 
   @NotNull
   @Override
@@ -52,7 +51,7 @@ public final class MockServer implements Server {
   @NotNull
   @Override
   public Logger getLogger() {
-    return MockServer.LOGGER;
+    return null;
   }
 
   @Override
@@ -73,8 +72,9 @@ public final class MockServer implements Server {
 
   @NotNull
   @Override
-  public String getServerDescription() {
-    return "null";
+  public ServerDescription getServerDescription() {
+    return new ServerDescription(GameMode.SURVIVAL, 0, 0, 0, 0, 0L, "", "", ServerDescription.Edition.MCPE,
+      new String[0], 0, "");
   }
 
   @Override

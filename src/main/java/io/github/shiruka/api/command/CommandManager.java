@@ -27,6 +27,7 @@ package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.command.builder.LiteralBuilder;
+import io.github.shiruka.api.command.sender.CommandSender;
 import io.github.shiruka.api.plugin.Plugin;
 import java.util.Arrays;
 import java.util.Map;

@@ -23,13 +23,11 @@
  *
  */
 
-package io.github.shiruka.api.console;
-
-import io.github.shiruka.api.command.CommandSender;
+package io.github.shiruka.api.entity;
 
 /**
- * an interface to determine console command senders.
+ * an interface to determine human entities.
  */
-public interface ConsoleCommandSender extends CommandSender {
+public interface HumanEntity extends Entity {
 
 }

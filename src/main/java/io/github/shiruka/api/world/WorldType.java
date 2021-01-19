@@ -87,7 +87,7 @@ public enum WorldType {
    */
   @NotNull
   public static WorldType getByName(@NotNull final String name) {
-    return Optional.ofNullable(WorldType.BY_NAME.get(name.toUpperCase(Locale.ENGLISH)))
+    return Optional.ofNullable(WorldType.BY_NAME.get(name.toUpperCase(Locale.ROOT)))
       .orElseThrow();
   }
 

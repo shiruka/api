@@ -26,6 +26,7 @@
 package io.github.shiruka.api.command.tree;
 
 import io.github.shiruka.api.command.*;
+import io.github.shiruka.api.command.sender.CommandSender;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

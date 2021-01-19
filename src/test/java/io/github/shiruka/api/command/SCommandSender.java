@@ -25,6 +25,7 @@
 
 package io.github.shiruka.api.command;
 
+import io.github.shiruka.api.command.sender.CommandSender;
 import io.github.shiruka.api.permission.Permission;
 import io.github.shiruka.api.permission.PermissionAttachment;
 import io.github.shiruka.api.permission.PermissionAttachmentInfo;
@@ -117,6 +118,6 @@ public final class SCommandSender implements CommandSender {
   }
 
   @Override
-  public void sendMessage(@NotNull final Text message, final @NotNull Object... params) {
+  public void sendMessage(@NotNull final String message) {
   }
 }

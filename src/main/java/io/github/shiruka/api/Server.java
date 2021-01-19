@@ -27,6 +27,7 @@ package io.github.shiruka.api;
 
 import io.github.shiruka.api.base.BanList;
 import io.github.shiruka.api.entity.Player;
+import io.github.shiruka.api.server.ServerDescription;
 import java.util.Collection;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -89,12 +90,12 @@ public interface Server {
   int getPlayerCount();
 
   /**
-   * obtains server's descriptions a.k.a. MOTD.
+   * obtains server's descriptions.
    *
    * @return server's descriptions.
    */
   @NotNull
-  String getServerDescription();
+  ServerDescription getServerDescription();
 
   /**
    * obtains server's shutdown statement.

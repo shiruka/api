@@ -27,6 +27,7 @@ package io.github.shiruka.api.command;
 
 import io.github.shiruka.api.command.context.CommandContext;
 import io.github.shiruka.api.command.exceptions.CommandSyntaxException;
+import io.github.shiruka.api.command.sender.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 /**

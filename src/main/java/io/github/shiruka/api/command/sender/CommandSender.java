@@ -22,7 +22,39 @@
  * SOFTWARE.
  *
  */
+
+package io.github.shiruka.api.command.sender;
+
+import io.github.shiruka.api.base.Named;
+import io.github.shiruka.api.permission.Permissible;
+import io.github.shiruka.api.text.Text;
+import io.github.shiruka.api.text.TranslatedText;
+import java.text.MessageFormat;
+import org.jetbrains.annotations.NotNull;
+
 /**
- * the package that contains console classes.
+ * an interface to determine command senders.
  */
-package io.github.shiruka.api.console;
+public interface CommandSender extends Named, Permissible {
+
+  /**
+   * sends the given message to the command sender.
+   *
+   * @param message the message to send.
+   * @param params the params to send.
+   */
+  default void sendMessage(@NotNull final Text message, @NotNull final Object... params) {
+    if (message instanceof TranslatedText) {
+      this.sendMessage(message.asString());
+    } else {
+      this.sendMessage(MessageFormat.format(message.asString(), params));
+    }
+  }
+
+  /**
+   * sends the given message to the command sender.
+   *
+   * @param message the message to send.
+   */
+  void sendMessage(@NotNull String message);
+}

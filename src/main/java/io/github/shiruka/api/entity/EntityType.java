@@ -23,23 +23,11 @@
  *
  */
 
-package io.github.shiruka.api.command;
-
-import io.github.shiruka.api.base.Named;
-import io.github.shiruka.api.permission.Permissible;
-import io.github.shiruka.api.text.Text;
-import org.jetbrains.annotations.NotNull;
+package io.github.shiruka.api.entity;
 
 /**
- * an interface to determine command senders.
+ * an enum class that contains entity types.
  */
-public interface CommandSender extends Named, Permissible {
+public enum EntityType {
 
-  /**
-   * sends the given message to the command sender.
-   *
-   * @param message the message to send.
-   * @param params the params to send.
-   */
-  void sendMessage(@NotNull Text message, @NotNull Object... params);
 }
