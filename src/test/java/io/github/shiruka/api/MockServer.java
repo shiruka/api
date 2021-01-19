@@ -36,8 +36,6 @@ import org.jetbrains.annotations.NotNull;
 
 public final class MockServer implements Server {
 
-  private static final Logger LOGGER = LogManager.getLogger("MockServer");
-
   @NotNull
   @Override
   public BanList getBanList(final BanList.@NotNull Type type) {
@@ -53,7 +51,7 @@ public final class MockServer implements Server {
   @NotNull
   @Override
   public Logger getLogger() {
-    return MockServer.LOGGER;
+    return null;
   }
 
   @Override
