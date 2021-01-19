@@ -26,6 +26,7 @@
 package io.github.shiruka.api;
 
 import io.github.shiruka.api.base.BanList;
+import io.github.shiruka.api.base.GameMode;
 import io.github.shiruka.api.entity.Player;
 import io.github.shiruka.api.server.ServerDescription;
 import java.util.Collection;
@@ -72,7 +73,8 @@ public final class MockServer implements Server {
   @NotNull
   @Override
   public ServerDescription getServerDescription() {
-    return new ServerDescription("null", "null");
+    return new ServerDescription(GameMode.SURVIVAL, 0, 0, 0, 0, 0L, "", "", ServerDescription.Edition.MCPE,
+      new String[0], 0, "");
   }
 
   @Override
