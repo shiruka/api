@@ -47,6 +47,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   private final Map<String, CommandNode> children = new TreeMap<>();
 
   /**
+   * the default node.
+   */
+  @Nullable
+  private final CommandNode defaultNode;
+
+  /**
    * the description.
    */
   @Nullable
@@ -56,6 +62,11 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the fork.
    */
   private final boolean fork;
+
+  /**
+   * the is default node.
+   */
+  private final boolean isDefaultNode;
 
   /**
    * the literals.
@@ -89,18 +100,23 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   /**
    * ctor.
    *
+   * @param defaultNode the default node.
    * @param description the description.
    * @param fork the forks.
+   * @param isDefaultNode the is default node.
    * @param modifier the modifier.
    * @param redirect the redirect.
    * @param requirements the requirement.
    * @param command the command.
    */
-  protected CommandNodeEnvelope(@Nullable final String description, final boolean fork,
+  protected CommandNodeEnvelope(@Nullable final CommandNode defaultNode, @Nullable final String description,
+                                final boolean fork, final boolean isDefaultNode,
                                 @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
                                 @NotNull final Set<Requirement> requirements, @Nullable final Command command) {
+    this.defaultNode = defaultNode;
     this.description = description;
     this.fork = fork;
+    this.isDefaultNode = isDefaultNode;
     this.modifier = modifier;
     this.redirect = redirect;
     this.requirements = Collections.unmodifiableSet(requirements);
@@ -154,6 +170,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     this.command = command;
   }
 
+  @NotNull
+  @Override
+  public final Optional<CommandNode> getDefaultNode() {
+    return Optional.ofNullable(this.defaultNode);
+  }
+
   @Nullable
   @Override
   public final String getDescription() {
@@ -175,6 +197,9 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   @NotNull
   @Override
   public final Collection<? extends CommandNode> getRelevantNodes(@NotNull final TextReader input) {
+    if (!input.canRead() && this.defaultNode != null) {
+      return Collections.singleton(this.defaultNode);
+    }
     if (this.literals.size() <= 0) {
       return this.arguments.values();
     }
@@ -198,6 +223,11 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   }
 
   @Override
+  public final boolean isDefaultNode() {
+    return this.isDefaultNode;
+  }
+
+  @Override
   public final boolean isFork() {
     return this.fork;
   }
@@ -215,5 +245,23 @@ public abstract class CommandNodeEnvelope implements CommandNode {
       return this.getKey().compareTo(o.getKey());
     }
     return o instanceof LiteralNode ? 1 : -1;
+  }
+
+  @Override
+  public int hashCode() {
+    return 31 * this.children.hashCode() + (this.command != null ? this.command.hashCode() : 0);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof CommandNodeEnvelope)) {
+      return false;
+    }
+    final var that = (CommandNodeEnvelope) obj;
+    return this.children.equals(that.children) &&
+      Objects.equals(this.command, that.command);
   }
 }

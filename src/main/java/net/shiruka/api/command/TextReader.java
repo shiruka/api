@@ -84,7 +84,7 @@ public final class TextReader {
    *
    * @return {@code true} if it's allowed.
    */
-  private static boolean isAllowedInUnquotedText(final char ch) {
+  public static boolean isAllowedInUnquotedText(final char ch) {
     return TextReader.isAllowedInteger(ch) ||
       ch >= 'A' && ch <= 'Z' ||
       ch >= 'a' && ch <= 'z' ||
@@ -145,6 +145,20 @@ public final class TextReader {
   }
 
   /**
+   * expects the given {@code ch} at the current location.
+   *
+   * @param ch the ch to except.
+   *
+   * @throws CommandSyntaxException couldn't be expected.
+   */
+  public void expect(final char ch) throws CommandSyntaxException {
+    if (!this.canRead() || this.peek() != ch) {
+      throw CommandException.READER_EXPECTED_SYMBOL.createWithContext(this, String.valueOf(ch));
+    }
+    this.skip();
+  }
+
+  /**
    * obtains the cursor.
    *
    * @return cursor.
@@ -163,6 +177,16 @@ public final class TextReader {
   }
 
   /**
+   * obtains the read.
+   *
+   * @return read.
+   */
+  @NotNull
+  public String getRead() {
+    return this.text.substring(0, this.cursor);
+  }
+
+  /**
    * obtains the remaining text.
    *
    * @return remaining text.
@@ -170,6 +194,15 @@ public final class TextReader {
   @NotNull
   public String getRemaining() {
     return this.text.substring(this.cursor);
+  }
+
+  /**
+   * obtains the remaining length.
+   *
+   * @return remaining length.
+   */
+  public int getRemainingLength() {
+    return this.text.length() - this.cursor;
   }
 
   /**
@@ -197,7 +230,27 @@ public final class TextReader {
    * @return peeked character.
    */
   public char peek() {
-    return this.text.charAt(this.cursor);
+    return this.peek(0);
+  }
+
+  /**
+   * obtains the character of the {@link #cursor} position.
+   *
+   * @param offset the offset to peek.
+   *
+   * @return peeked character.
+   */
+  public char peek(final int offset) {
+    return this.text.charAt(this.cursor + offset);
+  }
+
+  /**
+   * polls the character.
+   *
+   * @return polled character.
+   */
+  public char read() {
+    return this.text.charAt(this.cursor++);
   }
 
   /**
@@ -215,12 +268,12 @@ public final class TextReader {
     }
     if (value.equals("true")) {
       return true;
-    } else if (value.equals("false")) {
-      return false;
-    } else {
-      this.cursor = start;
-      throw CommandException.READER_INVALID_BOOL.createWithContext(this, value);
     }
+    if (value.equals("false")) {
+      return false;
+    }
+    this.cursor = start;
+    throw CommandException.READER_INVALID_BOOL.createWithContext(this, value);
   }
 
   /**
@@ -344,6 +397,26 @@ public final class TextReader {
   }
 
   /**
+   * reads quoted text.
+   *
+   * @return quoted text.
+   *
+   * @throws CommandSyntaxException if the text does not start with quote.
+   */
+  @NotNull
+  public String readQuotedText() throws CommandSyntaxException {
+    if (!this.canRead()) {
+      return "";
+    }
+    final char next = this.peek();
+    if (!TextReader.isQuotedTextStart(next)) {
+      throw CommandException.READER_EXPECTED_START_OF_QUOTE.createWithContext(this);
+    }
+    this.skip();
+    return this.readTextUntil(next);
+  }
+
+  /**
    * reads short.
    *
    * @return short.
@@ -409,12 +482,12 @@ public final class TextReader {
   }
 
   /**
-   * polls the character.
-   *
-   * @return polled character.
+   * skips whitespaces.
    */
-  private char read() {
-    return this.text.charAt(this.cursor++);
+  public void skipWhitespace() {
+    while (this.canRead() && Character.isWhitespace(this.peek())) {
+      this.skip();
+    }
   }
 
   /**

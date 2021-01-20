@@ -25,6 +25,7 @@
 
 package net.shiruka.api.command;
 
+import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -131,6 +132,31 @@ public final class TextRange {
    */
   public int getStart() {
     return this.start;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.start, this.end);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof TextRange)) {
+      return false;
+    }
+    final var that = (TextRange) obj;
+    return this.start == that.start && this.end == that.end;
+  }
+
+  @Override
+  public String toString() {
+    return "StringRange{" +
+      "start=" + this.start +
+      ", end=" + this.end +
+      '}';
   }
 
   /**

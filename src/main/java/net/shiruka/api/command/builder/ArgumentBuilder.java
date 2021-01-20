@@ -46,6 +46,11 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   private final RootNode arguments = new RootNode();
 
   /**
+   * the is default node.
+   */
+  private final boolean isDefaultNode;
+
+  /**
    * the requirements.
    */
   @NotNull
@@ -56,6 +61,12 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    */
   @Nullable
   private Command command;
+
+  /**
+   * the default node.
+   */
+  @Nullable
+  private CommandNode defaultNode;
 
   /**
    * the description.
@@ -79,6 +90,22 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    */
   @Nullable
   private CommandNode redirect;
+
+  /**
+   * ctor.
+   */
+  protected ArgumentBuilder() {
+    this(false);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param isDefaultNode the is default node.
+   */
+  protected ArgumentBuilder(final boolean isDefaultNode) {
+    this.isDefaultNode = isDefaultNode;
+  }
 
   /**
    * sets the description.
@@ -159,6 +186,16 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   }
 
   /**
+   * obtains the default node.
+   *
+   * @return default node.
+   */
+  @Nullable
+  public final CommandNode getDefaultNode() {
+    return this.defaultNode;
+  }
+
+  /**
    * obtains the description.
    *
    * @return description.
@@ -196,6 +233,15 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   @NotNull
   public final Set<Requirement> getRequirements() {
     return Collections.unmodifiableSet(this.requirements);
+  }
+
+  /**
+   * obtains the is default node.
+   *
+   * @return is default node.
+   */
+  public final boolean isDefaultNode() {
+    return this.isDefaultNode;
   }
 
   /**
@@ -279,6 +325,11 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   @NotNull
   public final T then(@NotNull final CommandNode argument) {
     Preconditions.checkState(this.redirect == null, "Cannot add children to a redirected node");
+    if (argument.isDefaultNode()) {
+      Preconditions.checkState(this.defaultNode == null,
+        "Cannot add multiple default nodes as child of one node");
+      this.defaultNode = argument;
+    }
     this.arguments.addChild(argument);
     return this.getSelf();
   }

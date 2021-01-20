@@ -25,6 +25,8 @@
 
 package net.shiruka.api.command.suggestion;
 
+import java.util.Objects;
+import java.util.function.UnaryOperator;
 import net.shiruka.api.command.TextRange;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * a class that represents suggestion.
  */
-public final class Suggestion {
+public class Suggestion implements UnaryOperator<String>, Comparable<Suggestion> {
 
   /**
    * the range.
@@ -76,6 +78,58 @@ public final class Suggestion {
   }
 
   /**
+   * obtains the range.
+   *
+   * @return range.
+   */
+  @NotNull
+  public final TextRange getRange() {
+    return this.range;
+  }
+
+  /**
+   * obtains the text.
+   *
+   * @return text.
+   */
+  @NotNull
+  public final String getText() {
+    return this.text;
+  }
+
+  /**
+   * obtains the tooltip.
+   *
+   * @return tooltip.
+   */
+  @Nullable
+  public final String getTooltip() {
+    return this.tooltip;
+  }
+
+  @NotNull
+  @Override
+  public String apply(@NotNull final String input) {
+    if (this.range.getStart() == 0 && this.range.getEnd() == input.length()) {
+      return this.text;
+    }
+    final var result = new StringBuilder();
+    if (this.range.getStart() > 0) {
+      result.append(input, 0, this.range.getStart());
+    }
+    result.append(this.text);
+    if (this.range.getEnd() < input.length()) {
+      result.append(input.substring(this.range.getEnd()));
+    }
+    return result.toString();
+  }
+
+  @Override
+  public int compareTo(final Suggestion o) {
+    return this.text.compareTo(o.text);
+  }
+
+  /**
    * compares the given suggestion with {@code this}.
    *
    * @param suggestion the suggestion to compare.
@@ -110,13 +164,31 @@ public final class Suggestion {
     return new Suggestion(range, result.toString(), this.tooltip);
   }
 
-  /**
-   * obtains the range.
-   *
-   * @return range.
-   */
-  @NotNull
-  public TextRange getRange() {
-    return this.range;
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.range, this.text, this.tooltip);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof Suggestion)) {
+      return false;
+    }
+    final var that = (Suggestion) obj;
+    return Objects.equals(this.range, that.range) &&
+      Objects.equals(this.text, that.text) &&
+      Objects.equals(this.tooltip, that.tooltip);
+  }
+
+  @Override
+  public String toString() {
+    return "Suggestion{" +
+      "range=" + this.range +
+      ", text='" + this.text + '\'' +
+      ", tooltip='" + this.tooltip + '\'' +
+      '}';
   }
 }

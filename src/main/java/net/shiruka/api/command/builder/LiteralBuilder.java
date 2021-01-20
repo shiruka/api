@@ -25,7 +25,6 @@
 
 package net.shiruka.api.command.builder;
 
-import net.shiruka.api.command.CommandNode;
 import net.shiruka.api.command.tree.LiteralNode;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,16 +43,28 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
    * ctor.
    *
    * @param literal the literal.
+   * @param isDefaultNode the is default node.
+   */
+  public LiteralBuilder(@NotNull final String literal, final boolean isDefaultNode) {
+    super(isDefaultNode);
+    this.literal = literal;
+  }
+
+  /**
+   * ctor.
+   *
+   * @param literal the literal.
    */
   public LiteralBuilder(@NotNull final String literal) {
-    this.literal = literal;
+    this(literal, false);
   }
 
   @NotNull
   @Override
-  public CommandNode build() {
-    final var result = new LiteralNode(this.getDescription(), this.isFork(), this.getModifier(), this.getRedirect(),
-      this.getRequirements(), this.getCommand(), this.getLiteral());
+  public LiteralNode build() {
+    final var result = new LiteralNode(this.getDefaultNode(), this.getDescription(), this.isFork(),
+      this.isDefaultNode(), this.getModifier(), this.getRedirect(), this.getRequirements(), this.getCommand(),
+      this.getLiteral());
     this.getArguments().forEach(result::addChild);
     return result;
   }

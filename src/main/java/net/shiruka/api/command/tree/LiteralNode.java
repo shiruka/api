@@ -52,18 +52,21 @@ public final class LiteralNode extends CommandNodeEnvelope {
   /**
    * ctor.
    *
+   * @param defaultNode the default node.
    * @param description the description.
    * @param fork the forks.
+   * @param isDefaultNode the is default node.
    * @param modifier the modifier.
    * @param redirect the redirect.
    * @param requirements the requirement.
    * @param command the command.
    * @param literal the literal.
    */
-  public LiteralNode(@Nullable final String description, final boolean fork, @Nullable final RedirectModifier modifier,
+  public LiteralNode(@Nullable final CommandNode defaultNode, @Nullable final String description, final boolean fork,
+                     final boolean isDefaultNode, @Nullable final RedirectModifier modifier,
                      @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
                      @Nullable final Command command, @NotNull final String literal) {
-    super(description, fork, modifier, redirect, requirements, command);
+    super(defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, command);
     this.literal = literal.toLowerCase(Locale.ROOT);
   }
 
@@ -120,6 +123,41 @@ public final class LiteralNode extends CommandNodeEnvelope {
   }
 
   /**
+   * obtains the literal.
+   *
+   * @return literal.
+   */
+  @NotNull
+  public String getLiteral() {
+    return this.literal;
+  }
+
+  @Override
+  public int hashCode() {
+    var result = this.literal.hashCode();
+    result = 31 * result + super.hashCode();
+    return result;
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof LiteralNode)) {
+      return false;
+    }
+    final var that = (LiteralNode) obj;
+    return this.literal.equals(that.literal) &&
+      super.equals(obj);
+  }
+
+  @Override
+  public String toString() {
+    return "<literal " + this.literal + ">";
+  }
+
+  /**
    * parses the given reader.
    *
    * @param reader the reader to read.
@@ -128,18 +166,18 @@ public final class LiteralNode extends CommandNodeEnvelope {
    */
   private int parse(@NotNull final TextReader reader) {
     final var start = reader.getCursor();
-    if (!reader.canRead(this.literal.length())) {
-      return -1;
+    if (reader.canRead(this.literal.length())) {
+      final var end = start + this.literal.length();
+      if (reader.getText().substring(start, end).equals(this.literal)) {
+        reader.setCursor(end);
+        if (!reader.canRead() || reader.peek() == ' ') {
+          return end;
+        }
+        reader.setCursor(start);
+      }
+    } else if (!reader.canRead() && this.isDefaultNode()) {
+      return start;
     }
-    final var end = start + this.literal.length();
-    if (!reader.getText().toLowerCase(Locale.ROOT).substring(start, end).equals(this.literal)) {
-      return -1;
-    }
-    reader.setCursor(end);
-    if (!reader.canRead() || reader.peek() == ' ') {
-      return end;
-    }
-    reader.setCursor(start);
     return -1;
   }
 }

@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.IntStream;
 import net.shiruka.api.command.ArgumentType;
 import net.shiruka.api.command.CommandException;
 import net.shiruka.api.command.TextReader;
@@ -75,6 +76,44 @@ public final class StringArgumentType implements ArgumentType<String> {
     this(Collections.emptySet(), type);
   }
 
+  /**
+   * puts escape to the given {@code input} if required.
+   *
+   * @param input the input to put.
+   *
+   * @return escaped input.
+   */
+  @NotNull
+  public static String escapeIfRequired(@NotNull final String input) {
+    for (final var c : input.toCharArray()) {
+      if (!TextReader.isAllowedInUnquotedText(c)) {
+        return StringArgumentType.escape(input);
+      }
+    }
+    return input;
+  }
+
+  /**
+   * puts escape to the given {@code input}.
+   *
+   * @param input the input to put.
+   *
+   * @return escaped input.
+   */
+  @NotNull
+  private static String escape(@NotNull final String input) {
+    final var result = new StringBuilder("\"");
+    IntStream.range(0, input.length()).forEach(i -> {
+      final var c = input.charAt(i);
+      if (c == '\\' || c == '"') {
+        result.append('\\');
+      }
+      result.append(c);
+    });
+    result.append("\"");
+    return result.toString();
+  }
+
   @NotNull
   @Override
   public Collection<String> getExamples() {
@@ -96,10 +135,11 @@ public final class StringArgumentType implements ArgumentType<String> {
       return reader.readUnquotedText();
     }
     if (this.type == StringType.TERM) {
-      final String term = reader.readUnquotedText();
+      final var term = reader.readUnquotedText();
       if (!this.options.contains(term)) {
         throw CommandException.TERM_INVALID.createWithContext(reader, term);
       }
+      return term;
     }
     return reader.readText();
   }

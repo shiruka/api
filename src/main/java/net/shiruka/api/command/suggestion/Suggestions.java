@@ -27,7 +27,7 @@ package net.shiruka.api.command.suggestion;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicInteger;
 import net.shiruka.api.command.TextRange;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,7 +59,7 @@ public final class Suggestions {
    * @param range the range.
    * @param suggestions the suggestions.
    */
-  private Suggestions(@NotNull final TextRange range, @NotNull final List<Suggestion> suggestions) {
+  public Suggestions(@NotNull final TextRange range, @NotNull final List<Suggestion> suggestions) {
     this.range = range;
     this.suggestionList = Collections.unmodifiableList(suggestions);
   }
@@ -90,20 +90,20 @@ public final class Suggestions {
     if (suggestions.isEmpty()) {
       return Suggestions.EMPTY;
     }
-    var start = Integer.MAX_VALUE;
-    var end = Integer.MIN_VALUE;
+    final var start = new AtomicInteger(Integer.MAX_VALUE);
+    final var end = new AtomicInteger(Integer.MIN_VALUE);
+    suggestions.forEach(suggestion -> {
+      start.set(Math.min(suggestion.getRange().getStart(), start.get()));
+      end.set(Math.max(suggestion.getRange().getEnd(), end.get()));
+    });
+    final var range = TextRange.between(start.get(), end.get());
+    final var texts = new HashSet<Suggestion>();
     for (final var suggestion : suggestions) {
-      final var range = suggestion.getRange();
-      start = Math.min(range.getStart(), start);
-      end = Math.max(range.getEnd(), end);
+      texts.add(suggestion.expand(command, range));
     }
-    final var range = TextRange.between(start, end);
-    return new Suggestions(range,
-      suggestions.stream()
-        .map(suggestion -> suggestion.expand(command, range))
-        .distinct()
-        .sorted(Suggestion::compareToIgnoreCase)
-        .collect(Collectors.toCollection(ArrayList::new)));
+    final var sorted = new ArrayList<>(texts);
+    sorted.sort(Suggestion::compareToIgnoreCase);
+    return new Suggestions(range, sorted);
   }
 
   /**
@@ -134,9 +134,34 @@ public final class Suggestions {
     }
     final var texts = new HashSet<Suggestion>();
     input.stream()
-      .map(suggestions -> suggestions.suggestionList)
+      .map(Suggestions::getSuggestionList)
       .forEach(texts::addAll);
     return Suggestions.create(command, texts);
+  }
+
+  /**
+   * obtains the range.
+   *
+   * @return range.
+   */
+  @NotNull
+  public TextRange getRange() {
+    return this.range;
+  }
+
+  /**
+   * obtains the suggestion list.
+   *
+   * @return suggestion list.
+   */
+  @NotNull
+  public List<Suggestion> getSuggestionList() {
+    return this.suggestionList;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.range, this.suggestionList);
   }
 
   @Override
@@ -144,12 +169,20 @@ public final class Suggestions {
     if (this == obj) {
       return true;
     }
-    if (!(obj instanceof Suggestions)) {
+    if (obj == null || this.getClass() != obj.getClass()) {
       return false;
     }
     final var that = (Suggestions) obj;
-    return Objects.equals(this.range, that.range) &&
-      Objects.equals(this.suggestionList, that.suggestionList);
+    return this.range.equals(that.range) &&
+      this.suggestionList.equals(that.suggestionList);
+  }
+
+  @Override
+  public String toString() {
+    return "Suggestions{" +
+      "range=" + this.range +
+      ", suggestionList=" + this.suggestionList +
+      '}';
   }
 
   /**
@@ -222,6 +255,16 @@ public final class Suggestions {
     }
 
     /**
+     * obtains the input.
+     *
+     * @return input.
+     */
+    @NotNull
+    public String getInput() {
+      return this.input;
+    }
+
+    /**
      * obtains the remaining.
      *
      * @return remaining.
@@ -232,9 +275,28 @@ public final class Suggestions {
     }
 
     /**
+     * obtains the start.
+     *
+     * @return start.
+     */
+    public int getStart() {
+      return this.start;
+    }
+
+    /**
+     * resets the builder.
+     *
+     * @return reset builder.
+     */
+    @NotNull
+    public Builder restart() {
+      return new Builder(this.input, this.start);
+    }
+
+    /**
      * adds the given suggestion.
      *
-     * @param suggestion the suggestion to ad.
+     * @param suggestion the suggestion to add.
      *
      * @return {@code this} for builder chain.
      */
@@ -244,6 +306,19 @@ public final class Suggestions {
         return this;
       }
       this.result.add(new Suggestion(TextRange.between(this.start, this.input.length()), suggestion));
+      return this;
+    }
+
+    /**
+     * adds the given suggestion.
+     *
+     * @param suggestion the suggestion to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder suggest(final int suggestion) {
+      this.result.add(new IntegerSuggestion(TextRange.between(this.start, this.input.length()), suggestion));
       return this;
     }
   }
