@@ -406,9 +406,9 @@ final class TextReaderTest {
   }
 
   @Test
-  void readMixedQuotedString_doubleInsideSingle() {
+  void readMixedQuotedString_doubleInsideSingle() throws CommandSyntaxException {
     final var reader = new TextReader("'hello \"world\"'");
-    assertThat(reader.read(), equalTo("hello \"world\""));
+    assertThat(reader.readQuotedText(), equalTo("hello \"world\""));
     assertThat(reader.getRead(), equalTo("'hello \"world\"'"));
     assertThat(reader.getRemaining(), equalTo(""));
   }
