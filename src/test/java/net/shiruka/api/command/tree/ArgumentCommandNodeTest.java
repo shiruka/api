@@ -25,8 +25,7 @@
 
 package net.shiruka.api.command.tree;
 
-import static net.shiruka.api.command.Commands.arg;
-import static net.shiruka.api.command.Commands.integerArg;
+import static net.shiruka.api.command.Commands.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -94,6 +93,15 @@ final class ArgumentCommandNodeTest extends AbstractCommandNodeTest {
     this.node.parse(reader, this.contextBuilder);
     assertThat(this.contextBuilder.getArguments().containsKey("foo"), is(true));
     assertThat(this.contextBuilder.getArguments().get("foo").getResult(), is(123));
+  }
+
+  @Test
+  void testParseDefaultNode() throws Exception {
+    final var reader = new TextReader("");
+    final var node = defaultArg("foo", integerArg(), 42).build();
+    node.parse(reader, this.contextBuilder);
+    assertThat(this.contextBuilder.getArguments().containsKey("foo"), is(true));
+    assertThat(this.contextBuilder.getArguments().get("foo").getResult(), is(42));
   }
 
   @Test

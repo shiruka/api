@@ -65,7 +65,7 @@ public interface Commands {
   }
 
   /**
-   * creates a simple double argument type.
+   * creates a simple byte argument type.
    *
    * @return a new instance of {@code this}.
    */
@@ -75,7 +75,7 @@ public interface Commands {
   }
 
   /**
-   * creates a simple double argument type.
+   * creates a simple byte argument type.
    *
    * @param minimum the minimum value to create.
    *
@@ -87,7 +87,7 @@ public interface Commands {
   }
 
   /**
-   * creates a simple double argument type.
+   * creates a simple byte argument type.
    *
    * @param minimum the minimum value to create.
    * @param maximum the maximum value to create.
@@ -163,7 +163,7 @@ public interface Commands {
   }
 
   /**
-   * creates a simple boolean argument type.
+   * creates a simple float argument type.
    *
    * @return a new instance of {@code this}.
    */
@@ -173,7 +173,7 @@ public interface Commands {
   }
 
   /**
-   * creates a simple boolean argument type.
+   * creates a simple float argument type.
    *
    * @param minimum the minimum value to create.
    *
@@ -185,7 +185,7 @@ public interface Commands {
   }
 
   /**
-   * creates a simple boolean argument type.
+   * creates a simple float argument type.
    *
    * @param minimum the minimum value to create.
    * @param maximum the maximum value to create.
@@ -385,6 +385,41 @@ public interface Commands {
   @NotNull
   static LongArgumentType longArg() {
     return Commands.longArg(Long.MIN_VALUE);
+  }
+
+  /**
+   * creates a simple short argument type.
+   *
+   * @return a new instance of {@code this}.
+   */
+  @NotNull
+  static ShortArgumentType shortArg() {
+    return Commands.shortArg(Short.MIN_VALUE);
+  }
+
+  /**
+   * creates a simple short argument type.
+   *
+   * @param minimum the minimum value to create.
+   *
+   * @return a new instance of {@code this}.
+   */
+  @NotNull
+  static ShortArgumentType shortArg(final short minimum) {
+    return Commands.shortArg(minimum, Short.MAX_VALUE);
+  }
+
+  /**
+   * creates a simple short argument type.
+   *
+   * @param minimum the minimum value to create.
+   * @param maximum the maximum value to create.
+   *
+   * @return a new instance of {@code this}.
+   */
+  @NotNull
+  static ShortArgumentType shortArg(final short minimum, final short maximum) {
+    return new ShortArgumentType(minimum, maximum);
   }
 
   /**

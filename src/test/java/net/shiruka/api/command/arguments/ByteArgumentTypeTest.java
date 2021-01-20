@@ -25,24 +25,30 @@
 
 package net.shiruka.api.command.arguments;
 
-import static net.shiruka.api.command.CommandException.LONG_TOO_BIG;
-import static net.shiruka.api.command.CommandException.LONG_TOO_SMALL;
-import static net.shiruka.api.command.Commands.longArg;
+import static net.shiruka.api.command.CommandException.BYTE_TOO_BIG;
+import static net.shiruka.api.command.CommandException.BYTE_TOO_SMALL;
+import static net.shiruka.api.command.Commands.byteArg;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasToString;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.fail;
 import com.google.common.testing.EqualsTester;
 import net.shiruka.api.command.TextReader;
 import net.shiruka.api.command.exceptions.CommandSyntaxException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
-final class LongArgumentTypeTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+final class ByteArgumentTypeTest {
 
   @Test
   void parse() throws Exception {
     final var reader = new TextReader("15");
-    assertThat(longArg().parse(reader), is(15L));
+    assertThat(byteArg().parse(reader), is((byte) 15));
     assertThat(reader.canRead(), is(false));
   }
 
@@ -50,10 +56,10 @@ final class LongArgumentTypeTest {
   void parse_tooBig() {
     final var reader = new TextReader("5");
     try {
-      longArg(-100, 0).parse(reader);
+      byteArg((byte) -100, (byte) 0).parse(reader);
       fail();
     } catch (final CommandSyntaxException ex) {
-      assertThat(ex.getType(), is(LONG_TOO_BIG));
+      assertThat(ex.getType(), is(BYTE_TOO_BIG));
       assertThat(ex.getCursor(), is(0));
     }
   }
@@ -62,10 +68,10 @@ final class LongArgumentTypeTest {
   void parse_tooSmall() {
     final var reader = new TextReader("-5");
     try {
-      longArg(0, 100).parse(reader);
+      byteArg((byte) 0, (byte) 100).parse(reader);
       fail();
     } catch (final CommandSyntaxException ex) {
-      assertThat(ex.getType(), is(LONG_TOO_SMALL));
+      assertThat(ex.getType(), is(BYTE_TOO_SMALL));
       assertThat(ex.getCursor(), is(0));
     }
   }
@@ -73,18 +79,18 @@ final class LongArgumentTypeTest {
   @Test
   void testEquals() {
     new EqualsTester()
-      .addEqualityGroup(longArg(), longArg())
-      .addEqualityGroup(longArg(-100, 100), longArg(-100, 100))
-      .addEqualityGroup(longArg(-100, 50), longArg(-100, 50))
-      .addEqualityGroup(longArg(-50, 100), longArg(-50, 100))
+      .addEqualityGroup(byteArg(), byteArg())
+      .addEqualityGroup(byteArg((byte) -100, (byte) 100), byteArg((byte) -100, (byte) 100))
+      .addEqualityGroup(byteArg((byte) -100, (byte) 50), byteArg((byte) -100, (byte) 50))
+      .addEqualityGroup(byteArg((byte) -50, (byte) 100), byteArg((byte) -50, (byte) 100))
       .testEquals();
   }
 
   @Test
   void testToString() {
-    assertThat(longArg(), hasToString("longArg()"));
-    assertThat(longArg(-100), hasToString("longArg(-100)"));
-    assertThat(longArg(-100, 100), hasToString("longArg(-100, 100)"));
-    assertThat(longArg(Long.MIN_VALUE, 100), hasToString("longArg(-9223372036854775808, 100)"));
+    assertThat(byteArg(), hasToString("byteArg()"));
+    assertThat(byteArg((byte) -100), hasToString("byteArg(-100)"));
+    assertThat(byteArg((byte) -100, (byte) 100), hasToString("byteArg(-100, 100)"));
+    assertThat(byteArg(Byte.MIN_VALUE, (byte) 100), hasToString("byteArg(-128, 100)"));
   }
 }

@@ -75,10 +75,6 @@ public final class IntegerSuggestion extends Suggestion {
     return this.compareTo(suggestion);
   }
 
-  public int getSuggestion() {
-    return this.suggestion;
-  }
-
   @Override
   public int hashCode() {
     return Objects.hash(super.hashCode(), this.suggestion);
@@ -104,5 +100,9 @@ public final class IntegerSuggestion extends Suggestion {
       ", text='" + this.getText() + '\'' +
       ", tooltip='" + this.getTooltip() + '\'' +
       '}';
+  }
+
+  public int getSuggestion() {
+    return this.suggestion;
   }
 }

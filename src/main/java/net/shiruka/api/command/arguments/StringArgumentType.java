@@ -135,10 +135,11 @@ public final class StringArgumentType implements ArgumentType<String> {
       return reader.readUnquotedText();
     }
     if (this.type == StringType.TERM) {
-      final String term = reader.readUnquotedText();
+      final var term = reader.readUnquotedText();
       if (!this.options.contains(term)) {
         throw CommandException.TERM_INVALID.createWithContext(reader, term);
       }
+      return term;
     }
     return reader.readText();
   }

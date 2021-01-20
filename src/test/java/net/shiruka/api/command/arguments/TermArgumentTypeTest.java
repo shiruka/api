@@ -23,50 +23,38 @@
  *
  */
 
-package net.shiruka.api.command.builder;
+package net.shiruka.api.command.arguments;
 
-import static net.shiruka.api.command.Commands.arg;
-import static net.shiruka.api.command.Commands.integerArg;
+import static net.shiruka.api.command.CommandException.TERM_INVALID;
+import static net.shiruka.api.command.Commands.termArg;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import net.shiruka.api.command.Command;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.*;
+import net.shiruka.api.command.TextReader;
+import net.shiruka.api.command.exceptions.CommandSyntaxException;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
-final class LiteralArgumentBuilderTest {
+final class TermArgumentTypeTest {
 
-  private LiteralBuilder builder;
-
-  @Mock
-  private
-  Command command;
-
-  @BeforeEach
-  void setUp() {
-    this.builder = new LiteralBuilder("foo");
+  @Test
+  void testParseTerm() throws Exception {
+    final var reader = mock(TextReader.class);
+    when(reader.readUnquotedText()).thenReturn("hello");
+    assertThat(termArg("hello", "world").parse(reader), equalTo("hello"));
+    verify(reader).readUnquotedText();
   }
 
   @Test
-  void testBuild() {
-    final var node = this.builder.build();
-    assertThat(node.getLiteral(), is("foo"));
-    assertThat(node.isDefaultNode(), is(false));
-  }
-
-  @Test
-  void testBuildWithChildren() {
-    this.builder.then(arg("bar", integerArg()));
-    this.builder.then(arg("baz", integerArg()));
-    final var node = this.builder.build();
-    assertThat(node.getChildren(), hasSize(2));
-  }
-
-  @Test
-  void testBuildWithExecutor() {
-    final var node = this.builder.executes(this.command).build();
-    assertThat(node.getLiteral(), is("foo"));
-    assertThat(node.getCommand(), is(this.command));
+  void testParseTermFails() {
+    final var reader = mock(TextReader.class);
+    when(reader.readUnquotedText()).thenReturn("foo");
+    try {
+      termArg("hello", "world").parse(reader);
+      fail();
+    } catch (final CommandSyntaxException ex) {
+      assertThat(ex.getType(), is(TERM_INVALID));
+    }
   }
 }

@@ -25,6 +25,7 @@
 
 package net.shiruka.api.command.tree;
 
+import static net.shiruka.api.command.CommandException.LITERAL_INCORRECT;
 import static net.shiruka.api.command.Commands.literal;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -110,7 +111,7 @@ final class LiteralCommandNodeTest extends AbstractCommandNodeTest {
       this.node.parse(reader, this.contextBuilder);
       fail();
     } catch (final CommandSyntaxException ex) {
-      assertThat(ex.getType(), is(CommandException.LITERAL_INCORRECT));
+      assertThat(ex.getType(), is(LITERAL_INCORRECT));
       assertThat(ex.getCursor(), is(0));
     }
   }
@@ -122,7 +123,7 @@ final class LiteralCommandNodeTest extends AbstractCommandNodeTest {
       this.node.parse(reader, this.contextBuilder);
       fail();
     } catch (final CommandSyntaxException ex) {
-      assertThat(ex.getType(), is(CommandException.LITERAL_INCORRECT));
+      assertThat(ex.getType(), is(LITERAL_INCORRECT));
       assertThat(ex.getCursor(), is(0));
     }
   }

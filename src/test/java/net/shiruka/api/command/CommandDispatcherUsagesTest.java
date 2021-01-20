@@ -25,11 +25,13 @@
 
 package net.shiruka.api.command;
 
+import static net.shiruka.api.command.Commands.defaultLiteral;
 import static net.shiruka.api.command.Commands.literal;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import java.util.stream.Collectors;
 import net.shiruka.api.command.sender.CommandSender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -120,6 +122,24 @@ final class CommandDispatcherUsagesTest {
       .redirect(this.subject.getRoot()));
     this.subject.register(literal("k")
       .redirect(this.get("h")));
+    this.subject.register(
+      literal("l")
+        .then(defaultLiteral("1")
+          .executes(this.command))
+        .then(literal("2")
+          .then(defaultLiteral("i")
+            .executes(this.command))
+          .then(literal("ii")
+            .executes(this.command)))
+        .then(literal("3")
+          .then(defaultLiteral("i")
+            .then(defaultLiteral("ii")
+              .executes(this.command))))
+        .then(literal("4")
+          .then(defaultLiteral("i")
+            .then(literal("ii")
+              .executes(this.command))))
+    );
   }
 
   @Test
@@ -156,6 +176,15 @@ final class CommandDispatcherUsagesTest {
       "i 2",
       "j ...",
       "k -> h",
+      "l",
+      "l 1",
+      "l 2",
+      "l 2 i",
+      "l 2 ii",
+      "l 3",
+      "l 3 i",
+      "l 3 i ii",
+      "l 4 i ii",
     }));
   }
 
@@ -166,6 +195,18 @@ final class CommandDispatcherUsagesTest {
       .put(this.get("h 1"), "[1] i")
       .put(this.get("h 2"), "[2] i ii")
       .put(this.get("h 3"), "[3]")
+      .build()
+    ));
+  }
+
+  @Test
+  void testSmartUsage_l() {
+    final var results = this.subject.getSmartUsage(this.get("l"), this.source);
+    assertThat(results, equalTo(ImmutableMap.builder()
+      .put(this.get("l 1"), "1")
+      .put(this.get("l 2"), "2 [i|ii]")
+      .put(this.get("l 3"), "3 [i]")
+      .put(this.get("l 4"), "4 i ii")
       .build()
     ));
   }
@@ -204,15 +245,28 @@ final class CommandDispatcherUsagesTest {
       .put(this.get("i"), "i [1|2]")
       .put(this.get("j"), "j ...")
       .put(this.get("k"), "k -> h")
+      .put(this.get("l"), "l [1|2|3|4]")
       .build()
     ));
   }
 
   private CommandNode get(final String command) {
-    return Iterables.getLast(this.subject.parse(command, this.source).getBuilder().getNodes()).getNode();
+    return Iterables.getLast(this.subject.parse(command, this.source)
+      .getBuilder()
+      .getNodes()
+      .stream()
+      .filter(n -> !n.getRange().isEmpty())
+      .collect(Collectors.toList()))
+      .getNode();
   }
 
   private CommandNode get(final TextReader command) {
-    return Iterables.getLast(this.subject.parse(command, this.source).getBuilder().getNodes()).getNode();
+    return Iterables.getLast(this.subject.parse(command, this.source)
+      .getBuilder()
+      .getNodes()
+      .stream()
+      .filter(n -> !n.getRange().isEmpty())
+      .collect(Collectors.toList()))
+      .getNode();
   }
 }

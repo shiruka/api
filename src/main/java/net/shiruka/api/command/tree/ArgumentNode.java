@@ -108,20 +108,6 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
     this.type = type;
   }
 
-  @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof ArgumentNode<?>)) {
-      return false;
-    }
-    final var that = (ArgumentNode<?>) obj;
-    return this.name.equals(that.name) &&
-      this.type.equals(that.type) &&
-      super.equals(obj);
-  }
-
   /**
    * obtains the default value.
    *
@@ -201,6 +187,20 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
     var result = this.name.hashCode();
     result = 31 * result + this.type.hashCode();
     return result;
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof ArgumentNode<?>)) {
+      return false;
+    }
+    final var that = (ArgumentNode<?>) obj;
+    return this.name.equals(that.name) &&
+      this.type.equals(that.type) &&
+      super.equals(obj);
   }
 
   @Override

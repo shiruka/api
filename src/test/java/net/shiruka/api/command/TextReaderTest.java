@@ -29,7 +29,7 @@ import static net.shiruka.api.command.CommandException.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import net.shiruka.api.command.exceptions.CommandSyntaxException;
 import org.junit.jupiter.api.Test;
 
@@ -121,6 +121,26 @@ final class TextReaderTest {
   }
 
   @Test
+  void isAllowedInUnquotedStringInput2OutputTrue() {
+    assertTrue(TextReader.isAllowedInUnquotedText('2'));
+  }
+
+  @Test
+  void isAllowedInUnquotedStringInputNotNullOutputFalse() {
+    assertFalse(TextReader.isAllowedInUnquotedText('\u0000'));
+  }
+
+  @Test
+  void isAllowedInUnquotedStringInputNotNullOutputFalse2() {
+    assertFalse(TextReader.isAllowedInUnquotedText(':'));
+  }
+
+  @Test
+  void isAllowedInUnquotedStringInputOutputTrue() {
+    assertTrue(TextReader.isAllowedInUnquotedText('r'));
+  }
+
+  @Test
   void peek() {
     final var reader = new TextReader("abc");
     assertThat(reader.peek(), is('a'));
@@ -182,10 +202,46 @@ final class TextReaderTest {
   }
 
   @Test
+  void readBoolean_quoted() {
+    final var reader = new TextReader("\"true\"");
+    try {
+      reader.readBoolean();
+      fail();
+    } catch (final CommandSyntaxException ex) {
+      assertThat(ex.getType(), is(READER_EXPECTED_BOOL));
+      assertThat(ex.getCursor(), is(0));
+    }
+  }
+
+  @Test
   void readDouble() throws Exception {
     final var reader = new TextReader("123");
     assertThat(reader.readDouble(), is(123.0));
     assertThat(reader.getRead(), equalTo("123"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
+  void readDouble_explicitPositive() throws Exception {
+    final var reader = new TextReader("+123");
+    assertThat(reader.readDouble(), is(+123.0));
+    assertThat(reader.getRead(), equalTo("+123"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
+  void readDouble_explicitPositiveExponent() throws Exception {
+    final var reader = new TextReader("123e+4");
+    assertThat(reader.readDouble(), is(123e+4));
+    assertThat(reader.getRead(), equalTo("123e+4"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
+  void readDouble_exponent() throws Exception {
+    final var reader = new TextReader("123e4");
+    assertThat(reader.readDouble(), is(123e4));
+    assertThat(reader.getRead(), equalTo("123e4"));
     assertThat(reader.getRemaining(), equalTo(""));
   }
 
@@ -204,6 +260,14 @@ final class TextReaderTest {
     final var reader = new TextReader("-123");
     assertThat(reader.readDouble(), is(-123.0));
     assertThat(reader.getRead(), equalTo("-123"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
+  void readDouble_negativeExponent() throws Exception {
+    final var reader = new TextReader("123e-4");
+    assertThat(reader.readDouble(), is(123e-4));
+    assertThat(reader.getRead(), equalTo("123e-4"));
     assertThat(reader.getRemaining(), equalTo(""));
   }
 
@@ -250,6 +314,30 @@ final class TextReaderTest {
   }
 
   @Test
+  void readFloat_explicitPositive() throws Exception {
+    final var reader = new TextReader("+123");
+    assertThat(reader.readFloat(), is(+123.0f));
+    assertThat(reader.getRead(), equalTo("+123"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
+  void readFloat_explicitPositiveExponent() throws Exception {
+    final var reader = new TextReader("123e+4");
+    assertThat(reader.readFloat(), is(123e+4f));
+    assertThat(reader.getRead(), equalTo("123e+4"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
+  void readFloat_exponent() throws Exception {
+    final var reader = new TextReader("123e4");
+    assertThat(reader.readFloat(), is(123e4f));
+    assertThat(reader.getRead(), equalTo("123e4"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
   void readFloat_invalid() {
     try {
       new TextReader("12.34.56").readFloat();
@@ -264,6 +352,14 @@ final class TextReaderTest {
     final var reader = new TextReader("-123");
     assertThat(reader.readFloat(), is(-123.0f));
     assertThat(reader.getRead(), equalTo("-123"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
+  void readFloat_negativeExponent() throws Exception {
+    final var reader = new TextReader("123e-4");
+    assertThat(reader.readFloat(), is(123e-4f));
+    assertThat(reader.getRead(), equalTo("123e-4"));
     assertThat(reader.getRemaining(), equalTo(""));
   }
 
@@ -306,6 +402,14 @@ final class TextReaderTest {
     final var reader = new TextReader("1234567890");
     assertThat(reader.readInt(), is(1234567890));
     assertThat(reader.getRead(), equalTo("1234567890"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
+  void readInt_explicitPositive() throws CommandSyntaxException {
+    final var reader = new TextReader("+1234567890");
+    assertThat(reader.readInt(), is(+1234567890));
+    assertThat(reader.getRead(), equalTo("+1234567890"));
     assertThat(reader.getRemaining(), equalTo(""));
   }
 
@@ -358,6 +462,14 @@ final class TextReaderTest {
     final var reader = new TextReader("1234567890");
     assertThat(reader.readLong(), is(1234567890L));
     assertThat(reader.getRead(), equalTo("1234567890"));
+    assertThat(reader.getRemaining(), equalTo(""));
+  }
+
+  @Test
+  void readLong_explicitPositive() throws Exception {
+    final var reader = new TextReader("+1234567890");
+    assertThat(reader.readLong(), is(+1234567890L));
+    assertThat(reader.getRead(), equalTo("+1234567890"));
     assertThat(reader.getRemaining(), equalTo(""));
   }
 
@@ -456,7 +568,7 @@ final class TextReaderTest {
   @Test
   void readQuotedString_invalidEscape() {
     try {
-      new TextReader("\"hello\\nworld\"").readQuotedText();
+      new TextReader("\"hello\nworld\"").readQuotedText();
     } catch (final CommandSyntaxException ex) {
       assertThat(ex.getType(), is(READER_INVALID_ESCAPE));
       assertThat(ex.getCursor(), is(7));

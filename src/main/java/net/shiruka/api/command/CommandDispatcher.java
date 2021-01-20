@@ -535,7 +535,7 @@ public final class CommandDispatcher {
    * @param builders the builders to registers.
    */
   public void register(@NotNull final LiteralBuilder... builders) {
-    this.register(Arrays.stream(builders)
+    this.register(Stream.of(builders)
       .map(LiteralBuilder::build)
       .toArray(CommandNode[]::new));
   }

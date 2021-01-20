@@ -35,9 +35,14 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 import com.google.common.collect.Lists;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 import net.shiruka.api.command.context.CommandContext;
 import net.shiruka.api.command.exceptions.CommandSyntaxException;
 import net.shiruka.api.command.sender.CommandSender;
+import net.shiruka.api.command.suggestion.Suggestion;
+import net.shiruka.api.command.suggestion.Suggestions;
+import net.shiruka.api.command.tree.LiteralNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,6 +82,25 @@ final class CommandDispatcherTest {
   void setUp() throws Exception {
     this.subject = new CommandDispatcher();
     when(this.command.run(any())).thenReturn(CommandResult.of(42));
+  }
+
+  @Test
+  void testCompletionWithErroredFutureReturnsCompletedFuture() throws CommandSyntaxException {
+    final var bar = literal("bar").build();
+    final var baz = mock(LiteralNode.class);
+    when(baz.getName()).thenReturn("baz");
+    when(baz.suggestions(any(), any())).thenAnswer(x -> {
+      final var future = new CompletableFuture<Suggestions>();
+      future.completeExceptionally(new IllegalArgumentException());
+      return future;
+    });
+    this.subject.register(literal("foo").then(bar).then(baz));
+    final var parseResults = this.subject.parse("foo b", this.source);
+    final var suggestions = CommandDispatcher.getCompletionSuggestions(parseResults).join();
+    final var suggestionCollection = suggestions.getSuggestionList().stream()
+      .map(Suggestion::getText)
+      .collect(Collectors.toList());
+    assertThat(Lists.newArrayList("bar"), is(suggestionCollection));
   }
 
   @Test

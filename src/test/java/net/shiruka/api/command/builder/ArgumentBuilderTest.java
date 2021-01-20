@@ -69,11 +69,26 @@ final class ArgumentBuilderTest {
   }
 
   @Test
+  void testThen_withDefaultNode() {
+    final var child = defaultLiteral("foo").build();
+    this.builder.then(child);
+    assertThat(this.builder.getDefaultNode(), is(child));
+  }
+
+  @Test
   void testThen_withRedirect() {
     Assertions.assertThrows(IllegalStateException.class, () -> {
       final var target = mock(CommandNode.class);
       this.builder.redirect(target);
       this.builder.then(literal("foo"));
+    });
+  }
+
+  @Test
+  void testThen_withTwoDefaultNodes() {
+    Assertions.assertThrows(IllegalStateException.class, () -> {
+      this.builder.then(defaultLiteral("foo"));
+      this.builder.then(defaultLiteral("bar"));
     });
   }
 
