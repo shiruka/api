@@ -26,7 +26,7 @@
 package net.shiruka.api.scheduler;
 
 import net.shiruka.api.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine tasks.
@@ -43,7 +43,7 @@ public interface Task {
    *
    * @return plugin.
    */
-  @NotNull
+  @Nullable
   Plugin getOwner();
 
   /**
