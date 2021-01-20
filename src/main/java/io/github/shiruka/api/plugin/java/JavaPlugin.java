@@ -124,7 +124,7 @@ public abstract class JavaPlugin implements Plugin {
   }
 
   final void init(@NotNull final JavaPluginLoader loader, @Nullable final PluginDescriptionFile description,
-            @NotNull final File dataFolder, @NotNull final File file,
-            @NotNull final JavaPluginClassLoader classLoader) {
+                  @NotNull final File dataFolder, @NotNull final File file,
+                  @NotNull final JavaPluginClassLoader classLoader) {
   }
 }

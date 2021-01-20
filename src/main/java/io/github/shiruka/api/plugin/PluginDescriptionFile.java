@@ -56,37 +56,37 @@ public final class PluginDescriptionFile {
   private static final String DEFAULT_PERMISSION = "default-permission";
 
   /**
-   * the depend key of the plugin.yml
+   * the depend key of the plugin.yml.
    */
   private static final String DEPEND = "depend";
 
   /**
-   * the description key of the plugin.yml
+   * the description key of the plugin.yml.
    */
   private static final String DESCRIPTION = "description";
 
   /**
-   * the load key of the plugin.yml
+   * the load key of the plugin.yml.
    */
   private static final String LOAD = "load";
 
   /**
-   * the load before key of the plugin.yml
+   * the load before key of the plugin.yml.
    */
   private static final String LOAD_BEFORE = "load-before";
 
   /**
-   * the main class key of the plugin.yml
+   * the main class key of the plugin.yml.
    */
   private static final String MAIN = "main";
 
   /**
-   * the name key of the plugin.yml
+   * the name key of the plugin.yml.
    */
   private static final String NAME = "name";
 
   /**
-   * the order key of the plugin.yml
+   * the order key of the plugin.yml.
    */
   private static final String ORDER = "order";
 
@@ -96,12 +96,17 @@ public final class PluginDescriptionFile {
   private static final String PERMISSIONS = "permissions";
 
   /**
-   * the prefix key of the plugin.yml
+   * the prefix key of the plugin.yml.
    */
   private static final String PREFIX = "prefix";
 
   /**
-   * the soft depend key of the plugin.yml
+   * the provides key of the plugin.yml.
+   */
+  private static final String PROVIDES = "provides";
+
+  /**
+   * the soft depend key of the plugin.yml.
    */
   private static final String SOFT_DEPEND = "soft-depend";
 
@@ -111,12 +116,12 @@ public final class PluginDescriptionFile {
   private static final Pattern VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$");
 
   /**
-   * the version key of the plugin.yml
+   * the version key of the plugin.yml.
    */
   private static final String VERSION = "version";
 
   /**
-   * the website key of the plugin.yml
+   * the website key of the plugin.yml.
    */
   private static final String WEBSITE = "website";
 
@@ -195,6 +200,12 @@ public final class PluginDescriptionFile {
   private final String prefix;
 
   /**
+   * the provides.
+   */
+  @NotNull
+  private final List<String> provides;
+
+  /**
    * the soft dependency of the plugin.
    */
   @NotNull
@@ -226,6 +237,7 @@ public final class PluginDescriptionFile {
    * @param order the order.
    * @param permissions the permissions.
    * @param prefix the prefix.
+   * @param provides the provides.
    * @param softDepend the soft dependency.
    * @param version the version.
    * @param website the website.
@@ -235,8 +247,9 @@ public final class PluginDescriptionFile {
                                 @NotNull final String description, @NotNull final List<String> loadBefore,
                                 @NotNull final String main, @NotNull final String name,
                                 @NotNull final PluginLoadOrder order, @NotNull final List<Permission> permissions,
-                                @NotNull final String prefix, @NotNull final List<String> softDepend,
-                                @NotNull final String version, @NotNull final String website) {
+                                @NotNull final String prefix, @NotNull final List<String> provides,
+                                @NotNull final List<String> softDepend, @NotNull final String version,
+                                @NotNull final String website) {
     this.authors = Collections.unmodifiableList(authors);
     this.contributors = Collections.unmodifiableList(contributors);
     this.defaultPerm = defaultPerm;
@@ -248,6 +261,7 @@ public final class PluginDescriptionFile {
     this.order = order;
     this.permissions = Collections.unmodifiableList(permissions);
     this.prefix = prefix;
+    this.provides = Collections.unmodifiableList(provides);
     this.softDepend = Collections.unmodifiableList(softDepend);
     this.version = version;
     this.website = website;
@@ -311,6 +325,7 @@ public final class PluginDescriptionFile {
     } catch (final ClassCastException ex) {
       throw new InvalidDescriptionException(ex, "name is of wrong type");
     }
+    final var provides = PluginDescriptionFile.makePluginNameList(map, "provides");
     final String version;
     try {
       version = map.get(PluginDescriptionFile.VERSION).toString();
@@ -392,7 +407,7 @@ public final class PluginDescriptionFile {
     final var permissions = Permission.loadPermissions(lazyPermissions,
       "Permission node '%s' in plugin description file for " + name + " v" + version + " is invalid!", defaultPerm);
     return new PluginDescriptionFile(authors, contributors, defaultPerm, depend, description, loadBefore, main, name,
-      order, permissions, prefix, softDepend, version, website);
+      order, permissions, prefix, provides, softDepend, version, website);
   }
 
   /**
@@ -475,6 +490,16 @@ public final class PluginDescriptionFile {
   }
 
   /**
+   * obtains the provides.
+   *
+   * @return provides.
+   */
+  @NotNull
+  public List<String> getProvides() {
+    return this.provides;
+  }
+
+  /**
    * obtains the version.
    *
    * @return version.
@@ -512,6 +537,7 @@ public final class PluginDescriptionFile {
   private Map<String, Object> saveMap() {
     final var map = new HashMap<String, Object>();
     map.put(PluginDescriptionFile.NAME, this.name);
+    map.put(PluginDescriptionFile.PROVIDES, this.provides);
     map.put(PluginDescriptionFile.MAIN, this.main);
     map.put(PluginDescriptionFile.VERSION, this.version);
     map.put(PluginDescriptionFile.ORDER, this.order.toString());

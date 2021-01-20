@@ -27,13 +27,47 @@ package io.github.shiruka.api.plugin.java;
 
 import io.github.shiruka.api.plugin.*;
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
+import org.simpleyaml.configuration.serialization.ConfigurationSerialization;
 
 /**
  * a class that represents Java plugin loader.
  */
 public final class JavaPluginLoader implements PluginLoader {
+
+  /**
+   * the disable class prioritization.
+   */
+  private static final boolean DISABLE_CLASS_PRIORITIZATION = Boolean.getBoolean("Shiruka.DisableClassPrioritization");
+
+  /**
+   * the class load lock.
+   */
+  private final Map<String, ReentrantReadWriteLock> classLoadLock = new HashMap<>();
+
+  /**
+   * the class load lock count.
+   */
+  private final Map<String, Integer> classLoadLockCount = new HashMap<>();
+
+  /**
+   * the classes.
+   */
+  private final Map<String, Class<?>> classes = new ConcurrentHashMap<>();
+
+  /**
+   * the loaders.
+   */
+  private final List<JavaPluginClassLoader> loaders = new CopyOnWriteArrayList<>();
 
   @Override
   public void disablePlugin(final @NotNull Plugin plugin, final boolean closeClassloader) {
@@ -59,5 +93,71 @@ public final class JavaPluginLoader implements PluginLoader {
   @Override
   public Plugin loadPlugin(@NotNull final File file) throws InvalidPluginException, UnknownDependencyException {
     return null;
+  }
+
+  @Nullable
+  Class<?> getClassByName(@NotNull final String name, @Nullable final JavaPluginClassLoader requester) {
+    var cachedClass = this.classes.get(name);
+    if (cachedClass != null) {
+      return cachedClass;
+    }
+    final ReentrantReadWriteLock lock;
+    synchronized (this.classLoadLock) {
+      lock = this.classLoadLock.computeIfAbsent(name, x -> new ReentrantReadWriteLock());
+      this.classLoadLockCount.compute(name, (x, prev) -> prev != null ? prev + 1 : 1);
+    }
+    lock.writeLock().lock();
+    try {
+      if (!JavaPluginLoader.DISABLE_CLASS_PRIORITIZATION && requester != null) {
+        try {
+          cachedClass = requester.findClass(name, false);
+        } catch (final ClassNotFoundException ignored) {
+        }
+        if (cachedClass != null) {
+          return cachedClass;
+        }
+      }
+      cachedClass = this.classes.get(name);
+      if (cachedClass != null) {
+        return cachedClass;
+      }
+      for (final var loader : this.loaders) {
+        try {
+          cachedClass = loader.findClass(name, false);
+        } catch (final ClassNotFoundException ignored) {
+        }
+        if (cachedClass != null) {
+          return cachedClass;
+        }
+      }
+    } finally {
+      synchronized (this.classLoadLock) {
+        lock.writeLock().unlock();
+        if (this.classLoadLockCount.get(name) == 1) {
+          this.classLoadLock.remove(name);
+          this.classLoadLockCount.remove(name);
+        } else {
+          //noinspection ConstantConditions
+          this.classLoadLockCount.compute(name, (x, prev) -> prev - 1);
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * sets the given {@code name} to the given {@code clazz}.
+   *
+   * @param name the name to set.
+   * @param clazz the clazz to set.
+   */
+  void setClass(@NotNull final String name, @NotNull final Class<?> clazz) {
+    if (!this.classes.containsKey(name)) {
+      this.classes.put(name, clazz);
+      if (ConfigurationSerializable.class.isAssignableFrom(clazz)) {
+        final Class<? extends ConfigurationSerializable> serializable = clazz.asSubclass(ConfigurationSerializable.class);
+        ConfigurationSerialization.registerClass(serializable);
+      }
+    }
   }
 }

@@ -25,15 +25,19 @@
 
 package io.github.shiruka.api.plugin.java;
 
-import com.google.common.base.Preconditions;
+import com.google.common.io.ByteStreams;
+import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.plugin.InvalidPluginException;
 import io.github.shiruka.api.plugin.PluginDescriptionFile;
+import io.github.shiruka.api.plugin.SimplePluginManager;
 import io.github.shiruka.api.text.TranslatedText;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.CodeSource;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
@@ -96,7 +100,7 @@ public final class JavaPluginClassLoader extends URLClassLoader {
   /**
    * the manifest.
    */
-  @NotNull
+  @Nullable
   private final Manifest manifest;
 
   /**
@@ -104,6 +108,11 @@ public final class JavaPluginClassLoader extends URLClassLoader {
    */
   @Nullable
   private final JavaPlugin plugin;
+
+  /**
+   * the seen illegal access.
+   */
+  private final Set<String> seenIllegalAccess = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   /**
    * the url.
@@ -208,12 +217,91 @@ public final class JavaPluginClassLoader extends URLClassLoader {
 
   @Override
   public String toString() {
-    final JavaPlugin currPlugin = this.plugin != null ? this.plugin : this.pluginInit;
-    return "PluginClassLoader{" +
+    final var currPlugin = this.plugin != null ? this.plugin : this.pluginInit;
+    return "JavaPluginClassLoader{" +
       "plugin=" + currPlugin +
       ", pluginEnabled=" + (currPlugin == null ? "uninitialized" : currPlugin.isEnabled()) +
       ", url=" + this.file +
       '}';
+  }
+
+  /**
+   * finds the given {@code name}.
+   *
+   * @param name the name to find.
+   * @param checkGlobal the check global to find.
+   *
+   * @return found class.
+   *
+   * @throws ClassNotFoundException if the given {@code name} starts with net.shiruka. or the class not found.
+   */
+  Class<?> findClass(@NotNull final String name, final boolean checkGlobal) throws ClassNotFoundException {
+    if (name.startsWith("net.shiruka.")) {
+      throw new ClassNotFoundException(name);
+    }
+    Class<?> result = this.classes.get(name);
+    if (result != null) {
+      return result;
+    }
+    if (checkGlobal) {
+      result = this.loader.getClassByName(name, this);
+      if (result != null) {
+        final var provider = ((JavaPluginClassLoader) result.getClassLoader()).description;
+        if (provider != this.description &&
+          !this.seenIllegalAccess.contains(provider.getName()) &&
+          !((SimplePluginManager) Shiruka.getPluginManager()).isTransitiveDepend(this.description, provider)) {
+          this.seenIllegalAccess.add(provider.getName());
+          if (this.plugin != null) {
+            this.plugin.getLogger().warn("Loaded class {} from {} which is not a depend, soft-depend or load-before of this plugin.",
+              name, provider.getFullName());
+          } else {
+            Shiruka.getLogger().warn("[{}] Loaded class {} from {} which is not a depend, soft-depend or load-before of this plugin.",
+              this.description.getName(), name, provider.getFullName());
+          }
+        }
+      }
+    }
+    if (result != null) {
+      return result;
+    }
+    final var path = name.replace('.', '/').concat(".class");
+    final var entry = this.jar.getJarEntry(path);
+    if (entry != null) {
+      final byte[] classBytes;
+      try (final var is = this.jar.getInputStream(entry)) {
+        classBytes = ByteStreams.toByteArray(is);
+      } catch (final IOException ex) {
+        throw new ClassNotFoundException(name, ex);
+      }
+      final var dot = name.lastIndexOf('.');
+      if (dot != -1) {
+        final var pkgName = name.substring(0, dot);
+        if (this.getPackage(pkgName) == null) {
+          try {
+            if (this.manifest != null) {
+              this.definePackage(pkgName, this.manifest, this.url);
+            } else {
+              this.definePackage(pkgName, null, null, null, null, null, null, null);
+            }
+          } catch (final IllegalArgumentException ex) {
+            if (this.getPackage(pkgName) == null) {
+              throw new IllegalStateException("Cannot find package " + pkgName);
+            }
+          }
+        }
+      }
+      final var signers = entry.getCodeSigners();
+      final var source = new CodeSource(this.url, signers);
+      result = this.defineClass(name, classBytes, 0, classBytes.length, source);
+    }
+    if (result == null) {
+      result = super.findClass(name);
+    }
+    if (result != null) {
+      this.loader.setClass(name, result);
+    }
+    this.classes.put(name, result);
+    return result;
   }
 
   /**
@@ -226,15 +314,20 @@ public final class JavaPluginClassLoader extends URLClassLoader {
     return this.classes.keySet();
   }
 
-  synchronized void initialize(@NotNull final JavaPlugin javaPlugin) {
-    Validate.notNull(javaPlugin, "Initializing plugin cannot be null");
-    Validate.isTrue(javaPlugin.getClass().getClassLoader() == this,
+  /**
+   * initiates the given {@code plugin}.
+   *
+   * @param plugin the plugin to initiates.
+   */
+  synchronized void initialize(@NotNull final JavaPlugin plugin) {
+    Validate.isTrue(plugin.getClass().getClassLoader() == this,
       "Cannot initialize plugin outside of this class loader");
-    Preconditions.checkArgument(this.plugin == null && this.pluginInit == null, "Plugin already initialized!",
-      this.pluginState);
+    if (this.plugin != null || this.pluginInit != null) {
+      throw new IllegalArgumentException("Plugin already initialized!", this.pluginState);
+    }
     this.pluginState = new IllegalStateException("Initial initialization");
-    this.pluginInit = javaPlugin;
-    javaPlugin.setLogger(this.logger);
-    javaPlugin.init(this.loader, this.description, this.dataFolder, this.file, this);
+    this.pluginInit = plugin;
+    plugin.setLogger(this.logger);
+    plugin.init(this.loader, this.description, this.dataFolder, this.file, this);
   }
 }
