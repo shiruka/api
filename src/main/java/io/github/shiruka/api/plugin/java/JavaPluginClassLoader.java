@@ -25,24 +25,37 @@
 
 package io.github.shiruka.api.plugin.java;
 
+import com.google.common.base.Preconditions;
 import io.github.shiruka.api.plugin.InvalidPluginException;
 import io.github.shiruka.api.plugin.PluginDescriptionFile;
 import io.github.shiruka.api.text.TranslatedText;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.utils.Validate;
 
 /**
  * a class that represents java plugin class loader.
  */
 public final class JavaPluginClassLoader extends URLClassLoader {
+
+  /**
+   * the classes.
+   */
+  private final Map<String, Class<?>> classes = new ConcurrentHashMap<>();
 
   /**
    * the data folder.
@@ -87,10 +100,28 @@ public final class JavaPluginClassLoader extends URLClassLoader {
   private final Manifest manifest;
 
   /**
+   * the plugin.
+   */
+  @Nullable
+  private final JavaPlugin plugin;
+
+  /**
    * the url.
    */
   @NotNull
   private final URL url;
+
+  /**
+   * the initiated plugin.
+   */
+  @Nullable
+  private JavaPlugin pluginInit;
+
+  /**
+   * the plugin state.
+   */
+  @Nullable
+  private IllegalStateException pluginState;
 
   static {
     ClassLoader.registerAsParallelCapable();
@@ -143,11 +174,67 @@ public final class JavaPluginClassLoader extends URLClassLoader {
           TranslatedText.get("shiruka.plugin.java.class_loader.ctor.does_not_extend_java_plugin",
             description.getName(), description.getMain()).asString(), ex);
       }
-      plugin = pluginClass.newInstance();
-    } catch (final IllegalAccessException ex) {
+      this.plugin = pluginClass.getConstructor().newInstance();
+    } catch (final IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
       throw new InvalidPluginException("No public constructor", ex);
     } catch (final InstantiationException ex) {
       throw new InvalidPluginException("Abnormal plugin type", ex);
     }
+  }
+
+  @Override
+  public void close() throws IOException {
+    try {
+      super.close();
+    } finally {
+      this.jar.close();
+    }
+  }
+
+  @Override
+  protected Class<?> findClass(final String name) throws ClassNotFoundException {
+    return this.findClass(name, true);
+  }
+
+  @Override
+  public URL getResource(final String name) {
+    return this.findResource(name);
+  }
+
+  @Override
+  public Enumeration<URL> getResources(final String name) throws IOException {
+    return this.findResources(name);
+  }
+
+  @Override
+  public String toString() {
+    final JavaPlugin currPlugin = this.plugin != null ? this.plugin : this.pluginInit;
+    return "PluginClassLoader{" +
+      "plugin=" + currPlugin +
+      ", pluginEnabled=" + (currPlugin == null ? "uninitialized" : currPlugin.isEnabled()) +
+      ", url=" + this.file +
+      '}';
+  }
+
+  /**
+   * obtains the classes.
+   *
+   * @return classes.
+   */
+  @NotNull
+  Set<String> getClasses() {
+    return this.classes.keySet();
+  }
+
+  synchronized void initialize(@NotNull final JavaPlugin javaPlugin) {
+    Validate.notNull(javaPlugin, "Initializing plugin cannot be null");
+    Validate.isTrue(javaPlugin.getClass().getClassLoader() == this,
+      "Cannot initialize plugin outside of this class loader");
+    Preconditions.checkArgument(this.plugin == null && this.pluginInit == null, "Plugin already initialized!",
+      this.pluginState);
+    this.pluginState = new IllegalStateException("Initial initialization");
+    this.pluginInit = javaPlugin;
+    javaPlugin.setLogger(this.logger);
+    javaPlugin.init(this.loader, this.description, this.dataFolder, this.file, this);
   }
 }

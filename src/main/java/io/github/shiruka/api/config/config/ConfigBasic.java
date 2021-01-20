@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 /**
@@ -55,7 +56,7 @@ public final class ConfigBasic<F extends FileConfiguration> implements Config {
   /**
    * the file configuration.
    */
-  @NotNull
+  @Nullable
   private F configuration;
 
   /**
@@ -67,26 +68,14 @@ public final class ConfigBasic<F extends FileConfiguration> implements Config {
   public ConfigBasic(@NotNull final File file, @NotNull final Provider<F> provider) {
     this.file = file;
     this.provider = provider;
-    if (!file.exists()) {
-      Optional.ofNullable(file.getParentFile())
-        .filter(parent -> !parent.exists())
-        .ifPresent(File::mkdirs);
-      try {
-        file.createNewFile();
-      } catch (final IOException e) {
-        e.printStackTrace();
-      }
-    }
-    try {
-      this.configuration = provider.load(file);
-    } catch (final Exception e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @NotNull
   @Override
   public FileConfiguration getConfiguration() {
+    if (this.configuration == null) {
+      this.setup();
+    }
     return this.configuration;
   }
 
@@ -107,10 +96,34 @@ public final class ConfigBasic<F extends FileConfiguration> implements Config {
 
   @Override
   public void save() {
+    if (this.configuration == null) {
+      this.setup();
+    }
     try {
       this.provider.save(this.configuration, this.file);
     } catch (final IOException e) {
       e.printStackTrace();
+    }
+  }
+
+  /**
+   * setups the config.
+   */
+  private void setup() {
+    if (!this.file.exists()) {
+      Optional.ofNullable(this.file.getParentFile())
+        .filter(parent -> !parent.exists())
+        .ifPresent(File::mkdirs);
+      try {
+        this.file.createNewFile();
+      } catch (final IOException e) {
+        e.printStackTrace();
+      }
+    }
+    try {
+      this.configuration = this.provider.load(this.file);
+    } catch (final Exception e) {
+      throw new RuntimeException(e);
     }
   }
 }

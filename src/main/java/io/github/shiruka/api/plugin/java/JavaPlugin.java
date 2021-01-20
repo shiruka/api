@@ -31,8 +31,10 @@ import io.github.shiruka.api.plugin.PluginDescriptionFile;
 import io.github.shiruka.api.plugin.PluginLoader;
 import java.io.File;
 import java.io.InputStream;
+import java.util.Objects;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an abstract plugin class that developers have to extends to create plugins for Shiru ka.
@@ -42,57 +44,63 @@ public abstract class JavaPlugin implements Plugin {
   /**
    * the default YAML configuration of the plugin.
    */
-  @NotNull
-  private final YamlConfig config;
+  @Nullable
+  private YamlConfig config;
+
+  /**
+   * the logger.
+   */
+  @Nullable
+  private Logger logger;
 
   @NotNull
   @Override
-  public YamlConfig getConfig() {
-    return this.config;
+  public final YamlConfig getConfig() {
+    return Objects.requireNonNull(this.config, "The plugin not initiated yet!");
   }
 
   @NotNull
   @Override
-  public File getDataFolder() {
+  public final File getDataFolder() {
     return null;
   }
 
   @NotNull
   @Override
-  public PluginDescriptionFile getDescription() {
+  public final PluginDescriptionFile getDescription() {
     return null;
   }
 
   @NotNull
   @Override
-  public Logger getLogger() {
+  public final Logger getLogger() {
+    return Objects.requireNonNull(this.logger, "The plugin not initiated yet!");
+  }
+
+  @NotNull
+  @Override
+  public final PluginLoader getPluginLoader() {
     return null;
   }
 
   @NotNull
   @Override
-  public PluginLoader getPluginLoader() {
-    return null;
-  }
-
-  @NotNull
-  @Override
-  public InputStream getResource(@NotNull final String path) {
+  public final InputStream getResource(@NotNull final String path) {
     return null;
   }
 
   @Override
-  public boolean isEnabled() {
+  public final boolean isEnabled() {
     return false;
   }
 
   @Override
-  public boolean isSusceptible() {
+  public final boolean isSusceptible() {
     return false;
   }
 
   @Override
-  public void setSusceptible(final boolean canSuspect) {
+  public final void setSusceptible(final boolean canSuspect) {
   }
 
   @Override
@@ -108,6 +116,15 @@ public abstract class JavaPlugin implements Plugin {
   }
 
   @Override
-  public void saveResource(@NotNull final String resourcePath, final boolean replace) {
+  public final void saveResource(@NotNull final String resourcePath, final boolean replace) {
+  }
+
+  final void setLogger(@NotNull final Logger logger) {
+    this.logger = logger;
+  }
+
+  final void init(@NotNull final JavaPluginLoader loader, @Nullable final PluginDescriptionFile description,
+            @NotNull final File dataFolder, @NotNull final File file,
+            @NotNull final JavaPluginClassLoader classLoader) {
   }
 }
