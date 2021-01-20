@@ -42,23 +42,23 @@ import org.junit.jupiter.api.Test;
 
 final class ArgumentCommandNodeTest extends AbstractCommandNodeTest {
 
-  private static CommandContextBuilder contextBuilder;
+  private CommandContextBuilder contextBuilder;
 
-  private static ArgumentNode<Integer> node;
-
-  @BeforeEach
-  static void setUp() throws Exception {
-    ArgumentCommandNodeTest.node = arg("foo", integerArg()).build();
-    ArgumentCommandNodeTest.contextBuilder = new CommandContextBuilder(0, new RootNode(), new SimpleCommandSender());
-  }
+  private ArgumentNode<Integer> node;
 
   @Override
   protected CommandNode getCommandNode() {
-    return ArgumentCommandNodeTest.node;
+    return this.node;
+  }
+
+  @BeforeEach
+  void setUp() {
+    this.node = arg("foo", integerArg()).build();
+    this.contextBuilder = new CommandContextBuilder(0, new RootNode(), new SimpleCommandSender());
   }
 
   @Test
-  void testEquals() throws Exception {
+  void testEquals() {
     final var command = (Command) mock(Command.class);
     new EqualsTester()
       .addEqualityGroup(
@@ -91,19 +91,19 @@ final class ArgumentCommandNodeTest extends AbstractCommandNodeTest {
   @Test
   void testParse() throws Exception {
     final var reader = new TextReader("123 456");
-    ArgumentCommandNodeTest.node.parse(reader, ArgumentCommandNodeTest.contextBuilder);
-    assertThat(ArgumentCommandNodeTest.contextBuilder.getArguments().containsKey("foo"), is(true));
-    assertThat(ArgumentCommandNodeTest.contextBuilder.getArguments().get("foo").getResult(), is(123));
+    this.node.parse(reader, this.contextBuilder);
+    assertThat(this.contextBuilder.getArguments().containsKey("foo"), is(true));
+    assertThat(this.contextBuilder.getArguments().get("foo").getResult(), is(123));
   }
 
   @Test
   void testSuggestions() throws Exception {
-    final var result = ArgumentCommandNodeTest.node.suggestions(ArgumentCommandNodeTest.contextBuilder.build(""), Suggestions.builder("", 0)).join();
+    final var result = this.node.suggestions(this.contextBuilder.build(""), Suggestions.builder("", 0)).join();
     assertThat(result.isEmpty(), is(true));
   }
 
   @Test
-  void testUsage() throws Exception {
-    assertThat(ArgumentCommandNodeTest.node.getUsage(), is("<foo>"));
+  void testUsage() {
+    assertThat(this.node.getUsage(), is("<foo>"));
   }
 }
