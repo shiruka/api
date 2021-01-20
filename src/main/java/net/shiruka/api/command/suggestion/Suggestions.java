@@ -139,19 +139,6 @@ public final class Suggestions {
     return Suggestions.create(command, texts);
   }
 
-  @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof Suggestions)) {
-      return false;
-    }
-    final var that = (Suggestions) obj;
-    return Objects.equals(this.range, that.range) &&
-      Objects.equals(this.suggestionList, that.suggestionList);
-  }
-
   /**
    * obtains the range.
    *
@@ -170,6 +157,32 @@ public final class Suggestions {
   @NotNull
   public List<Suggestion> getSuggestionList() {
     return this.suggestionList;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.range, this.suggestionList);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof Suggestions)) {
+      return false;
+    }
+    final var that = (Suggestions) obj;
+    return Objects.equals(this.range, that.range) &&
+      Objects.equals(this.suggestionList, that.suggestionList);
+  }
+
+  @Override
+  public String toString() {
+    return "Suggestions{" +
+      "range=" + this.range +
+      ", suggestions=" + this.suggestionList +
+      '}';
   }
 
   /**

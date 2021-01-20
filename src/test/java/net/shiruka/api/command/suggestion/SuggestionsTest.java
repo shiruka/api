@@ -43,10 +43,24 @@ final class SuggestionsTest {
 
   @Test
   void merge_multiple() {
-    final var a = new Suggestions(TextRange.at(5), Lists.newArrayList(new Suggestion(TextRange.at(5), "ar"), new Suggestion(TextRange.at(5), "az"), new Suggestion(TextRange.at(5), "Az")));
-    final var b = new Suggestions(TextRange.between(4, 5), Lists.newArrayList(new Suggestion(TextRange.between(4, 5), "foo"), new Suggestion(TextRange.between(4, 5), "qux"), new Suggestion(TextRange.between(4, 5), "apple"), new Suggestion(TextRange.between(4, 5), "Bar")));
+    final var a = new Suggestions(TextRange.at(5), Lists.newArrayList(
+      new Suggestion(TextRange.at(5), "ar"),
+      new Suggestion(TextRange.at(5), "az"),
+      new Suggestion(TextRange.at(5), "Az")));
+    final var b = new Suggestions(TextRange.between(4, 5), Lists.newArrayList(
+      new Suggestion(TextRange.between(4, 5), "foo"),
+      new Suggestion(TextRange.between(4, 5), "qux"),
+      new Suggestion(TextRange.between(4, 5), "apple"),
+      new Suggestion(TextRange.between(4, 5), "Bar")));
     final var merged = Suggestions.merge("foo b", Lists.newArrayList(a, b));
-    assertThat(merged.getSuggestionList(), equalTo(Lists.newArrayList(new Suggestion(TextRange.between(4, 5), "apple"), new Suggestion(TextRange.between(4, 5), "bar"), new Suggestion(TextRange.between(4, 5), "Bar"), new Suggestion(TextRange.between(4, 5), "baz"), new Suggestion(TextRange.between(4, 5), "bAz"), new Suggestion(TextRange.between(4, 5), "foo"), new Suggestion(TextRange.between(4, 5), "qux"))));
+    assertThat(merged.getSuggestionList(), equalTo(Lists.newArrayList(
+      new Suggestion(TextRange.between(4, 5), "apple"),
+      new Suggestion(TextRange.between(4, 5), "bar"),
+      new Suggestion(TextRange.between(4, 5), "Bar"),
+      new Suggestion(TextRange.between(4, 5), "baz"),
+      new Suggestion(TextRange.between(4, 5), "bAz"),
+      new Suggestion(TextRange.between(4, 5), "foo"),
+      new Suggestion(TextRange.between(4, 5), "qux"))));
   }
 
   @Test
