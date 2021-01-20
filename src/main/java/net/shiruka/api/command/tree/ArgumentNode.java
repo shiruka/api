@@ -26,6 +26,7 @@
 package net.shiruka.api.command.tree;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import net.shiruka.api.command.*;
@@ -55,6 +56,12 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
   private static final String USAGE_ARGUMENT_OPEN = "<";
 
   /**
+   * the default value.
+   */
+  @Nullable
+  private final V defaultValue;
+
+  /**
    * the name.
    */
   @NotNull
@@ -75,8 +82,10 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
   /**
    * ctor.
    *
+   * @param defaultNode the default node.
    * @param description the description.
    * @param fork the forks.
+   * @param isDefaultNode the is default node.
    * @param modifier the modifier.
    * @param redirect the redirect.
    * @param requirements the requirements.
@@ -85,33 +94,41 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * @param suggestions the suggestion override.
    * @param type the type.
    */
-  public ArgumentNode(@Nullable final String description, final boolean fork, @Nullable final RedirectModifier modifier,
-                      @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
-                      @Nullable final Command command, @NotNull final String name,
-                      @Nullable final SuggestionProvider suggestions, @NotNull final ArgumentType<V> type) {
-    super(description, fork, modifier, redirect, requirements, command);
+  public ArgumentNode(@Nullable final CommandNode defaultNode, @Nullable final V defaultValue,
+                      @Nullable final String description, final boolean fork, final boolean isDefaultNode,
+                      @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
+                      @NotNull final Set<Requirement> requirements, @Nullable final Command command,
+                      @NotNull final String name, @Nullable final SuggestionProvider suggestions,
+                      @NotNull final ArgumentType<V> type) {
+    super(defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, command);
+    this.defaultValue = defaultValue;
     this.name = name;
     this.suggestions = suggestions;
     this.type = type;
   }
 
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof ArgumentNode<?>)) {
+      return false;
+    }
+    final var that = (ArgumentNode<?>) obj;
+    return this.name.equals(that.name) &&
+      this.type.equals(that.type) &&
+      super.equals(obj);
+  }
+
   /**
-   * ctor.
+   * obtains the default value.
    *
-   * @param description the description.
-   * @param command the command.
-   * @param fork the forks.
-   * @param modifier the modifier.
-   * @param redirect the redirect.
-   * @param requirements the requirements.
-   * @param name the name.
-   * @param type the type.
+   * @return default value.
    */
-  public ArgumentNode(@Nullable final String description, final boolean fork, @Nullable final RedirectModifier modifier,
-                      @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
-                      @Nullable final Command command, @NotNull final String name,
-                      @NotNull final ArgumentType<V> type) {
-    this(description, fork, modifier, redirect, requirements, command, name, null, type);
+  @Nullable
+  public V getDefaultValue() {
+    return this.defaultValue;
   }
 
   @NotNull
@@ -149,8 +166,10 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
   public void parse(@NotNull final TextReader reader, @NotNull final CommandContextBuilder builder)
     throws CommandSyntaxException {
     final var start = reader.getCursor();
-    final var result = this.type.parse(reader);
-    final var parsed = new ParsedArgument<>(start, reader.getCursor(), result);
+    final var result = reader.canRead() || !this.isDefaultNode()
+      ? this.type.parse(reader)
+      : this.defaultValue;
+    final var parsed = new ParsedArgument<>(start, reader.getCursor(), Objects.requireNonNull(result, "result"));
     builder.withArgument(this.name, parsed);
     builder.withNode(this, parsed.getRange());
   }
@@ -166,6 +185,16 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
     return this.suggestions.getSuggestions(context, builder);
   }
 
+  /**
+   * obtains the type.
+   *
+   * @return type.
+   */
+  @NotNull
+  public ArgumentType<V> getType() {
+    return this.type;
+  }
+
   @Override
   public int hashCode() {
     var result = this.name.hashCode();
@@ -174,16 +203,7 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
   }
 
   @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof ArgumentNode)) {
-      return false;
-    }
-    final var that = (ArgumentNode<?>) obj;
-    return this.name.equals(that.name) &&
-      this.type.equals(that.type) &&
-      super.equals(obj);
+  public String toString() {
+    return "<argument " + this.name + ":" + this.type + ">";
   }
 }

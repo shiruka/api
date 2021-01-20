@@ -33,6 +33,7 @@ import net.shiruka.api.command.builder.LiteralBuilder;
 import net.shiruka.api.command.builder.RequiredBuilder;
 import net.shiruka.api.command.context.CommandContext;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface that contains only static methods which help developers to create command easily.
@@ -59,7 +60,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Boolean> booleanArg() {
+  static BooleanArgumentType booleanArg() {
     return new BooleanArgumentType();
   }
 
@@ -69,7 +70,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Byte> byteArg() {
+  static ByteArgumentType byteArg() {
     return Commands.byteArg(Byte.MIN_VALUE);
   }
 
@@ -81,7 +82,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Byte> byteArg(final byte minimum) {
+  static ByteArgumentType byteArg(final byte minimum) {
     return Commands.byteArg(minimum, Byte.MAX_VALUE);
   }
 
@@ -94,8 +95,36 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Byte> byteArg(final byte minimum, final byte maximum) {
+  static ByteArgumentType byteArg(final byte minimum, final byte maximum) {
     return new ByteArgumentType(minimum, maximum);
+  }
+
+  /**
+   * creates a new required argument node builder instance.
+   *
+   * @param name the name to create.
+   * @param type the type to create.
+   * @param defaultValue the default value.
+   * @param <V> type of the argument value.
+   *
+   * @return a new argument builder instance.
+   */
+  @NotNull
+  static <V> RequiredBuilder<V> defaultArg(@NotNull final String name, @NotNull final ArgumentType<V> type,
+                                           @Nullable final V defaultValue) {
+    return new RequiredBuilder<>(defaultValue, true, name, type);
+  }
+
+  /**
+   * creates a new instance of default {@link LiteralBuilder}.
+   *
+   * @param name the name to create.
+   *
+   * @return a new command builder instance.
+   */
+  @NotNull
+  static LiteralBuilder defaultLiteral(@NotNull final String name) {
+    return new LiteralBuilder(name, true);
   }
 
   /**
@@ -104,7 +133,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Double> doubleArg() {
+  static DoubleArgumentType doubleArg() {
     return Commands.doubleArg(-Double.MAX_VALUE);
   }
 
@@ -116,7 +145,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Double> doubleArg(final double minimum) {
+  static DoubleArgumentType doubleArg(final double minimum) {
     return Commands.doubleArg(minimum, Double.MAX_VALUE);
   }
 
@@ -129,7 +158,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Double> doubleArg(final double minimum, final double maximum) {
+  static DoubleArgumentType doubleArg(final double minimum, final double maximum) {
     return new DoubleArgumentType(minimum, maximum);
   }
 
@@ -139,7 +168,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Float> floatArg() {
+  static FloatArgumentType floatArg() {
     return Commands.floatArg(-Float.MAX_VALUE);
   }
 
@@ -151,7 +180,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Float> floatArg(final float minimum) {
+  static FloatArgumentType floatArg(final float minimum) {
     return Commands.floatArg(minimum, Float.MAX_VALUE);
   }
 
@@ -164,7 +193,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Float> floatArg(final float minimum, final float maximum) {
+  static FloatArgumentType floatArg(final float minimum, final float maximum) {
     return new FloatArgumentType(minimum, maximum);
   }
 
@@ -284,7 +313,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Integer> integerArg(final int minimum) {
+  static IntegerArgumentType integerArg(final int minimum) {
     return Commands.integerArg(minimum, Integer.MAX_VALUE);
   }
 
@@ -297,7 +326,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Integer> integerArg(final int minimum, final int maximum) {
+  static IntegerArgumentType integerArg(final int minimum, final int maximum) {
     return new IntegerArgumentType(minimum, maximum);
   }
 
@@ -307,7 +336,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<Integer> integerArg() {
+  static IntegerArgumentType integerArg() {
     return Commands.integerArg(Integer.MIN_VALUE);
   }
 
@@ -398,7 +427,7 @@ public interface Commands {
    * @return a new instance of {@code this}.
    */
   @NotNull
-  static ArgumentType<UUID> uniqueIdArg() {
+  static UniqueIdArgumentType uniqueIdArg() {
     return new UniqueIdArgumentType();
   }
 

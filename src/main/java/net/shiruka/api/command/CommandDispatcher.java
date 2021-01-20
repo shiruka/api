@@ -25,6 +25,7 @@
 
 package net.shiruka.api.command;
 
+import com.google.common.base.Preconditions;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -132,8 +133,8 @@ public final class CommandDispatcher {
    * @return collection of completion suggestions.
    */
   @NotNull
-  private static CompletableFuture<Suggestions> getCompletionSuggestions(@NotNull final ParseResults parse,
-                                                                         final int cursor) {
+  public static CompletableFuture<Suggestions> getCompletionSuggestions(@NotNull final ParseResults parse,
+                                                                        final int cursor) {
     final var context = parse.getBuilder();
     final var nodeBeforeCursor = context.findSuggestionContext(cursor);
     final var parent = nodeBeforeCursor.getParent();
@@ -157,6 +158,20 @@ public final class CommandDispatcher {
           .filter(future -> !future.isCompletedExceptionally())
           .map(CompletableFuture::join)
           .collect(Collectors.toCollection(ArrayList::new))));
+  }
+
+  /**
+   * checks if the given {@code node} is executable.
+   *
+   * @param node the node to check.
+   *
+   * @return {@code true} if the node is executable.
+   */
+  private static boolean isNodeExecutable(@NotNull CommandNode node) {
+    while (node.getCommand() == null && node.getDefaultNode().isPresent()) {
+      node = node.getDefaultNode().get();
+    }
+    return node.getCommand() != null;
   }
 
   /**
@@ -200,7 +215,7 @@ public final class CommandDispatcher {
         continue;
       }
       context.withCommand(child.getCommand());
-      if (reader.canRead(child.getRedirect() == null ? 2 : 1)) {
+      if (reader.canRead(child.getRedirect() == null ? 2 : 1) || child.getDefaultNode().isPresent()) {
         reader.skip();
         if (child.getRedirect() != null) {
           final var parse = CommandDispatcher.parseNodes(child.getRedirect(), reader,
@@ -282,8 +297,8 @@ public final class CommandDispatcher {
       }
       throw CommandException.DISPATCHER_UNKNOWN_ARGUMENT.createWithContext(parse.getReader());
     }
-    var result = CommandResult.empty();
-    var successfulForks = CommandResult.empty();
+    final var result = CommandResult.empty();
+    final var successfulForks = CommandResult.empty();
     var forked = false;
     var foundCommand = false;
     final var command = parse.getReader().getText();
@@ -295,43 +310,47 @@ public final class CommandDispatcher {
         final var child = context.getChild();
         if (child != null) {
           forked |= context.isFork();
-          if (child.hasNodes()) {
-            foundCommand = true;
-            final var modifier = context.getRedirectModifier();
-            if (modifier == null) {
-              if (next.get() == null) {
-                next.set(new ArrayList<>(1));
-              }
-              next.get().add(child.copyFor(context.getSender()));
-            } else {
-              try {
-                final var results = modifier.apply(context);
-                if (!results.isEmpty()) {
-                  if (next.get() == null) {
-                    next.set(new ArrayList<>(results.size()));
-                  }
-                  results.forEach(sender -> next.get().add(child.copyFor(sender)));
-                }
-              } catch (final CommandSyntaxException ex) {
-                this.resultConsumer.onCommandComplete(context, false, CommandResult.empty());
-                if (!forked) {
-                  throw ex;
-                }
-              }
-            }
+          if (!child.hasNodes()) {
+            continue;
           }
-        } else if (context.getCommand() != null) {
           foundCommand = true;
+          final var modifier = context.getRedirectModifier();
+          if (modifier == null) {
+            if (next.get() == null) {
+              next.set(new ArrayList<>(1));
+            }
+            next.get().add(child.copyFor(context.getSender()));
+            continue;
+          }
           try {
-            final var value = context.getCommand().run(context);
-            result = result.merge(value);
-            this.resultConsumer.onCommandComplete(context, true, value);
-            successfulForks = CommandResult.succeed();
+            final var results = modifier.apply(context);
+            if (!results.isEmpty()) {
+              if (next.get() == null) {
+                next.set(new ArrayList<>(results.size()));
+              }
+              results.forEach(sender -> next.get().add(child.copyFor(sender)));
+            }
           } catch (final CommandSyntaxException ex) {
             this.resultConsumer.onCommandComplete(context, false, CommandResult.empty());
             if (!forked) {
               throw ex;
             }
+          }
+          continue;
+        }
+        if (context.getCommand() == null) {
+          continue;
+        }
+        foundCommand = true;
+        try {
+          final var value = context.getCommand().run(context);
+          result.merge(value);
+          this.resultConsumer.onCommandComplete(context, true, value);
+          successfulForks.merge(CommandResult.of());
+        } catch (final CommandSyntaxException ex) {
+          this.resultConsumer.onCommandComplete(context, false, CommandResult.empty());
+          if (!forked) {
+            throw ex;
           }
         }
       }
@@ -343,6 +362,22 @@ public final class CommandDispatcher {
       throw CommandException.DISPATCHER_UNKNOWN_COMMAND.createWithContext(parse.getReader());
     }
     return forked ? successfulForks : result;
+  }
+
+  /**
+   * executes the given input with the sender.
+   *
+   * @param input the input to execute.
+   * @param sender the sender to execute.
+   *
+   * @return the executed command result.
+   *
+   * @throws CommandSyntaxException if something is wrong in the command syntax.
+   */
+  @NotNull
+  public CommandResult execute(@NotNull final TextReader input, @NotNull final CommandSender sender)
+    throws CommandSyntaxException {
+    return this.execute(this.parse(input, sender));
   }
 
   /**
@@ -486,7 +521,12 @@ public final class CommandDispatcher {
    * @param commands the commands to registers.
    */
   public void register(@NotNull final CommandNode... commands) {
-    Arrays.asList(commands).forEach(this.root::addChild);
+    Stream.of(commands)
+      .filter(commandNode -> {
+        Preconditions.checkArgument(!commandNode.isDefaultNode(), "You cannot register default nodes!");
+        return true;
+      })
+      .forEach(this.root::addChild);
   }
 
   /**
@@ -536,22 +576,6 @@ public final class CommandDispatcher {
   }
 
   /**
-   * executes the given input with the sender.
-   *
-   * @param input the input to execute.
-   * @param sender the sender to execute.
-   *
-   * @return the executed command result.
-   *
-   * @throws CommandSyntaxException if something is wrong in the command syntax.
-   */
-  @NotNull
-  private CommandResult execute(@NotNull final TextReader input, @NotNull final CommandSender sender)
-    throws CommandSyntaxException {
-    return this.execute(this.parse(input, sender));
-  }
-
-  /**
    * collects and adds all usages to the given result.
    *
    * @param node the node to collect.
@@ -565,7 +589,7 @@ public final class CommandDispatcher {
     if (restricted && !node.canUse(sender)) {
       return;
     }
-    if (node.getCommand() != null) {
+    if (CommandDispatcher.isNodeExecutable(node)) {
       result.add(prefix);
     }
     if (node.getRedirect() != null) {
@@ -599,7 +623,7 @@ public final class CommandDispatcher {
     final String self = optional
       ? CommandDispatcher.USAGE_OPTIONAL_OPEN + node.getUsage() + CommandDispatcher.USAGE_OPTIONAL_CLOSE
       : node.getUsage();
-    final var childOptional = node.getCommand() != null;
+    final var childOptional = CommandDispatcher.isNodeExecutable(node);
     final var open = childOptional
       ? CommandDispatcher.USAGE_OPTIONAL_OPEN
       : CommandDispatcher.USAGE_REQUIRED_OPEN;

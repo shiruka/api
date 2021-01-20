@@ -26,7 +26,6 @@
 package net.shiruka.api.command.builder;
 
 import net.shiruka.api.command.ArgumentType;
-import net.shiruka.api.command.CommandNode;
 import net.shiruka.api.command.SuggestionProvider;
 import net.shiruka.api.command.tree.ArgumentNode;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +37,12 @@ import org.jetbrains.annotations.Nullable;
  * @param <V> type of the argument value.
  */
 public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>> {
+
+  /**
+   * the default value.
+   */
+  @Nullable
+  private final V defaultValue;
 
   /**
    * the name.
@@ -60,22 +65,49 @@ public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>
   /**
    * ctor.
    *
+   * @param defaultValue the default value.
+   * @param isDefaultNode the is default node.
+   * @param name the name.
+   * @param type the type.
+   */
+  @NotNull
+  public RequiredBuilder(@Nullable final V defaultValue, final boolean isDefaultNode, @NotNull final String name,
+                         @NotNull final ArgumentType<V> type) {
+    super(isDefaultNode);
+    this.defaultValue = defaultValue;
+    this.name = name;
+    this.type = type;
+  }
+
+  /**
+   * ctor.
+   *
    * @param name the name.
    * @param type the type.
    */
   @NotNull
   public RequiredBuilder(@NotNull final String name, @NotNull final ArgumentType<V> type) {
-    this.name = name;
-    this.type = type;
+    this(null, false, name, type);
   }
 
   @NotNull
   @Override
-  public CommandNode build() {
-    final var result = new ArgumentNode<>(this.getDescription(), this.isFork(), this.getModifier(), this.getRedirect(),
-      this.getRequirements(), this.getCommand(), this.getName(), this.getSuggestions(), this.getType());
+  public ArgumentNode<V> build() {
+    final var result = new ArgumentNode<>(this.getDefaultNode(), this.getDefaultValue(), this.getDescription(),
+      this.isFork(), this.isDefaultNode(), this.getModifier(), this.getRedirect(), this.getRequirements(),
+      this.getCommand(), this.getName(), this.getSuggestions(), this.getType());
     this.getArguments().forEach(result::addChild);
     return result;
+  }
+
+  /**
+   * obtains the default value.
+   *
+   * @return default value.
+   */
+  @Nullable
+  public V getDefaultValue() {
+    return this.defaultValue;
   }
 
   /**

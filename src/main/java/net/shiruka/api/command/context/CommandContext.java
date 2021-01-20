@@ -131,11 +131,10 @@ public final class CommandContext {
    * @param sender the sender.
    */
   public CommandContext(@NotNull final Map<String, ParsedArgument<?>> arguments, @Nullable final CommandContext child,
-                        @Nullable final Command command, final boolean fork,
-                        @NotNull final String input,
-                        @Nullable final RedirectModifier modifier,
-                        @NotNull final List<ParsedCommandNode> nodes, @NotNull final TextRange range,
-                        @NotNull final CommandNode rootNode, @NotNull final CommandSender sender) {
+                        @Nullable final Command command, final boolean fork, @NotNull final String input,
+                        @Nullable final RedirectModifier modifier, @NotNull final List<ParsedCommandNode> nodes,
+                        @NotNull final TextRange range, @NotNull final CommandNode rootNode,
+                        @NotNull final CommandSender sender) {
     this.arguments = Collections.unmodifiableMap(arguments);
     this.child = child;
     this.command = command;

@@ -94,6 +94,14 @@ public interface CommandNode extends Comparable<CommandNode> {
   void setCommand(@Nullable Command command);
 
   /**
+   * obtains the default node.
+   *
+   * @return default node.
+   */
+  @NotNull
+  Optional<CommandNode> getDefaultNode();
+
+  /**
    * obtains the description.
    *
    * @return description.
@@ -166,6 +174,13 @@ public interface CommandNode extends Comparable<CommandNode> {
    */
   @NotNull
   String getUsage();
+
+  /**
+   * checks if the {@code this} is a default node.
+   *
+   * @return {@code true} if {@code this} is a default node.
+   */
+  boolean isDefaultNode();
 
   /**
    * obtains the fork.

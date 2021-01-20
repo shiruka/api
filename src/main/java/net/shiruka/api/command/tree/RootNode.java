@@ -44,18 +44,14 @@ public final class RootNode extends CommandNodeEnvelope {
    * ctor.
    */
   public RootNode() {
-    super(null, false, context -> Collections.singleton(context.getSender()), null, Collections.emptySet(), null);
+    super(null, null, false, false, context -> Collections.singleton(context.getSender()), null, Collections.emptySet(),
+      null);
   }
 
   @Override
   public boolean equals(final Object obj) {
     return this == obj ||
       obj instanceof RootNode && super.equals(obj);
-  }
-
-  @Override
-  public String toString() {
-    return "<root>";
   }
 
   @NotNull
@@ -97,5 +93,10 @@ public final class RootNode extends CommandNodeEnvelope {
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
                                                     @NotNull final Suggestions.Builder builder) throws CommandSyntaxException {
     return Suggestions.empty();
+  }
+
+  @Override
+  public String toString() {
+    return "<root>";
   }
 }

@@ -59,7 +59,7 @@ public final class Suggestions {
    * @param range the range.
    * @param suggestions the suggestions.
    */
-  private Suggestions(@NotNull final TextRange range, @NotNull final List<Suggestion> suggestions) {
+  public Suggestions(@NotNull final TextRange range, @NotNull final List<Suggestion> suggestions) {
     this.range = range;
     this.suggestionList = Collections.unmodifiableList(suggestions);
   }
@@ -153,6 +153,26 @@ public final class Suggestions {
   }
 
   /**
+   * obtains the range.
+   *
+   * @return range.
+   */
+  @NotNull
+  public TextRange getRange() {
+    return this.range;
+  }
+
+  /**
+   * obtains the suggestion list.
+   *
+   * @return suggestion list.
+   */
+  @NotNull
+  public List<Suggestion> getSuggestionList() {
+    return this.suggestionList;
+  }
+
+  /**
    * checks if {@link #suggestionList} is empty.
    *
    * @return {@code true} if {@link #suggestionList} is empty.}
@@ -222,6 +242,16 @@ public final class Suggestions {
     }
 
     /**
+     * obtains the input.
+     *
+     * @return input.
+     */
+    @NotNull
+    public String getInput() {
+      return this.input;
+    }
+
+    /**
      * obtains the remaining.
      *
      * @return remaining.
@@ -232,9 +262,28 @@ public final class Suggestions {
     }
 
     /**
+     * obtains the start.
+     *
+     * @return start.
+     */
+    public int getStart() {
+      return this.start;
+    }
+
+    /**
+     * resets the builder.
+     *
+     * @return reset builder.
+     */
+    @NotNull
+    public Builder restart() {
+      return new Builder(this.input, this.start);
+    }
+
+    /**
      * adds the given suggestion.
      *
-     * @param suggestion the suggestion to ad.
+     * @param suggestion the suggestion to add.
      *
      * @return {@code this} for builder chain.
      */
@@ -244,6 +293,19 @@ public final class Suggestions {
         return this;
       }
       this.result.add(new Suggestion(TextRange.between(this.start, this.input.length()), suggestion));
+      return this;
+    }
+
+    /**
+     * adds the given suggestion.
+     *
+     * @param suggestion the suggestion to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder suggest(final int suggestion) {
+      this.result.add(new IntegerSuggestion(TextRange.between(this.start, this.input.length()), suggestion));
       return this;
     }
   }

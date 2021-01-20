@@ -35,14 +35,7 @@ import net.shiruka.api.plugin.Plugin;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-public final class SCommandSender implements CommandSender {
-
-  @NotNull
-  private final String name;
-
-  public SCommandSender(@NotNull final String name) {
-    this.name = name;
-  }
+public final class SimpleCommandSender implements CommandSender {
 
   @NotNull
   @Override
@@ -105,7 +98,7 @@ public final class SCommandSender implements CommandSender {
   @NotNull
   @Override
   public Text getName() {
-    return () -> this.name;
+    return null;
   }
 
   @Override
