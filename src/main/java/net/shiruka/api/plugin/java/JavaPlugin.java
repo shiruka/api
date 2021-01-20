@@ -38,6 +38,8 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * an abstract plugin class that developers have to extends to create plugins for Shiru ka.
+ *
+ * @todo #1:60m Implement JavaPlugin methods.
  */
 public abstract class JavaPlugin implements Plugin {
 
