@@ -206,6 +206,16 @@ public final class JavaPluginClassLoader extends URLClassLoader {
     return this.findClass(name, true);
   }
 
+  /**
+   * obtains the plugin.
+   *
+   * @return plugin.
+   */
+  @Nullable
+  public JavaPlugin getPlugin() {
+    return this.plugin;
+  }
+
   @Override
   public URL getResource(final String name) {
     return this.findResource(name);
