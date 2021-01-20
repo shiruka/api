@@ -64,7 +64,7 @@ final class EventTest {
   public static final class ListenerTest implements Listener {
 
     @EventHandler
-    public static void simpleEvent(final PlayerPreLoginEvent event) {
+    public void simpleEvent(final PlayerPreLoginEvent event) {
       if (EventTest.COUNTER.incrementAndGet() >= 5) {
         event.cancel();
       }
