@@ -128,13 +128,14 @@ public final class WorldCreator {
     final var id = split.length > 1 ? split[1] : null;
     final var pluginOptional = Shiruka.getPluginManager().getPlugin(split[0]);
     if (pluginOptional.isEmpty()) {
-      output.sendMessage(TranslatedText.get("shiruka.world.plugin_not_found"), world, split[0]);
+      output.sendMessage(TranslatedText.get("shiruka.world.world_creator.get_generator_for_name.plugin_not_found",
+        world, split[0]));
       return Optional.empty();
     }
     final var plugin = pluginOptional.get();
     if (!plugin.isEnabled()) {
-      output.sendMessage(TranslatedText.get("shiruka.world.plugin_not_enabled"),
-        world, plugin.getDescription().getFullName());
+      output.sendMessage(TranslatedText.get("shiruka.world.world_creator.get_generator_for_name.plugin_not_enabled",
+        world, plugin.getDescription().getFullName()));
       return Optional.empty();
     }
     return plugin.getDefaultWorldGenerator(world, id);

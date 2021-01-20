@@ -41,11 +41,20 @@ public interface CommandSender extends Named, Permissible {
    * sends the given message to the command sender.
    *
    * @param message the message to send.
+   */
+  default void sendMessage(@NotNull final TranslatedText message) {
+    this.sendMessage(message.asString());
+  }
+
+  /**
+   * sends the given message to the command sender.
+   *
+   * @param message the message to send.
    * @param params the params to send.
    */
   default void sendMessage(@NotNull final Text message, @NotNull final Object... params) {
     if (message instanceof TranslatedText) {
-      this.sendMessage(message.asString());
+      this.sendMessage((TranslatedText) message);
     } else {
       this.sendMessage(MessageFormat.format(message.asString(), params));
     }

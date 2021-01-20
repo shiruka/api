@@ -32,6 +32,7 @@ import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.events.LoginDataEvent;
 import net.shiruka.api.text.Text;
+import net.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -156,5 +157,15 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
   @Override
   default void remove() {
     // ignored.
+  }
+
+  @Override
+  default void sendMessage(@NotNull final TranslatedText message) {
+    final var translated = message.translate(this);
+    if (translated.isPresent()) {
+      this.sendMessage(translated.get());
+    } else {
+      this.sendMessage(message.asString());
+    }
   }
 }
