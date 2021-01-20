@@ -49,7 +49,7 @@ public final class PathLoader {
     Arrays.stream(config.getClass().getDeclaredFields())
       .filter(field -> ConfigPath.class.isAssignableFrom(field.getType()))
       .map(field -> {
-        final var accessible = field.canAccess(config);
+        final var accessible = field.isAccessible();
         try {
           field.setAccessible(true);
           return Optional.of(field.get(config));
