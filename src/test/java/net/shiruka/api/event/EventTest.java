@@ -64,7 +64,7 @@ final class EventTest {
   public static final class ListenerTest implements Listener {
 
     @EventHandler
-    public void simpleEvent(final PlayerPreLoginEvent event) {
+    public static void simpleEvent(final PlayerPreLoginEvent event) {
       if (EventTest.COUNTER.incrementAndGet() >= 5) {
         event.cancel();
       }
@@ -93,7 +93,7 @@ final class EventTest {
     @NotNull
     @Override
     public Optional<Text> kickMessage() {
-      return null;
+      return Optional.empty();
     }
 
     @Override

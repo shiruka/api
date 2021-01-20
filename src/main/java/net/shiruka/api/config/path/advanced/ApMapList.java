@@ -48,9 +48,9 @@ public abstract class ApMapList<T> extends ApEnvelope<List<Map<?, ?>>, List<T>> 
    * @param toTList the to object list function.
    * @param toMap the to map function.
    */
-  public ApMapList(@NotNull final String path, @Nullable final List<T> def,
-                   @NotNull final Function<List<Map<?, ?>>, Optional<List<T>>> toTList,
-                   @NotNull final Function<List<T>, Optional<List<Map<?, ?>>>> toMap) {
+  protected ApMapList(@NotNull final String path, @Nullable final List<T> def,
+                      @NotNull final Function<List<Map<?, ?>>, Optional<List<T>>> toTList,
+                      @NotNull final Function<List<T>, Optional<List<Map<?, ?>>>> toMap) {
     super(new ApBasic<>(toTList, toMap, def, path,
       config -> Optional.of(config.getConfiguration().getMapList(path))));
   }

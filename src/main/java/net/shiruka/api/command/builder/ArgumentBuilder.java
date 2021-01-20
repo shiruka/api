@@ -25,6 +25,7 @@
 
 package net.shiruka.api.command.builder;
 
+import com.google.common.base.Preconditions;
 import java.util.*;
 import net.shiruka.api.base.Self;
 import net.shiruka.api.command.*;
@@ -80,6 +81,19 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   private CommandNode redirect;
 
   /**
+   * sets the description.
+   *
+   * @param description the description to set.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final T describe(@Nullable final String description) {
+    this.description = description;
+    return this.getSelf();
+  }
+
+  /**
    * sets the command.
    *
    * @param command the command to set.
@@ -117,9 +131,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   @NotNull
   public final T forward(@NotNull final CommandNode target, @Nullable final RedirectModifier modifier,
                          final boolean fork) {
-    if (!this.arguments.getChildren().isEmpty()) {
-      throw new IllegalStateException("Cannot forward a node with children");
-    }
+    Preconditions.checkState(this.arguments.getChildren().isEmpty(), "Cannot forward a node with children");
     this.redirect = target;
     this.modifier = modifier;
     this.fork = fork;
@@ -144,6 +156,16 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   @Nullable
   public final Command getCommand() {
     return this.command;
+  }
+
+  /**
+   * obtains the description.
+   *
+   * @return description.
+   */
+  @Nullable
+  public final String getDescription() {
+    return this.description;
   }
 
   /**
@@ -256,9 +278,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    */
   @NotNull
   public final T then(@NotNull final CommandNode argument) {
-    if (this.redirect != null) {
-      throw new IllegalStateException("Cannot add children to a redirected node");
-    }
+    Preconditions.checkState(this.redirect == null, "Cannot add children to a redirected node");
     this.arguments.addChild(argument);
     return this.getSelf();
   }
@@ -270,27 +290,4 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    */
   @NotNull
   public abstract CommandNode build();
-
-  /**
-   * sets the description.
-   *
-   * @param description the description to set.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public T describe(@Nullable final String description) {
-    this.description = description;
-    return this.getSelf();
-  }
-
-  /**
-   * obtains the description.
-   *
-   * @return description.
-   */
-  @Nullable
-  public String getDescription() {
-    return this.description;
-  }
 }

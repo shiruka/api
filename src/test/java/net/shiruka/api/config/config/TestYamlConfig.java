@@ -49,28 +49,28 @@ public final class TestYamlConfig extends YamlConfig {
   }
 
   @NotNull
+  public static CpDouble getDoubleTest() {
+    return TestYamlConfig.doubleTest;
+  }
+
+  @NotNull
+  public static CpInteger getIntTest() {
+    return TestYamlConfig.intTest;
+  }
+
+  @NotNull
+  public static CpLong getLongTest() {
+    return TestYamlConfig.longTest;
+  }
+
+  @NotNull
   public CpBoolean getBoolTest() {
     return this.boolTest;
   }
 
   @NotNull
-  public CpDouble getDoubleTest() {
-    return TestYamlConfig.doubleTest;
-  }
-
-  @NotNull
   public CpFloat getFloatTest() {
     return this.floatTest;
-  }
-
-  @NotNull
-  public CpInteger getIntTest() {
-    return TestYamlConfig.intTest;
-  }
-
-  @NotNull
-  public CpLong getLongTest() {
-    return TestYamlConfig.longTest;
   }
 
   @NotNull

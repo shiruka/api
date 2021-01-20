@@ -25,6 +25,7 @@
 
 package net.shiruka.api.plugin.java;
 
+import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
 import java.io.File;
 import java.io.IOException;
@@ -276,7 +277,7 @@ public final class JavaPluginClassLoader extends URLClassLoader {
       final var dot = name.lastIndexOf('.');
       if (dot != -1) {
         final var pkgName = name.substring(0, dot);
-        if (this.getPackage(pkgName) == null) {
+        if (this.getDefinedPackage(pkgName) == null) {
           try {
             if (this.manifest != null) {
               this.definePackage(pkgName, this.manifest, this.url);
@@ -284,9 +285,7 @@ public final class JavaPluginClassLoader extends URLClassLoader {
               this.definePackage(pkgName, null, null, null, null, null, null, null);
             }
           } catch (final IllegalArgumentException ex) {
-            if (this.getPackage(pkgName) == null) {
-              throw new IllegalStateException("Cannot find package " + pkgName);
-            }
+            Preconditions.checkState(this.getDefinedPackage(pkgName) != null, "Cannot find package " + pkgName);
           }
         }
       }

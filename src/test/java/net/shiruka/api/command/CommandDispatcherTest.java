@@ -36,17 +36,13 @@ final class CommandDispatcherTest {
     final var commandSender = new SCommandSender("null");
     final var built = literal("heal")
 //      .playerOnly()
-      .requires(sender -> {
-        return true;
-      })
+      .requires(sender -> true)
       .executes(context -> {
         context.getSender().sendMessage("Main command.");
         return CommandResult.succeed();
       })
       .then(arg("test", termArg("red", "blue"))
-        .requires(sender -> {
-          return true;
-        })
+        .requires(sender -> true)
         .executes(context -> {
           final var value = getString(context, "test");
           if (!value.equalsIgnoreCase("red")) {

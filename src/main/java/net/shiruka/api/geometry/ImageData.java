@@ -25,6 +25,7 @@
 
 package net.shiruka.api.geometry;
 
+import com.google.common.base.Preconditions;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -149,9 +150,8 @@ public final class ImageData {
    *   {@link Skin#SINGLE_SKIN_SIZE}
    */
   public void checkLegacyCapeSize() {
-    if (this.image.length != 0 && this.image.length != Skin.SINGLE_SKIN_SIZE) {
-      throw new IllegalArgumentException("Invalid legacy cape");
-    }
+    Preconditions.checkArgument(this.image.length == 0 || this.image.length == Skin.SINGLE_SKIN_SIZE,
+      "Invalid legacy cape");
   }
 
   /**

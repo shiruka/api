@@ -52,6 +52,7 @@ public final class CpSimple<T> extends CpEnvelope<T> {
    * @param def the default value.
    */
   public CpSimple(@NotNull final String path, @Nullable final T def) {
+    //noinspection unchecked
     this(new CpBasic<>(path, def, o -> (T) o));
   }
 }

@@ -45,7 +45,7 @@ public final class ServerDescription {
   /**
    * the game mode numeric.
    */
-  private final int gameModeNumberic;
+  private final int gameModeNumeric;
 
   /**
    * the ipv4 port.
@@ -82,30 +82,30 @@ public final class ServerDescription {
    * the description.
    */
   @NotNull
-  private String description = "";
+  private String description;
 
   /**
    * the edition.
    */
   @NotNull
-  private Edition edition = Edition.MCPE;
+  private Edition edition;
 
   /**
    * the extras.
    */
   @NotNull
-  private String @NotNull [] extras = new String[0];
+  private String @NotNull [] extras;
 
   /**
    * the player count.
    */
-  private int playerCount = 0;
+  private int playerCount;
 
   /**
    * the sub description.
    */
   @NotNull
-  private String subDescription = "";
+  private String subDescription;
 
   /**
    * ctor.
@@ -129,7 +129,7 @@ public final class ServerDescription {
                            @NotNull final Edition edition, final @NotNull String[] extras, final int playerCount,
                            @NotNull final String subDescription) {
     this.gameMode = gameMode;
-    this.gameModeNumberic = gameMode.getId();
+    this.gameModeNumeric = gameMode.getId();
     this.ipv4Port = ipv4Port;
     this.ipv6Port = ipv6Port;
     this.maximumPlayerCount = maximumPlayerCount;
@@ -318,7 +318,7 @@ public final class ServerDescription {
       .add(String.valueOf(this.serverUniqueId))
       .add(this.subDescription)
       .add(this.gameMode.getType())
-      .add(String.valueOf(this.gameModeNumberic))
+      .add(String.valueOf(this.gameModeNumeric))
       .add(Integer.toString(this.ipv4Port))
       .add(Integer.toString(this.ipv6Port));
     Arrays.stream(this.extras).forEach(joiner::add);

@@ -51,15 +51,15 @@ final class PathLoaderTest {
       new IsTrue());
     MatcherAssert.assertThat(
       "Couldn't set the config!",
-      config.getIntTest().getConfig().isPresent(),
+      TestYamlConfig.getIntTest().getConfig().isPresent(),
       new IsTrue());
     MatcherAssert.assertThat(
       "Couldn't set the config!",
-      config.getLongTest().getConfig().isPresent(),
+      TestYamlConfig.getLongTest().getConfig().isPresent(),
       new IsTrue());
     MatcherAssert.assertThat(
       "Couldn't set the config!",
-      config.getDoubleTest().getConfig().isPresent(),
+      TestYamlConfig.getDoubleTest().getConfig().isPresent(),
       new IsTrue());
   }
 }

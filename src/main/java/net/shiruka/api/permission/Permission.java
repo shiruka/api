@@ -200,11 +200,10 @@ public final class Permission {
             children.put(child.toString(), Boolean.TRUE);
           }
         }
-      } else if (childrenValue instanceof Map) {
-        children = Permission.extractChildren((Map<?, ?>) childrenValue, name, def, output);
-      } else {
+      } else if (!(childrenValue instanceof Map)) {
         throw new IllegalArgumentException("'children' key is of wrong type");
       }
+      children = Permission.extractChildren((Map<?, ?>) childrenValue, name, def, output);
     }
     final var descriptionValue = data.get("description");
     if (descriptionValue != null) {
