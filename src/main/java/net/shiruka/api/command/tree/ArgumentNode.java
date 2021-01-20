@@ -83,6 +83,7 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * ctor.
    *
    * @param defaultNode the default node.
+   * @param defaultValue the default value.
    * @param description the description.
    * @param fork the forks.
    * @param isDefaultNode the is default node.

@@ -400,6 +400,8 @@ public final class TextReader {
    * reads quoted text.
    *
    * @return quoted text.
+   *
+   * @throws CommandSyntaxException if the text does not start with quote.
    */
   @NotNull
   public String readQuotedText() throws CommandSyntaxException {
