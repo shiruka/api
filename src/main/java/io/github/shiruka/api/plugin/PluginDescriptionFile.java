@@ -455,6 +455,16 @@ public final class PluginDescriptionFile {
   }
 
   /**
+   * obtains the main class path.
+   *
+   * @return main class path.
+   */
+  @NotNull
+  public String getMain() {
+    return this.main;
+  }
+
+  /**
    * obtains the plugin name.
    *
    * @return plugin name.

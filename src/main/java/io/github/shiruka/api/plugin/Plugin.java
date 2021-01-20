@@ -115,14 +115,6 @@ public interface Plugin {
   InputStream getResource(@NotNull String path);
 
   /**
-   * obtains the server.
-   *
-   * @return server.
-   */
-  @NotNull
-  Server getServer();
-
-  /**
    * checks if the plugin is enabled.
    *
    * @return {@code true} if the plugin is enabled.
