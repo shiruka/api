@@ -53,35 +53,39 @@ final class LiteralCommandNodeTest extends AbstractCommandNodeTest {
   }
 
   @BeforeEach
-  void setUp() throws Exception {
+  void setUp() {
     this.node = literal("foo").build();
     this.contextBuilder = new CommandContextBuilder(0, new RootNode(), new SimpleCommandSender());
   }
 
   @Test
-  void testEquals() throws Exception {
+  void testEquals() {
     final var command = mock(Command.class);
     new EqualsTester()
       .addEqualityGroup(
-        literal("foo").build(),
-        literal("foo").build()
-      )
+        literal("foo")
+          .build(),
+        literal("foo")
+          .build())
       .addEqualityGroup(
-        literal("bar").executes(command).build(),
-        literal("bar").executes(command).build()
-      )
+        literal("bar")
+          .executes(command)
+          .build(),
+        literal("bar")
+          .executes(command)
+          .build())
       .addEqualityGroup(
-        literal("bar").build(),
-        literal("bar").build()
-      )
+        literal("bar")
+          .build(),
+        literal("bar")
+          .build())
       .addEqualityGroup(
-        literal("foo").then(
-          literal("bar")
-        ).build(),
-        literal("foo").then(
-          literal("bar")
-        ).build()
-      )
+        literal("foo")
+          .then(literal("bar"))
+          .build(),
+        literal("foo")
+          .then(literal("bar"))
+          .build())
       .testEquals();
   }
 
@@ -100,7 +104,7 @@ final class LiteralCommandNodeTest extends AbstractCommandNodeTest {
   }
 
   @Test
-  void testParseInvalid() throws Exception {
+  void testParseInvalid() {
     final var reader = new TextReader("bar");
     try {
       this.node.parse(reader, this.contextBuilder);
@@ -112,7 +116,7 @@ final class LiteralCommandNodeTest extends AbstractCommandNodeTest {
   }
 
   @Test
-  void testParseSimilar() throws Exception {
+  void testParseSimilar() {
     final var reader = new TextReader("foobar");
     try {
       this.node.parse(reader, this.contextBuilder);
@@ -136,7 +140,7 @@ final class LiteralCommandNodeTest extends AbstractCommandNodeTest {
   }
 
   @Test
-  void testUsage() throws Exception {
+  void testUsage() {
     assertThat(this.node.getUsage(), is("foo"));
   }
 }

@@ -248,6 +248,11 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   }
 
   @Override
+  public int hashCode() {
+    return 31 * this.children.hashCode() + (this.command != null ? this.command.hashCode() : 0);
+  }
+
+  @Override
   public boolean equals(final Object obj) {
     if (this == obj) {
       return true;

@@ -70,6 +70,19 @@ public final class LiteralNode extends CommandNodeEnvelope {
     this.literal = literal.toLowerCase(Locale.ROOT);
   }
 
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof LiteralNode)) {
+      return false;
+    }
+    final var that = (LiteralNode) obj;
+    return this.literal.equals(that.literal) &&
+      super.equals(obj);
+  }
+
   @NotNull
   @Override
   public Collection<String> getExamples() {
@@ -130,6 +143,18 @@ public final class LiteralNode extends CommandNodeEnvelope {
   @NotNull
   public String getLiteral() {
     return this.literal;
+  }
+
+  @Override
+  public int hashCode() {
+    var result = this.literal.hashCode();
+    result = 31 * result + super.hashCode();
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "<literal " + this.literal + ">";
   }
 
   /**
