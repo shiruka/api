@@ -23,36 +23,22 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.events.server;
 
-import net.shiruka.api.Shiruka;
-import net.shiruka.api.event.Cancellable;
+import net.shiruka.api.events.Event;
+import net.shiruka.api.events.server.exception.ServerException;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * this class represents the superinterface of all classes that are events.
+ * called whenever an exception is thrown in a recoverable section of the server.
  */
-public interface Event {
+public interface ServerExceptionEvent extends Event {
 
   /**
-   * calls the event itself.
+   * obtains the server exception.
    *
-   * @return {@code true} if the event isn't a {@link Cancellable} or the event is a {@link Cancellable} and not
-   *   cancelled.
+   * @return server exception.
    */
-  default boolean callEvent() {
-    Shiruka.getEventManager().call(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
-    }
-    return true;
-  }
-
-  /**
-   * checks if the event is async.
-   *
-   * @return {@code false} by default, {@code true} if the event fires asynchronously.
-   */
-  default boolean isAsync() {
-    return false;
-  }
+  @NotNull
+  ServerException getServerException();
 }

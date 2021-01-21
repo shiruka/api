@@ -22,37 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package net.shiruka.api.events;
-
-import net.shiruka.api.Shiruka;
-import net.shiruka.api.event.Cancellable;
-
 /**
- * this class represents the superinterface of all classes that are events.
+ * the package that contains exception classes of {@link net.shiruka.api.events.server.ServerExceptionEvent}.
  */
-public interface Event {
-
-  /**
-   * calls the event itself.
-   *
-   * @return {@code true} if the event isn't a {@link Cancellable} or the event is a {@link Cancellable} and not
-   *   cancelled.
-   */
-  default boolean callEvent() {
-    Shiruka.getEventManager().call(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
-    }
-    return true;
-  }
-
-  /**
-   * checks if the event is async.
-   *
-   * @return {@code false} by default, {@code true} if the event fires asynchronously.
-   */
-  default boolean isAsync() {
-    return false;
-  }
-}
+package net.shiruka.api.events.server.exception;

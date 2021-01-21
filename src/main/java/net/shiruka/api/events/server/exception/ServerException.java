@@ -23,36 +23,53 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.events.server.exception;
 
-import net.shiruka.api.Shiruka;
-import net.shiruka.api.event.Cancellable;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * this class represents the superinterface of all classes that are events.
+ * wrapper exception for all exceptions that are thrown by the server.
  */
-public interface Event {
+public class ServerException extends Exception {
 
   /**
-   * calls the event itself.
+   * ctor.
    *
-   * @return {@code true} if the event isn't a {@link Cancellable} or the event is a {@link Cancellable} and not
-   *   cancelled.
+   * @param message the message.
    */
-  default boolean callEvent() {
-    Shiruka.getEventManager().call(this);
-    if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
-    }
-    return true;
+  public ServerException(@NotNull final String message) {
+    super(message);
   }
 
   /**
-   * checks if the event is async.
+   * ctor.
    *
-   * @return {@code false} by default, {@code true} if the event fires asynchronously.
+   * @param message the message.
+   * @param cause the cause.
    */
-  default boolean isAsync() {
-    return false;
+  public ServerException(@NotNull final String message, @NotNull final Throwable cause) {
+    super(message, cause);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param cause the cause.
+   */
+  public ServerException(@NotNull final Throwable cause) {
+    super(cause);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param message the message.
+   * @param cause the cause.
+   * @param enableSuppression the enable suppression.
+   * @param writableStackTrace the writable stack trace.
+   */
+  protected ServerException(@NotNull final String message, @NotNull final Throwable cause,
+                            final boolean enableSuppression, final boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
   }
 }
