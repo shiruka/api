@@ -25,11 +25,13 @@
 
 package net.shiruka.api.events;
 
+import net.shiruka.api.Shiruka;
 import net.shiruka.api.entity.Player;
 import net.shiruka.api.event.Listener;
 import net.shiruka.api.events.player.PlayerAsyncLoginEvent;
 import net.shiruka.api.events.player.PlayerKickEvent;
 import net.shiruka.api.events.player.PlayerPreLoginEvent;
+import net.shiruka.api.events.server.ServerExceptionEvent;
 import net.shiruka.api.events.server.ServerTickEvent;
 import net.shiruka.api.text.Text;
 import net.shiruka.api.text.TranslatedText;
@@ -118,6 +120,29 @@ public interface EventManager {
    * @param listener the listener to register.
    */
   void register(@NotNull Listener listener);
+
+  /**
+   * creates a new {@link ServerExceptionEvent} instance.
+   *
+   * @param serverException the server exception to create.
+   *
+   * @return a new instance of {@link ServerExceptionEvent}.
+   */
+  @NotNull
+  default ServerExceptionEvent serverException(@NotNull final ServerExceptionEvent.ServerException serverException) {
+    return this.serverException(serverException, !Shiruka.isPrimaryThread());
+  }
+
+  /**
+   * creates a new {@link ServerExceptionEvent} instance.
+   *
+   * @param serverException the server exception to create.
+   * @param isAsync the is async to create.
+   *
+   * @return a new instance of {@link ServerExceptionEvent}.
+   */
+  @NotNull
+  ServerExceptionEvent serverException(@NotNull ServerExceptionEvent.ServerException serverException, boolean isAsync);
 
   /**
    * creates a new {@link ServerTickEvent} instance.
