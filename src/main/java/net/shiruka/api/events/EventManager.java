@@ -30,6 +30,7 @@ import net.shiruka.api.event.Listener;
 import net.shiruka.api.events.player.PlayerAsyncLoginEvent;
 import net.shiruka.api.events.player.PlayerKickEvent;
 import net.shiruka.api.events.player.PlayerPreLoginEvent;
+import net.shiruka.api.events.server.ServerTickEvent;
 import net.shiruka.api.text.Text;
 import net.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
@@ -117,6 +118,16 @@ public interface EventManager {
    * @param listener the listener to register.
    */
   void register(@NotNull Listener listener);
+
+  /**
+   * creates a new {@link ServerTickEvent} instance.
+   *
+   * @param tick the tick to create.
+   *
+   * @return a new instance of {@link ServerTickEvent}.
+   */
+  @NotNull
+  ServerTickEvent serverTick(int tick);
 
   /**
    * unregisters the given listener.
