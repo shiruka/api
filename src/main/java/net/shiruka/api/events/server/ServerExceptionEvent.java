@@ -34,6 +34,14 @@ import org.jetbrains.annotations.NotNull;
 public interface ServerExceptionEvent extends Event {
 
   /**
+   * obtains the server exception.
+   *
+   * @return server exception.
+   */
+  @NotNull
+  ServerException getServerException();
+
+  /**
    * wrapper exception for all exceptions that are thrown by the server.
    */
   final class ServerException extends Exception {
