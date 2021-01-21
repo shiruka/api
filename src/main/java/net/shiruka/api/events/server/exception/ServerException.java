@@ -23,22 +23,53 @@
  *
  */
 
-package net.shiruka.api.events.server;
+package net.shiruka.api.events.server.exception;
 
-import java.rmi.ServerException;
-import net.shiruka.api.events.Event;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * called whenever an exception is thrown in a recoverable section of the server.
+ * wrapper exception for all exceptions that are thrown by the server.
  */
-public interface ServerExceptionEvent extends Event {
+public class ServerException extends Exception {
 
   /**
-   * obtains the server exception.
+   * ctor.
    *
-   * @return server exception.
+   * @param message the message.
    */
-  @NotNull
-  ServerException getServerException();
+  public ServerException(@NotNull final String message) {
+    super(message);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param message the message.
+   * @param cause the cause.
+   */
+  public ServerException(@NotNull final String message, @NotNull final Throwable cause) {
+    super(message, cause);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param cause the cause.
+   */
+  public ServerException(@NotNull final Throwable cause) {
+    super(cause);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param message the message.
+   * @param cause the cause.
+   * @param enableSuppression the enable suppression.
+   * @param writableStackTrace the writable stack trace.
+   */
+  protected ServerException(@NotNull final String message, @NotNull final Throwable cause,
+                            final boolean enableSuppression, final boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
 }

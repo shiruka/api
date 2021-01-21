@@ -22,23 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package net.shiruka.api.events.server;
-
-import java.rmi.ServerException;
-import net.shiruka.api.events.Event;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * called whenever an exception is thrown in a recoverable section of the server.
+ * the package that contains exception classes of {@link net.shiruka.api.events.server.ServerExceptionEvent}.
  */
-public interface ServerExceptionEvent extends Event {
-
-  /**
-   * obtains the server exception.
-   *
-   * @return server exception.
-   */
-  @NotNull
-  ServerException getServerException();
-}
+package net.shiruka.api.events.server.exception;

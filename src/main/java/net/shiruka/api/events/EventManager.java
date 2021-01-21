@@ -33,6 +33,7 @@ import net.shiruka.api.events.player.PlayerKickEvent;
 import net.shiruka.api.events.player.PlayerPreLoginEvent;
 import net.shiruka.api.events.server.ServerExceptionEvent;
 import net.shiruka.api.events.server.ServerTickEvent;
+import net.shiruka.api.events.server.exception.ServerException;
 import net.shiruka.api.text.Text;
 import net.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
@@ -129,7 +130,7 @@ public interface EventManager {
    * @return a new instance of {@link ServerExceptionEvent}.
    */
   @NotNull
-  default ServerExceptionEvent serverException(@NotNull final ServerExceptionEvent.ServerException serverException) {
+  default ServerExceptionEvent serverException(@NotNull final ServerException serverException) {
     return this.serverException(serverException, !Shiruka.isPrimaryThread());
   }
 
@@ -142,7 +143,7 @@ public interface EventManager {
    * @return a new instance of {@link ServerExceptionEvent}.
    */
   @NotNull
-  ServerExceptionEvent serverException(@NotNull ServerExceptionEvent.ServerException serverException, boolean isAsync);
+  ServerExceptionEvent serverException(@NotNull ServerException serverException, boolean isAsync);
 
   /**
    * creates a new {@link ServerTickEvent} instance.
