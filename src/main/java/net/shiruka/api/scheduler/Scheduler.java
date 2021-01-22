@@ -180,14 +180,12 @@ public interface Scheduler {
    * @param plugin the plugin to schedule.
    * @param job the job to schedule.
    * @param tick the tick to schedule.
-   * @param period the period to schedule.
    *
    * @return scheduled task.
    */
   @NotNull
-  default Task scheduleAsync(@NotNull final Plugin plugin, @NotNull final Runnable job, final long tick,
-                             final long period) {
-    return this.scheduleAsync(plugin, task -> job.run(), tick, period);
+  default Task scheduleAsync(@NotNull final Plugin plugin, @NotNull final Runnable job, final long tick) {
+    return this.scheduleAsync(plugin, task -> job.run(), tick);
   }
 
   /**
@@ -196,12 +194,14 @@ public interface Scheduler {
    * @param plugin the plugin to schedule.
    * @param job the job to schedule.
    * @param tick the tick to schedule.
+   * @param period the period to schedule.
    *
    * @return scheduled task.
    */
   @NotNull
-  default Task scheduleAsync(@NotNull final Plugin plugin, @NotNull final Runnable job, final long tick) {
-    return this.scheduleAsync(plugin, task -> job.run(), tick);
+  default Task scheduleAsync(@NotNull final Plugin plugin, @NotNull final Runnable job, final long tick,
+                             final long period) {
+    return this.scheduleAsync(plugin, task -> job.run(), tick, period);
   }
 
   /**
@@ -221,12 +221,11 @@ public interface Scheduler {
    * @param plugin the plugin to schedule.
    * @param job the job to schedule.
    * @param tick the tick to schedule.
-   * @param period the period to schedule.
    *
    * @return scheduled task.
    */
   @NotNull
-  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Consumer<Task> job, long tick, long period);
+  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Consumer<Task> job, long tick);
 
   /**
    * executes the given {@code job} with a delay.
@@ -234,9 +233,10 @@ public interface Scheduler {
    * @param plugin the plugin to schedule.
    * @param job the job to schedule.
    * @param tick the tick to schedule.
+   * @param period the period to schedule.
    *
    * @return scheduled task.
    */
   @NotNull
-  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Consumer<Task> job, long tick);
+  Task scheduleAsync(@NotNull Plugin plugin, @NotNull Consumer<Task> job, long tick, long period);
 }
