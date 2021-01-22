@@ -26,6 +26,8 @@
 package net.shiruka.api.scheduler;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import net.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +36,17 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine schedulers.
  */
 public interface Scheduler {
+
+  /**
+   * calls a method on the main thread and returns a Future object.
+   *
+   * @param plugin the plugin to call.
+   * @param task the task to call.
+   * @param <T> callable's return type.
+   *
+   * @return future object related to the task.
+   */
+  @NotNull <T> Future<T> callSyncMethod(@NotNull Plugin plugin, @NotNull Callable<T> task);
 
   /**
    * removes task from scheduler.
