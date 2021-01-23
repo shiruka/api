@@ -26,11 +26,13 @@
 package net.shiruka.api.events;
 
 import net.shiruka.api.Shiruka;
+import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.entity.Player;
 import net.shiruka.api.event.Listener;
 import net.shiruka.api.events.player.PlayerAsyncLoginEvent;
 import net.shiruka.api.events.player.PlayerKickEvent;
 import net.shiruka.api.events.player.PlayerPreLoginEvent;
+import net.shiruka.api.events.server.ServerCommandEvent;
 import net.shiruka.api.events.server.ServerExceptionEvent;
 import net.shiruka.api.events.server.ServerTickEvent;
 import net.shiruka.api.events.server.exception.ServerException;
@@ -121,6 +123,17 @@ public interface EventManager {
    * @param listener the listener to register.
    */
   void register(@NotNull Listener listener);
+
+  /**
+   * creates a new {@link ServerCommandEvent} instance.
+   *
+   * @param sender the sender to create.
+   * @param command the command to create.
+   *
+   * @return a new instance of {@link ServerCommandEvent}.
+   */
+  @NotNull
+  ServerCommandEvent serverCommand(@NotNull CommandSender sender, @NotNull String command);
 
   /**
    * creates a new {@link ServerExceptionEvent} instance.
