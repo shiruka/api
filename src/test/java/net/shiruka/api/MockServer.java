@@ -27,7 +27,6 @@ package net.shiruka.api;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.concurrent.CompletableFuture;
 import net.shiruka.api.base.BanList;
 import net.shiruka.api.base.GameMode;
 import net.shiruka.api.entity.Player;
@@ -73,9 +72,9 @@ public final class MockServer implements Server {
 
   @NotNull
   @Override
-  public CompletableFuture<ServerDescription> getServerDescription(final boolean forceUpdate) {
-    return CompletableFuture.completedFuture(new ServerDescription(
-      GameMode.SURVIVAL, 0, 0, 0, 0, 0L, "", "", ServerDescription.Edition.MCPE, new String[0], 0, ""));
+  public ServerDescription getServerDescription(final boolean forceUpdate) {
+    return new ServerDescription(
+      GameMode.SURVIVAL, 0, 0, 0, 0, 0L, "", "", ServerDescription.Edition.MCPE, new String[0], 0, "");
   }
 
   @Override
