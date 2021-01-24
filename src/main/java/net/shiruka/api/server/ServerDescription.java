@@ -26,7 +26,6 @@
 package net.shiruka.api.server;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.StringJoiner;
 import net.shiruka.api.base.GameMode;
 import org.jetbrains.annotations.NotNull;
@@ -41,21 +40,6 @@ public final class ServerDescription {
    */
   @NotNull
   private final GameMode gameMode;
-
-  /**
-   * the game mode numeric.
-   */
-  private final int gameModeNumeric;
-
-  /**
-   * the ipv4 port.
-   */
-  private final int ipv4Port;
-
-  /**
-   * the ipv6 port.
-   */
-  private final int ipv6Port;
 
   /**
    * the maximum player count.
@@ -91,56 +75,42 @@ public final class ServerDescription {
   private Edition edition;
 
   /**
-   * the extras.
-   */
-  @NotNull
-  private String @NotNull [] extras;
-
-  /**
    * the player count.
    */
   private int playerCount;
 
   /**
-   * the sub description.
+   * the world name.
    */
   @NotNull
-  private String subDescription;
+  private String worldName;
 
   /**
    * ctor.
    *
    * @param gameMode the game mode.
    * @param description the description.
-   * @param ipv4Port the ipv4 port.
-   * @param ipv6Port the ipv6 port.
    * @param maximumPlayerCount the maximum player count.
-   * @param extras the extras.
    * @param serverUniqueId the server unique id.
    * @param playerCount the player count.
    * @param versionName the version name.
    * @param protocolVersion the protocol version.
    * @param edition the edition.
-   * @param subDescription the sub description.
+   * @param worldName the world name.
    */
-  public ServerDescription(@NotNull final GameMode gameMode, final int ipv4Port, final int ipv6Port,
-                           final int maximumPlayerCount, final int protocolVersion, final long serverUniqueId,
-                           @NotNull final String versionName, @NotNull final String description,
-                           @NotNull final Edition edition, final @NotNull String[] extras, final int playerCount,
-                           @NotNull final String subDescription) {
+  public ServerDescription(@NotNull final GameMode gameMode, final int maximumPlayerCount, final int protocolVersion,
+                           final long serverUniqueId, @NotNull final String versionName,
+                           @NotNull final String description, @NotNull final Edition edition, final int playerCount,
+                           @NotNull final String worldName) {
     this.gameMode = gameMode;
-    this.gameModeNumeric = gameMode.getId();
-    this.ipv4Port = ipv4Port;
-    this.ipv6Port = ipv6Port;
     this.maximumPlayerCount = maximumPlayerCount;
     this.protocolVersion = protocolVersion;
     this.serverUniqueId = serverUniqueId;
     this.versionName = versionName;
     this.description = description;
     this.edition = edition;
-    this.extras = extras.clone();
     this.playerCount = playerCount;
-    this.subDescription = subDescription;
+    this.worldName = worldName;
   }
 
   /**
@@ -156,7 +126,7 @@ public final class ServerDescription {
   /**
    * sets the description.
    *
-   * @param description description to set.
+   * @param description the description to set.
    */
   public void setDescription(@NotNull final String description) {
     this.description = description;
@@ -182,25 +152,6 @@ public final class ServerDescription {
   }
 
   /**
-   * obtains the extras.
-   *
-   * @return extras.
-   */
-  @NotNull
-  public String[] getExtras() {
-    return this.extras.clone();
-  }
-
-  /**
-   * sets the extras.
-   *
-   * @param extras the extras to set.
-   */
-  public void setExtras(final String[] extras) {
-    this.extras = extras.clone();
-  }
-
-  /**
    * obtains the game mode.
    *
    * @return game mode.
@@ -208,24 +159,6 @@ public final class ServerDescription {
   @NotNull
   public GameMode getGameMode() {
     return this.gameMode;
-  }
-
-  /**
-   * obtains the ipv4 port.
-   *
-   * @return ipv4 port.
-   */
-  public int getIpv4Port() {
-    return this.ipv4Port;
-  }
-
-  /**
-   * obtains the ipv6.
-   *
-   * @return ipv6.
-   */
-  public int getIpv6Port() {
-    return this.ipv6Port;
   }
 
   /**
@@ -249,7 +182,7 @@ public final class ServerDescription {
   /**
    * sets the player count.
    *
-   * @param playerCount player count to set.
+   * @param playerCount the player count to set.
    */
   public void setPlayerCount(final int playerCount) {
     this.playerCount = playerCount;
@@ -274,25 +207,6 @@ public final class ServerDescription {
   }
 
   /**
-   * obtains the sub description.
-   *
-   * @return sub description.
-   */
-  @NotNull
-  public String getSubDescription() {
-    return this.subDescription;
-  }
-
-  /**
-   * sets the sub description.
-   *
-   * @param subDescription sub description to set.
-   */
-  public void setSubDescription(@NotNull final String subDescription) {
-    this.subDescription = subDescription;
-  }
-
-  /**
    * obtains the version name.
    *
    * @return version name.
@@ -300,6 +214,25 @@ public final class ServerDescription {
   @NotNull
   public String getVersionName() {
     return this.versionName;
+  }
+
+  /**
+   * obtains the world name.
+   *
+   * @return world name.
+   */
+  @NotNull
+  public String getWorldName() {
+    return this.worldName;
+  }
+
+  /**
+   * sets the world name.
+   *
+   * @param worldName the world name to set.
+   */
+  public void setWorldName(@NotNull final String worldName) {
+    this.worldName = worldName;
   }
 
   /**
@@ -316,12 +249,8 @@ public final class ServerDescription {
       .add(String.valueOf(this.playerCount))
       .add(String.valueOf(this.maximumPlayerCount))
       .add(String.valueOf(this.serverUniqueId))
-      .add(this.subDescription)
       .add(this.gameMode.getType())
-      .add(String.valueOf(this.gameModeNumeric))
-      .add(Integer.toString(this.ipv4Port))
-      .add(Integer.toString(this.ipv6Port));
-    Arrays.stream(this.extras).forEach(joiner::add);
+      .add(this.worldName);
     return joiner.toString().getBytes(StandardCharsets.UTF_8);
   }
 
