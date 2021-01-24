@@ -27,7 +27,6 @@ package net.shiruka.api.permission;
 
 import com.google.common.base.Preconditions;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
