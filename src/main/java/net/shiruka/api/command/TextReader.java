@@ -262,7 +262,7 @@ public final class TextReader {
    */
   public boolean readBoolean() throws CommandSyntaxException {
     final var start = this.cursor;
-    final String value = this.readUnquotedText();
+    final var value = this.readUnquotedText();
     if (value.isEmpty()) {
       throw CommandException.READER_EXPECTED_BOOL.createWithContext(this);
     }
@@ -408,7 +408,7 @@ public final class TextReader {
     if (!this.canRead()) {
       return "";
     }
-    final char next = this.peek();
+    final var next = this.peek();
     if (!TextReader.isQuotedTextStart(next)) {
       throw CommandException.READER_EXPECTED_START_OF_QUOTE.createWithContext(this);
     }
