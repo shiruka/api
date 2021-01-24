@@ -74,7 +74,7 @@ public final class MockServer implements Server {
   @Override
   public ServerDescription getServerDescription(final boolean forceUpdate) {
     return new ServerDescription(
-      GameMode.SURVIVAL, 0, 0, 0, 0, 0L, "", "", ServerDescription.Edition.MCPE, new String[0], 0, "");
+      GameMode.SURVIVAL, 0, 0, 0, "", "", ServerDescription.Edition.MCPE, 0, "");
   }
 
   @Override
