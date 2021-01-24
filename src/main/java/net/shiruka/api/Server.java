@@ -26,7 +26,6 @@
 package net.shiruka.api;
 
 import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
 import net.shiruka.api.base.BanList;
 import net.shiruka.api.entity.Player;
 import net.shiruka.api.server.ServerDescription;
@@ -98,7 +97,7 @@ public interface Server {
    * @return server's descriptions.
    */
   @NotNull
-  CompletableFuture<ServerDescription> getServerDescription(boolean forceUpdate);
+  ServerDescription getServerDescription(boolean forceUpdate);
 
   /**
    * obtains server's descriptions.
@@ -106,7 +105,7 @@ public interface Server {
    * @return server's descriptions.
    */
   @NotNull
-  default CompletableFuture<ServerDescription> getServerDescription() {
+  default ServerDescription getServerDescription() {
     return this.getServerDescription(false);
   }
 
