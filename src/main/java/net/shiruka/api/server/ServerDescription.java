@@ -312,7 +312,7 @@ public final class ServerDescription {
       .add(this.edition.name())
       .add(this.description)
       .add(String.valueOf(this.protocolVersion))
-      .add(String.valueOf(this.protocolVersion))
+      .add(this.versionName)
       .add(String.valueOf(this.playerCount))
       .add(String.valueOf(this.maximumPlayerCount))
       .add(String.valueOf(this.serverUniqueId))
