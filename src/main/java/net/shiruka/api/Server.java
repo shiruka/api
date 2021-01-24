@@ -28,7 +28,6 @@ package net.shiruka.api;
 import java.util.Collection;
 import net.shiruka.api.base.BanList;
 import net.shiruka.api.entity.Player;
-import net.shiruka.api.server.ServerDescription;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -90,26 +89,6 @@ public interface Server {
   int getPlayerCount();
 
   /**
-   * obtains server's descriptions.
-   *
-   * @param forceUpdate the force update to get.
-   *
-   * @return server's descriptions.
-   */
-  @NotNull
-  ServerDescription getServerDescription(boolean forceUpdate);
-
-  /**
-   * obtains server's descriptions.
-   *
-   * @return server's descriptions.
-   */
-  @NotNull
-  default ServerDescription getServerDescription() {
-    return this.getServerDescription(false);
-  }
-
-  /**
    * obtains server's shutdown statement.
    *
    * @return {@code true} if the server is in the shutdown state.
@@ -148,10 +127,8 @@ public interface Server {
 
   /**
    * initiates the server.
-   *
-   * @param startTime the start time to start.
    */
-  void startServer(long startTime);
+  void startServer();
 
   /**
    * closes the server.
