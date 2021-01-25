@@ -57,7 +57,7 @@ public final class SimpleEventController implements EventController {
    */
   private static boolean shouldPost(@NotNull final Event event, @NotNull final EventSubscriber subscriber) {
     if (!subscriber.consumeCancelledEvents() &&
-      event instanceof Cancellable && ((Cancellable) event).cancelled()) {
+      event instanceof Cancellable && ((Cancellable) event).isCancelled()) {
       return false;
     }
     final var type = subscriber.type();

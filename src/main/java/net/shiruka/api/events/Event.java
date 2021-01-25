@@ -42,7 +42,7 @@ public interface Event {
   default boolean callEvent() {
     Shiruka.getEventManager().call(this);
     if (this instanceof Cancellable) {
-      return !((Cancellable) this).cancelled();
+      return !((Cancellable) this).isCancelled();
     }
     return true;
   }
