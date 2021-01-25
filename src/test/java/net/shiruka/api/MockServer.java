@@ -28,9 +28,7 @@ package net.shiruka.api;
 import java.util.Collection;
 import java.util.Collections;
 import net.shiruka.api.base.BanList;
-import net.shiruka.api.base.GameMode;
 import net.shiruka.api.entity.Player;
-import net.shiruka.api.server.ServerDescription;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,13 +68,6 @@ public final class MockServer implements Server {
     return 0;
   }
 
-  @NotNull
-  @Override
-  public ServerDescription getServerDescription(final boolean forceUpdate) {
-    return new ServerDescription(
-      GameMode.SURVIVAL, 0, 0, 0, "", "", ServerDescription.Edition.MCPE, 0, "");
-  }
-
   @Override
   public boolean isInShutdownState() {
     return false;
@@ -102,7 +93,7 @@ public final class MockServer implements Server {
   }
 
   @Override
-  public void startServer(final long startTime) {
+  public void startServer() {
   }
 
   @Override
