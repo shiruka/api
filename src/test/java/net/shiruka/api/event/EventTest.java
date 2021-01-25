@@ -92,18 +92,18 @@ final class EventTest {
 
     @NotNull
     @Override
+    public ChainData chainData() {
+      return null;
+    }
+
+    @NotNull
+    @Override
     public Optional<Text> kickMessage() {
       return Optional.empty();
     }
 
     @Override
     public void kickMessage(@Nullable final Text message) {
-    }
-
-    @NotNull
-    @Override
-    public LoginData loginData() {
-      return null;
     }
   }
 }
