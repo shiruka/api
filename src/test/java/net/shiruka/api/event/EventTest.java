@@ -56,7 +56,7 @@ final class EventTest {
   private void loop() {
     final var sent = new SimpleEvent();
     EventTest.ADAPTER.call(sent);
-    if (!sent.cancelled()) {
+    if (!sent.isCancelled()) {
       this.loop();
     }
   }
@@ -66,7 +66,7 @@ final class EventTest {
     @EventHandler
     public void simpleEvent(final PlayerPreLoginEvent event) {
       if (EventTest.COUNTER.incrementAndGet() >= 5) {
-        event.cancel();
+        event.setCancelled(true);
       }
     }
   }
@@ -74,21 +74,6 @@ final class EventTest {
   public static final class SimpleEvent implements PlayerPreLoginEvent {
 
     private boolean cancelled = false;
-
-    @Override
-    public void cancel() {
-      this.cancelled = true;
-    }
-
-    @Override
-    public boolean cancelled() {
-      return this.cancelled;
-    }
-
-    @Override
-    public void dontCancel() {
-      this.cancelled = false;
-    }
 
     @NotNull
     @Override
@@ -104,6 +89,16 @@ final class EventTest {
 
     @Override
     public void setKickMessage(@Nullable final Text message) {
+    }
+
+    @Override
+    public boolean isCancelled() {
+      return this.cancelled;
+    }
+
+    @Override
+    public void setCancelled(final boolean cancelled) {
+      this.cancelled = cancelled;
     }
   }
 }

@@ -34,19 +34,16 @@ import net.shiruka.api.events.Event;
 public interface Cancellable extends Event {
 
   /**
-   * cancels state of the event.
-   */
-  void cancel();
-
-  /**
    * obtains the cancel state of the event.
    *
    * @return {@code true} if the event has been cancelled.
    */
-  boolean cancelled();
+  boolean isCancelled();
 
   /**
-   * dont cancels state of the event.
+   * cancels state of the event.
+   *
+   * @param cancelled the cancelled to set.
    */
-  void dontCancel();
+  void setCancelled(boolean cancelled);
 }
