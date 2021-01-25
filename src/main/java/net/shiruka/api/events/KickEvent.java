@@ -41,25 +41,25 @@ public interface KickEvent extends Event {
    * @return kick message.
    */
   @NotNull
-  Optional<Text> kickMessage();
+  Optional<Text> getKickMessage();
 
   /**
    * sets the kick message.
    *
    * @param message the message to set.
    */
-  void kickMessage(@Nullable Text message);
+  void setKickMessage(@Nullable Text message);
 
   /**
    * sets the kick message.
    *
    * @param message the message to set.
    */
-  default void kickMessage(@Nullable final String message) {
+  default void setKickMessage(@Nullable final String message) {
     if (message == null) {
-      this.kickMessage((Text) null);
+      this.setKickMessage((Text) null);
     } else {
-      this.kickMessage(() -> message);
+      this.setKickMessage(() -> message);
     }
   }
 

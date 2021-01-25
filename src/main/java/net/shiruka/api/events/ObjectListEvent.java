@@ -40,7 +40,7 @@ public interface ObjectListEvent<O> {
    *
    * @param action the action to add.
    */
-  void add(@NotNull O action);
+  void addAction(@NotNull O action);
 
   /**
    * obtains the object list.
@@ -48,12 +48,12 @@ public interface ObjectListEvent<O> {
    * @return list of object.
    */
   @NotNull
-  List<O> objects();
+  List<O> getActions();
 
   /**
    * removes the given action.
    *
    * @param action the action to remove.
    */
-  void remove(@NotNull O action);
+  void removeAction(@NotNull O action);
 }

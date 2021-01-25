@@ -38,14 +38,14 @@ public interface LoginResultEvent {
    * @return login result.
    */
   @NotNull
-  LoginResult loginResult();
+  LoginResult getLoginResult();
 
   /**
    * sets the login result.
    *
    * @param result the result to set.
    */
-  void loginResult(@NotNull LoginResult result);
+  void setLoginResult(@NotNull LoginResult result);
 
   /**
    * an enum class to determine login result.
