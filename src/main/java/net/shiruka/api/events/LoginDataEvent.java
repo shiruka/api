@@ -35,12 +35,12 @@ import org.jetbrains.annotations.NotNull;
 public interface LoginDataEvent extends Event {
 
   /**
-   * obtains the login data.
+   * obtains the chain data.
    *
-   * @return login data.
+   * @return chain data.
    */
   @NotNull
-  LoginData loginData();
+  ChainData chainData();
 
   /**
    * an interface to determine chain data.
@@ -175,19 +175,5 @@ public interface LoginDataEvent extends Event {
      */
     @NotNull
     String xuid();
-  }
-
-  /**
-   * an interface to determine login data.
-   */
-  interface LoginData {
-
-    /**
-     * obtains the chain data.
-     *
-     * @return chain data.
-     */
-    @NotNull
-    ChainData chainData();
   }
 }

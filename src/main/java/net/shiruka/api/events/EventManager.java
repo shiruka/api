@@ -61,12 +61,12 @@ public interface EventManager {
   /**
    * creates a new {@link PlayerAsyncLoginEvent} instance.
    *
-   * @param loginData the login data to create.
+   * @param chainData the login data to create.
    *
    * @return a new instance of {@link PlayerAsyncLoginEvent}.
    */
   @NotNull
-  PlayerAsyncLoginEvent playerAsyncLogin(@NotNull LoginDataEvent.LoginData loginData);
+  PlayerAsyncLoginEvent playerAsyncLogin(@NotNull LoginDataEvent.ChainData chainData);
 
   /**
    * creates a new {@link PlayerKickEvent} instance.
@@ -97,25 +97,25 @@ public interface EventManager {
   /**
    * creates a new {@link PlayerPreLoginEvent} instance.
    *
-   * @param loginData the login data to create.
+   * @param chainData the login data to create.
    *
    * @return a new instance of {@link PlayerPreLoginEvent}.
    */
   @NotNull
-  default PlayerPreLoginEvent playerPreLogin(@NotNull final LoginDataEvent.LoginData loginData) {
-    return this.playerPreLogin(loginData, null);
+  default PlayerPreLoginEvent playerPreLogin(@NotNull final LoginDataEvent.ChainData chainData) {
+    return this.playerPreLogin(chainData, null);
   }
 
   /**
    * creates a new {@link PlayerPreLoginEvent} instance.
    *
-   * @param loginData the login data to create.
+   * @param chainData the login data to create.
    * @param kickMessage the kick message to create.
    *
    * @return a new instance of {@link PlayerPreLoginEvent}.
    */
   @NotNull
-  PlayerPreLoginEvent playerPreLogin(@NotNull LoginDataEvent.LoginData loginData, @Nullable Text kickMessage);
+  PlayerPreLoginEvent playerPreLogin(@NotNull LoginDataEvent.ChainData chainData, @Nullable Text kickMessage);
 
   /**
    * registers the given listener.
