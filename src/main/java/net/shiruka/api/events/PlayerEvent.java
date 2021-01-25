@@ -40,7 +40,7 @@ public interface PlayerEvent extends EntityEvent {
    */
   @NotNull
   @Override
-  Player entity();
+  Player getEntity();
 
   /**
    * obtains the player.
@@ -48,7 +48,7 @@ public interface PlayerEvent extends EntityEvent {
    * @return the player.
    */
   @NotNull
-  default Player player() {
-    return this.entity();
+  default Player getPlayer() {
+    return this.getEntity();
   }
 }

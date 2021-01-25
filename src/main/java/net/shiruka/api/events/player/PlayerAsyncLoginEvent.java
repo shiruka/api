@@ -44,7 +44,7 @@ public interface PlayerAsyncLoginEvent extends LoginDataEvent, KickEvent, LoginR
    * allows the player to join.
    */
   default void allow() {
-    this.loginResult(LoginResult.SUCCESS);
+    this.setLoginResult(LoginResult.SUCCESS);
   }
 
   /**
@@ -53,7 +53,7 @@ public interface PlayerAsyncLoginEvent extends LoginDataEvent, KickEvent, LoginR
    * @param text the text to kick.
    */
   default void disAllow(@Nullable final Text text) {
-    this.loginResult(LoginResult.KICK);
-    this.kickMessage(text);
+    this.setLoginResult(LoginResult.KICK);
+    this.setKickMessage(text);
   }
 }
