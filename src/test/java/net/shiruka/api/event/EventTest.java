@@ -92,7 +92,7 @@ final class EventTest {
 
     @NotNull
     @Override
-    public ChainData chainData() {
+    public ChainData getChainData() {
       return null;
     }
 
