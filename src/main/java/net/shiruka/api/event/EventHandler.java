@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 public @interface EventHandler {
 
   /**
-   * should not receive events even if they have been {@link Cancellable#cancelled()}.
+   * should not receive events even if they have been {@link Cancellable#isCancelled()}.
    *
    * @return {@code true} if the event ignores being cancelled.
    */
