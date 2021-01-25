@@ -131,7 +131,7 @@ public final class TranslatedText implements Text, MessageSupplier {
    */
   @NotNull
   public Optional<String> translate(@NotNull final Player player) {
-    return Shiruka.getLanguageManager().getLanguage(player.getChainData().languageCode())
+    return Shiruka.getLanguageManager().getLanguage(player.getChainData().getLanguageCode())
       .map(this::translate);
   }
 

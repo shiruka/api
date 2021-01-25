@@ -40,7 +40,7 @@ public interface LoginDataEvent extends Event {
    * @return chain data.
    */
   @NotNull
-  ChainData chainData();
+  ChainData getChainData();
 
   /**
    * an interface to determine chain data.
@@ -52,14 +52,14 @@ public interface LoginDataEvent extends Event {
      *
      * @return current input mode.
      */
-    int currentInputMode();
+    int getCurrentInputMode();
 
     /**
      * obtains the default input mode.
      *
      * @return default input mode.
      */
-    int defaultInputMode();
+    int getDefaultInputMode();
 
     /**
      * obtains the device id.
@@ -67,7 +67,7 @@ public interface LoginDataEvent extends Event {
      * @return device id.
      */
     @NotNull
-    String deviceId();
+    String getDeviceId();
 
     /**
      * obtains the device model.
@@ -75,14 +75,14 @@ public interface LoginDataEvent extends Event {
      * @return device mode.
      */
     @NotNull
-    String deviceModel();
+    String getDeviceModel();
 
     /**
      * obtains the device OS.
      *
      * @return device OS.
      */
-    int deviceOS();
+    int getDeviceOS();
 
     /**
      * obtains the game version.
@@ -90,21 +90,21 @@ public interface LoginDataEvent extends Event {
      * @return game version.
      */
     @NotNull
-    String gameVersion();
+    String getGameVersion();
 
     /**
      * obtains the gui scale.
      *
      * @return gui scale.
      */
-    int guiScale();
+    int getGuiScale();
 
     /**
      * obtains the id.
      *
      * @return id.
      */
-    long id();
+    long getId();
 
     /**
      * obtains the language code.
@@ -112,7 +112,7 @@ public interface LoginDataEvent extends Event {
      * @return language code.
      */
     @NotNull
-    String languageCode();
+    String getLanguageCode();
 
     /**
      * obtains the public key.
@@ -120,7 +120,7 @@ public interface LoginDataEvent extends Event {
      * @return public key.
      */
     @NotNull
-    String publicKey();
+    String getPublicKey();
 
     /**
      * obtains the server address
@@ -128,7 +128,7 @@ public interface LoginDataEvent extends Event {
      * @return server address.
      */
     @NotNull
-    String serverAddress();
+    String getServerAddress();
 
     /**
      * obtains the skin.
@@ -136,14 +136,14 @@ public interface LoginDataEvent extends Event {
      * @return skin.
      */
     @NotNull
-    Skin skin();
+    Skin getSkin();
 
     /**
      * obtains the ui profile.
      *
      * @return ui profile.
      */
-    int uiProfile();
+    int getUiProfile();
 
     /**
      * obtains the unique id.
@@ -151,7 +151,7 @@ public interface LoginDataEvent extends Event {
      * @return unique id.
      */
     @NotNull
-    UUID uniqueId();
+    UUID getUniqueId();
 
     /**
      * obtains the username.
@@ -159,21 +159,21 @@ public interface LoginDataEvent extends Event {
      * @return username.
      */
     @NotNull
-    String username();
+    String getUsername();
+
+    /**
+     * obtains the x unique id.
+     *
+     * @return x unique id.
+     */
+    @NotNull
+    String getXUniqueId();
 
     /**
      * obtains the xbox authed.
      *
      * @return xbox authed.
      */
-    boolean xboxAuthed();
-
-    /**
-     * obtains the xuid.
-     *
-     * @return xuid.
-     */
-    @NotNull
-    String xuid();
+    boolean getXboxAuthed();
   }
 }
