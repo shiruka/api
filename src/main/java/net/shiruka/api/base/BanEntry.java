@@ -75,7 +75,7 @@ public interface BanEntry {
    * @return the ban reason.
    */
   @NotNull
-  Optional<String> getReason();
+  String getReason();
 
   /**
    * sets the reason for this ban. Reasons must not be null.
@@ -84,7 +84,7 @@ public interface BanEntry {
    *
    * @see #save() saving changes
    */
-  void setReason(@Nullable String reason);
+  void setReason(@NotNull String reason);
 
   /**
    * gets the source of this ban.
