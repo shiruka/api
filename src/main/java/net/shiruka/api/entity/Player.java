@@ -25,7 +25,13 @@
 
 package net.shiruka.api.entity;
 
+import java.net.InetSocketAddress;
+import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
+import net.shiruka.api.Shiruka;
+import net.shiruka.api.base.BanEntry;
+import net.shiruka.api.base.BanList;
 import net.shiruka.api.base.GameProfile;
 import net.shiruka.api.base.OfflinePlayer;
 import net.shiruka.api.command.sender.CommandSender;
@@ -40,6 +46,184 @@ import org.jetbrains.annotations.Nullable;
  * an interface to determine players on the Minecraft.
  */
 public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
+
+  /**
+   * permanently bans the profile and IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerFull(@Nullable final Text reason) {
+    return this.banPlayerFull(reason, null, null);
+  }
+
+  /**
+   * permanently bans the profile and IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param source the source to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerFull(@Nullable final Text reason, @Nullable final String source) {
+    return this.banPlayerFull(reason, null, source);
+  }
+
+  /**
+   * permanently bans the profile and IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param expires the expires to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerFull(@Nullable final Text reason, @Nullable final Date expires) {
+    return this.banPlayerFull(reason, expires, null);
+  }
+
+  /**
+   * bans the profile and IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param expires the expires to ban.
+   * @param source the source to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerFull(@Nullable final Text reason, @Nullable final Date expires,
+                                           @Nullable final String source) {
+    this.banPlayer(reason, expires, source);
+    return this.banPlayerIP(reason, expires, source, true);
+  }
+
+  /**
+   * permanently bans the IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param kickPlayer the kick player to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, final boolean kickPlayer) {
+    return this.banPlayerIP(reason, null, null, kickPlayer);
+  }
+
+  /**
+   * permanently bans the IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param source the source to ban.
+   * @param kickPlayer the kick player to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final String source,
+                                         final boolean kickPlayer) {
+    return this.banPlayerIP(reason, null, source, kickPlayer);
+  }
+
+  /**
+   * bans the IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param expires the expires to ban.
+   * @param kickPlayer the kick player to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final Date expires,
+                                         final boolean kickPlayer) {
+    return this.banPlayerIP(reason, expires, null, kickPlayer);
+  }
+
+  /**
+   * permanently bans the IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason) {
+    return this.banPlayerIP(reason, null, null);
+  }
+
+  /**
+   * permanently bans the IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param source the source to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final String source) {
+    return this.banPlayerIP(reason, null, source);
+  }
+
+  /**
+   * bans the IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param expires the expires to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final Date expires) {
+    return this.banPlayerIP(reason, expires, null);
+  }
+
+  /**
+   * bans the IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param expires the expires to ban.
+   * @param source the source to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final Date expires, @Nullable final String source) {
+    return this.banPlayerIP(reason, expires, source, true);
+  }
+
+  /**
+   * bans the IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   * @param expires the expires to ban.
+   * @param source the source to ban.
+   * @param kickPlayer the kick player to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final Date expires, @Nullable final String source,
+                                         final boolean kickPlayer) {
+    final var banEntry = Shiruka.getServer()
+      .getBanList(BanList.Type.IP)
+      .addBan(this.getAddress().getAddress().getHostAddress(), reason, expires, source);
+    if (kickPlayer && this.isOnline()) {
+      this.kick(KickEvent.Reason.IP_BANNED, reason);
+    }
+    return banEntry;
+  }
+
+  /**
+   * obtains the address.
+   *
+   * @return address.
+   */
+  @NotNull InetSocketAddress getAddress();
 
   /**
    * obtains the chain data.

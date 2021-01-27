@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.Optional;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.entity.Player;
+import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,7 +44,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    *
    * @param reason the reason to ban.
    *
-   * @return a new ban entry instance.
+   * @return a new a ban entry instance. instance.
    */
   @NotNull
   default Optional<BanEntry> banPlayer(@Nullable final Text reason) {
@@ -56,7 +57,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @param reason the reason to ban.
    * @param source source of the ban.
    *
-   * @return a new ban entry instance.
+   * @return a new a ban entry instance. instance.
    */
   @NotNull
   default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final String source) {
@@ -69,7 +70,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @param reason the reason to ban.
    * @param expires the expires to ban.
    *
-   * @return a new ban entry instance.
+   * @return a new a ban entry instance. instance.
    */
   @NotNull
   default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires) {
@@ -83,7 +84,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @param expires the expires to ban.
    * @param source source of the ban.
    *
-   * @return a new ban entry instance.
+   * @return a new a ban entry instance. instance.
    */
   @NotNull
   default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires,
@@ -99,7 +100,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @param source source of the ban.
    * @param kickIfOnline the kick if online to ban.
    *
-   * @return a new ban entry instance.
+   * @return a new a ban entry instance. instance.
    */
   @NotNull
   default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires,
@@ -108,7 +109,7 @@ public interface OfflinePlayer extends Named, UniqueId {
       .getBanList(BanList.Type.NAME)
       .addBan(this.getName().asString(), reason, expires, source);
     if (kickIfOnline && this.isOnline()) {
-      this.getPlayer().ifPresent(player -> player.kick(reason));
+      this.getPlayer().ifPresent(player -> player.kick(KickEvent.Reason.NAME_BANNED, reason));
     }
     return banEntry;
   }
