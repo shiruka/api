@@ -25,4 +25,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: mvn clean deploy -Pshiruka
+      - run: mvn clean deploy -Pshiruka -ntp -B
