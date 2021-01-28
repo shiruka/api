@@ -30,9 +30,9 @@ import net.shiruka.api.geometry.Skin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine login data events.
+ * an interface to determine events that have chain data value.
  */
-public interface LoginDataEvent extends Event {
+public interface ChainDataEvent extends Event {
 
   /**
    * obtains the chain data.

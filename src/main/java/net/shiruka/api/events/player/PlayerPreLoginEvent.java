@@ -27,11 +27,11 @@ package net.shiruka.api.events.player;
 
 import net.shiruka.api.event.Cancellable;
 import net.shiruka.api.events.KickEvent;
-import net.shiruka.api.events.LoginDataEvent;
+import net.shiruka.api.events.ChainDataEvent;
 
 /**
  * called when the player logs in, before things have been set up.
  */
-public interface PlayerPreLoginEvent extends LoginDataEvent, KickEvent, Cancellable {
+public interface PlayerPreLoginEvent extends ChainDataEvent, KickEvent, Cancellable {
 
 }

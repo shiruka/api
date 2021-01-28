@@ -36,7 +36,7 @@ import net.shiruka.api.base.GameProfile;
 import net.shiruka.api.base.OfflinePlayer;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.events.KickEvent;
-import net.shiruka.api.events.LoginDataEvent;
+import net.shiruka.api.events.ChainDataEvent;
 import net.shiruka.api.text.Text;
 import net.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
@@ -231,7 +231,7 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
    * @return chain data.
    */
   @NotNull
-  LoginDataEvent.ChainData getChainData();
+  ChainDataEvent.ChainData getChainData();
 
   @NotNull
   @Override
