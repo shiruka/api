@@ -27,9 +27,7 @@ package net.shiruka.api.base;
 
 import java.util.Date;
 import java.util.Optional;
-import net.shiruka.api.Shiruka;
 import net.shiruka.api.entity.Player;
-import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -103,16 +101,8 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @return a new a ban entry instance. instance.
    */
   @NotNull
-  default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires,
-                                       @Nullable final String source, final boolean kickIfOnline) {
-    final var banEntry = Shiruka.getServer()
-      .getBanList(BanList.Type.NAME)
-      .addBan(this.getName().asString(), reason, expires, source);
-    if (kickIfOnline && this.isOnline()) {
-      this.getPlayer().ifPresent(player -> player.kick(KickEvent.Reason.NAME_BANNED, reason));
-    }
-    return banEntry;
-  }
+  Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires, @Nullable final String source,
+                               final boolean kickIfOnline);
 
   /**
    * gets the location where the player will spawn at their bed, null if they have not slept in one or their current bed

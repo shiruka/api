@@ -162,12 +162,12 @@ public interface ChainDataEvent extends Event {
     String getUsername();
 
     /**
-     * obtains the x unique id.
+     * obtains the xbox unique id.
      *
-     * @return x unique id.
+     * @return xbox unique id.
      */
     @NotNull
-    String getXUniqueId();
+    String getXboxUniqueId();
 
     /**
      * obtains the xbox authed.

@@ -48,22 +48,22 @@ public final class GameProfile {
   private final UUID uniqueId;
 
   /**
-   * the xbox id.
+   * the xbox unique id.
    */
   @NotNull
-  private final String xboxId;
+  private final String xboxUniqueId;
 
   /**
    * ctor.
    *
    * @param name the name.
    * @param uniqueId the unique id.
-   * @param xboxId the xbox id.
+   * @param xboxUniqueId the xbox id.
    */
-  public GameProfile(@NotNull final Text name, @NotNull final UUID uniqueId, @NotNull final String xboxId) {
+  public GameProfile(@NotNull final Text name, @NotNull final UUID uniqueId, @NotNull final String xboxUniqueId) {
     this.name = name;
     this.uniqueId = uniqueId;
-    this.xboxId = xboxId;
+    this.xboxUniqueId = xboxUniqueId;
   }
 
   /**
@@ -92,13 +92,13 @@ public final class GameProfile {
    * @return xbox id.
    */
   @NotNull
-  public String getXboxId() {
-    return this.xboxId;
+  public String getXboxUniqueId() {
+    return this.xboxUniqueId;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.name, this.uniqueId, this.xboxId);
+    return Objects.hash(this.name, this.uniqueId, this.xboxUniqueId);
   }
 
   @Override
@@ -112,7 +112,7 @@ public final class GameProfile {
     final var that = (GameProfile) obj;
     return this.name.equals(that.name) &&
       this.uniqueId.equals(that.uniqueId) &&
-      this.xboxId.equals(that.xboxId);
+      this.xboxUniqueId.equals(that.xboxUniqueId);
   }
 
   @Override
@@ -120,7 +120,7 @@ public final class GameProfile {
     return "GameProfile{" +
       "name='" + this.name + '\'' +
       ", uniqueId=" + this.uniqueId +
-      ", xboxId='" + this.xboxId + '\'' +
+      ", xboxId='" + this.xboxUniqueId + '\'' +
       '}';
   }
 }

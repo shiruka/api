@@ -59,6 +59,19 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
     return this.banPlayerFull(reason, null, null);
   }
 
+  @Override
+  @NotNull
+  default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires,
+                                       @Nullable final String source, final boolean kickIfOnline) {
+    final var banEntry = Shiruka.getServer()
+      .getBanList(BanList.Type.NAME)
+      .addBan(this.getProfile().getXboxUniqueId(), reason, expires, source);
+    if (kickIfOnline && this.isOnline()) {
+      this.getPlayer().ifPresent(player -> player.kick(KickEvent.Reason.NAME_BANNED, reason));
+    }
+    return banEntry;
+  }
+
   /**
    * permanently bans the profile and IP address currently used by the player.
    *
