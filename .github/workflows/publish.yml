@@ -15,14 +15,14 @@ jobs:
         with:
           java-version: 11
 
+      - uses: whelk-io/maven-settings-xml-action@v12
+        with:
+          servers: '[{ "id": "shiruka", "username": "${{ secrets.SHIRUKA_USERNAME }}", "password": "${{ secrets.SHIRUKA_PASSWORD }}"}]'
+
       - uses: softprops/turnstyle@v1
         with:
           poll-interval-seconds: 10
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: simontunnat/action-maven-deploy@v1.1
-        with:
-          username: ${{ secrets.SHIRUKA_USERNAME }}
-          password: ${{ secrets.SHIRUKA_PASSWORD }}
-          repository: https://repo.shiruka.net/artifactory/shiruka/
+      - run: mvn clean deploy -Pshiruka -ntp -B
