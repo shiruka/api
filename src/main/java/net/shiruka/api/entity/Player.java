@@ -35,8 +35,8 @@ import net.shiruka.api.base.BanList;
 import net.shiruka.api.base.GameProfile;
 import net.shiruka.api.base.OfflinePlayer;
 import net.shiruka.api.command.sender.CommandSender;
-import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.events.ChainDataEvent;
+import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.text.Text;
 import net.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
@@ -46,18 +46,6 @@ import org.jetbrains.annotations.Nullable;
  * an interface to determine players on the Minecraft.
  */
 public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
-
-  /**
-   * permanently bans the profile and IP address currently used by the player.
-   *
-   * @param reason the reason to ban.
-   *
-   * @return a ban entry instance.
-   */
-  @NotNull
-  default Optional<BanEntry> banPlayerFull(@Nullable final Text reason) {
-    return this.banPlayerFull(reason, null, null);
-  }
 
   @Override
   @NotNull
@@ -70,6 +58,18 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
       this.getPlayer().ifPresent(player -> player.kick(KickEvent.Reason.NAME_BANNED, reason));
     }
     return banEntry;
+  }
+
+  /**
+   * permanently bans the profile and IP address currently used by the player.
+   *
+   * @param reason the reason to ban.
+   *
+   * @return a ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> banPlayerFull(@Nullable final Text reason) {
+    return this.banPlayerFull(reason, null, null);
   }
 
   /**

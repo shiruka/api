@@ -27,8 +27,8 @@ package net.shiruka.api.events.player;
 
 import java.util.function.Consumer;
 import net.shiruka.api.entity.Player;
-import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.events.ChainDataEvent;
+import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.events.LoginResultEvent;
 import net.shiruka.api.events.ObjectListEvent;
 import net.shiruka.api.text.Text;

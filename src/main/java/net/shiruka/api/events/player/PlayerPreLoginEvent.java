@@ -26,8 +26,8 @@
 package net.shiruka.api.events.player;
 
 import net.shiruka.api.event.Cancellable;
-import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.events.ChainDataEvent;
+import net.shiruka.api.events.KickEvent;
 
 /**
  * called when the player logs in, before things have been set up.

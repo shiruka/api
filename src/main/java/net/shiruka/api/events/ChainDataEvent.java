@@ -162,18 +162,18 @@ public interface ChainDataEvent extends Event {
     String getUsername();
 
     /**
+     * obtains the xbox authed.
+     *
+     * @return xbox authed.
+     */
+    boolean getXboxAuthed();
+
+    /**
      * obtains the xbox unique id.
      *
      * @return xbox unique id.
      */
     @NotNull
     String getXboxUniqueId();
-
-    /**
-     * obtains the xbox authed.
-     *
-     * @return xbox authed.
-     */
-    boolean getXboxAuthed();
   }
 }
