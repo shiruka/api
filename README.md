@@ -3,6 +3,4 @@
 <p align="center"><strong>An API project that helps developers to create unique plugins for Shiru ka.</strong></p>
 <h3 align="center">
   <a href="http://docs.shiruka.net">Documentation</a>
-/
-  <a href="http://ci.shiruka.net">CI</a>
 </h3>
