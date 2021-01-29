@@ -25,8 +25,7 @@
 
 package net.shiruka.api.base;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,6 +66,28 @@ public final class GameProfile {
   }
 
   /**
+   * creates a new game profile instance from given {@code map}.
+   *
+   * @param map the map to create.
+   *
+   * @return a new game profile instance.
+   */
+  @NotNull
+  public static Optional<GameProfile> deserialize(@NotNull final Map<String, Object> map) {
+    try {
+      //noinspection unchecked
+      final var profile = (Map<String, Object>) map.get("profile");
+      final var name = (String) profile.get("name");
+      final var uniqueId = UUID.fromString((String) profile.get("unique-id"));
+      final var xboxUniqueId = (String) profile.get("xbox-unique-id");
+      return Optional.of(new GameProfile(() -> name, uniqueId, xboxUniqueId));
+    } catch (final Exception e) {
+      e.printStackTrace();
+    }
+    return Optional.empty();
+  }
+
+  /**
    * obtains the name.
    *
    * @return name.
@@ -87,9 +108,9 @@ public final class GameProfile {
   }
 
   /**
-   * obtains the xbox id.
+   * obtains the xbox unique id.
    *
-   * @return xbox id.
+   * @return xbox unique id.
    */
   @NotNull
   public String getXboxUniqueId() {
@@ -120,7 +141,21 @@ public final class GameProfile {
     return "GameProfile{" +
       "name='" + this.name + '\'' +
       ", uniqueId=" + this.uniqueId +
-      ", xboxId='" + this.xboxUniqueId + '\'' +
+      ", xboxUniqueId='" + this.xboxUniqueId + '\'' +
       '}';
+  }
+
+  /**
+   * converts {@code this} to a {@link java.util.Map}.
+   *
+   * @return serialized entry.
+   */
+  @NotNull
+  public Map<String, Object> serialize() {
+    final var map = new HashMap<String, Object>();
+    map.put("name", this.name.asString());
+    map.put("unique-id", this.uniqueId.toString());
+    map.put("xbox-unique-id", this.xboxUniqueId);
+    return map;
   }
 }
