@@ -75,11 +75,9 @@ public final class GameProfile {
   @NotNull
   public static Optional<GameProfile> deserialize(@NotNull final Map<String, Object> map) {
     try {
-      //noinspection unchecked
-      final var profile = (Map<String, Object>) map.get("profile");
-      final var name = (String) profile.get("name");
-      final var uniqueId = UUID.fromString((String) profile.get("unique-id"));
-      final var xboxUniqueId = (String) profile.get("xbox-unique-id");
+      final var name = (String) map.get("name");
+      final var uniqueId = UUID.fromString((String) map.get("unique-id"));
+      final var xboxUniqueId = (String) map.get("xbox-unique-id");
       return Optional.of(new GameProfile(() -> name, uniqueId, xboxUniqueId));
     } catch (final Exception e) {
       e.printStackTrace();
