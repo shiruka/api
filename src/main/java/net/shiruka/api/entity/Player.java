@@ -37,6 +37,7 @@ import net.shiruka.api.base.OfflinePlayer;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.events.ChainDataEvent;
 import net.shiruka.api.events.KickEvent;
+import net.shiruka.api.plugin.Plugin;
 import net.shiruka.api.text.Text;
 import net.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
@@ -232,6 +233,15 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
   }
 
   /**
+   * checks to see if a player has been hidden from this player.
+   *
+   * @param player the player to check.
+   *
+   * @return {@code true} if the provided player is not being hidden from this player.
+   */
+  boolean canSee(@NotNull Player player);
+
+  /**
    * obtains the address.
    *
    * @return address.
@@ -272,6 +282,14 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
   default UUID getUniqueId() {
     return this.getProfile().getUniqueId();
   }
+
+  /**
+   * hides a player from this player.
+   *
+   * @param plugin the plugin to hide.
+   * @param player the player to hide.
+   */
+  void hidePlayer(@NotNull Plugin plugin, @NotNull Player player);
 
   /**
    * kicks the player.
@@ -365,4 +383,12 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
       this.sendMessage(message.asString());
     }
   }
+
+  /**
+   * Allows this player to see a player that was previously hidden.
+   *
+   * @param plugin the plugin to show.
+   * @param player the player to show.
+   */
+  void showPlayer(@NotNull Plugin plugin, @NotNull Player player);
 }
