@@ -34,7 +34,6 @@ import net.shiruka.api.base.BanEntry;
 import net.shiruka.api.base.BanList;
 import net.shiruka.api.base.GameProfile;
 import net.shiruka.api.base.OfflinePlayer;
-import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.events.ChainDataEvent;
 import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.plugin.Plugin;
