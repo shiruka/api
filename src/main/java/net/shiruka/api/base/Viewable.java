@@ -23,79 +23,51 @@
  *
  */
 
-package net.shiruka.api.world;
+package net.shiruka.api.base;
 
-import com.google.common.collect.Maps;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.Set;
+import net.shiruka.api.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents various types of worlds that may exist
+ * an interface to determine something which can be displayed or hidden to players.
  */
-public enum WorldType {
-  /**
-   * the normal.
-   */
-  NORMAL,
-  /**
-   * the flat.
-   */
-  FLAT,
-  /**
-   * the large biomes.
-   */
-  LARGE_BIOMES,
-  /**
-   * the amplified.
-   */
-  AMPLIFIED;
+public interface Viewable {
 
   /**
-   * the cache by name.
+   * adds a viewer.
+   *
+   * @param player the player to add.
+   *
+   * @return {@code true} if the player has been added, {@code false} otherwise.
    */
-  private static final Map<String, WorldType> BY_NAME = Maps.newHashMap();
+  boolean addViewer(@NotNull Player player);
 
   /**
-   * the name.
+   * obtains the viewers.
+   *
+   * @return viewers.
    */
   @NotNull
-  private final String name;
+  Set<Player> getViewers();
 
-  static {
-    Arrays.stream(WorldType.values())
-      .forEach(type -> WorldType.BY_NAME.put(type.name, type));
+  /**
+   * gets if a player is seeing this viewable object.
+   *
+   * @param player the player to check.
+   *
+   * @return {@code true} if {@code player} is a viewer, {@code false} otherwise.
+   */
+  default boolean isViewer(@NotNull final Player player) {
+    return this.getViewers().contains(player);
   }
 
   /**
-   * ctor.
-   */
-  WorldType() {
-    this.name = this.name();
-  }
-
-  /**
-   * gets a WorldType by its name.
+   * removes a viewer.
    *
-   * @param name the name to get.
+   * @param player the viewer to remove.
    *
-   * @return requested world type.
+   * @return {@code true} if the player has been removed, {@code false} otherwise.
    */
-  @NotNull
-  public static WorldType getByName(@NotNull final String name) {
-    return Optional.ofNullable(WorldType.BY_NAME.get(name.toUpperCase(Locale.ROOT)))
-      .orElseThrow();
-  }
-
-  /**
-   * obtains the name.
-   *
-   * @return name.
-   */
-  @NotNull
-  public String getName() {
-    return this.name;
-  }
+  boolean removeViewer(@NotNull Player player);
 }
