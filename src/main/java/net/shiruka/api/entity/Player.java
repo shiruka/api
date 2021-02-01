@@ -246,7 +246,8 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
    *
    * @return address.
    */
-  @NotNull InetSocketAddress getAddress();
+  @NotNull
+  InetSocketAddress getAddress();
 
   /**
    * obtains the chain data.
@@ -289,7 +290,7 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
    * @param plugin the plugin to hide.
    * @param player the player to hide.
    */
-  void hidePlayer(@NotNull Plugin plugin, @NotNull Player player);
+  void hidePlayer(@Nullable Plugin plugin, @NotNull Player player);
 
   /**
    * kicks the player.
@@ -390,5 +391,5 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
    * @param plugin the plugin to show.
    * @param player the player to show.
    */
-  void showPlayer(@NotNull Plugin plugin, @NotNull Player player);
+  void showPlayer(@Nullable Plugin plugin, @NotNull Player player);
 }
