@@ -46,7 +46,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an interface to determine players on the Minecraft.
  */
-public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
+public interface Player extends HumanEntity, OfflinePlayer {
 
   @Override
   @NotNull
