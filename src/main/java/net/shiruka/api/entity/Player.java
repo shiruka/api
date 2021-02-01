@@ -54,7 +54,7 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
                                        @Nullable final String source, final boolean kickIfOnline) {
     final var banEntry = Shiruka.getServer()
       .getBanList(BanList.Type.NAME)
-      .addBan(this.getProfile().getXboxUniqueId(), reason, expires, source);
+      .addBan(this.getXboxUniqueId(), reason, expires, source);
     if (kickIfOnline && this.isOnline()) {
       this.getPlayer().ifPresent(player -> player.kick(KickEvent.Reason.NAME_BANNED, reason));
     }
@@ -282,6 +282,16 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
   @Override
   default UUID getUniqueId() {
     return this.getProfile().getUniqueId();
+  }
+
+  /**
+   * obtains the xbox unique id.
+   *
+   * @return xbox unique id.
+   */
+  @NotNull
+  default String getXboxUniqueId() {
+    return this.getProfile().getXboxUniqueId();
   }
 
   /**
