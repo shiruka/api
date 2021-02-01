@@ -27,12 +27,21 @@ package net.shiruka.api.entity;
 
 import net.shiruka.api.base.Named;
 import net.shiruka.api.base.Tick;
+import net.shiruka.api.base.Viewable;
+import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.metadata.Metadatable;
 
 /**
  * an interface to determine entities on the Minecraft.
  */
-public interface Entity extends Metadatable, Named, Tick {
+public interface Entity extends CommandSender, Metadatable, Named, Tick, Viewable {
+
+  /**
+   * obtains the entity id.
+   *
+   * @return entity id.
+   */
+  long getEntityId();
 
   /**
    * removes the entity from the server.

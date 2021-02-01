@@ -34,9 +34,9 @@ import net.shiruka.api.base.BanEntry;
 import net.shiruka.api.base.BanList;
 import net.shiruka.api.base.GameProfile;
 import net.shiruka.api.base.OfflinePlayer;
-import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.events.ChainDataEvent;
 import net.shiruka.api.events.KickEvent;
+import net.shiruka.api.plugin.Plugin;
 import net.shiruka.api.text.Text;
 import net.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +45,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an interface to determine players on the Minecraft.
  */
-public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
+public interface Player extends HumanEntity, OfflinePlayer {
 
   @Override
   @NotNull
@@ -53,7 +53,7 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
                                        @Nullable final String source, final boolean kickIfOnline) {
     final var banEntry = Shiruka.getServer()
       .getBanList(BanList.Type.NAME)
-      .addBan(this.getProfile().getXboxUniqueId(), reason, expires, source);
+      .addBan(this.getXboxUniqueId(), reason, expires, source);
     if (kickIfOnline && this.isOnline()) {
       this.getPlayer().ifPresent(player -> player.kick(KickEvent.Reason.NAME_BANNED, reason));
     }
@@ -232,11 +232,21 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
   }
 
   /**
+   * checks to see if a player has been hidden from this player.
+   *
+   * @param player the player to check.
+   *
+   * @return {@code true} if the provided player is not being hidden from this player.
+   */
+  boolean canSee(@NotNull Player player);
+
+  /**
    * obtains the address.
    *
    * @return address.
    */
-  @NotNull InetSocketAddress getAddress();
+  @NotNull
+  InetSocketAddress getAddress();
 
   /**
    * obtains the chain data.
@@ -272,6 +282,24 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
   default UUID getUniqueId() {
     return this.getProfile().getUniqueId();
   }
+
+  /**
+   * obtains the xbox unique id.
+   *
+   * @return xbox unique id.
+   */
+  @NotNull
+  default String getXboxUniqueId() {
+    return this.getProfile().getXboxUniqueId();
+  }
+
+  /**
+   * hides a player from this player.
+   *
+   * @param plugin the plugin to hide.
+   * @param player the player to hide.
+   */
+  void hidePlayer(@Nullable Plugin plugin, @NotNull Player player);
 
   /**
    * kicks the player.
@@ -365,4 +393,12 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer {
       this.sendMessage(message.asString());
     }
   }
+
+  /**
+   * Allows this player to see a player that was previously hidden.
+   *
+   * @param plugin the plugin to show.
+   * @param player the player to show.
+   */
+  void showPlayer(@Nullable Plugin plugin, @NotNull Player player);
 }
