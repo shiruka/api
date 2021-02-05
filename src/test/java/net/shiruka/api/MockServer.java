@@ -74,7 +74,7 @@ public final class MockServer implements Server {
   }
 
   @Override
-  public boolean isInWhiteList(@NotNull final String xboxUniqueId) {
+  public boolean isInWhitelist(@NotNull final String xboxUniqueId) {
     return false;
   }
 

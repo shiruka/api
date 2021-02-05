@@ -102,7 +102,7 @@ public interface Server {
    *
    * @return {@code true} if the id is in the whitelist.
    */
-  boolean isInWhiteList(@NotNull String xboxUniqueId);
+  boolean isInWhitelist(@NotNull String xboxUniqueId);
 
   /**
    * checks if the player is in the whitelist.
@@ -112,7 +112,7 @@ public interface Server {
    * @return {@code true} if the player is in the whitelist.
    */
   default boolean isInWhitelist(@NotNull final Player player) {
-    return this.isInWhiteList(player.getXboxUniqueId());
+    return this.isInWhitelist(player.getXboxUniqueId());
   }
 
   /**
