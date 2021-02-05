@@ -25,8 +25,10 @@
 
 package net.shiruka.api.base;
 
+import java.net.InetSocketAddress;
 import java.util.Date;
 import java.util.Optional;
+import net.shiruka.api.Shiruka;
 import net.shiruka.api.entity.Player;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -105,6 +107,14 @@ public interface OfflinePlayer extends Named, UniqueId {
                                final boolean kickIfOnline);
 
   /**
+   * obtains the player's address.
+   *
+   * @return player's address.
+   */
+  @NotNull
+  InetSocketAddress getAddress();
+
+  /**
    * gets the location where the player will spawn at their bed, null if they have not slept in one or their current bed
    * spawn is invalid.
    *
@@ -150,11 +160,35 @@ public interface OfflinePlayer extends Named, UniqueId {
   boolean hasPlayedBefore();
 
   /**
-   * checks if this player is banned or not
+   * checks if this player is fully banned or not
    *
-   * @return {@code true} if banned, otherwise {@code false}.
+   * @return {@code true} if fully banned, otherwise {@code false}.
    */
-  boolean isBanned();
+  default boolean isBanned() {
+    return this.isIpBanned() || this.isNameBanned();
+  }
+
+  /**
+   * checks if this player is ip banned or not
+   *
+   * @return {@code true} if ip banned, otherwise {@code false}.
+   */
+  default boolean isIpBanned() {
+    return Shiruka.getServer()
+      .getBanList(BanList.Type.IP)
+      .isBanned(this.getAddress().getAddress().getHostAddress());
+  }
+
+  /**
+   * checks if this player is name banned or not
+   *
+   * @return {@code true} if name banned, otherwise {@code false}.
+   */
+  default boolean isNameBanned() {
+    return Shiruka.getServer()
+      .getBanList(BanList.Type.NAME)
+      .isBanned(this.getName().asString());
+  }
 
   /**
    * checks if this player is currently online.
