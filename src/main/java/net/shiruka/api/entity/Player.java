@@ -60,14 +60,12 @@ public interface Player extends HumanEntity, OfflinePlayer {
     return banEntry;
   }
 
-  /**
-   * obtains the address.
-   *
-   * @return address.
-   */
   @Override
-  @NotNull
-  InetSocketAddress getAddress();
+  default boolean isIpBanned() {
+    return Shiruka.getServer()
+      .getBanList(BanList.Type.IP)
+      .isBanned(this.getAddress().getAddress().getHostAddress());
+  }
 
   /**
    * permanently bans the profile and IP address currently used by the player.
@@ -248,6 +246,14 @@ public interface Player extends HumanEntity, OfflinePlayer {
    * @return {@code true} if the provided player is not being hidden from this player.
    */
   boolean canSee(@NotNull Player player);
+
+  /**
+   * obtains the address.
+   *
+   * @return address.
+   */
+  @NotNull
+  InetSocketAddress getAddress();
 
   /**
    * obtains the chain data.
