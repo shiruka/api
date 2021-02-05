@@ -74,6 +74,11 @@ public final class MockServer implements Server {
   }
 
   @Override
+  public boolean isInWhiteList(@NotNull final String xboxUniqueId) {
+    return false;
+  }
+
+  @Override
   public boolean isPrimaryThread() {
     return false;
   }
@@ -85,6 +90,11 @@ public final class MockServer implements Server {
 
   @Override
   public boolean isStopping() {
+    return false;
+  }
+
+  @Override
+  public boolean isWhitelistOn() {
     return false;
   }
 
