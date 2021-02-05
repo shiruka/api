@@ -96,6 +96,26 @@ public interface Server {
   boolean isInShutdownState();
 
   /**
+   * checks if the id is in the whitelist.
+   *
+   * @param xboxUniqueId the xbox unique id to check.
+   *
+   * @return {@code true} if the id is in the whitelist.
+   */
+  boolean isInWhiteList(@NotNull String xboxUniqueId);
+
+  /**
+   * checks if the player is in the whitelist.
+   *
+   * @param player the player to check.
+   *
+   * @return {@code true} if the player is in the whitelist.
+   */
+  default boolean isInWhitelist(@NotNull final Player player) {
+    return this.isInWhiteList(player.getXboxUniqueId());
+  }
+
+  /**
    * checks the current thread against the expected primary thread for the server.
    *
    * @return {@code true} if the current thread matches the expected primary thread, otherwise {@code false}.
@@ -115,6 +135,13 @@ public interface Server {
    * @return {@code true} if the server is in the shutdown statement.
    */
   boolean isStopping();
+
+  /**
+   * checks if the whitelist on.
+   *
+   * @return {@code true} if the whitelist is on.
+   */
+  boolean isWhitelistOn();
 
   /**
    * registers the given class and it's implementation.
