@@ -28,7 +28,6 @@ package net.shiruka.api.entity;
 import java.net.InetSocketAddress;
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.base.BanEntry;
 import net.shiruka.api.base.BanList;
@@ -38,7 +37,6 @@ import net.shiruka.api.events.ChainDataEvent;
 import net.shiruka.api.events.KickEvent;
 import net.shiruka.api.plugin.Plugin;
 import net.shiruka.api.text.Text;
-import net.shiruka.api.text.TranslatedText;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -263,12 +261,6 @@ public interface Player extends HumanEntity, OfflinePlayer {
   @NotNull
   ChainDataEvent.ChainData getChainData();
 
-  @NotNull
-  @Override
-  default Text getName() {
-    return this.getProfile().getName();
-  }
-
   /**
    * obtains the ping.
    *
@@ -283,12 +275,6 @@ public interface Player extends HumanEntity, OfflinePlayer {
    */
   @NotNull
   GameProfile getProfile();
-
-  @NotNull
-  @Override
-  default UUID getUniqueId() {
-    return this.getProfile().getUniqueId();
-  }
 
   /**
    * obtains the xbox unique id.
@@ -385,21 +371,6 @@ public interface Player extends HumanEntity, OfflinePlayer {
    * @return {@code true} if the player is kicked successfully.
    */
   boolean kick(@NotNull KickEvent.Reason reason, @Nullable Text reasonString, boolean isAdmin);
-
-  @Override
-  default void remove() {
-    // ignored.
-  }
-
-  @Override
-  default void sendMessage(@NotNull final TranslatedText message) {
-    final var translated = message.translate(this);
-    if (translated.isPresent()) {
-      this.sendMessage(translated.get());
-    } else {
-      this.sendMessage(message.asString());
-    }
-  }
 
   /**
    * Allows this player to see a player that was previously hidden.
