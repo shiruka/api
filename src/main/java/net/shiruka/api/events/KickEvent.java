@@ -72,6 +72,10 @@ public interface KickEvent extends Event {
      */
     NEW_CONNECTION,
     /**
+     * the already logged in.
+     */
+    ALREADY_LOGGED_IN,
+    /**
      * the kicked by admin.
      */
     KICKED_BY_ADMIN,
