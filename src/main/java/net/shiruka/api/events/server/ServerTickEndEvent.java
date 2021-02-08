@@ -25,17 +25,24 @@
 
 package net.shiruka.api.events.server;
 
-import net.shiruka.api.events.Event;
+import net.shiruka.api.events.TickEvent;
 
 /**
  * called when server ticks.
  */
-public interface ServerTickEvent extends Event {
+public interface ServerTickEndEvent extends TickEvent {
 
   /**
-   * obtains the tick.
+   * obtains the tick duration.
    *
-   * @return the tick.
+   * @return tick duration.
    */
-  int getTick();
+  double getDuration();
+
+  /**
+   * obtains the remaining time.
+   *
+   * @return remaining time.
+   */
+  long getRemaining();
 }

@@ -34,7 +34,8 @@ import net.shiruka.api.events.player.PlayerKickEvent;
 import net.shiruka.api.events.player.PlayerPreLoginEvent;
 import net.shiruka.api.events.server.ServerCommandEvent;
 import net.shiruka.api.events.server.ServerExceptionEvent;
-import net.shiruka.api.events.server.ServerTickEvent;
+import net.shiruka.api.events.server.ServerTickEndEvent;
+import net.shiruka.api.events.server.ServerTickStartEvent;
 import net.shiruka.api.events.server.exception.ServerException;
 import net.shiruka.api.text.Text;
 import net.shiruka.api.text.TranslatedText;
@@ -159,14 +160,26 @@ public interface EventManager {
   ServerExceptionEvent serverException(@NotNull ServerException serverException, boolean isAsync);
 
   /**
-   * creates a new {@link ServerTickEvent} instance.
+   * creates a new {@link ServerTickEndEvent} instance.
+   *
+   * @param tick the tick to create.
+   * @param duration the duration to create.
+   * @param remaining the remaining to create.
+   *
+   * @return a new instance of {@link ServerTickEndEvent}.
+   */
+  @NotNull
+  ServerTickEndEvent serverTickEnd(int tick, double duration, long remaining);
+
+  /**
+   * creates a new {@link ServerTickStartEvent} instance.
    *
    * @param tick the tick to create.
    *
-   * @return a new instance of {@link ServerTickEvent}.
+   * @return a new instance of {@link ServerTickStartEvent}.
    */
   @NotNull
-  ServerTickEvent serverTick(int tick);
+  ServerTickStartEvent serverTickStart(int tick);
 
   /**
    * unregisters the given listener.
