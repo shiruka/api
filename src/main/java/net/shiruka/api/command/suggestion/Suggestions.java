@@ -25,9 +25,11 @@
 
 package net.shiruka.api.command.suggestion;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import java.util.*;
+import it.unimi.dsi.fastutil.objects.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.shiruka.api.command.TextRange;
@@ -61,9 +63,9 @@ public final class Suggestions {
    * @param range the range.
    * @param suggestions the suggestions.
    */
-  public Suggestions(@NotNull final TextRange range, @NotNull final List<Suggestion> suggestions) {
+  public Suggestions(@NotNull final TextRange range, @NotNull final ObjectList<Suggestion> suggestions) {
     this.range = range;
-    this.suggestionList = Collections.unmodifiableList(suggestions);
+    this.suggestionList = ObjectLists.unmodifiable(suggestions);
   }
 
   /**
@@ -134,7 +136,7 @@ public final class Suggestions {
     if (input.size() == 1) {
       return input.iterator().next();
     }
-    final var texts = new ObjectOpenHashSet<Suggestion>();
+    final var texts = new ObjectOpenHashBigSet<Suggestion>();
     input.stream()
       .map(Suggestions::getSuggestionList)
       .forEach(texts::addAll);
