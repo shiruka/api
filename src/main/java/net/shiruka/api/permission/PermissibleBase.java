@@ -28,7 +28,6 @@ package net.shiruka.api.permission;
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.*;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.plugin.Plugin;

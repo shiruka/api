@@ -27,7 +27,10 @@ package net.shiruka.api.command.context;
 
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandNode;
 import net.shiruka.api.command.RedirectModifier;

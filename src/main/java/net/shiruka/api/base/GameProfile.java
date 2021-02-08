@@ -26,7 +26,10 @@
 package net.shiruka.api.base;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 

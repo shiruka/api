@@ -27,9 +27,7 @@ package net.shiruka.api.permission;
 
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import net.shiruka.api.plugin.Plugin;

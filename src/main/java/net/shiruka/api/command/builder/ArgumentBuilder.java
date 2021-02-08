@@ -27,8 +27,10 @@ package net.shiruka.api.command.builder;
 
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import net.shiruka.api.base.Self;
 import net.shiruka.api.command.*;
 import net.shiruka.api.command.tree.RootNode;

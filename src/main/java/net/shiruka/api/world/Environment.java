@@ -26,9 +26,7 @@
 package net.shiruka.api.world;
 
 import it.unimi.dsi.fastutil.bytes.Byte2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;

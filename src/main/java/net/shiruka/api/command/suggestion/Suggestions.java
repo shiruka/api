@@ -27,7 +27,6 @@ package net.shiruka.api.command.suggestion;
 
 import it.unimi.dsi.fastutil.objects.*;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
