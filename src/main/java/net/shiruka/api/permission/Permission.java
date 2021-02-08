@@ -26,6 +26,9 @@
 package net.shiruka.api.permission;
 
 import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.*;
 import net.shiruka.api.Shiruka;
 import org.jetbrains.annotations.NotNull;
@@ -89,7 +92,7 @@ public final class Permission {
    * @param description the description.
    */
   public Permission(@NotNull final String name, @NotNull final String description) {
-    this(name, description, Permission.DEFAULT_PERMISSION, new LinkedHashMap<>());
+    this(name, description, Permission.DEFAULT_PERMISSION, new Object2BooleanLinkedOpenHashMap<>());
   }
 
   /**
@@ -99,7 +102,7 @@ public final class Permission {
    * @param defaultValue the default value.
    */
   public Permission(@NotNull final String name, @NotNull final PermissionDefault defaultValue) {
-    this(name, "", defaultValue, new LinkedHashMap<>());
+    this(name, "", defaultValue, new Object2BooleanLinkedOpenHashMap<>());
   }
 
   /**
@@ -111,7 +114,7 @@ public final class Permission {
    */
   public Permission(@NotNull final String name, @NotNull final String description,
                     @NotNull final PermissionDefault defaultValue) {
-    this(name, description, defaultValue, new LinkedHashMap<>());
+    this(name, description, defaultValue, new Object2BooleanLinkedOpenHashMap<>());
   }
 
   /**
@@ -154,7 +157,7 @@ public final class Permission {
    * @param name the name.
    */
   public Permission(@NotNull final String name) {
-    this(name, new LinkedHashMap<>());
+    this(name, new Object2ObjectLinkedOpenHashMap<>());
   }
 
   /**
@@ -184,7 +187,7 @@ public final class Permission {
   public static Permission loadPermission(@NotNull final String name, @NotNull final Map<?, ?> data,
                                           @Nullable PermissionDefault def, @Nullable final List<Permission> output) {
     var desc = "";
-    var children = new LinkedHashMap<String, Boolean>();
+    var children = new Object2BooleanLinkedOpenHashMap<String>();
     final var defaultValue = data.get("default");
     if (defaultValue != null) {
       final var value = PermissionDefault.getByName(defaultValue.toString());
@@ -194,7 +197,7 @@ public final class Permission {
     final var childrenValue = data.get("children");
     if (childrenValue != null) {
       if (childrenValue instanceof Iterable) {
-        children = new LinkedHashMap<>();
+        children = new Object2BooleanLinkedOpenHashMap<>();
         for (final var child : (Iterable<?>) childrenValue) {
           if (child != null) {
             children.put(child.toString(), Boolean.TRUE);
@@ -227,7 +230,7 @@ public final class Permission {
   @NotNull
   public static List<Permission> loadPermissions(@NotNull final Map<?, ?> data, @NotNull final String error,
                                                  @Nullable final PermissionDefault def) {
-    final var result = new ArrayList<Permission>();
+    final var result = new ObjectArrayList<Permission>();
     data.forEach((key, value) -> {
       try {
         result.add(Permission.loadPermission(key.toString(), (Map<?, ?>) value, def, result));
@@ -249,11 +252,11 @@ public final class Permission {
    * @return extracted children.
    */
   @NotNull
-  private static LinkedHashMap<String, Boolean> extractChildren(@NotNull final Map<?, ?> input,
-                                                                @NotNull final String name,
-                                                                @Nullable final PermissionDefault def,
-                                                                @Nullable final List<Permission> output) {
-    final var children = new LinkedHashMap<String, Boolean>();
+  private static Object2BooleanLinkedOpenHashMap<String> extractChildren(@NotNull final Map<?, ?> input,
+                                                                         @NotNull final String name,
+                                                                         @Nullable final PermissionDefault def,
+                                                                         @Nullable final List<Permission> output) {
+    final var children = new Object2BooleanLinkedOpenHashMap<String>();
     input.forEach((key, value) -> {
       if (value instanceof Boolean) {
         children.put(key.toString(), (Boolean) value);

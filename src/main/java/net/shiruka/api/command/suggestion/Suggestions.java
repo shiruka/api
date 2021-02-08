@@ -25,7 +25,10 @@
 
 package net.shiruka.api.command.suggestion;
 
-import java.util.*;
+import it.unimi.dsi.fastutil.objects.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.shiruka.api.command.TextRange;
@@ -39,7 +42,7 @@ public final class Suggestions {
   /**
    * the empty suggestion.
    */
-  private static final Suggestions EMPTY = new Suggestions(TextRange.at(0), new ArrayList<>());
+  private static final Suggestions EMPTY = new Suggestions(TextRange.at(0), new ObjectArrayList<>());
 
   /**
    * the range.
@@ -59,9 +62,9 @@ public final class Suggestions {
    * @param range the range.
    * @param suggestions the suggestions.
    */
-  public Suggestions(@NotNull final TextRange range, @NotNull final List<Suggestion> suggestions) {
+  public Suggestions(@NotNull final TextRange range, @NotNull final ObjectList<Suggestion> suggestions) {
     this.range = range;
-    this.suggestionList = Collections.unmodifiableList(suggestions);
+    this.suggestionList = ObjectLists.unmodifiable(suggestions);
   }
 
   /**
@@ -97,11 +100,11 @@ public final class Suggestions {
       end.set(Math.max(suggestion.getRange().getEnd(), end.get()));
     });
     final var range = TextRange.between(start.get(), end.get());
-    final var texts = new HashSet<Suggestion>();
+    final var texts = new ObjectOpenHashSet<Suggestion>();
     for (final var suggestion : suggestions) {
       texts.add(suggestion.expand(command, range));
     }
-    final var sorted = new ArrayList<>(texts);
+    final var sorted = new ObjectArrayList<>(texts);
     sorted.sort(Suggestion::compareToIgnoreCase);
     return new Suggestions(range, sorted);
   }
@@ -132,7 +135,7 @@ public final class Suggestions {
     if (input.size() == 1) {
       return input.iterator().next();
     }
-    final var texts = new HashSet<Suggestion>();
+    final var texts = new ObjectOpenHashBigSet<Suggestion>();
     input.stream()
       .map(Suggestions::getSuggestionList)
       .forEach(texts::addAll);
@@ -215,7 +218,7 @@ public final class Suggestions {
      * the result.
      */
     @NotNull
-    private final List<Suggestion> result = new ArrayList<>();
+    private final List<Suggestion> result = new ObjectArrayList<>();
 
     /**
      * the start.

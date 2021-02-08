@@ -26,7 +26,11 @@
 package net.shiruka.api.command.builder;
 
 import com.google.common.base.Preconditions;
-import java.util.*;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import net.shiruka.api.base.Self;
 import net.shiruka.api.command.*;
 import net.shiruka.api.command.tree.RootNode;
@@ -54,7 +58,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    * the requirements.
    */
   @NotNull
-  private final Set<Requirement> requirements = new HashSet<>();
+  private final Set<Requirement> requirements = new ObjectOpenHashBigSet<>();
 
   /**
    * the command.

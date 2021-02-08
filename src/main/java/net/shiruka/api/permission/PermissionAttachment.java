@@ -26,8 +26,8 @@
 package net.shiruka.api.permission;
 
 import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import net.shiruka.api.plugin.Plugin;
@@ -48,7 +48,7 @@ public final class PermissionAttachment {
   /**
    * the permissions.
    */
-  private final Map<String, Boolean> permissions = new LinkedHashMap<>();
+  private final Map<String, Boolean> permissions = new Object2BooleanLinkedOpenHashMap<>();
 
   /**
    * the plugin.

@@ -26,6 +26,8 @@
 package net.shiruka.api.permission;
 
 import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 import java.util.*;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.plugin.Plugin;
@@ -51,7 +53,7 @@ public final class PermissibleBase implements Permissible {
   /**
    * the permissions.
    */
-  private final Map<String, PermissionAttachmentInfo> permissions = new HashMap<>();
+  private final Map<String, PermissionAttachmentInfo> permissions = new Object2ObjectOpenHashMap<>();
 
   /**
    * the parent.
@@ -127,7 +129,7 @@ public final class PermissibleBase implements Permissible {
   @Override
   @NotNull
   public synchronized Set<PermissionAttachmentInfo> getEffectivePermissions() {
-    return new HashSet<>(this.permissions.values());
+    return new ObjectOpenHashBigSet<>(this.permissions.values());
   }
 
   @Override
