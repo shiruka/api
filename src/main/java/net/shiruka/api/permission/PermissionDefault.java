@@ -25,6 +25,7 @@
 
 package net.shiruka.api.permission;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,7 +53,7 @@ public enum PermissionDefault {
   /**
    * the cache.
    */
-  private static final Map<String, PermissionDefault> CACHE = new HashMap<>();
+  private static final Map<String, PermissionDefault> CACHE = new Object2ObjectOpenHashMap<>();
 
   /**
    * the names.

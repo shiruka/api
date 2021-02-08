@@ -26,6 +26,8 @@
 package net.shiruka.api.command.context;
 
 import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.*;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandNode;
@@ -43,12 +45,12 @@ public final class CommandContextBuilder {
   /**
    * the arguments.
    */
-  private final Map<String, ParsedArgument<?>> arguments = new LinkedHashMap<>();
+  private final Map<String, ParsedArgument<?>> arguments = new Object2ObjectLinkedOpenHashMap<>();
 
   /**
    * the nodes.
    */
-  private final List<ParsedCommandNode> nodes = new ArrayList<>();
+  private final List<ParsedCommandNode> nodes = new ObjectArrayList<>();
 
   /**
    * the root node.

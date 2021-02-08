@@ -25,6 +25,8 @@
 
 package net.shiruka.api.command.tree;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectRBTreeMap;
 import java.util.*;
 import net.shiruka.api.command.*;
 import net.shiruka.api.command.sender.CommandSender;
@@ -39,12 +41,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   /**
    * the arguments.
    */
-  private final Map<String, ArgumentNode<?>> arguments = new LinkedHashMap<>();
+  private final Map<String, ArgumentNode<?>> arguments = new Object2ObjectLinkedOpenHashMap<>();
 
   /**
    * the children.
    */
-  private final Map<String, CommandNode> children = new TreeMap<>();
+  private final Map<String, CommandNode> children = new Object2ObjectRBTreeMap<>();
 
   /**
    * the default node.
@@ -71,7 +73,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   /**
    * the literals.
    */
-  private final Map<String, LiteralNode> literals = new LinkedHashMap<>();
+  private final Map<String, LiteralNode> literals = new Object2ObjectLinkedOpenHashMap<>();
 
   /**
    * the modifier.

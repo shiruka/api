@@ -30,6 +30,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.ArrayList;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.command.suggestion.Suggestion;
@@ -266,7 +267,7 @@ final class CommandSuggestionsTest {
   private void testSuggestions(final String contents, final int cursor, final TextRange range, final String... suggestions) {
     final var result = CommandDispatcher.getCompletionSuggestions(this.subject.parse(contents, this.source), cursor).join();
     assertThat(result.getRange(), equalTo(range));
-    final var expected = new ArrayList<Suggestion>();
+    final var expected = new ObjectArrayList<Suggestion>();
     for (final String suggestion : suggestions) {
       expected.add(new Suggestion(range, suggestion));
     }

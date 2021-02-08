@@ -26,6 +26,8 @@
 package net.shiruka.api.command;
 
 import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -208,7 +210,7 @@ public final class CommandDispatcher {
         }
       } catch (final CommandSyntaxException ex) {
         if (errors.get() == null) {
-          errors.set(new LinkedHashMap<>());
+          errors.set(new Object2ObjectLinkedOpenHashMap<>());
         }
         errors.get().put(child, ex);
         reader.setCursor(cursor);
@@ -225,12 +227,12 @@ public final class CommandDispatcher {
         }
         final var parse = CommandDispatcher.parseNodes(child, reader, context);
         if (potentials.get() == null) {
-          potentials.set(new ArrayList<>(1));
+          potentials.set(new ObjectArrayList<>(1));
         }
         potentials.get().add(parse);
       } else {
         if (potentials.get() == null) {
-          potentials.set(new ArrayList<>(1));
+          potentials.set(new ObjectArrayList<>(1));
         }
         potentials.get().add(new ParseResults(context, reader, Collections.emptyMap()));
       }
@@ -317,7 +319,7 @@ public final class CommandDispatcher {
           final var modifier = context.getRedirectModifier();
           if (modifier == null) {
             if (next.get() == null) {
-              next.set(new ArrayList<>(1));
+              next.set(new ObjectArrayList<>(1));
             }
             next.get().add(child.copyFor(context.getSender()));
             continue;
@@ -326,7 +328,7 @@ public final class CommandDispatcher {
             final var results = modifier.apply(context);
             if (!results.isEmpty()) {
               if (next.get() == null) {
-                next.set(new ArrayList<>(results.size()));
+                next.set(new ObjectArrayList<>(results.size()));
               }
               results.forEach(sender -> next.get().add(child.copyFor(sender)));
             }
@@ -412,7 +414,7 @@ public final class CommandDispatcher {
   @NotNull
   public String[] getAllUsage(@NotNull final CommandNode node, @NotNull final CommandSender sender,
                               final boolean restricted) {
-    final var result = new ArrayList<String>();
+    final var result = new ObjectArrayList<String>();
     this.getAllUsage(node, sender, result, "", restricted);
     return result.toArray(new String[0]);
   }
@@ -426,15 +428,15 @@ public final class CommandDispatcher {
    */
   @NotNull
   public Collection<String> getPath(@NotNull final CommandNode target) {
-    final var nodes = new ArrayList<List<CommandNode>>();
-    this.addPaths(this.root, nodes, new ArrayList<>());
+    final var nodes = new ObjectArrayList<List<CommandNode>>();
+    this.addPaths(this.root, nodes, new ObjectArrayList<>());
     return nodes.stream()
       .filter(list -> list.get(list.size() - 1) == target)
       .findFirst()
       .map(list -> (List<String>) list.stream()
         .filter(node -> node != this.root)
         .map(CommandNode::getName)
-        .collect(Collectors.toCollection(() -> new ArrayList<>(list.size()))))
+        .collect(Collectors.toCollection(() -> new ObjectArrayList<>(list.size()))))
       .orElse(Collections.emptyList());
   }
 
@@ -477,7 +479,7 @@ public final class CommandDispatcher {
    */
   @NotNull
   public Map<CommandNode, String> getSmartUsage(@NotNull final CommandNode node, @NotNull final CommandSender sender) {
-    final var result = new LinkedHashMap<CommandNode, String>();
+    final var result = new Object2ObjectLinkedOpenHashMap<CommandNode, String>();
     final var optional = node.getCommand() != null;
     node.getChildren().forEach(child -> {
       final var usage = this.getSmartUsage(child, sender, optional, false);
@@ -569,7 +571,7 @@ public final class CommandDispatcher {
    */
   private void addPaths(@NotNull final CommandNode node, @NotNull final List<List<CommandNode>> result,
                         @NotNull final List<CommandNode> parents) {
-    final var current = new ArrayList<>(parents);
+    final var current = new ObjectArrayList<>(parents);
     current.add(node);
     result.add(current);
     node.getChildren().forEach(child -> this.addPaths(child, result, current));

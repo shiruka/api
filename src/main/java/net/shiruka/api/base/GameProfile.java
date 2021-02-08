@@ -25,6 +25,7 @@
 
 package net.shiruka.api.base;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.util.*;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -150,7 +151,7 @@ public final class GameProfile {
    */
   @NotNull
   public Map<String, Object> serialize() {
-    final var map = new HashMap<String, Object>();
+    final var map = new Object2ObjectOpenHashMap<String, Object>();
     map.put("name", this.name.asString());
     map.put("unique-id", this.uniqueId.toString());
     map.put("xbox-unique-id", this.xboxUniqueId);

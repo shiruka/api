@@ -31,6 +31,8 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.reflect.TypeToken;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -78,7 +80,7 @@ public final class SimpleEventController implements EventController {
         subscriber.invoke(event);
       } catch (final Throwable e) {
         if (exceptions == null) {
-          exceptions = new HashMap<>();
+          exceptions = new Object2ObjectOpenHashMap<>();
         }
         exceptions.put(subscriber, e);
       }
@@ -134,7 +136,7 @@ public final class SimpleEventController implements EventController {
     private final LoadingCache<Class<? extends Event>, List<EventSubscriber>> cache = CacheBuilder.newBuilder()
       .initialCapacity(85)
       .build(CacheLoader.from(eventClass -> {
-        final var list = new ArrayList<EventSubscriber>();
+        final var list = new ObjectArrayList<EventSubscriber>();
         final var types = Objects.requireNonNull(Registry.CLASS_HIERARCHY.getUnchecked(eventClass));
         synchronized (this.lock) {
           types.stream()

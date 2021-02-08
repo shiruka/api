@@ -25,6 +25,7 @@
 
 package net.shiruka.api.plugin.java;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -52,12 +53,12 @@ public final class JavaPluginLoader implements PluginLoader {
   /**
    * the class load lock.
    */
-  private final Map<String, ReentrantReadWriteLock> classLoadLock = new HashMap<>();
+  private final Map<String, ReentrantReadWriteLock> classLoadLock = new Object2ObjectOpenHashMap<>();
 
   /**
    * the class load lock count.
    */
-  private final Map<String, Integer> classLoadLockCount = new HashMap<>();
+  private final Map<String, Integer> classLoadLockCount = new Object2ObjectOpenHashMap<>();
 
   /**
    * the classes.

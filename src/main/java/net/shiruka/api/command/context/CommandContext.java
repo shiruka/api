@@ -26,6 +26,7 @@
 package net.shiruka.api.command.context;
 
 import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.util.*;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandNode;
@@ -44,7 +45,7 @@ public final class CommandContext {
    * the primitive to wrapper.
    */
   @NotNull
-  private static final Map<Class<?>, Class<?>> PRIMITIVE_TO_WRAPPER = new HashMap<>();
+  private static final Map<Class<?>, Class<?>> PRIMITIVE_TO_WRAPPER = new Object2ObjectOpenHashMap<>();
 
   /**
    * the arguments.

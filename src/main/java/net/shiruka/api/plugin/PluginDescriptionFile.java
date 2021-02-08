@@ -25,6 +25,8 @@
 
 package net.shiruka.api.plugin;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.*;
@@ -281,7 +283,7 @@ public final class PluginDescriptionFile {
   @NotNull
   public static PluginDescriptionFile init(@NotNull final String name, @NotNull final String version,
                                            @NotNull final String main) throws InvalidDescriptionException {
-    final var map = new HashMap<String, Object>();
+    final var map = new Object2ObjectOpenHashMap<String, Object>();
     map.put(PluginDescriptionFile.NAME, name);
     map.put(PluginDescriptionFile.VERSION, version);
     map.put(PluginDescriptionFile.MAIN, main);
@@ -348,7 +350,7 @@ public final class PluginDescriptionFile {
     final var website = map.getOrDefault(PluginDescriptionFile.WEBSITE, "").toString();
     final var description = map.getOrDefault(PluginDescriptionFile.DESCRIPTION, "").toString();
     final var prefix = map.getOrDefault(PluginDescriptionFile.PREFIX, "").toString();
-    final var contributors = new ArrayList<String>();
+    final var contributors = new ObjectArrayList<String>();
     if (map.containsKey(PluginDescriptionFile.CONTRIBUTORS)) {
       try {
         for (final var o : (Iterable<?>) map.get(PluginDescriptionFile.CONTRIBUTORS)) {
@@ -358,7 +360,7 @@ public final class PluginDescriptionFile {
         throw new InvalidDescriptionException(ex, "contributors are of wrong type");
       }
     }
-    final var authors = new ArrayList<String>();
+    final var authors = new ObjectArrayList<String>();
     if (map.containsKey(PluginDescriptionFile.AUTHORS)) {
       try {
         for (final var o : (Iterable<?>) map.get(PluginDescriptionFile.AUTHORS)) {
@@ -400,7 +402,7 @@ public final class PluginDescriptionFile {
     }
     final Map<?, ?> lazyPermissions;
     try {
-      lazyPermissions = (Map<?, ?>) map.getOrDefault(PluginDescriptionFile.PERMISSIONS, new HashMap<>());
+      lazyPermissions = (Map<?, ?>) map.getOrDefault(PluginDescriptionFile.PERMISSIONS, new Object2ObjectOpenHashMap<>());
     } catch (final ClassCastException ex) {
       throw new InvalidDescriptionException(ex, "permissions are of the wrong type");
     }
@@ -426,7 +428,7 @@ public final class PluginDescriptionFile {
     if (!map.containsKey(key)) {
       return Collections.emptyList();
     }
-    final var list = new ArrayList<String>();
+    final var list = new ObjectArrayList<String>();
     try {
       for (final var entry : (Iterable<?>) map.get(key)) {
         list.add(entry.toString().replace(' ', '_'));
@@ -535,7 +537,7 @@ public final class PluginDescriptionFile {
    */
   @NotNull
   private Map<String, Object> saveMap() {
-    final var map = new HashMap<String, Object>();
+    final var map = new Object2ObjectOpenHashMap<String, Object>();
     map.put(PluginDescriptionFile.NAME, this.name);
     map.put(PluginDescriptionFile.PROVIDES, this.provides);
     map.put(PluginDescriptionFile.MAIN, this.main);

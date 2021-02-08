@@ -25,6 +25,8 @@
 
 package net.shiruka.api.command.suggestion;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,7 +41,7 @@ public final class Suggestions {
   /**
    * the empty suggestion.
    */
-  private static final Suggestions EMPTY = new Suggestions(TextRange.at(0), new ArrayList<>());
+  private static final Suggestions EMPTY = new Suggestions(TextRange.at(0), new ObjectArrayList<>());
 
   /**
    * the range.
@@ -97,11 +99,11 @@ public final class Suggestions {
       end.set(Math.max(suggestion.getRange().getEnd(), end.get()));
     });
     final var range = TextRange.between(start.get(), end.get());
-    final var texts = new HashSet<Suggestion>();
+    final var texts = new ObjectOpenHashSet<Suggestion>();
     for (final var suggestion : suggestions) {
       texts.add(suggestion.expand(command, range));
     }
-    final var sorted = new ArrayList<>(texts);
+    final var sorted = new ObjectArrayList<>(texts);
     sorted.sort(Suggestion::compareToIgnoreCase);
     return new Suggestions(range, sorted);
   }
@@ -132,7 +134,7 @@ public final class Suggestions {
     if (input.size() == 1) {
       return input.iterator().next();
     }
-    final var texts = new HashSet<Suggestion>();
+    final var texts = new ObjectOpenHashSet<Suggestion>();
     input.stream()
       .map(Suggestions::getSuggestionList)
       .forEach(texts::addAll);
@@ -215,7 +217,7 @@ public final class Suggestions {
      * the result.
      */
     @NotNull
-    private final List<Suggestion> result = new ArrayList<>();
+    private final List<Suggestion> result = new ObjectArrayList<>();
 
     /**
      * the start.
