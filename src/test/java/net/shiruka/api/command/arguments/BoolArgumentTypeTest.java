@@ -39,9 +39,7 @@ final class BoolArgumentTypeTest {
 
   @Test
   void parse() throws Exception {
-    final var a = System.currentTimeMillis();
     final var reader = mock(TextReader.class);
-    System.out.println(System.currentTimeMillis() - a);
     when(reader.readBoolean()).thenReturn(true);
     final var c = System.currentTimeMillis();
     assertThat(this.type.parse(reader), is(true));
