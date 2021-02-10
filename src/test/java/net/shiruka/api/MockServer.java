@@ -53,19 +53,18 @@ public final class MockServer implements Server {
   }
 
   @Override
-  public int getMaxPlayerCount() {
+  public int getMaxPlayers() {
     return 0;
+  }
+
+  @Override
+  public void setMaxPlayers(final int maxPlayers) {
   }
 
   @NotNull
   @Override
   public Collection<? extends Player> getOnlinePlayers() {
     return Collections.emptyList();
-  }
-
-  @Override
-  public int getPlayerCount() {
-    return 0;
   }
 
   @Override
