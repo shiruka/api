@@ -58,6 +58,16 @@ import org.simpleyaml.utils.Validate;
 public final class JavaPluginClassLoader extends URLClassLoader {
 
   /**
+   * the plugin does not extend java plugin.
+   */
+  private static final String PLUGIN_DOES_NOT_EXTEND_JAVA_PLUGIN = "shiruka.plugin.does_not_extend_java_plugin";
+
+  /**
+   * the plugin amin class not found.
+   */
+  private static final String PLUGIN_MAIN_CLASS_NOT_FOUND = "shiruka.plugin.main_class_not_found";
+
+  /**
    * the classes.
    */
   private final Map<String, Class<?>> classes = new ConcurrentHashMap<>();
@@ -173,7 +183,7 @@ public final class JavaPluginClassLoader extends URLClassLoader {
         jarClass = Class.forName(description.getMain(), true, this);
       } catch (final ClassNotFoundException ex) {
         throw new InvalidPluginException(
-          TranslatedText.get("shiruka.plugin.java.class_loader.ctor.main_class_not_found",
+          TranslatedText.get(JavaPluginClassLoader.PLUGIN_MAIN_CLASS_NOT_FOUND,
             description.getName(), description.getMain()).asString(), ex);
       }
       final Class<? extends JavaPlugin> pluginClass;
@@ -181,7 +191,7 @@ public final class JavaPluginClassLoader extends URLClassLoader {
         pluginClass = jarClass.asSubclass(JavaPlugin.class);
       } catch (final ClassCastException ex) {
         throw new InvalidPluginException(
-          TranslatedText.get("shiruka.plugin.java.class_loader.ctor.does_not_extend_java_plugin",
+          TranslatedText.get(JavaPluginClassLoader.PLUGIN_DOES_NOT_EXTEND_JAVA_PLUGIN,
             description.getName(), description.getMain()).asString(), ex);
       }
       this.plugin = pluginClass.getConstructor().newInstance();
