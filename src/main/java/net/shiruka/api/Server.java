@@ -71,7 +71,14 @@ public interface Server {
    *
    * @return maximum player count to join the server.
    */
-  int getMaxPlayerCount();
+  int getMaxPlayers();
+
+  /**
+   * sets the max players.
+   *
+   * @param maxPlayers the max players to set.
+   */
+  void setMaxPlayers(int maxPlayers);
 
   /**
    * obtains the online players.
@@ -80,13 +87,6 @@ public interface Server {
    */
   @NotNull
   Collection<? extends Player> getOnlinePlayers();
-
-  /**
-   * obtains current player count of the server.
-   *
-   * @return current player count of the server.
-   */
-  int getPlayerCount();
 
   /**
    * obtains server's shutdown statement.
