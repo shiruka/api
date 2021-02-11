@@ -39,6 +39,16 @@ import org.jetbrains.annotations.Nullable;
 public final class WorldCreator {
 
   /**
+   * the plugin not enabled.
+   */
+  private static final String PLUGIN_NOT_ENABLED = "shiruka.world.plugin_not_enabled";
+
+  /**
+   * the plugin not found.
+   */
+  private static final String PLUGIN_NOT_FOUND = "shiruka.world.plugin_not_found";
+
+  /**
    * the random.
    */
   private static final Random RANDOM = new Random();
@@ -128,13 +138,13 @@ public final class WorldCreator {
     final var id = split.length > 1 ? split[1] : null;
     final var pluginOptional = Shiruka.getPluginManager().getPlugin(split[0]);
     if (pluginOptional.isEmpty()) {
-      output.sendMessage(TranslatedText.get("shiruka.world.world_creator.get_generator_for_name.plugin_not_found",
+      output.sendMessage(TranslatedText.get(WorldCreator.PLUGIN_NOT_FOUND,
         world, split[0]));
       return Optional.empty();
     }
     final var plugin = pluginOptional.get();
     if (!plugin.isEnabled()) {
-      output.sendMessage(TranslatedText.get("shiruka.world.world_creator.get_generator_for_name.plugin_not_enabled",
+      output.sendMessage(TranslatedText.get(WorldCreator.PLUGIN_NOT_ENABLED,
         world, plugin.getDescription().getFullName()));
       return Optional.empty();
     }
