@@ -102,6 +102,11 @@ public final class IntegerSuggestion extends Suggestion {
       '}';
   }
 
+  /**
+   * obtains the suggestion.
+   *
+   * @return suggestion.
+   */
   public int getSuggestion() {
     return this.suggestion;
   }
