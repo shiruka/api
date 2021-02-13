@@ -34,7 +34,7 @@ import net.shiruka.api.base.BanList;
 import net.shiruka.api.base.GameProfile;
 import net.shiruka.api.base.OfflinePlayer;
 import net.shiruka.api.events.ChainDataEvent;
-import net.shiruka.api.events.KickEvent;
+import net.shiruka.api.events.LoginResultEvent;
 import net.shiruka.api.plugin.Plugin;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -53,7 +53,7 @@ public interface Player extends HumanEntity, OfflinePlayer {
       .getBanList(BanList.Type.NAME)
       .addBan(this.getXboxUniqueId(), reason, expires, source);
     if (kickIfOnline && this.isOnline()) {
-      this.getPlayer().ifPresent(player -> player.kick(KickEvent.Reason.NAME_BANNED, reason));
+      this.getPlayer().ifPresent(player -> player.kick(LoginResultEvent.LoginResult.KICK_BANNED, reason));
     }
     return banEntry;
   }
@@ -210,7 +210,8 @@ public interface Player extends HumanEntity, OfflinePlayer {
    * @return a ban entry instance.
    */
   @NotNull
-  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final Date expires, @Nullable final String source) {
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final Date expires,
+                                         @Nullable final String source) {
     return this.banPlayerIP(reason, expires, source, true);
   }
 
@@ -225,13 +226,13 @@ public interface Player extends HumanEntity, OfflinePlayer {
    * @return a ban entry instance.
    */
   @NotNull
-  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final Date expires, @Nullable final String source,
-                                         final boolean kickPlayer) {
+  default Optional<BanEntry> banPlayerIP(@Nullable final Text reason, @Nullable final Date expires,
+                                         @Nullable final String source, final boolean kickPlayer) {
     final var banEntry = Shiruka.getServer()
       .getBanList(BanList.Type.IP)
       .addBan(this.getAddress().getAddress().getHostAddress(), reason, expires, source);
     if (kickPlayer && this.isOnline()) {
-      this.kick(KickEvent.Reason.IP_BANNED, reason);
+      this.kick(LoginResultEvent.LoginResult.KICK_BANNED, reason);
     }
     return banEntry;
   }
@@ -324,7 +325,7 @@ public interface Player extends HumanEntity, OfflinePlayer {
    * @return {@code true} if the player is kicked successfully.
    */
   default boolean kick(@Nullable final Text reason, final boolean isAdmin) {
-    return this.kick(KickEvent.Reason.UNKNOWN, reason, isAdmin);
+    return this.kick(LoginResultEvent.LoginResult.KICK_OTHER, reason, isAdmin);
   }
 
   /**
@@ -335,7 +336,7 @@ public interface Player extends HumanEntity, OfflinePlayer {
    * @return {@code true} if the player is kicked successfully.
    */
   default boolean kick(@Nullable final Text reason) {
-    return this.kick(KickEvent.Reason.UNKNOWN, reason);
+    return this.kick(LoginResultEvent.LoginResult.KICK_OTHER, reason);
   }
 
   /**
@@ -345,7 +346,7 @@ public interface Player extends HumanEntity, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final KickEvent.Reason reason) {
+  default boolean kick(@NotNull final LoginResultEvent.LoginResult reason) {
     return this.kick(reason, true);
   }
 
@@ -357,7 +358,7 @@ public interface Player extends HumanEntity, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final KickEvent.Reason reason, @Nullable final Text reasonString) {
+  default boolean kick(@NotNull final LoginResultEvent.LoginResult reason, @Nullable final Text reasonString) {
     return this.kick(reason, reasonString, true);
   }
 
@@ -369,7 +370,7 @@ public interface Player extends HumanEntity, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  default boolean kick(@NotNull final KickEvent.Reason reason, final boolean isAdmin) {
+  default boolean kick(@NotNull final LoginResultEvent.LoginResult reason, final boolean isAdmin) {
     return this.kick(reason, reason::toString, isAdmin);
   }
 
@@ -382,7 +383,7 @@ public interface Player extends HumanEntity, OfflinePlayer {
    *
    * @return {@code true} if the player is kicked successfully.
    */
-  boolean kick(@NotNull KickEvent.Reason reason, @Nullable Text reasonString, boolean isAdmin);
+  boolean kick(@NotNull LoginResultEvent.LoginResult reason, @Nullable Text reasonString, boolean isAdmin);
 
   /**
    * Allows this player to see a player that was previously hidden.
