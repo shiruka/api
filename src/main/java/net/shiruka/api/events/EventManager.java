@@ -80,7 +80,8 @@ public interface EventManager {
    * @return a new instance of {@link PlayerKickEvent}.
    */
   @NotNull
-  PlayerKickEvent playerKick(@NotNull Player player, @NotNull KickEvent.Reason reason, @NotNull Text kickMessage);
+  PlayerKickEvent playerKick(@NotNull Player player, @NotNull LoginResultEvent.LoginResult reason,
+                             @NotNull Text kickMessage);
 
   /**
    * creates a new {@link PlayerKickEvent} instance.
@@ -91,7 +92,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerKickEvent}.
    */
   @NotNull
-  default PlayerKickEvent playerKick(@NotNull final Player player, @NotNull final KickEvent.Reason reason) {
+  default PlayerKickEvent playerKick(@NotNull final Player player, @NotNull final LoginResultEvent.LoginResult reason) {
     return this.playerKick(player, reason,
       TranslatedText.get(EventManager.KEY_MULTIPLAYER_PLAYER_LEFT, player.getName()));
   }
