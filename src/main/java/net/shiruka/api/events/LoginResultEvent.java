@@ -51,13 +51,26 @@ public interface LoginResultEvent {
    * an enum class to determine login result.
    */
   enum LoginResult {
+
     /**
-     * to login successfully.
+     * the player is allowed to log in.
      */
-    SUCCESS,
+    ALLOWED,
     /**
-     * to kick player.
+     * the player is not allowed to log in, due to the server being full.
      */
-    KICK
+    KICK_FULL,
+    /**
+     * the player is not allowed to log in, due to them being banned.
+     */
+    KICK_BANNED,
+    /**
+     * the player is not allowed to log in, due to them not being on the white list.
+     */
+    KICK_WHITELIST,
+    /**
+     * the player is not allowed to log in, for reasons undefined.
+     */
+    KICK_OTHER
   }
 }
