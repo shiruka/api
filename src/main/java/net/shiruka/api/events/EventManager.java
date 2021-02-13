@@ -31,6 +31,7 @@ import net.shiruka.api.entity.Player;
 import net.shiruka.api.event.Listener;
 import net.shiruka.api.events.player.PlayerAsyncLoginEvent;
 import net.shiruka.api.events.player.PlayerKickEvent;
+import net.shiruka.api.events.player.PlayerLoginEvent;
 import net.shiruka.api.events.player.PlayerPreLoginEvent;
 import net.shiruka.api.events.server.ServerCommandEvent;
 import net.shiruka.api.events.server.ServerExceptionEvent;
@@ -94,6 +95,16 @@ public interface EventManager {
     return this.playerKick(player, reason,
       TranslatedText.get(EventManager.KEY_MULTIPLAYER_PLAYER_LEFT, player.getName()));
   }
+
+  /**
+   * creates a new {@link PlayerLoginEvent} instance.
+   *
+   * @param player the player to create.
+   *
+   * @return a new instance of {@link PlayerLoginEvent}.
+   */
+  @NotNull
+  PlayerLoginEvent playerLogin(@NotNull Player player);
 
   /**
    * creates a new {@link PlayerPreLoginEvent} instance.
