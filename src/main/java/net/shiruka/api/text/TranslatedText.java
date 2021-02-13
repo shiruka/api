@@ -25,9 +25,8 @@
 
 package net.shiruka.api.text;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.entity.Player;
@@ -38,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * a class that represents translated texts.
  */
-public final class TranslatedText implements Text, MessageSupplier {
+public final class TranslatedText implements GameMessage, MessageSupplier {
 
   /**
    * the non param cache.
@@ -50,6 +49,11 @@ public final class TranslatedText implements Text, MessageSupplier {
    */
   @NotNull
   private final Object[] params;
+
+  /**
+   * the siblings.
+   */
+  private final List<Text> siblings = new ObjectArrayList<>();
 
   /**
    * the text.
@@ -108,6 +112,17 @@ public final class TranslatedText implements Text, MessageSupplier {
   }
 
   @Override
+  public void addSiblings(final @NotNull Text... siblings) {
+    Collections.addAll(this.siblings, siblings);
+  }
+
+  @NotNull
+  @Override
+  public List<Text> getSiblings() {
+    return Collections.unmodifiableList(this.siblings);
+  }
+
+  @Override
   public String asString() {
     return this.translate(Shiruka.getLanguageManager().getServerLanguage());
   }
@@ -145,9 +160,23 @@ public final class TranslatedText implements Text, MessageSupplier {
   @NotNull
   public String translate(@NotNull final Locale locale) {
     if (this.params.length == 0) {
-      return this.nonParamCache.computeIfAbsent(locale, l ->
-        Shiruka.getLanguageManager().translate(l, this.text));
+      return this.nonParamCache.computeIfAbsent(locale, this::translate0);
     }
-    return Shiruka.getLanguageManager().translate(locale, this.text, this.params);
+    return this.translate0(locale);
+  }
+
+  /**
+   * gives the translated string.
+   *
+   * @param locale the locale to get.
+   *
+   * @return translated string.
+   */
+  @NotNull
+  private String translate0(@NotNull final Locale locale) {
+    final var builder = new StringBuilder(Shiruka.getLanguageManager().translate(locale, this.text, this.params));
+    this.siblings.forEach(sibling ->
+      builder.append('\n').append(sibling));
+    return builder.toString();
   }
 }
