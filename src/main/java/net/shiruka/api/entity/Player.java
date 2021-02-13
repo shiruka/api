@@ -262,6 +262,18 @@ public interface Player extends HumanEntity, OfflinePlayer {
   ChainDataEvent.ChainData getChainData();
 
   /**
+   * obtains the ip ban entry if it's exist.
+   *
+   * @return a ip ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> getIpBanEntry() {
+    return Shiruka.getServer()
+      .getBanList(BanList.Type.IP)
+      .getBanEntry(this.getAddress().getAddress().getHostAddress());
+  }
+
+  /**
    * obtains the ping.
    *
    * @return ping.

@@ -136,6 +136,18 @@ public interface OfflinePlayer extends Named, UniqueId {
   long getLastSeen();
 
   /**
+   * obtains the name ban entry if it's exist.
+   *
+   * @return a name ban entry instance.
+   */
+  @NotNull
+  default Optional<BanEntry> getNameBanEntry() {
+    return Shiruka.getServer()
+      .getBanList(BanList.Type.NAME)
+      .getBanEntry(this.getName().asString());
+  }
+
+  /**
    * gets a {@link Player} object that this represents, if there is one.
    *
    * @return online player instance.
