@@ -27,7 +27,12 @@ package net.shiruka.api.event.method;
 
 import java.util.Arrays;
 import java.util.function.BiConsumer;
-import net.shiruka.api.event.*;
+import net.shiruka.api.event.EventController;
+import net.shiruka.api.event.EventExecutor;
+import net.shiruka.api.event.EventSubscriber;
+import net.shiruka.api.event.Listener;
+import net.shiruka.api.event.PostResult;
+import net.shiruka.api.event.SimpleEventController;
 import net.shiruka.api.events.Event;
 import org.jetbrains.annotations.NotNull;
 

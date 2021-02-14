@@ -113,7 +113,7 @@ public interface PermissionManager {
   void removePermission(@NotNull String name);
 
   /**
-   * subscribes to the given default permissions by operator status
+   * subscribes to the given default permissions by operator status.
    *
    * @param op the op to subscribe.
    * @param permissible the permissible to subscribe.

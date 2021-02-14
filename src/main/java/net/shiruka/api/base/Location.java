@@ -106,7 +106,7 @@ public final class Location implements Cloneable {
   }
 
   /**
-   * safely converts a double (location coordinate) to an int (block coordinate)
+   * safely converts a double (location coordinate) to an int (block coordinate).
    *
    * @param location the location to get.
    *
@@ -241,7 +241,7 @@ public final class Location implements Cloneable {
    */
   @NotNull
   public Location setDirection(@NotNull final Vector vector) {
-    final var _2PI = 2 * Math.PI;
+    final var twoTimesPI = 2 * Math.PI;
     final var vectorX = vector.getX();
     final var vectorZ = vector.getZ();
     if (vectorX == 0 && vectorZ == 0) {
@@ -249,7 +249,7 @@ public final class Location implements Cloneable {
       return this;
     }
     final var theta = Math.atan2(-vectorX, vectorZ);
-    this.yaw = (float) Math.toDegrees((theta + _2PI) % _2PI);
+    this.yaw = (float) Math.toDegrees((theta + twoTimesPI) % twoTimesPI);
     final var x2 = NumberConversions.square(vectorX);
     final var z2 = NumberConversions.square(vectorZ);
     final var xz = Math.sqrt(x2 + z2);

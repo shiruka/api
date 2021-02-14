@@ -33,7 +33,7 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents various types of worlds that may exist
+ * an enum class that represents various types of worlds that may exist.
  */
 public enum WorldType {
   /**

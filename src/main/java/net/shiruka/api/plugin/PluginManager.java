@@ -103,26 +103,26 @@ public interface PluginManager {
   boolean isPluginEnabled(@NotNull Plugin plugin);
 
   /**
-   * Loads the plugin in the specified file
+   * loads the plugin in the specified file.
    *
-   * @param file File containing the plugin to load
+   * @param file the file containing the plugin to load.
    *
-   * @return The Plugin loaded, or null if it was invalid
+   * @return the plugin loaded, or null if it was invalid.
    *
-   * @throws InvalidPluginException Thrown when the specified file is not a valid plugin
-   * @throws InvalidDescriptionException Thrown when the specified file contains an invalid description
-   * @throws UnknownDependencyException If a required dependency could not be resolved
+   * @throws InvalidPluginException thrown when the specified file is not a valid plugin.
+   * @throws InvalidDescriptionException thrown when the specified file contains an invalid description.
+   * @throws UnknownDependencyException if a required dependency could not be resolved.
    */
   @NotNull
   Optional<Plugin> loadPlugin(@NotNull File file) throws InvalidPluginException, InvalidDescriptionException,
     UnknownDependencyException;
 
   /**
-   * Loads the plugins contained within the specified directory
+   * loads the plugins contained within the specified directory.
    *
-   * @param directory Directory to check for plugins
+   * @param directory the directory to check for plugins
    *
-   * @return A list of all plugins loaded
+   * @return a list of all plugins loaded.
    */
   @NotNull
   Plugin[] loadPlugins(@NotNull File directory);

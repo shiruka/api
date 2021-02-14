@@ -64,7 +64,7 @@ public interface CommentablePath<T> extends ConfigPath<T> {
    * @return the comment.
    */
   @NotNull
-  Optional<String> getComment(@NotNull final CommentType commentType);
+  Optional<String> getComment(@NotNull CommentType commentType);
 
   /**
    * sets the comment.
@@ -72,5 +72,5 @@ public interface CommentablePath<T> extends ConfigPath<T> {
    * @param commentType the comment type.
    * @param comment the comment.
    */
-  void setComment(@NotNull final CommentType commentType, @Nullable final String comment);
+  void setComment(@NotNull CommentType commentType, @Nullable String comment);
 }

@@ -43,7 +43,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    *
    * @param reason the reason to ban.
    *
-   * @return a new a ban entry instance. instance.
+   * @return a new a ban entry instance.
    */
   @NotNull
   default Optional<BanEntry> banPlayer(@Nullable final Text reason) {
@@ -56,7 +56,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @param reason the reason to ban.
    * @param source source of the ban.
    *
-   * @return a new a ban entry instance. instance.
+   * @return a new a ban entry instance.
    */
   @NotNull
   default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final String source) {
@@ -64,12 +64,12 @@ public interface OfflinePlayer extends Named, UniqueId {
   }
 
   /**
-   * bans this player from the server
+   * bans this player from the server.
    *
    * @param reason the reason to ban.
    * @param expires the expires to ban.
    *
-   * @return a new a ban entry instance. instance.
+   * @return a new a ban entry instance.
    */
   @NotNull
   default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires) {
@@ -83,7 +83,7 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @param expires the expires to ban.
    * @param source source of the ban.
    *
-   * @return a new a ban entry instance. instance.
+   * @return a new a ban entry instance.
    */
   @NotNull
   default Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires,
@@ -99,11 +99,11 @@ public interface OfflinePlayer extends Named, UniqueId {
    * @param source source of the ban.
    * @param kickIfOnline the kick if online to ban.
    *
-   * @return a new a ban entry instance. instance.
+   * @return a new a ban entry instance.
    */
   @NotNull
-  Optional<BanEntry> banPlayer(@Nullable final Text reason, @Nullable final Date expires, @Nullable final String source,
-                               final boolean kickIfOnline);
+  Optional<BanEntry> banPlayer(@Nullable Text reason, @Nullable Date expires, @Nullable String source,
+                               boolean kickIfOnline);
 
   /**
    * gets the location where the player will spawn at their bed, null if they have not slept in one or their current bed
@@ -163,7 +163,7 @@ public interface OfflinePlayer extends Named, UniqueId {
   boolean hasPlayedBefore();
 
   /**
-   * checks if this player is fully banned or not
+   * checks if this player is fully banned or not.
    *
    * @return {@code true} if fully banned, otherwise {@code false}.
    */
@@ -172,14 +172,14 @@ public interface OfflinePlayer extends Named, UniqueId {
   }
 
   /**
-   * checks if this player is ip banned or not
+   * checks if this player is ip banned or not.
    *
    * @return {@code true} if ip banned, otherwise {@code false}.
    */
   boolean isIpBanned();
 
   /**
-   * checks if this player is name banned or not
+   * checks if this player is name banned or not.
    *
    * @return {@code true} if name banned, otherwise {@code false}.
    */

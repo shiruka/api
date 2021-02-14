@@ -28,7 +28,7 @@ package net.shiruka.api.events;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine login result events
+ * an interface to determine login result events.
  */
 public interface LoginResultEvent {
 

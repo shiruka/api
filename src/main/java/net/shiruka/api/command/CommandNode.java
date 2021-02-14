@@ -198,7 +198,7 @@ public interface CommandNode extends Comparable<CommandNode> {
    *
    * @throws CommandSyntaxException if something is wrong in the command syntax.
    */
-  boolean isValidInput(@NotNull final String input) throws CommandSyntaxException;
+  boolean isValidInput(@NotNull String input) throws CommandSyntaxException;
 
   /**
    * parses the given reader to write into the builder.

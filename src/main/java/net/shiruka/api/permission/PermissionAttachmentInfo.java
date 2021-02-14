@@ -73,7 +73,7 @@ public final class PermissionAttachmentInfo {
   }
 
   /**
-   * gets the attachment providing this permission
+   * gets the attachment providing this permission.
    *
    * @return attachment.
    */

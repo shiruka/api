@@ -26,7 +26,7 @@
 package net.shiruka.api.geometry;
 
 import com.google.common.base.Preconditions;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
