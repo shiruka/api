@@ -27,6 +27,7 @@ package net.shiruka.api;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 import net.shiruka.api.base.BanList;
 import net.shiruka.api.entity.Player;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +37,7 @@ public final class MockServer implements Server {
 
   @NotNull
   @Override
-  public BanList getBanList(final BanList.@NotNull Type type) {
+  public BanList getBanList(@NotNull final BanList.Type type) {
     throw new UnsupportedOperationException();
   }
 
@@ -73,7 +74,7 @@ public final class MockServer implements Server {
   }
 
   @Override
-  public boolean isInWhitelist(@NotNull final String xboxUniqueId) {
+  public boolean isInWhitelist(@NotNull final UUID uniqueId) {
     return false;
   }
 
