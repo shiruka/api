@@ -29,7 +29,11 @@ import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.Object2BooleanLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import net.shiruka.api.Shiruka;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -185,14 +189,15 @@ public final class Permission {
    */
   @NotNull
   public static Permission loadPermission(@NotNull final String name, @NotNull final Map<?, ?> data,
-                                          @Nullable PermissionDefault def, @Nullable final List<Permission> output) {
+                                          @Nullable final PermissionDefault def, @Nullable final List<Permission> output) {
+    var tempDef = def;
     var desc = "";
     var children = new Object2BooleanLinkedOpenHashMap<String>();
     final var defaultValue = data.get("default");
     if (defaultValue != null) {
       final var value = PermissionDefault.getByName(defaultValue.toString());
       Preconditions.checkArgument(value.isPresent(), "'default' key contained unknown value");
-      def = value.get();
+      tempDef = value.get();
     }
     final var childrenValue = data.get("children");
     if (childrenValue != null) {
@@ -206,15 +211,15 @@ public final class Permission {
       } else if (!(childrenValue instanceof Map)) {
         throw new IllegalArgumentException("'children' key is of wrong type");
       }
-      children = Permission.extractChildren((Map<?, ?>) childrenValue, name, def, output);
+      children = Permission.extractChildren((Map<?, ?>) childrenValue, name, tempDef, output);
     }
     final var descriptionValue = data.get("description");
     if (descriptionValue != null) {
       desc = descriptionValue.toString();
     }
-    final var finalDefault = def == null
+    final var finalDefault = tempDef == null
       ? Permission.DEFAULT_PERMISSION
-      : def;
+      : tempDef;
     return new Permission(name, desc, finalDefault, children);
   }
 

@@ -110,7 +110,7 @@ public final class CommandContextBuilder {
   }
 
   /**
-   * builds the command context
+   * builds the command context.
    *
    * @param input the input string.
    *

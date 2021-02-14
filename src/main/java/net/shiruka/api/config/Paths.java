@@ -25,12 +25,23 @@
 
 package net.shiruka.api.config;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import net.shiruka.api.config.path.advanced.ApLocale;
 import net.shiruka.api.config.path.advanced.ApUniqueId;
 import net.shiruka.api.config.path.advanced.ApUniqueIdList;
 import net.shiruka.api.config.path.commentable.CmBasic;
-import net.shiruka.api.config.path.simple.*;
+import net.shiruka.api.config.path.simple.CpBoolean;
+import net.shiruka.api.config.path.simple.CpDouble;
+import net.shiruka.api.config.path.simple.CpFloat;
+import net.shiruka.api.config.path.simple.CpInteger;
+import net.shiruka.api.config.path.simple.CpLong;
+import net.shiruka.api.config.path.simple.CpSimple;
+import net.shiruka.api.config.path.simple.CpString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

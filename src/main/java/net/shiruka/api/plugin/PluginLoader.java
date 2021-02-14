@@ -40,14 +40,14 @@ public interface PluginLoader {
    * @param plugin the plugin to disable.
    * @param closeClassloader the close classloader to disable.
    */
-  void disablePlugin(@NotNull final Plugin plugin, final boolean closeClassloader);
+  void disablePlugin(@NotNull Plugin plugin, boolean closeClassloader);
 
   /**
    * disables the specified plugin.
    *
    * @param plugin the plugin to disable.
    */
-  default void disablePlugin(@NotNull final Plugin plugin) {
+  default void disablePlugin(@NotNull Plugin plugin) {
     this.disablePlugin(plugin, false);
   }
 

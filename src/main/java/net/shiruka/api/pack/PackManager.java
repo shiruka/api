@@ -34,7 +34,7 @@ import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine resource pack managers
+ * an interface to determine resource pack managers.
  */
 public interface PackManager extends Closeable {
 

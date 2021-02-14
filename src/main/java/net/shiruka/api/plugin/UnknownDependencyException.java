@@ -28,7 +28,7 @@ package net.shiruka.api.plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an exception that thrown when attempting to load an invalid Plugin file
+ * an exception that thrown when attempting to load an invalid plugin file.
  */
 public class UnknownDependencyException extends RuntimeException {
 

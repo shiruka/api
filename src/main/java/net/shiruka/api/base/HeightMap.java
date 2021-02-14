@@ -34,7 +34,7 @@ public enum HeightMap {
    */
   MOTION_BLOCKING,
   /**
-   * the highest block that blocks motion or contains a fluid or is in the
+   * the highest block that blocks motion or contains a fluid or is in the.
    */
   MOTION_BLOCKING_NO_LEAVES,
   /**

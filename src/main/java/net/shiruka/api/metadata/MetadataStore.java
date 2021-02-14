@@ -83,7 +83,7 @@ public interface MetadataStore<T> {
    *
    * @param plugin the plugin requesting the invalidation.
    */
-  void removeAll(@NotNull final Plugin plugin);
+  void removeAll(@NotNull Plugin plugin);
 
   /**
    * removes a metadata item owned by a plugin from a subject.

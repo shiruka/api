@@ -54,6 +54,11 @@ public final class RootNode extends CommandNodeEnvelope {
       obj instanceof RootNode && super.equals(obj);
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
   @NotNull
   @Override
   public Collection<String> getExamples() {

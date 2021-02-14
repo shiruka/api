@@ -28,7 +28,15 @@ package net.shiruka.api.command;
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -169,11 +177,12 @@ public final class CommandDispatcher {
    *
    * @return {@code true} if the node is executable.
    */
-  private static boolean isNodeExecutable(@NotNull CommandNode node) {
-    while (node.getCommand() == null && node.getDefaultNode().isPresent()) {
-      node = node.getDefaultNode().get();
+  private static boolean isNodeExecutable(@NotNull final CommandNode node) {
+    var tempNode = node;
+    while (tempNode.getCommand() == null && tempNode.getDefaultNode().isPresent()) {
+      tempNode = tempNode.getDefaultNode().get();
     }
-    return node.getCommand() != null;
+    return tempNode.getCommand() != null;
   }
 
   /**
@@ -383,7 +392,7 @@ public final class CommandDispatcher {
   }
 
   /**
-   * finds a node by its path
+   * finds a node by its path.
    *
    * @param path a generated path to a node.
    *

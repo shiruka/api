@@ -26,7 +26,11 @@
 package net.shiruka.api.text;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.entity.Player;

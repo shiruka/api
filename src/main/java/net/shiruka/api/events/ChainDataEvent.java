@@ -123,7 +123,7 @@ public interface ChainDataEvent extends Event {
     String getPublicKey();
 
     /**
-     * obtains the server address
+     * obtains the server address.
      *
      * @return server address.
      */

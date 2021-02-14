@@ -31,7 +31,7 @@ import net.shiruka.api.config.PathLoader;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a {@link ConfigEnvelope} implementation to load {@link ConfigPath} automatically
+ * a {@link ConfigEnvelope} implementation to load {@link ConfigPath} automatically.
  */
 public abstract class PathableConfig extends ConfigEnvelope {
 

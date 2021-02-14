@@ -152,7 +152,7 @@ public final class CommandContext {
   }
 
   /**
-   * copies all the values and creates a new instance for the given sender
+   * copies all the values and creates a new instance for the given sender.
    *
    * @param sender the sender to create.
    *

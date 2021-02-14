@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a simple implementation for {@link AdvancedPath}
+ * a simple implementation for {@link AdvancedPath}.
  *
  * @param <R> the raw value's type.
  * @param <T> the final value's type.

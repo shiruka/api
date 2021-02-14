@@ -31,7 +31,7 @@ import net.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents an object that may be assigned permissions
+ * Represents an object that may be assigned permissions.
  */
 public interface Permissible extends ServerOperator {
 
@@ -108,7 +108,7 @@ public interface Permissible extends ServerOperator {
   boolean hasPermission(@NotNull Permission perm);
 
   /**
-   * checks if this object contains an override for the specified permission, by fully qualified name
+   * checks if this object contains an override for the specified permission, by fully qualified name.
    *
    * @param name the name to check.
    *

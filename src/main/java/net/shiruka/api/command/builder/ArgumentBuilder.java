@@ -32,7 +32,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import net.shiruka.api.base.Self;
-import net.shiruka.api.command.*;
+import net.shiruka.api.command.Command;
+import net.shiruka.api.command.CommandNode;
+import net.shiruka.api.command.RedirectModifier;
+import net.shiruka.api.command.Requirement;
+import net.shiruka.api.command.SingleRedirectModifier;
 import net.shiruka.api.command.tree.RootNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -79,7 +83,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   private String description;
 
   /**
-   * the fork
+   * the fork.
    */
   private boolean fork;
 
