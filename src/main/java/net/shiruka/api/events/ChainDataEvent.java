@@ -28,6 +28,7 @@ package net.shiruka.api.events;
 import java.util.UUID;
 import net.shiruka.api.geometry.Skin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine events that have chain data value.
@@ -173,7 +174,7 @@ public interface ChainDataEvent extends Event {
      *
      * @return xbox unique id.
      */
-    @NotNull
+    @Nullable
     String getXboxUniqueId();
   }
 }

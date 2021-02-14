@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.UUID;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents game profiles of players.
@@ -53,7 +54,7 @@ public final class GameProfile {
   /**
    * the xbox unique id.
    */
-  @NotNull
+  @Nullable
   private final String xboxUniqueId;
 
   /**
@@ -63,7 +64,7 @@ public final class GameProfile {
    * @param uniqueId the unique id.
    * @param xboxUniqueId the xbox id.
    */
-  public GameProfile(@NotNull final Text name, @NotNull final UUID uniqueId, @NotNull final String xboxUniqueId) {
+  public GameProfile(@NotNull final Text name, @NotNull final UUID uniqueId, @Nullable final String xboxUniqueId) {
     this.name = name;
     this.uniqueId = uniqueId;
     this.xboxUniqueId = xboxUniqueId;
@@ -81,8 +82,9 @@ public final class GameProfile {
     try {
       final var name = (String) map.get("name");
       final var uniqueId = UUID.fromString((String) map.get("unique-id"));
-      final var xboxUniqueId = (String) map.get("xbox-unique-id");
-      return Optional.of(new GameProfile(() -> name, uniqueId, xboxUniqueId));
+      final var xboxUniqueId = map.getOrDefault("xbox-unique-id", null);
+      final var parsedXboxId = xboxUniqueId instanceof String ? (String) xboxUniqueId : null;
+      return Optional.of(new GameProfile(() -> name, uniqueId, parsedXboxId));
     } catch (final Exception e) {
       e.printStackTrace();
     }
@@ -114,7 +116,7 @@ public final class GameProfile {
    *
    * @return xbox unique id.
    */
-  @NotNull
+  @Nullable
   public String getXboxUniqueId() {
     return this.xboxUniqueId;
   }

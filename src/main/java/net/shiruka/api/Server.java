@@ -26,6 +26,7 @@
 package net.shiruka.api;
 
 import java.util.Collection;
+import java.util.UUID;
 import net.shiruka.api.base.BanList;
 import net.shiruka.api.entity.Player;
 import org.apache.logging.log4j.Logger;
@@ -98,11 +99,11 @@ public interface Server {
   /**
    * checks if the id is in the whitelist.
    *
-   * @param xboxUniqueId the xbox unique id to check.
+   * @param uniqueId the unique id to check.
    *
    * @return {@code true} if the id is in the whitelist.
    */
-  boolean isInWhitelist(@NotNull String xboxUniqueId);
+  boolean isInWhitelist(@NotNull UUID uniqueId);
 
   /**
    * checks if the player is in the whitelist.
@@ -112,7 +113,7 @@ public interface Server {
    * @return {@code true} if the player is in the whitelist.
    */
   default boolean isInWhitelist(@NotNull final Player player) {
-    return this.isInWhitelist(player.getXboxUniqueId());
+    return this.isInWhitelist(player.getUniqueId());
   }
 
   /**
