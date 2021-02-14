@@ -170,6 +170,8 @@ public final class PackManifest {
    * @param stream the stream.
    *
    * @return load the manifest.
+   *
+   * @throws IOException if something went wrong when parsing the json.
    */
   @NotNull
   public static PackManifest load(@NotNull final InputStream stream) throws IOException {

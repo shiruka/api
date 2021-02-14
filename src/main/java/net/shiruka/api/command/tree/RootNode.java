@@ -48,17 +48,6 @@ public final class RootNode extends CommandNodeEnvelope {
       null);
   }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return this == obj ||
-      obj instanceof RootNode && super.equals(obj);
-  }
-
-  @Override
-  public int hashCode() {
-    return super.hashCode();
-  }
-
   @NotNull
   @Override
   public Collection<String> getExamples() {
@@ -98,6 +87,17 @@ public final class RootNode extends CommandNodeEnvelope {
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
                                                     @NotNull final Suggestions.Builder builder) throws CommandSyntaxException {
     return Suggestions.empty();
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return this == obj ||
+      obj instanceof RootNode && super.equals(obj);
   }
 
   @Override

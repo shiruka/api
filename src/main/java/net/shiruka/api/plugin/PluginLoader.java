@@ -47,7 +47,7 @@ public interface PluginLoader {
    *
    * @param plugin the plugin to disable.
    */
-  default void disablePlugin(@NotNull Plugin plugin) {
+  default void disablePlugin(@NotNull final Plugin plugin) {
     this.disablePlugin(plugin, false);
   }
 
