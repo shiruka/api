@@ -168,11 +168,19 @@ public interface CommandNode extends Comparable<CommandNode> {
   Set<Requirement> getRequirements();
 
   /**
-   * obtains the usage text.
+   * obtains the smart usage.
    *
-   * @return usage text.
+   * @return smart usage.
    */
   @NotNull
+  String getSmartUsage();
+
+  /**
+   * obtains the usage.
+   *
+   * @return usage.
+   */
+  @Nullable
   String getUsage();
 
   /**

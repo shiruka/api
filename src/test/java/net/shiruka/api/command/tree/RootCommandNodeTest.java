@@ -73,6 +73,6 @@ final class RootNodeTest extends AbstractCommandNodeTest {
 
   @Test
   void testUsage() {
-    assertThat(this.node.getUsage(), is(""));
+    assertThat(this.node.getSmartUsage(), is(""));
   }
 }

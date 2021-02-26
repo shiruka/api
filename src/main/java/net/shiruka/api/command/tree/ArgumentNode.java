@@ -100,14 +100,15 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * @param name the name.
    * @param suggestions the suggestion override.
    * @param type the type.
+   * @param usage the usage.
    */
   public ArgumentNode(@Nullable final CommandNode defaultNode, @Nullable final V defaultValue,
                       @Nullable final String description, final boolean fork, final boolean isDefaultNode,
                       @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
                       @NotNull final Set<Requirement> requirements, @Nullable final Command command,
                       @NotNull final String name, @Nullable final SuggestionProvider suggestions,
-                      @NotNull final ArgumentType<V> type) {
-    super(defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, command);
+                      @NotNull final ArgumentType<V> type, @Nullable final String usage) {
+    super(defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, usage, command);
     this.defaultValue = defaultValue;
     this.name = name;
     this.suggestions = suggestions;
@@ -144,7 +145,7 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
 
   @NotNull
   @Override
-  public String getUsage() {
+  public String getSmartUsage() {
     return ArgumentNode.USAGE_ARGUMENT_OPEN + this.name + ArgumentNode.USAGE_ARGUMENT_CLOSE;
   }
 

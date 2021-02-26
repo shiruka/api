@@ -108,6 +108,12 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   private CommandNode redirect;
 
   /**
+   * the usage.
+   */
+  @Nullable
+  private String usage;
+
+  /**
    * ctor.
    */
   protected ArgumentBuilder() {
@@ -273,6 +279,16 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   @NotNull
   public final Set<Requirement> getRequirements() {
     return Collections.unmodifiableSet(this.requirements);
+  }
+
+  /**
+   * obtains the usage.
+   *
+   * @return usage.
+   */
+  @Nullable
+  public final String getUsage() {
+    return this.usage;
   }
 
   /**
@@ -468,6 +484,18 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
       this.defaultNode = argument;
     }
     this.arguments.addChild(argument);
+    return this.getSelf();
+  }
+
+  /**
+   * sets the usage.
+   *
+   * @param usage the usage to set.
+   *
+   * @return {@code this} for builder chain.
+   */
+  public final T usage(@NotNull final String usage) {
+    this.usage = usage;
     return this.getSelf();
   }
 

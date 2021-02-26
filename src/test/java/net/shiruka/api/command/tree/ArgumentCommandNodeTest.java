@@ -112,6 +112,6 @@ final class ArgumentCommandNodeTest extends AbstractCommandNodeTest {
 
   @Test
   void testUsage() {
-    assertThat(this.node.getUsage(), is("<foo>"));
+    assertThat(this.node.getSmartUsage(), is("<foo>"));
   }
 }

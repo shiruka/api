@@ -103,6 +103,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   private final Set<Requirement> requirements;
 
   /**
+   * the usage.
+   */
+  @Nullable
+  private final String usage;
+
+  /**
    * the command.
    */
   @Nullable
@@ -118,12 +124,14 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * @param modifier the modifier.
    * @param redirect the redirect.
    * @param requirements the requirement.
+   * @param usage the usage.
    * @param command the command.
    */
   protected CommandNodeEnvelope(@Nullable final CommandNode defaultNode, @Nullable final String description,
                                 final boolean fork, final boolean isDefaultNode,
                                 @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
-                                @NotNull final Set<Requirement> requirements, @Nullable final Command command) {
+                                @NotNull final Set<Requirement> requirements, @Nullable final String usage,
+                                @Nullable final Command command) {
     this.defaultNode = defaultNode;
     this.description = description;
     this.fork = fork;
@@ -131,6 +139,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     this.modifier = modifier;
     this.redirect = redirect;
     this.requirements = Collections.unmodifiableSet(requirements);
+    this.usage = usage;
     this.command = command;
   }
 
@@ -235,6 +244,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   @Override
   public final Set<Requirement> getRequirements() {
     return this.requirements;
+  }
+
+  @Nullable
+  @Override
+  public final String getUsage() {
+    return this.usage;
   }
 
   @Override

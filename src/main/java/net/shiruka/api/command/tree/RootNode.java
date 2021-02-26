@@ -45,7 +45,7 @@ public final class RootNode extends CommandNodeEnvelope {
    */
   public RootNode() {
     super(null, null, false, false, context -> Collections.singleton(context.getSender()), null, Collections.emptySet(),
-      null);
+      null, null);
   }
 
   @NotNull
@@ -68,7 +68,7 @@ public final class RootNode extends CommandNodeEnvelope {
 
   @NotNull
   @Override
-  public String getUsage() {
+  public String getSmartUsage() {
     return "";
   }
 
