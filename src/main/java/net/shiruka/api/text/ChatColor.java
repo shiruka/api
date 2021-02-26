@@ -137,7 +137,7 @@ public enum ChatColor {
   private static final Pattern CLEAN_PATTERN = Pattern.compile("(?i)" + ChatColor.ESCAPE + "[0-9A-FK-ORX]");
 
   /**
-   * an empty string that helps in {@link this#clean(String, boolean)} method to clean strings.
+   * an empty string that helps in {@link #clean(String, boolean)} method to clean strings.
    */
   private static final String EMPTY_STRING = "";
 
