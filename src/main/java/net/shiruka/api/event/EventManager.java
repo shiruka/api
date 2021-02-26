@@ -27,6 +27,7 @@ package net.shiruka.api.event;
 
 import java.util.List;
 import net.shiruka.api.Shiruka;
+import net.shiruka.api.base.ChainData;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.entity.Player;
 import net.shiruka.api.events.ChainDataEvent;
@@ -85,7 +86,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerAsyncLoginEvent}.
    */
   @NotNull
-  PlayerAsyncLoginEvent playerAsyncLogin(@NotNull ChainDataEvent.ChainData chainData);
+  PlayerAsyncLoginEvent playerAsyncLogin(@NotNull ChainData chainData);
 
   /**
    * creates a new {@link PlayerKickEvent} instance.
