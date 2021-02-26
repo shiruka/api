@@ -70,16 +70,6 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
   }
 
   /**
-   * obtains the aliases.
-   *
-   * @return aliases.
-   */
-  @NotNull
-  public List<String> getAliases() {
-    return Collections.unmodifiableList(this.aliases);
-  }
-
-  /**
    * adds the aliases.
    *
    * @param aliases the aliases to add.
@@ -98,6 +88,16 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
     return this.createMain(this.getLiteral(), this.aliases.stream()
       .map(this::createAliases)
       .collect(Collectors.toCollection(ObjectArrayList::new)));
+  }
+
+  /**
+   * obtains the aliases.
+   *
+   * @return aliases.
+   */
+  @NotNull
+  public List<String> getAliases() {
+    return Collections.unmodifiableList(this.aliases);
   }
 
   /**
