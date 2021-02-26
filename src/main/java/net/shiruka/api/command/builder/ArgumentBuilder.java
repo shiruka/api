@@ -308,15 +308,15 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
 
   /**
    * adds a requirement which tests if the command sender has the given permissions. if the test fails at least one
-   * time, then collects all failed permissions then runs the given {@code failedPermissions} consumer.
+   * time, then collects all failed permissions then runs the given {@code whenFails} consumer.
    *
-   * @param failedPermissions the failed permissions to add.
+   * @param whenFails the when fails to add.
    * @param permissions the permissions to add.
    *
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public final T permission(@NotNull final BiConsumer<CommandSender, List<String>> failedPermissions,
+  public final T permission(@NotNull final BiConsumer<CommandSender, List<String>> whenFails,
                             @NotNull final String... permissions) {
     return this.requires(sender -> {
       final var failed = Arrays.stream(permissions)
@@ -325,7 +325,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
       if (failed.isEmpty()) {
         return true;
       }
-      failedPermissions.accept(sender, failed);
+      whenFails.accept(sender, failed);
       return false;
     });
   }
