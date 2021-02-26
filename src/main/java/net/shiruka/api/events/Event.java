@@ -26,7 +26,6 @@
 package net.shiruka.api.events;
 
 import net.shiruka.api.Shiruka;
-import net.shiruka.api.event.Cancellable;
 
 /**
  * this class represents the superinterface of all classes that are events.
