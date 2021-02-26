@@ -51,6 +51,11 @@ public final class PluginDescriptionFile {
   private static final String AUTHORS = "authors";
 
   /**
+   * the commands key of the plugin.yml.
+   */
+  private static final String COMMANDS = "commands";
+
+  /**
    * the contributors of the plugin.yml.
    */
   private static final String CONTRIBUTORS = "contributors";
@@ -143,6 +148,12 @@ public final class PluginDescriptionFile {
   private final List<String> authors;
 
   /**
+   * the commands of the plugin.
+   */
+  @NotNull
+  private final Map<String, Map<String, Object>> commands;
+
+  /**
    * the contributors of the plugin.
    */
   @NotNull
@@ -232,6 +243,7 @@ public final class PluginDescriptionFile {
    * ctor.
    *
    * @param authors the authors.
+   * @param commands the commands.
    * @param contributors the contributors.
    * @param defaultPerm the default perm.
    * @param depend the depend.
@@ -247,15 +259,17 @@ public final class PluginDescriptionFile {
    * @param version the version.
    * @param website the website.
    */
-  private PluginDescriptionFile(@NotNull final List<String> authors, @NotNull final List<String> contributors,
-                                @NotNull final PermissionDefault defaultPerm, @NotNull final List<String> depend,
-                                @NotNull final String description, @NotNull final List<String> loadBefore,
-                                @NotNull final String main, @NotNull final String name,
-                                @NotNull final PluginLoadOrder order, @NotNull final List<Permission> permissions,
-                                @NotNull final String prefix, @NotNull final List<String> provides,
-                                @NotNull final List<String> softDepend, @NotNull final String version,
-                                @NotNull final String website) {
+  private PluginDescriptionFile(@NotNull final List<String> authors,
+                                @NotNull final Map<String, Map<String, Object>> commands,
+                                @NotNull final List<String> contributors, @NotNull final PermissionDefault defaultPerm,
+                                @NotNull final List<String> depend, @NotNull final String description,
+                                @NotNull final List<String> loadBefore, @NotNull final String main,
+                                @NotNull final String name, @NotNull final PluginLoadOrder order,
+                                @NotNull final List<Permission> permissions, @NotNull final String prefix,
+                                @NotNull final List<String> provides, @NotNull final List<String> softDepend,
+                                @NotNull final String version, @NotNull final String website) {
     this.authors = Collections.unmodifiableList(authors);
+    this.commands = commands;
     this.contributors = Collections.unmodifiableList(contributors);
     this.defaultPerm = defaultPerm;
     this.depend = Collections.unmodifiableList(depend);
@@ -315,6 +329,7 @@ public final class PluginDescriptionFile {
    * @return a new instance of plugin description file.
    *
    * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
+   * @todo #1:30m Add language support for all the errors when parsing the plugin file.
    */
   @NotNull
   public static PluginDescriptionFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
@@ -342,7 +357,7 @@ public final class PluginDescriptionFile {
     final String main;
     try {
       main = map.get(PluginDescriptionFile.MAIN).toString();
-      if (main.startsWith("net.shiruka.")) {
+      if (main.startsWith("net.shiruka")) {
         throw new InvalidDescriptionException("main may not be within the net.shiruka namespace");
       }
     } catch (final NullPointerException ex) {
@@ -350,15 +365,34 @@ public final class PluginDescriptionFile {
     } catch (final ClassCastException ex) {
       throw new InvalidDescriptionException(ex, "main is of wrong type");
     }
+    final var commands = new Object2ObjectOpenHashMap<String, Map<String, Object>>();
+    if (map.containsKey(PluginDescriptionFile.COMMANDS)) {
+      try {
+        ((Map<?, ?>) map.get(PluginDescriptionFile.COMMANDS)).forEach((commandName, values) -> {
+          final var command = new Object2ObjectOpenHashMap<String, Object>();
+          ((Map<?, ?>) values).forEach((key, value) -> {
+            if (value instanceof Iterable<?>) {
+              final var list = new ObjectArrayList<>();
+              ((Iterable<?>) value).forEach(list::add);
+              command.put((String) key, list);
+            } else {
+              command.put((String) key, value);
+            }
+          });
+          commands.put((String) commandName, command);
+        });
+      } catch (final ClassCastException ex) {
+        throw new InvalidDescriptionException(ex, "commands are of wrong type");
+      }
+    }
     final var website = map.getOrDefault(PluginDescriptionFile.WEBSITE, "").toString();
     final var description = map.getOrDefault(PluginDescriptionFile.DESCRIPTION, "").toString();
     final var prefix = map.getOrDefault(PluginDescriptionFile.PREFIX, "").toString();
     final var contributors = new ObjectArrayList<String>();
     if (map.containsKey(PluginDescriptionFile.CONTRIBUTORS)) {
       try {
-        for (final var o : (Iterable<?>) map.get(PluginDescriptionFile.CONTRIBUTORS)) {
-          contributors.add(o.toString());
-        }
+        ((Iterable<?>) map.get(PluginDescriptionFile.CONTRIBUTORS)).forEach(o ->
+          contributors.add(o.toString()));
       } catch (final ClassCastException ex) {
         throw new InvalidDescriptionException(ex, "contributors are of wrong type");
       }
@@ -375,7 +409,7 @@ public final class PluginDescriptionFile {
         throw new InvalidDescriptionException(ex, "authors are improperly defined");
       }
     }
-    final PluginLoadOrder order;
+    var order = PluginLoadOrder.POST_WORLD;
     if (map.containsKey(PluginDescriptionFile.LOAD)) {
       try {
         order = PluginLoadOrder.valueOf(((String) map.get(PluginDescriptionFile.LOAD))
@@ -386,13 +420,11 @@ public final class PluginDescriptionFile {
       } catch (final IllegalArgumentException ex) {
         throw new InvalidDescriptionException(ex, "load is not a valid choice");
       }
-    } else {
-      order = PluginLoadOrder.POST_WORLD;
     }
     final var depend = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.DEPEND);
     final var softDepend = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.SOFT_DEPEND);
     final var loadBefore = PluginDescriptionFile.makePluginNameList(map, PluginDescriptionFile.LOAD_BEFORE);
-    PermissionDefault defaultPerm = PermissionDefault.OP;
+    var defaultPerm = PermissionDefault.OP;
     final var defaultPermission = map.get(PluginDescriptionFile.DEFAULT_PERMISSION);
     if (defaultPermission != null) {
       try {
@@ -411,8 +443,8 @@ public final class PluginDescriptionFile {
     }
     final var permissions = Permission.loadPermissions(lazyPermissions,
       "Permission node '%s' in plugin description file for " + name + " v" + version + " is invalid!", defaultPerm);
-    return new PluginDescriptionFile(authors, contributors, defaultPerm, depend, description, loadBefore, main, name,
-      order, permissions, prefix, provides, softDepend, version, website);
+    return new PluginDescriptionFile(authors, commands, contributors, defaultPerm, depend, description, loadBefore,
+      main, name, order, permissions, prefix, provides, softDepend, version, website);
   }
 
   /**
@@ -433,9 +465,8 @@ public final class PluginDescriptionFile {
     }
     final var list = new ObjectArrayList<String>();
     try {
-      for (final var entry : (Iterable<?>) map.get(key)) {
-        list.add(entry.toString().replace(' ', '_'));
-      }
+      ((Iterable<?>) map.get(key)).forEach(o ->
+        list.add(o.toString().replace(' ', '_')));
     } catch (final ClassCastException ex) {
       throw new InvalidDescriptionException(ex, String.format("%s is of wrong type", key));
     } catch (final NullPointerException ex) {
@@ -452,6 +483,16 @@ public final class PluginDescriptionFile {
   @NotNull
   public List<String> getAuthors() {
     return this.authors;
+  }
+
+  /**
+   * obtains the commands.
+   *
+   * @return commands.
+   */
+  @NotNull
+  public Map<String, Map<String, Object>> getCommands() {
+    return Collections.unmodifiableMap(this.commands);
   }
 
   /**
@@ -555,6 +596,7 @@ public final class PluginDescriptionFile {
     map.put(PluginDescriptionFile.DESCRIPTION, this.description);
     map.put(PluginDescriptionFile.AUTHORS, this.authors);
     map.put(PluginDescriptionFile.CONTRIBUTORS, this.contributors);
+    map.put(PluginDescriptionFile.COMMANDS, this.commands);
     map.put(PluginDescriptionFile.PREFIX, this.prefix);
     return map;
   }
