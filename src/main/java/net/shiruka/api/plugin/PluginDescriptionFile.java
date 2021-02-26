@@ -464,9 +464,8 @@ public final class PluginDescriptionFile {
     }
     final var list = new ObjectArrayList<String>();
     try {
-      for (final var entry : (Iterable<?>) map.get(key)) {
-        list.add(entry.toString().replace(' ', '_'));
-      }
+      ((Iterable<?>) map.get(key)).forEach(o ->
+        list.add(o.toString().replace(' ', '_')));
     } catch (final ClassCastException ex) {
       throw new InvalidDescriptionException(ex, String.format("%s is of wrong type", key));
     } catch (final NullPointerException ex) {
