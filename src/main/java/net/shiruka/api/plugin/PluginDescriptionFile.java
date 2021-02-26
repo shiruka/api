@@ -329,6 +329,7 @@ public final class PluginDescriptionFile {
    * @return a new instance of plugin description file.
    *
    * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
+   * @todo #1:30m Add language support for error when parsing the plugin file.
    */
   @NotNull
   public static PluginDescriptionFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
@@ -467,10 +468,8 @@ public final class PluginDescriptionFile {
       ((Iterable<?>) map.get(key)).forEach(o ->
         list.add(o.toString().replace(' ', '_')));
     } catch (final ClassCastException ex) {
-      // @todo #1:5m Add language support for String.format("%s is of wrong type", key).
       throw new InvalidDescriptionException(ex, String.format("%s is of wrong type", key));
     } catch (final NullPointerException ex) {
-      // @todo #1:5m Add language support for String.format("invalid %s format", key).
       throw new InvalidDescriptionException(ex, String.format("invalid %s format", key));
     }
     return list;
