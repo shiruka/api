@@ -365,9 +365,9 @@ public final class PluginDescriptionFile {
       throw new InvalidDescriptionException(ex, "main is of wrong type");
     }
     final var commands = new Object2ObjectOpenHashMap<String, Map<String, Object>>();
-    if (map.containsKey("commands")) {
+    if (map.containsKey(PluginDescriptionFile.COMMANDS)) {
       try {
-        ((Map<?, ?>) map.get("commands")).forEach((commandName, values) -> {
+        ((Map<?, ?>) map.get(PluginDescriptionFile.COMMANDS)).forEach((commandName, values) -> {
           final var command = new Object2ObjectOpenHashMap<String, Object>();
           ((Map<?, ?>) values).forEach((key, value) -> {
             if (value instanceof Iterable<?>) {
