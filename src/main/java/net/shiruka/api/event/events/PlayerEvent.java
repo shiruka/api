@@ -23,26 +23,32 @@
  *
  */
 
-package net.shiruka.api.events.server;
+package net.shiruka.api.event.events;
 
-import net.shiruka.api.events.TickEvent;
+import net.shiruka.api.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * called when server ticks.
+ * an interface to determine player events.
  */
-public interface ServerTickEndEvent extends TickEvent {
+public interface PlayerEvent extends EntityEvent {
 
   /**
-   * obtains the tick duration.
+   * obtains the player.
    *
-   * @return tick duration.
+   * @return the player.
    */
-  double getDuration();
+  @NotNull
+  @Override
+  Player getEntity();
 
   /**
-   * obtains the remaining time.
+   * obtains the player.
    *
-   * @return remaining time.
+   * @return the player.
    */
-  long getRemaining();
+  @NotNull
+  default Player getPlayer() {
+    return this.getEntity();
+  }
 }

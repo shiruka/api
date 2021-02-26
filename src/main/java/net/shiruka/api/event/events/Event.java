@@ -23,32 +23,31 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.event.events;
 
-import net.shiruka.api.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import net.shiruka.api.Shiruka;
 
 /**
- * an interface to determine player events.
+ * this class represents the superinterface of all classes that are events.
  */
-public interface PlayerEvent extends EntityEvent {
+public interface Event {
 
   /**
-   * obtains the player.
+   * calls the event itself.
    *
-   * @return the player.
+   * @return {@code true}.
    */
-  @NotNull
-  @Override
-  Player getEntity();
+  default boolean callEvent() {
+    Shiruka.getEventManager().call(this);
+    return true;
+  }
 
   /**
-   * obtains the player.
+   * checks if the event is async.
    *
-   * @return the player.
+   * @return {@code false} by default, {@code true} if the event fires asynchronously.
    */
-  @NotNull
-  default Player getPlayer() {
-    return this.getEntity();
+  default boolean isAsync() {
+    return false;
   }
 }

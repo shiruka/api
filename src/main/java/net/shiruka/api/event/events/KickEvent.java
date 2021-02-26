@@ -23,44 +23,43 @@
  *
  */
 
-package net.shiruka.api.events.player;
+package net.shiruka.api.event.events;
 
-import java.util.function.Consumer;
-import net.shiruka.api.entity.Player;
-import net.shiruka.api.events.ChainDataEvent;
-import net.shiruka.api.events.KickEvent;
-import net.shiruka.api.events.LoginResultEvent;
-import net.shiruka.api.events.ObjectListEvent;
+import java.util.Optional;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine player's async login events.
+ * an interface to determine kick events.
  */
-public interface PlayerAsyncLoginEvent extends ChainDataEvent, KickEvent, LoginResultEvent,
-  ObjectListEvent<Consumer<Player>> {
+public interface KickEvent extends Event {
 
   /**
-   * allows the player to join.
-   */
-  default void allow() {
-    this.setLoginResult(LoginResult.ALLOWED);
-  }
-
-  /**
-   * kicks the player with the given kick message.
+   * obtains the kick message.
    *
-   * @param text the text to disallow.
-   * @param result the result to disallow.
+   * @return kick message.
    */
-  default void disallow(@NotNull final LoginResult result, @Nullable final Text text) {
-    this.setLoginResult(result);
-    this.setKickMessage(text);
-  }
+  @NotNull
+  Optional<Text> getKickMessage();
 
-  @Override
-  default boolean isAsync() {
-    return true;
+  /**
+   * sets the kick message.
+   *
+   * @param message the message to set.
+   */
+  void setKickMessage(@Nullable Text message);
+
+  /**
+   * sets the kick message.
+   *
+   * @param message the message to set.
+   */
+  default void setKickMessage(@Nullable final String message) {
+    if (message == null) {
+      this.setKickMessage((Text) null);
+    } else {
+      this.setKickMessage(() -> message);
+    }
   }
 }

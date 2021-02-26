@@ -22,16 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package net.shiruka.api.events.player;
-
-import net.shiruka.api.event.Cancellable;
-import net.shiruka.api.events.ChainDataEvent;
-import net.shiruka.api.events.KickEvent;
-
 /**
- * called when the player logs in, before things have been set up.
+ * the package that contains abstract event classes for player events.
  */
-public interface PlayerPreLoginEvent extends ChainDataEvent, KickEvent, Cancellable {
-
-}
+package net.shiruka.api.event.events.player;

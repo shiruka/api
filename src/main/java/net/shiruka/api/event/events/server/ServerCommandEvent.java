@@ -23,7 +23,7 @@
  *
  */
 
-package net.shiruka.api.events.server;
+package net.shiruka.api.event.events.server;
 
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.event.Cancellable;

@@ -23,31 +23,44 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.event.events.player;
 
-import net.shiruka.api.Shiruka;
+import java.util.function.Consumer;
+import net.shiruka.api.entity.Player;
+import net.shiruka.api.event.events.ChainDataEvent;
+import net.shiruka.api.event.events.KickEvent;
+import net.shiruka.api.event.events.LoginResultEvent;
+import net.shiruka.api.event.events.ObjectListEvent;
+import net.shiruka.api.text.Text;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * this class represents the superinterface of all classes that are events.
+ * an interface to determine player's async login events.
  */
-public interface Event {
+public interface PlayerAsyncLoginEvent extends ChainDataEvent, KickEvent, LoginResultEvent,
+  ObjectListEvent<Consumer<Player>> {
 
   /**
-   * calls the event itself.
-   *
-   * @return {@code true}.
+   * allows the player to join.
    */
-  default boolean callEvent() {
-    Shiruka.getEventManager().call(this);
-    return true;
+  default void allow() {
+    this.setLoginResult(LoginResult.ALLOWED);
   }
 
   /**
-   * checks if the event is async.
+   * kicks the player with the given kick message.
    *
-   * @return {@code false} by default, {@code true} if the event fires asynchronously.
+   * @param text the text to disallow.
+   * @param result the result to disallow.
    */
+  default void disallow(@NotNull final LoginResult result, @Nullable final Text text) {
+    this.setLoginResult(result);
+    this.setKickMessage(text);
+  }
+
+  @Override
   default boolean isAsync() {
-    return false;
+    return true;
   }
 }

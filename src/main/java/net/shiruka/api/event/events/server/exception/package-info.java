@@ -23,6 +23,6 @@
  *
  */
 /**
- * the package that contains abstract event classes for server events.
+ * the package that contains exception classes of {@link net.shiruka.api.event.events.server.ServerExceptionEvent}.
  */
-package net.shiruka.api.events.server;
+package net.shiruka.api.event.events.server.exception;

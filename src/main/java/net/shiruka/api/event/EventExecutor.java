@@ -27,7 +27,7 @@ package net.shiruka.api.event;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
-import net.shiruka.api.events.Event;
+import net.shiruka.api.event.events.Event;
 import org.jetbrains.annotations.NotNull;
 
 /**

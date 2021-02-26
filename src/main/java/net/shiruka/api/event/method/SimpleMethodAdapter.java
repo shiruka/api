@@ -33,7 +33,7 @@ import net.shiruka.api.event.EventSubscriber;
 import net.shiruka.api.event.Listener;
 import net.shiruka.api.event.PostResult;
 import net.shiruka.api.event.SimpleEventController;
-import net.shiruka.api.events.Event;
+import net.shiruka.api.event.events.Event;
 import org.jetbrains.annotations.NotNull;
 
 /**

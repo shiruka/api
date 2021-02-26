@@ -23,54 +23,26 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.event.events.server;
 
-import org.jetbrains.annotations.NotNull;
+import net.shiruka.api.event.events.TickEvent;
 
 /**
- * an interface to determine login result events.
+ * called when server ticks.
  */
-public interface LoginResultEvent {
+public interface ServerTickEndEvent extends TickEvent {
 
   /**
-   * obtains the login result.
+   * obtains the tick duration.
    *
-   * @return login result.
+   * @return tick duration.
    */
-  @NotNull
-  LoginResult getLoginResult();
+  double getDuration();
 
   /**
-   * sets the login result.
+   * obtains the remaining time.
    *
-   * @param result the result to set.
+   * @return remaining time.
    */
-  void setLoginResult(@NotNull LoginResult result);
-
-  /**
-   * an enum class to determine login result.
-   */
-  enum LoginResult {
-
-    /**
-     * the player is allowed to log in.
-     */
-    ALLOWED,
-    /**
-     * the player is not allowed to log in, due to the server being full.
-     */
-    KICK_FULL,
-    /**
-     * the player is not allowed to log in, due to them being banned.
-     */
-    KICK_BANNED,
-    /**
-     * the player is not allowed to log in, due to them not being on the white list.
-     */
-    KICK_WHITELIST,
-    /**
-     * the player is not allowed to log in, for reasons undefined.
-     */
-    KICK_OTHER
-  }
+  long getRemaining();
 }

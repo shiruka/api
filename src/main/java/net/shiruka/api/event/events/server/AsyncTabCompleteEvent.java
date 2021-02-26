@@ -23,43 +23,57 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.event.events.server;
 
-import java.util.Optional;
-import net.shiruka.api.text.Text;
+import java.util.List;
+import net.shiruka.api.event.Cancellable;
+import net.shiruka.api.event.events.CommandSenderEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine kick events.
+ * allows plugins to compute tab completion results asynchronously.
  */
-public interface KickEvent extends Event {
+public interface AsyncTabCompleteEvent extends Cancellable, CommandSenderEvent {
 
   /**
-   * obtains the kick message.
+   * obtains the completions.
    *
-   * @return kick message.
+   * @return completions.
    */
   @NotNull
-  Optional<Text> getKickMessage();
+  List<String> getCompletions();
 
   /**
-   * sets the kick message.
+   * sets the completions.
    *
-   * @param message the message to set.
+   * @param completions the completions to set.
    */
-  void setKickMessage(@Nullable Text message);
+  void setCompletions(@NotNull List<String> completions);
 
   /**
-   * sets the kick message.
+   * obtains the text.
    *
-   * @param message the message to set.
+   * @return text.
    */
-  default void setKickMessage(@Nullable final String message) {
-    if (message == null) {
-      this.setKickMessage((Text) null);
-    } else {
-      this.setKickMessage(() -> message);
-    }
+  @NotNull
+  String getText();
+
+  @Override
+  default boolean isAsync() {
+    return true;
   }
+
+  /**
+   * checks if the event is handled.
+   *
+   * @return {@code true} if completions considered handled.
+   */
+  boolean isHandled();
+
+  /**
+   * sets the handled.
+   *
+   * @param handled the handled to set.
+   */
+  void setHandled(boolean handled);
 }

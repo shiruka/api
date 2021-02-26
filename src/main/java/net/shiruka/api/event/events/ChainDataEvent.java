@@ -22,7 +22,22 @@
  * SOFTWARE.
  *
  */
+
+package net.shiruka.api.event.events;
+
+import net.shiruka.api.base.ChainData;
+import org.jetbrains.annotations.NotNull;
+
 /**
- * the package that contains abstract event classes for entity events.
+ * an interface to determine events that have chain data value.
  */
-package net.shiruka.api.events.entity;
+public interface ChainDataEvent extends Event {
+
+  /**
+   * obtains the chain data.
+   *
+   * @return chain data.
+   */
+  @NotNull
+  ChainData getChainData();
+}

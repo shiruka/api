@@ -23,53 +23,17 @@
  *
  */
 
-package net.shiruka.api.events.server.exception;
-
-import org.jetbrains.annotations.NotNull;
+package net.shiruka.api.event.events;
 
 /**
- * wrapper exception for all exceptions that are thrown by the server.
+ * an interface to determine tick events.
  */
-public class ServerException extends Exception {
+public interface TickEvent extends Event {
 
   /**
-   * ctor.
+   * obtains the tick.
    *
-   * @param message the message.
+   * @return the tick.
    */
-  public ServerException(@NotNull final String message) {
-    super(message);
-  }
-
-  /**
-   * ctor.
-   *
-   * @param message the message.
-   * @param cause the cause.
-   */
-  public ServerException(@NotNull final String message, @NotNull final Throwable cause) {
-    super(message, cause);
-  }
-
-  /**
-   * ctor.
-   *
-   * @param cause the cause.
-   */
-  public ServerException(@NotNull final Throwable cause) {
-    super(cause);
-  }
-
-  /**
-   * ctor.
-   *
-   * @param message the message.
-   * @param cause the cause.
-   * @param enableSuppression the enable suppression.
-   * @param writableStackTrace the writable stack trace.
-   */
-  protected ServerException(@NotNull final String message, @NotNull final Throwable cause,
-                            final boolean enableSuppression, final boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
-  }
+  int getTick();
 }

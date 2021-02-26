@@ -22,14 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package net.shiruka.api.events.server;
-
-import net.shiruka.api.events.TickEvent;
-
 /**
- * called when server ticks.
+ * the package that contains abstract event classes for server events.
  */
-public interface ServerTickStartEvent extends TickEvent {
-
-}
+package net.shiruka.api.event.events.server;
