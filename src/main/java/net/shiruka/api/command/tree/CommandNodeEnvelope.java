@@ -139,17 +139,21 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     if (node instanceof RootNode) {
       throw new UnsupportedOperationException("Cannot add a RootNode as a child to any other CommandNode!");
     }
-    final var child = this.children.get(node.getName());
+    if (node instanceof LiteralNode) {
+      ((LiteralNode) node).getAliases().forEach(this::addChild);
+    }
+    final var name = node.getName();
+    final var child = this.children.get(name);
     if (child != null) {
       child.setCommand(node.getCommand());
       node.getChildren().forEach(child::addChild);
       return;
     }
-    this.children.put(node.getName(), node);
+    this.children.put(name, node);
     if (node instanceof LiteralNode) {
-      this.literals.put(node.getName(), (LiteralNode) node);
+      this.literals.put(name, (LiteralNode) node);
     } else if (node instanceof ArgumentNode) {
-      this.arguments.put(node.getName(), (ArgumentNode<?>) node);
+      this.arguments.put(name, (ArgumentNode<?>) node);
     }
   }
 

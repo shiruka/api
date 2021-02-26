@@ -25,6 +25,10 @@
 
 package net.shiruka.api.command.builder;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import net.shiruka.api.command.tree.LiteralNode;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,6 +36,12 @@ import org.jetbrains.annotations.NotNull;
  * a simple literal implementation for {@link ArgumentBuilder}.
  */
 public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
+
+  /**
+   * the aliases.
+   */
+  @NotNull
+  private final List<String> aliases = new ObjectArrayList<>();
 
   /**
    * the literal.
@@ -59,14 +69,35 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
     this(literal, false);
   }
 
+  /**
+   * obtains the aliases.
+   *
+   * @return aliases.
+   */
+  @NotNull
+  public final List<String> getAliases() {
+    return Collections.unmodifiableList(this.aliases);
+  }
+
+  /**
+   * adds the aliases.
+   *
+   * @param aliases the aliases to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public LiteralBuilder aliases(@NotNull final String... aliases) {
+    this.aliases.addAll(List.of(aliases));
+    return this.getSelf();
+  }
+
   @NotNull
   @Override
   public LiteralNode build() {
-    final var result = new LiteralNode(this.getDefaultNode(), this.getDescription(), this.isFork(),
-      this.isDefaultNode(), this.getModifier(), this.getRedirect(), this.getRequirements(), this.getCommand(),
-      this.getLiteral());
-    this.getArguments().forEach(result::addChild);
-    return result;
+    return this.createMain(this.getLiteral(), this.aliases.stream()
+      .map(this::createAliases)
+      .collect(Collectors.toCollection(ObjectArrayList::new)));
   }
 
   /**
@@ -83,5 +114,33 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
   @Override
   public LiteralBuilder getSelf() {
     return this;
+  }
+
+  /**
+   * creates a alias literal node.
+   *
+   * @param literal the literal to create.
+   *
+   * @return a newly created alias literal node.
+   */
+  @NotNull
+  private LiteralNode createAliases(@NotNull final String literal) {
+    return this.createMain(literal, Collections.emptyList());
+  }
+
+  /**
+   * creates a main literal node instance.
+   *
+   * @param literal the literal to create.
+   * @param aliases the aliases to create.
+   *
+   * @return a newly created main literal node.
+   */
+  @NotNull
+  private LiteralNode createMain(@NotNull final String literal, @NotNull final List<LiteralNode> aliases) {
+    final var node = new LiteralNode(aliases, this.getDefaultNode(), this.getDescription(), this.isFork(),
+      this.isDefaultNode(), this.getModifier(), this.getRedirect(), this.getRequirements(), this.getCommand(), literal);
+    this.getArguments().forEach(node::addChild);
+    return node;
   }
 }
