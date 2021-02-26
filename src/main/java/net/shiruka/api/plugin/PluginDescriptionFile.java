@@ -390,9 +390,8 @@ public final class PluginDescriptionFile {
     final var contributors = new ObjectArrayList<String>();
     if (map.containsKey(PluginDescriptionFile.CONTRIBUTORS)) {
       try {
-        for (final var o : (Iterable<?>) map.get(PluginDescriptionFile.CONTRIBUTORS)) {
-          contributors.add(o.toString());
-        }
+        ((Iterable<?>) map.get(PluginDescriptionFile.CONTRIBUTORS)).forEach(o ->
+          contributors.add(o.toString()));
       } catch (final ClassCastException ex) {
         throw new InvalidDescriptionException(ex, "contributors are of wrong type");
       }
