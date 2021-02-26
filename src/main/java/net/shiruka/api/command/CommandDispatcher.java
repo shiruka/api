@@ -604,14 +604,14 @@ public final class CommandDispatcher {
       result.add(prefix);
     }
     if (node.getRedirect() != null) {
-      final var redirect = node.getRedirect() == this.root ? "..." : "-> " + node.getRedirect().getUsage();
+      final var redirect = node.getRedirect() == this.root ? "..." : "-> " + node.getRedirect().getSmartUsage();
       result.add(prefix.isEmpty()
-        ? node.getUsage() + CommandDispatcher.ARGUMENT_SEPARATOR + redirect
+        ? node.getSmartUsage() + CommandDispatcher.ARGUMENT_SEPARATOR + redirect
         : prefix + CommandDispatcher.ARGUMENT_SEPARATOR + redirect);
     } else if (!node.getChildren().isEmpty()) {
       node.getChildren().forEach(child -> this.getAllUsage(child, sender, result, prefix.isEmpty()
-        ? child.getUsage()
-        : prefix + CommandDispatcher.ARGUMENT_SEPARATOR + child.getUsage(), restricted));
+        ? child.getSmartUsage()
+        : prefix + CommandDispatcher.ARGUMENT_SEPARATOR + child.getSmartUsage(), restricted));
     }
   }
 
@@ -632,8 +632,8 @@ public final class CommandDispatcher {
       return null;
     }
     final String self = optional
-      ? CommandDispatcher.USAGE_OPTIONAL_OPEN + node.getUsage() + CommandDispatcher.USAGE_OPTIONAL_CLOSE
-      : node.getUsage();
+      ? CommandDispatcher.USAGE_OPTIONAL_OPEN + node.getSmartUsage() + CommandDispatcher.USAGE_OPTIONAL_CLOSE
+      : node.getSmartUsage();
     final var childOptional = CommandDispatcher.isNodeExecutable(node);
     final var open = childOptional
       ? CommandDispatcher.USAGE_OPTIONAL_OPEN
@@ -647,7 +647,7 @@ public final class CommandDispatcher {
     if (node.getRedirect() != null) {
       final var redirect = node.getRedirect() == this.root
         ? "..."
-        : "-> " + node.getRedirect().getUsage();
+        : "-> " + node.getRedirect().getSmartUsage();
       return self + CommandDispatcher.ARGUMENT_SEPARATOR + redirect;
     }
     final var children = node.getChildren().stream()
@@ -682,7 +682,7 @@ public final class CommandDispatcher {
       if (count.get() > 0) {
         builder.append(CommandDispatcher.USAGE_OR);
       }
-      builder.append(child.getUsage());
+      builder.append(child.getSmartUsage());
       count.getAndIncrement();
     });
     if (count.get() <= 0) {

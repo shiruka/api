@@ -75,13 +75,14 @@ public final class LiteralNode extends CommandNodeEnvelope {
    * @param requirements the requirement.
    * @param command the command.
    * @param literal the literal.
+   * @param usage the usage.
    */
   public LiteralNode(@NotNull final List<LiteralNode> aliases, @Nullable final CommandNode defaultNode,
                      @Nullable final String description, final boolean fork, final boolean isDefaultNode,
                      @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
                      @NotNull final Set<Requirement> requirements, @Nullable final Command command,
-                     @NotNull final String literal) {
-    super(defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, command);
+                     @NotNull final String literal, @Nullable final String usage) {
+    super(defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, usage, command);
     this.aliases = Collections.unmodifiableList(aliases);
     this.literal = literal.toLowerCase(Locale.ROOT);
   }
@@ -116,7 +117,7 @@ public final class LiteralNode extends CommandNodeEnvelope {
 
   @NotNull
   @Override
-  public String getUsage() {
+  public String getSmartUsage() {
     return this.literal;
   }
 
