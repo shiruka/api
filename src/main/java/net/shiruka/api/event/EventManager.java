@@ -30,7 +30,6 @@ import net.shiruka.api.Shiruka;
 import net.shiruka.api.base.ChainData;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.entity.Player;
-import net.shiruka.api.events.ChainDataEvent;
 import net.shiruka.api.events.Event;
 import net.shiruka.api.events.LoginResultEvent;
 import net.shiruka.api.events.player.PlayerAsyncLoginEvent;
@@ -133,7 +132,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerPreLoginEvent}.
    */
   @NotNull
-  default PlayerPreLoginEvent playerPreLogin(@NotNull final ChainDataEvent.ChainData chainData) {
+  default PlayerPreLoginEvent playerPreLogin(@NotNull final ChainData chainData) {
     return this.playerPreLogin(chainData, null);
   }
 
@@ -146,7 +145,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerPreLoginEvent}.
    */
   @NotNull
-  PlayerPreLoginEvent playerPreLogin(@NotNull ChainDataEvent.ChainData chainData, @Nullable Text kickMessage);
+  PlayerPreLoginEvent playerPreLogin(@NotNull ChainData chainData, @Nullable Text kickMessage);
 
   /**
    * registers the given listener.
