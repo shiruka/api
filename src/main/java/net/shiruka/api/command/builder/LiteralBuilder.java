@@ -75,7 +75,7 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
    * @return aliases.
    */
   @NotNull
-  public final List<String> getAliases() {
+  public List<String> getAliases() {
     return Collections.unmodifiableList(this.aliases);
   }
 
