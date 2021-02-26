@@ -23,17 +23,21 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.event.events;
+
+import net.shiruka.api.command.sender.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine tick events.
+ * an interface to determine command sender events.
  */
-public interface TickEvent extends Event {
+public interface CommandSenderEvent extends Event {
 
   /**
-   * obtains the tick.
+   * obtains the command sender.
    *
-   * @return the tick.
+   * @return sender.
    */
-  int getTick();
+  @NotNull
+  CommandSender getSender();
 }

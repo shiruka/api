@@ -23,37 +23,15 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.event.events.player;
 
-import java.util.List;
-import org.jetbrains.annotations.NotNull;
+import net.shiruka.api.event.Cancellable;
+import net.shiruka.api.event.events.ChainDataEvent;
+import net.shiruka.api.event.events.KickEvent;
 
 /**
- * an interface to determine object list events.
- *
- * @param <O> type of the object.
+ * called when the player logs in, before things have been set up.
  */
-public interface ObjectListEvent<O> {
+public interface PlayerPreLoginEvent extends ChainDataEvent, KickEvent, Cancellable {
 
-  /**
-   * adds the given action.
-   *
-   * @param action the action to add.
-   */
-  void addAction(@NotNull O action);
-
-  /**
-   * obtains the object list.
-   *
-   * @return list of object.
-   */
-  @NotNull
-  List<O> getActions();
-
-  /**
-   * removes the given action.
-   *
-   * @param action the action to remove.
-   */
-  void removeAction(@NotNull O action);
 }

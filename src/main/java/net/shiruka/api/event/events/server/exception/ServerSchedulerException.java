@@ -23,7 +23,7 @@
  *
  */
 
-package net.shiruka.api.events.server.exception;
+package net.shiruka.api.event.events.server.exception;
 
 import java.lang.annotation.Native;
 import java.util.Objects;

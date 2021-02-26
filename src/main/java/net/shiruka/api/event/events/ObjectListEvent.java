@@ -23,57 +23,37 @@
  *
  */
 
-package net.shiruka.api.events.server;
+package net.shiruka.api.event.events;
 
 import java.util.List;
-import net.shiruka.api.event.Cancellable;
-import net.shiruka.api.events.CommandSenderEvent;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * allows plugins to compute tab completion results asynchronously.
+ * an interface to determine object list events.
+ *
+ * @param <O> type of the object.
  */
-public interface AsyncTabCompleteEvent extends Cancellable, CommandSenderEvent {
+public interface ObjectListEvent<O> {
 
   /**
-   * obtains the completions.
+   * adds the given action.
    *
-   * @return completions.
+   * @param action the action to add.
+   */
+  void addAction(@NotNull O action);
+
+  /**
+   * obtains the object list.
+   *
+   * @return list of object.
    */
   @NotNull
-  List<String> getCompletions();
+  List<O> getActions();
 
   /**
-   * sets the completions.
+   * removes the given action.
    *
-   * @param completions the completions to set.
+   * @param action the action to remove.
    */
-  void setCompletions(@NotNull List<String> completions);
-
-  /**
-   * obtains the text.
-   *
-   * @return text.
-   */
-  @NotNull
-  String getText();
-
-  @Override
-  default boolean isAsync() {
-    return true;
-  }
-
-  /**
-   * checks if the event is handled.
-   *
-   * @return {@code true} if completions considered handled.
-   */
-  boolean isHandled();
-
-  /**
-   * sets the handled.
-   *
-   * @param handled the handled to set.
-   */
-  void setHandled(boolean handled);
+  void removeAction(@NotNull O action);
 }

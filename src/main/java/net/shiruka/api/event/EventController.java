@@ -27,7 +27,7 @@ package net.shiruka.api.event;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
-import net.shiruka.api.events.Event;
+import net.shiruka.api.event.events.Event;
 import org.jetbrains.annotations.NotNull;
 
 /**

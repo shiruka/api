@@ -23,21 +23,22 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.event.events.server;
 
-import net.shiruka.api.base.ChainData;
+import net.shiruka.api.event.events.Event;
+import net.shiruka.api.event.events.server.exception.ServerException;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine events that have chain data value.
+ * called whenever an exception is thrown in a recoverable section of the server.
  */
-public interface ChainDataEvent extends Event {
+public interface ServerExceptionEvent extends Event {
 
   /**
-   * obtains the chain data.
+   * obtains the server exception.
    *
-   * @return chain data.
+   * @return server exception.
    */
   @NotNull
-  ChainData getChainData();
+  ServerException getServerException();
 }

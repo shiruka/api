@@ -28,7 +28,7 @@ package net.shiruka.api.event;
 import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.Map;
-import net.shiruka.api.events.Event;
+import net.shiruka.api.event.events.Event;
 import org.jetbrains.annotations.NotNull;
 
 /**

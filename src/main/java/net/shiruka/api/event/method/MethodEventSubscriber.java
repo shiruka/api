@@ -31,7 +31,7 @@ import net.shiruka.api.event.DispatchOrder;
 import net.shiruka.api.event.EventExecutor;
 import net.shiruka.api.event.EventSubscriber;
 import net.shiruka.api.event.Listener;
-import net.shiruka.api.events.Event;
+import net.shiruka.api.event.events.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -23,21 +23,14 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.event.events.player;
 
-import net.shiruka.api.entity.Entity;
-import org.jetbrains.annotations.NotNull;
+import net.shiruka.api.event.Cancellable;
+import net.shiruka.api.event.events.KickEvent;
 
 /**
- * an interface to determine player events.
+ * an interface to determine player kick events.
  */
-public interface EntityEvent extends Event {
+public interface PlayerKickEvent extends KickEvent, Cancellable {
 
-  /**
-   * obtains the entity.
-   *
-   * @return the entity.
-   */
-  @NotNull
-  Entity getEntity();
 }

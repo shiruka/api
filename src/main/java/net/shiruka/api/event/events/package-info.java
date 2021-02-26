@@ -23,6 +23,6 @@
  *
  */
 /**
- * the package that contains abstract event classes for player events.
+ * the package that contains abstract classes of all events.
  */
-package net.shiruka.api.events.player;
+package net.shiruka.api.event.events;

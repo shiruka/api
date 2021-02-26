@@ -25,7 +25,7 @@
 
 package net.shiruka.api.event;
 
-import net.shiruka.api.events.Event;
+import net.shiruka.api.event.events.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
