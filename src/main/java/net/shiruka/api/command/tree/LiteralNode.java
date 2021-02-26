@@ -27,6 +27,7 @@ package net.shiruka.api.command.tree;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -50,6 +51,12 @@ import org.jetbrains.annotations.Nullable;
 public final class LiteralNode extends CommandNodeEnvelope {
 
   /**
+   * the aliases.
+   */
+  @NotNull
+  private final List<LiteralNode> aliases;
+
+  /**
    * the literal.
    */
   @NotNull
@@ -58,6 +65,7 @@ public final class LiteralNode extends CommandNodeEnvelope {
   /**
    * ctor.
    *
+   * @param aliases the aliases.
    * @param defaultNode the default node.
    * @param description the description.
    * @param fork the forks.
@@ -68,12 +76,24 @@ public final class LiteralNode extends CommandNodeEnvelope {
    * @param command the command.
    * @param literal the literal.
    */
-  public LiteralNode(@Nullable final CommandNode defaultNode, @Nullable final String description, final boolean fork,
-                     final boolean isDefaultNode, @Nullable final RedirectModifier modifier,
-                     @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
-                     @Nullable final Command command, @NotNull final String literal) {
+  public LiteralNode(@NotNull final List<LiteralNode> aliases, @Nullable final CommandNode defaultNode,
+                     @Nullable final String description, final boolean fork, final boolean isDefaultNode,
+                     @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
+                     @NotNull final Set<Requirement> requirements, @Nullable final Command command,
+                     @NotNull final String literal) {
     super(defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, command);
+    this.aliases = Collections.unmodifiableList(aliases);
     this.literal = literal.toLowerCase(Locale.ROOT);
+  }
+
+  /**
+   * obtains the aliases.
+   *
+   * @return aliases.
+   */
+  @NotNull
+  public List<LiteralNode> getAliases() {
+    return this.aliases;
   }
 
   @NotNull

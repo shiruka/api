@@ -26,18 +26,26 @@
 package net.shiruka.api.command.builder;
 
 import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 import net.shiruka.api.base.Self;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandNode;
 import net.shiruka.api.command.RedirectModifier;
 import net.shiruka.api.command.Requirement;
 import net.shiruka.api.command.SingleRedirectModifier;
+import net.shiruka.api.command.sender.CommandSender;
+import net.shiruka.api.command.sender.ConsoleCommandSender;
+import net.shiruka.api.command.sender.RemoteConsoleCommandSender;
 import net.shiruka.api.command.tree.RootNode;
+import net.shiruka.api.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -113,6 +121,30 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    */
   protected ArgumentBuilder(final boolean isDefaultNode) {
     this.isDefaultNode = isDefaultNode;
+  }
+
+  /**
+   * adds a requirement which tests if the command sender is a {@link ConsoleCommandSender} or {@link
+   * RemoteConsoleCommandSender}.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final T consoleOnly() {
+    return this.senderOnly(ConsoleCommandSender.class, RemoteConsoleCommandSender.class);
+  }
+
+  /**
+   * adds a requirement which tests if the command sender is a {@link ConsoleCommandSender} or {@link
+   * RemoteConsoleCommandSender}.
+   *
+   * @param whenFails the when fails to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final T consoleOnly(@NotNull final BiConsumer<CommandSender, List<Class<? extends CommandSender>>> whenFails) {
+    return this.senderOnly(whenFails, ConsoleCommandSender.class, RemoteConsoleCommandSender.class);
   }
 
   /**
@@ -262,6 +294,65 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   }
 
   /**
+   * adds a requirement which tests if the command sender has the given permissions..
+   *
+   * @param permissions the permissions to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final T permission(@NotNull final String... permissions) {
+    return this.permission((sender, strings) -> {
+    }, permissions);
+  }
+
+  /**
+   * adds a requirement which tests if the command sender has the given permissions. if the test fails at least one
+   * time, then collects all failed permissions then runs the given {@code whenFails} consumer.
+   *
+   * @param whenFails the when fails to add.
+   * @param permissions the permissions to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final T permission(@NotNull final BiConsumer<CommandSender, List<String>> whenFails,
+                            @NotNull final String... permissions) {
+    return this.requires(sender -> {
+      final var failed = Arrays.stream(permissions)
+        .filter(permission -> !sender.hasPermission(permission))
+        .collect(Collectors.toCollection(ObjectArrayList::new));
+      if (failed.isEmpty()) {
+        return true;
+      }
+      whenFails.accept(sender, failed);
+      return false;
+    });
+  }
+
+  /**
+   * adds a requirement which tests if the command sender is a {@link Player}.
+   *
+   * @param whenFails the when fails to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final T playerOnly(@NotNull final BiConsumer<CommandSender, List<Class<? extends CommandSender>>> whenFails) {
+    return this.senderOnly(whenFails, Player.class);
+  }
+
+  /**
+   * adds a requirement which tests if the command sender is a {@link Player}.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final T playerOnly() {
+    return this.senderOnly(Player.class);
+  }
+
+  /**
    * sets the redirect.
    *
    * @param target the target to set.
@@ -309,6 +400,44 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   public final T requires(@NotNull final Iterable<Requirement> requirements) {
     requirements.forEach(this.requirements::add);
     return this.getSelf();
+  }
+
+  /**
+   * adds a requirement which tests if the command sender is equals at least one of the given sender classes.
+   *
+   * @param senderClasses the sender classes to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @SafeVarargs
+  @NotNull
+  public final T senderOnly(@NotNull final Class<? extends CommandSender>... senderClasses) {
+    return this.senderOnly((sender, classes) -> {
+    }, senderClasses);
+  }
+
+  /**
+   * adds a requirement which tests if the command sender is equals at least one of the given sender classes.
+   *
+   * @param whenFails the when fails to add.
+   * @param senderClasses the sender classes to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @SafeVarargs
+  @NotNull
+  public final T senderOnly(@NotNull final BiConsumer<CommandSender, List<Class<? extends CommandSender>>> whenFails,
+                            @NotNull final Class<? extends CommandSender>... senderClasses) {
+    return this.requires(sender -> {
+      final var failed = Arrays.stream(senderClasses)
+        .filter(senderClass -> senderClass.isAssignableFrom(sender.getClass()))
+        .collect(Collectors.toCollection(ObjectArrayList::new));
+      if (failed.isEmpty()) {
+        return true;
+      }
+      whenFails.accept(sender, failed);
+      return false;
+    });
   }
 
   /**
