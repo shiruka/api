@@ -58,6 +58,11 @@ public interface AsyncTabCompleteEvent extends Cancellable, CommandSenderEvent {
   @NotNull
   String getText();
 
+  @Override
+  default boolean isAsync() {
+    return true;
+  }
+
   /**
    * checks if the event is handled.
    *
