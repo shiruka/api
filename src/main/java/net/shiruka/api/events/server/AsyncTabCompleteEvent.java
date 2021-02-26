@@ -23,38 +23,52 @@
  *
  */
 
-package net.shiruka.api.event;
+package net.shiruka.api.events.server;
 
-import net.shiruka.api.events.Event;
+import java.util.List;
+import net.shiruka.api.event.Cancellable;
+import net.shiruka.api.events.CommandSenderEvent;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * allows plugins to compute tab completion results asynchronously.
  */
-public interface Cancellable extends Event {
+public interface AsyncTabCompleteEvent extends Cancellable, CommandSenderEvent {
 
   /**
-   * calls the event itself.
+   * obtains the completions.
    *
-   * @return {@code true} if the event is not cancelled.
+   * @return completions.
    */
-  @Override
-  default boolean callEvent() {
-    return Event.super.callEvent() &&
-      !this.isCancelled();
-  }
+  @NotNull
+  List<String> getCompletions();
 
   /**
-   * obtains the cancel state of the event.
+   * sets the completions.
    *
-   * @return {@code true} if the event has been cancelled.
+   * @param completions the completions to set.
    */
-  boolean isCancelled();
+  void setCompletions(@NotNull List<String> completions);
 
   /**
-   * cancels state of the event.
+   * obtains the text.
    *
-   * @param cancelled the cancelled to set.
+   * @return text.
    */
-  void setCancelled(boolean cancelled);
+  @NotNull
+  String getText();
+
+  /**
+   * checks if the event is handled.
+   *
+   * @return {@code true} if completions considered handled.
+   */
+  boolean isHandled();
+
+  /**
+   * sets the handled.
+   *
+   * @param handled the handled to set.
+   */
+  void setHandled(boolean handled);
 }

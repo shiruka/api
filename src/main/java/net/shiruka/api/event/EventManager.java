@@ -23,16 +23,20 @@
  *
  */
 
-package net.shiruka.api.events;
+package net.shiruka.api.event;
 
+import java.util.List;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.entity.Player;
-import net.shiruka.api.event.Listener;
+import net.shiruka.api.events.ChainDataEvent;
+import net.shiruka.api.events.Event;
+import net.shiruka.api.events.LoginResultEvent;
 import net.shiruka.api.events.player.PlayerAsyncLoginEvent;
 import net.shiruka.api.events.player.PlayerKickEvent;
 import net.shiruka.api.events.player.PlayerLoginEvent;
 import net.shiruka.api.events.player.PlayerPreLoginEvent;
+import net.shiruka.api.events.server.AsyncTabCompleteEvent;
 import net.shiruka.api.events.server.ServerCommandEvent;
 import net.shiruka.api.events.server.ServerExceptionEvent;
 import net.shiruka.api.events.server.ServerTickEndEvent;
@@ -52,6 +56,19 @@ public interface EventManager {
    * the key of the player left message.
    */
   String KEY_MULTIPLAYER_PLAYER_LEFT = "multiplayer.player.left";
+
+  /**
+   * creates a new {@link AsyncTabCompleteEvent} instance.
+   *
+   * @param completer the completer to create.
+   * @param completions the completions to create.
+   * @param text the text to create.
+   *
+   * @return a new instance of {@link AsyncTabCompleteEvent}.
+   */
+  @NotNull
+  AsyncTabCompleteEvent asyncTabComplete(@NotNull CommandSender completer, @NotNull List<String> completions,
+                                         @NotNull String text);
 
   /**
    * calls the given event.
