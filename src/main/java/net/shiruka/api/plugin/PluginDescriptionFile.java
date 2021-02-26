@@ -329,7 +329,7 @@ public final class PluginDescriptionFile {
    * @return a new instance of plugin description file.
    *
    * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
-   * @todo #1:30m Add language support for error when parsing the plugin file.
+   * @todo #1:30m Add language support for errors when parsing the plugin file.
    */
   @NotNull
   public static PluginDescriptionFile init(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
