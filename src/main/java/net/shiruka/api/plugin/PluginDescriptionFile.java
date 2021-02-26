@@ -356,7 +356,7 @@ public final class PluginDescriptionFile {
     final String main;
     try {
       main = map.get(PluginDescriptionFile.MAIN).toString();
-      if (main.startsWith("net.shiruka.")) {
+      if (main.startsWith("net.shiruka")) {
         throw new InvalidDescriptionException("main may not be within the net.shiruka namespace");
       }
     } catch (final NullPointerException ex) {
