@@ -419,6 +419,7 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   /**
    * adds a requirement which tests if the command sender is equals at least one of the given sender classes.
    *
+   * @param whenFails the when fails to add.
    * @param senderClasses the sender classes to add.
    *
    * @return {@code this} for builder chain.
