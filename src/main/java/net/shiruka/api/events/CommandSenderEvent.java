@@ -23,38 +23,21 @@
  *
  */
 
-package net.shiruka.api.event;
+package net.shiruka.api.events;
 
-import net.shiruka.api.events.Event;
+import net.shiruka.api.command.sender.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * an interface to determine command sender events.
  */
-public interface Cancellable extends Event {
+public interface CommandSenderEvent extends Event {
 
   /**
-   * calls the event itself.
+   * obtains the command sender.
    *
-   * @return {@code true} if the event is not cancelled.
+   * @return sender.
    */
-  @Override
-  default boolean callEvent() {
-    return Event.super.callEvent() &&
-      !this.isCancelled();
-  }
-
-  /**
-   * obtains the cancel state of the event.
-   *
-   * @return {@code true} if the event has been cancelled.
-   */
-  boolean isCancelled();
-
-  /**
-   * cancels state of the event.
-   *
-   * @param cancelled the cancelled to set.
-   */
-  void setCancelled(boolean cancelled);
+  @NotNull
+  CommandSender getSender();
 }

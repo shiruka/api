@@ -58,4 +58,9 @@ public interface PlayerAsyncLoginEvent extends ChainDataEvent, KickEvent, LoginR
     this.setLoginResult(result);
     this.setKickMessage(text);
   }
+
+  @Override
+  default boolean isAsync() {
+    return true;
+  }
 }
