@@ -27,6 +27,7 @@ package net.shiruka.api.event;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import net.shiruka.api.base.ChainData;
 import net.shiruka.api.event.method.MethodAdapter;
 import net.shiruka.api.event.method.SimpleMethodAdapter;
 import net.shiruka.api.events.player.PlayerPreLoginEvent;

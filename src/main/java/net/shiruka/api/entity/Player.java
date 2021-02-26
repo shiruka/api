@@ -31,6 +31,7 @@ import java.util.Optional;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.base.BanEntry;
 import net.shiruka.api.base.BanList;
+import net.shiruka.api.base.ChainData;
 import net.shiruka.api.base.GameProfile;
 import net.shiruka.api.base.OfflinePlayer;
 import net.shiruka.api.events.ChainDataEvent;
@@ -260,7 +261,7 @@ public interface Player extends HumanEntity, OfflinePlayer {
    * @return chain data.
    */
   @NotNull
-  ChainDataEvent.ChainData getChainData();
+  ChainData getChainData();
 
   /**
    * obtains the ip ban entry if it's exist.
