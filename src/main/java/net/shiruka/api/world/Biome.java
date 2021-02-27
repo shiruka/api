@@ -27,7 +27,7 @@ package net.shiruka.api.world;
 
 import java.util.Locale;
 import net.shiruka.api.base.Keyed;
-import net.shiruka.api.base.NamespacedKey;
+import net.shiruka.api.base.Namespaced;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -355,18 +355,18 @@ public enum Biome implements Keyed {
    * the key.
    */
   @NotNull
-  private final NamespacedKey key;
+  private final Namespaced key;
 
   /**
    * ctor.
    */
   Biome() {
-    this.key = NamespacedKey.minecraft(this.name().toLowerCase(Locale.ROOT));
+    this.key = Namespaced.minecraft(this.name().toLowerCase(Locale.ROOT));
   }
 
   @NotNull
   @Override
-  public NamespacedKey getKey() {
+  public Namespaced getKey() {
     return this.key;
   }
 }
