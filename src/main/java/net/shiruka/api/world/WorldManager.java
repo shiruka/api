@@ -26,6 +26,7 @@
 package net.shiruka.api.world;
 
 import java.util.Optional;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -64,4 +65,14 @@ public interface WorldManager {
    */
   @NotNull
   Optional<World> createWorld(@NotNull WorldCreator worldCreator);
+
+  /**
+   * gets the world by unique id.
+   *
+   * @param uniqueId the unique to get.
+   *
+   * @return world by unique id instance.
+   */
+  @NotNull
+  Optional<World> getWorld(@NotNull UUID uniqueId);
 }
