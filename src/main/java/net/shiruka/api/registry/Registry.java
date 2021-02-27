@@ -25,6 +25,8 @@
 
 package net.shiruka.api.registry;
 
+import net.shiruka.api.base.Namespaced;
+
 /**
  * an interface to determine registries.
  */
