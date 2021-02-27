@@ -44,6 +44,11 @@ public final class Registry {
   public static final Resourced ROOT = Registry.create(Registry.ROOT_NAMESPACE);
 
   /**
+   * the world.
+   */
+  public static final Resourced WORLD = Registry.minecraft("world");
+
+  /**
    * the resourced.
    */
   @NotNull

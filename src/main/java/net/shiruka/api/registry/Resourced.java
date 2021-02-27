@@ -65,15 +65,16 @@ public final class Resourced {
   }
 
   /**
-   * creates a root resource.
+   * creates a resource.
    *
+   * @param key the key to create.
    * @param value the value to create.
    *
-   * @return a newly created root resource.
+   * @return a newly created resource.
    */
   @NotNull
-  public static Resourced root(@NotNull final Namespaced value) {
-    return Resourced.create(Registry.ROOT_NAMESPACE, value);
+  public static Resourced create(@NotNull final Namespaced key, @NotNull final Namespaced value) {
+    return Resourced.CACHE.computeIfAbsent((key + ":" + value).intern(), cache -> new Resourced(key, value));
   }
 
   /**
@@ -85,8 +86,20 @@ public final class Resourced {
    * @return a newly created resource.
    */
   @NotNull
-  private static Resourced create(@NotNull final Namespaced key, @NotNull final Namespaced value) {
-    return Resourced.CACHE.computeIfAbsent((key + ":" + value).intern(), cache -> new Resourced(key, value));
+  public static Resourced create(@NotNull final Resourced key, @NotNull final Namespaced value) {
+    return Resourced.create(key.getValue(), value);
+  }
+
+  /**
+   * creates a root resource.
+   *
+   * @param value the value to create.
+   *
+   * @return a newly created root resource.
+   */
+  @NotNull
+  public static Resourced root(@NotNull final Namespaced value) {
+    return Resourced.create(Registry.ROOT_NAMESPACE, value);
   }
 
   /**

@@ -26,8 +26,10 @@
 package net.shiruka.api.world;
 
 import java.util.Optional;
+import net.shiruka.api.base.Namespaced;
 import net.shiruka.api.block.Block;
 import net.shiruka.api.metadata.Metadatable;
+import net.shiruka.api.registry.Registry;
 import net.shiruka.api.registry.Resourced;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +37,21 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine worlds, which may contain entities, chunks and blocks.
  */
 public interface World extends Metadatable {
+
+  /**
+   * the end.
+   */
+  Resourced END = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_end"));
+
+  /**
+   * the nether.
+   */
+  Resourced NETHER = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_nether"));
+
+  /**
+   * the over world.
+   */
+  Resourced OVER_WORLD = Resourced.create(Registry.WORLD, Namespaced.minecraft("over_world"));
 
   /**
    * obtains whether or not structures are being generated.
