@@ -86,7 +86,7 @@ public final class GameProfile {
       final var parsedXboxId = xboxUniqueId instanceof String ? (String) xboxUniqueId : null;
       return Optional.of(new GameProfile(() -> name, uniqueId, parsedXboxId));
     } catch (final Exception e) {
-      e.printStackTrace();
+      // ignored
     }
     return Optional.empty();
   }
@@ -134,10 +134,10 @@ public final class GameProfile {
     if (obj == null || this.getClass() != obj.getClass()) {
       return false;
     }
-    final var that = (GameProfile) obj;
+    final GameProfile that = (GameProfile) obj;
     return this.name.equals(that.name) &&
       this.uniqueId.equals(that.uniqueId) &&
-      this.xboxUniqueId.equals(that.xboxUniqueId);
+      Objects.equals(this.xboxUniqueId, that.xboxUniqueId);
   }
 
   @Override
@@ -150,7 +150,7 @@ public final class GameProfile {
   }
 
   /**
-   * converts {@code this} to a {@link java.util.Map}.
+   * converts {@code this} to a {@link Map}.
    *
    * @return serialized entry.
    */
