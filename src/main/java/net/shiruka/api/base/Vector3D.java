@@ -25,12 +25,13 @@
 
 package net.shiruka.api.base;
 
+import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a vector is an immutable container of 3 coordinate values.
  */
-public final class Vector {
+public final class Vector3D {
 
   /**
    * the x.
@@ -50,7 +51,7 @@ public final class Vector {
   /**
    * ctor.
    */
-  public Vector() {
+  public Vector3D() {
     this.x = 0;
     this.y = 0;
     this.z = 0;
@@ -63,7 +64,7 @@ public final class Vector {
    * @param y the y.
    * @param z the z.
    */
-  public Vector(final double x, final double y, final double z) {
+  public Vector3D(final double x, final double y, final double z) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -76,7 +77,7 @@ public final class Vector {
    * @param y the y.
    * @param z the z.
    */
-  public Vector(final int x, final int y, final int z) {
+  public Vector3D(final int x, final int y, final int z) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -147,7 +148,7 @@ public final class Vector {
    * @return the magnitude squared.
    */
   public double getMagnitudeSquared() {
-    return Vector.square(this.x) + Vector.square(this.y) + Vector.square(this.z);
+    return Vector3D.square(this.x) + Vector3D.square(this.y) + Vector3D.square(this.z);
   }
 
   /**
@@ -168,7 +169,7 @@ public final class Vector {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector setX(final int x) {
+  public Vector3D setX(final int x) {
     return this.setX((double) x);
   }
 
@@ -181,7 +182,7 @@ public final class Vector {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector setX(final double x) {
+  public Vector3D setX(final double x) {
     this.x = x;
     return this;
   }
@@ -204,7 +205,7 @@ public final class Vector {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector setY(final int y) {
+  public Vector3D setY(final int y) {
     return this.setY((double) y);
   }
 
@@ -217,7 +218,7 @@ public final class Vector {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector setY(final double y) {
+  public Vector3D setY(final double y) {
     this.y = y;
     return this;
   }
@@ -240,7 +241,7 @@ public final class Vector {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector setZ(final int z) {
+  public Vector3D setZ(final int z) {
     return this.setZ((double) z);
   }
 
@@ -253,29 +254,25 @@ public final class Vector {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector setZ(final double z) {
+  public Vector3D setZ(final double z) {
     this.z = z;
     return this;
   }
 
   @Override
   public int hashCode() {
-    var hash = 1;
-    hash = 31 * hash + Long.hashCode(Double.doubleToLongBits(this.x));
-    hash = 31 * hash + Long.hashCode(Double.doubleToLongBits(this.y));
-    hash = 31 * hash + Long.hashCode(Double.doubleToLongBits(this.z));
-    return hash;
+    return Objects.hash(this.x, this.y, this.z);
   }
 
   @Override
   public boolean equals(final Object obj) {
-    if (!(obj instanceof Vector)) {
+    if (!(obj instanceof Vector3D)) {
       return false;
     }
-    final var vector = (Vector) obj;
-    return Vector.eq(this.x, vector.x) &&
-      Vector.eq(this.y, vector.y) &&
-      Vector.eq(this.z, vector.z);
+    final var vector = (Vector3D) obj;
+    return Vector3D.eq(this.x, vector.x) &&
+      Vector3D.eq(this.y, vector.y) &&
+      Vector3D.eq(this.z, vector.z);
   }
 
   @Override

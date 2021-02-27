@@ -137,17 +137,17 @@ public final class Location implements Cloneable {
   /**
    * adds the location by a vector.
    *
-   * @param vector the vector to add.
+   * @param vector3D the vector to add.
    *
    * @return {@code this} for builder chain.
    *
-   * @see Vector
+   * @see Vector3D
    */
   @NotNull
-  public Location add(@NotNull final Vector vector) {
-    this.x += vector.getX();
-    this.y += vector.getY();
-    this.z += vector.getZ();
+  public Location add(@NotNull final Vector3D vector3D) {
+    this.x += vector3D.getX();
+    this.y += vector3D.getY();
+    this.z += vector3D.getZ();
     return this;
   }
 
@@ -160,7 +160,7 @@ public final class Location implements Cloneable {
    *
    * @return {@code this} for builder chain.
    *
-   * @see Vector
+   * @see Vector3D
    */
   @NotNull
   public Location add(final double x, final double y, final double z) {
@@ -193,7 +193,7 @@ public final class Location implements Cloneable {
    * @return the distance.
    *
    * @throws IllegalArgumentException for differing worlds or not found world for {@code this} and {@code vector}.
-   * @see Vector
+   * @see Vector3D
    */
   public double distance(@NotNull final Location other) {
     return Math.sqrt(this.distanceSquared(other));
@@ -207,7 +207,7 @@ public final class Location implements Cloneable {
    * @return the distance.
    *
    * @throws IllegalArgumentException for differing worlds or not found world for {@code this} and {@code vector}.
-   * @see Vector
+   * @see Vector3D
    */
   public double distanceSquared(@NotNull final Location other) {
     this.checkTwoWorld(other);
@@ -222,11 +222,11 @@ public final class Location implements Cloneable {
    * @return a vector pointing the direction of this location's {@link #getPitch()} and {@link #getYaw()}.
    */
   @NotNull
-  public Vector getDirection() {
+  public Vector3D getDirection() {
     final var rotX = this.getYaw();
     final var rotY = this.getPitch();
     final double xz = Math.cos(Math.toRadians(rotY));
-    return new Vector(
+    return new Vector3D(
       -xz * Math.sin(Math.toRadians(rotX)),
       -Math.sin(Math.toRadians(rotY)),
       xz * Math.cos(Math.toRadians(rotX)));
@@ -235,17 +235,17 @@ public final class Location implements Cloneable {
   /**
    * sets the {@link #getYaw() yaw} and {@link #getPitch() pitch} to point in the direction of the vector.
    *
-   * @param vector the vector to set.
+   * @param vector3D the vector to set.
    *
    * @return the same location.
    */
   @NotNull
-  public Location setDirection(@NotNull final Vector vector) {
+  public Location setDirection(@NotNull final Vector3D vector3D) {
     final var twoTimesPI = 2 * Math.PI;
-    final var vectorX = vector.getX();
-    final var vectorZ = vector.getZ();
+    final var vectorX = vector3D.getX();
+    final var vectorZ = vector3D.getZ();
     if (vectorX == 0 && vectorZ == 0) {
-      this.pitch = vector.getY() > 0 ? -90 : 90;
+      this.pitch = vector3D.getY() > 0 ? -90 : 90;
       return this;
     }
     final var theta = Math.atan2(-vectorX, vectorZ);
@@ -253,7 +253,7 @@ public final class Location implements Cloneable {
     final var x2 = NumberConversions.square(vectorX);
     final var z2 = NumberConversions.square(vectorZ);
     final var xz = Math.sqrt(x2 + z2);
-    this.pitch = (float) Math.toDegrees(Math.atan(-vector.getY() / xz));
+    this.pitch = (float) Math.toDegrees(Math.atan(-vector3D.getY() / xz));
     return this;
   }
 
@@ -465,7 +465,7 @@ public final class Location implements Cloneable {
    *
    * @return {@code this} for builder chain.
    *
-   * @see Vector
+   * @see Vector3D
    */
   @NotNull
   public Location multiply(final double multiply) {
@@ -509,7 +509,7 @@ public final class Location implements Cloneable {
    * @return {@code this} for builder chain.
    *
    * @throws IllegalArgumentException for differing worlds or not found world for {@code this} and {@code vector}.
-   * @see Vector
+   * @see Vector3D
    */
   @NotNull
   public Location subtract(@NotNull final Location vector) {
@@ -523,17 +523,17 @@ public final class Location implements Cloneable {
   /**
    * subtracts the location by a vector.
    *
-   * @param vector the vector to add.
+   * @param vector3D the vector to add.
    *
    * @return {@code this} for builder chain.
    *
-   * @see Vector
+   * @see Vector3D
    */
   @NotNull
-  public Location subtract(@NotNull final Vector vector) {
-    this.x -= vector.getX();
-    this.y -= vector.getY();
-    this.z -= vector.getZ();
+  public Location subtract(@NotNull final Vector3D vector3D) {
+    this.x -= vector3D.getX();
+    this.y -= vector3D.getY();
+    this.z -= vector3D.getZ();
     return this;
   }
 
@@ -546,7 +546,7 @@ public final class Location implements Cloneable {
    *
    * @return {@code this} for builder chain.
    *
-   * @see Vector
+   * @see Vector3D
    */
   @NotNull
   public Location subtract(final double x, final double y, final double z) {
@@ -604,7 +604,7 @@ public final class Location implements Cloneable {
    *
    * @return {@code this} for builder chain.
    *
-   * @see Vector
+   * @see Vector3D
    */
   @NotNull
   public Location zero() {
