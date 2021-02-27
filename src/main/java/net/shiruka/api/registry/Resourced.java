@@ -25,60 +25,87 @@
 
 package net.shiruka.api.registry;
 
+import com.google.common.collect.Maps;
+import java.util.Collections;
+import java.util.Map;
 import net.shiruka.api.base.Namespaced;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents registries.
+ * a class that represents resources.
  */
-public final class Registry {
+public final class Resourced {
 
   /**
-   * the root namespaced.
+   * the cache.
    */
-  public static final Namespaced ROOT_NAMESPACE = Namespaced.minecraft("root");
+  private static final Map<String, Resourced> CACHE = Collections.synchronizedMap(Maps.newIdentityHashMap());
 
   /**
-   * the root.
-   */
-  public static final Resourced ROOT = Registry.create(Registry.ROOT_NAMESPACE);
-
-  /**
-   * the resourced.
+   * the key.
    */
   @NotNull
-  private final Resourced resourced;
+  private final Namespaced key;
+
+  /**
+   * the value.
+   */
+  @NotNull
+  private final Namespaced value;
 
   /**
    * ctor.
    *
-   * @param resourced the resourced.
+   * @param key the key.
+   * @param value the value.
    */
-  private Registry(@NotNull final Resourced resourced) {
-    this.resourced = resourced;
+  private Resourced(@NotNull final Namespaced key, @NotNull final Namespaced value) {
+    this.key = key;
+    this.value = value;
   }
 
   /**
-   * creates a registry instance from the given {@code namespaced}.
+   * creates a root resource.
    *
-   * @param namespaced the namespaced to create.
+   * @param value the value to create.
    *
-   * @return a newly created registry instance.
+   * @return a newly created root resource.
    */
   @NotNull
-  public static Resourced create(@NotNull final Namespaced namespaced) {
-    return Resourced.root(namespaced);
+  public static Resourced root(@NotNull final Namespaced value) {
+    return Resourced.create(Registry.ROOT_NAMESPACE, value);
   }
 
   /**
-   * creates a registry instance from the given {@code key}.
+   * creates a resource.
    *
    * @param key the key to create.
+   * @param value the value to create.
    *
-   * @return a newly created registry instance.
+   * @return a newly created resource.
    */
   @NotNull
-  public static Resourced minecraft(@NotNull final String key) {
-    return Registry.create(Namespaced.minecraft(key));
+  private static Resourced create(@NotNull final Namespaced key, @NotNull final Namespaced value) {
+    return Resourced.CACHE.computeIfAbsent((key + ":" + value).intern(), cache -> new Resourced(key, value));
+  }
+
+  /**
+   * obtains the key.
+   *
+   * @return key.
+   */
+  @NotNull
+  public Namespaced getKey() {
+    return this.key;
+  }
+
+  /**
+   * obtains the value.
+   *
+   * @return value.
+   */
+  @NotNull
+  public Namespaced getValue() {
+    return this.value;
   }
 }

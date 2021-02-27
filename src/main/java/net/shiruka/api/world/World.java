@@ -28,6 +28,7 @@ package net.shiruka.api.world;
 import java.util.Optional;
 import net.shiruka.api.block.Block;
 import net.shiruka.api.metadata.Metadatable;
+import net.shiruka.api.registry.Resourced;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -61,6 +62,14 @@ public interface World extends Metadatable {
    */
   @NotNull
   WorldType getDefaultWorldType();
+
+  /**
+   * obtains the dimension key.
+   *
+   * @return dimension key.
+   */
+  @NotNull
+  Resourced getDimensionKey();
 
   /**
    * gets the {@link Environment} type of this world.
