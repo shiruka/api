@@ -28,11 +28,14 @@ package net.shiruka.api.command;
 import net.shiruka.api.command.exceptions.CeDynamic;
 import net.shiruka.api.command.exceptions.CeDynamic2;
 import net.shiruka.api.command.exceptions.CeSimple;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * a marker interface class to determine command exception classes.
+ *
+ * @param <T> type of the value.
  */
-public interface CommandException {
+public interface CommandException<T> {
 
   /**
    * the byte too big.
@@ -221,4 +224,12 @@ public interface CommandException {
    * the term invalid.
    */
   CeDynamic TERM_INVALID = new CeDynamic(term -> "Invalid term '" + term + "'");
+
+  /**
+   * obtains the value.
+   *
+   * @return value.
+   */
+  @NotNull
+  T getValue();
 }

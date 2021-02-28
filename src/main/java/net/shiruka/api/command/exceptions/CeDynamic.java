@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * a dynamic command implementation for {@link CommandException} by 1 parameter.
  */
-public final class CeDynamic implements CommandException {
+public final class CeDynamic implements CommandException<Function<Object, String>> {
 
   /**
    * the function.
@@ -73,5 +73,11 @@ public final class CeDynamic implements CommandException {
   @NotNull
   public CommandSyntaxException createWithContext(@NotNull final TextReader reader, @NotNull final Object first) {
     return new CommandSyntaxException(reader.getCursor(), reader.getText(), this.function.apply(first), this);
+  }
+
+  @NotNull
+  @Override
+  public Function<Object, String> getValue() {
+    return this.function;
   }
 }
