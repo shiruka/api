@@ -25,6 +25,7 @@
 
 package net.shiruka.api.world;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
@@ -75,4 +76,12 @@ public interface WorldManager {
    */
   @NotNull
   Optional<World> getWorld(@NotNull UUID uniqueId);
+
+  /**
+   * obtains all the worlds.
+   *
+   * @return worlds.
+   */
+  @NotNull
+  List<World> getWorlds();
 }
