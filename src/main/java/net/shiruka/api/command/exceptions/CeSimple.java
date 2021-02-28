@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * a simple implementation for {@link CommandException}.
  */
-public final class CeSimple implements CommandException {
+public final class CeSimple implements CommandException<String> {
 
   /**
    * the message.
@@ -69,6 +69,12 @@ public final class CeSimple implements CommandException {
   @NotNull
   public CommandSyntaxException createWithContext(@NotNull final TextReader reader) {
     return new CommandSyntaxException(reader.getCursor(), reader.getText(), this.message, this);
+  }
+
+  @NotNull
+  @Override
+  public String getValue() {
+    return this.message;
   }
 
   @NotNull
