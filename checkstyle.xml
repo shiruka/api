@@ -48,6 +48,7 @@
     <property name="message" value="Line has trailing spaces."/>
   </module>
   <module name="TreeWalker">
+    <module name="RequireEmptyLineBeforeBlockTagGroup"/>
     <module name="InvalidJavadocPosition"/>
     <module name="JavadocMethod"/>
     <module name="JavadocType">
@@ -103,6 +104,7 @@
     <module name="SimplifyBooleanReturn"/>
     <module name="FinalClass"/>
     <module name="HideUtilityClassConstructor"/>
+    <module name="InterfaceIsType"/>
     <module name="ArrayTypeStyle"/>
     <module name="FinalParameters"/>
     <module name="TodoComment"/>
