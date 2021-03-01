@@ -26,6 +26,7 @@
 package net.shiruka.api.world;
 
 import java.util.Optional;
+import net.shiruka.api.base.BlockPosition;
 import net.shiruka.api.base.Namespaced;
 import net.shiruka.api.block.Block;
 import net.shiruka.api.metadata.Metadatable;
@@ -41,12 +42,12 @@ public interface World extends Metadatable {
   /**
    * the end.
    */
-  Resourced END = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_end"));
+  Resourced THE_END = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_end"));
 
   /**
    * the nether.
    */
-  Resourced NETHER = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_nether"));
+  Resourced THE_NETHER = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_nether"));
 
   /**
    * the over world.
@@ -128,6 +129,14 @@ public interface World extends Metadatable {
    * @return seed of the world.
    */
   long getSeed();
+
+  /**
+   * obtains the spawn.
+   *
+   * @return spawn.
+   */
+  @NotNull
+  BlockPosition getSpawn();
 
   /**
    * gets whether the world is hardcore or not.
