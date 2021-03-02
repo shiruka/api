@@ -25,10 +25,10 @@
 
 package net.shiruka.api.plugin;
 
+import io.github.portlek.configs.tree.FileConfiguration;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Optional;
-import net.shiruka.api.config.config.YamlConfig;
 import net.shiruka.api.world.ChunkGenerator;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +45,7 @@ public interface Plugin {
    * @return config.
    */
   @NotNull
-  YamlConfig getConfig();
+  FileConfiguration getConfig();
 
   /**
    * obtains the data folder.

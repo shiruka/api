@@ -30,6 +30,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -37,8 +38,6 @@ import java.util.regex.Pattern;
 import net.shiruka.api.permission.Permission;
 import net.shiruka.api.permission.PermissionDefault;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 /**
  * a file interface to describes the plugins.
@@ -134,12 +133,6 @@ public final class PluginDescriptionFile {
    * the website key of the plugin.yml.
    */
   private static final String WEBSITE = "website";
-
-  /**
-   * a {@link Yaml} instance to determine plugin.yml.
-   */
-  private static final ThreadLocal<Yaml> YAML = ThreadLocal.withInitial(() ->
-    new Yaml(new SafeConstructor()));
 
   /**
    * the authors the plugin.
@@ -308,6 +301,18 @@ public final class PluginDescriptionFile {
   }
 
   /**
+   * the mapper.
+   */
+  private static final ObjectMapper MAPPER = new YAMLMapper()
+    .enable(SerializationFeature.INDENT_OUTPUT);
+
+  /**
+   * the map type.
+   */
+  private static final MapType MAP_TYPE = Yaml.MAPPER.getTypeFactory().constructMapType(HashMap.class, String.class,
+    Object.class);
+
+  /**
    * creates and returns a new plugin description file instance from the input stream.
    *
    * @param stream the stream to create.
@@ -318,7 +323,7 @@ public final class PluginDescriptionFile {
    */
   @NotNull
   public static PluginDescriptionFile init(@NotNull final InputStream stream) throws InvalidDescriptionException {
-    return PluginDescriptionFile.init(PluginDescriptionFile.YAML.get().<Map<String, Object>>load(stream));
+    return PluginDescriptionFile.init(MAPPER.readValue(stream, MAP_TYPE));
   }
 
   /**
