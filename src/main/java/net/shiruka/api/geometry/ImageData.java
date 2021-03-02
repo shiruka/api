@@ -29,13 +29,17 @@ import com.google.common.base.Preconditions;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.Arrays;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents image data.
  */
+@Getter
+@ToString(exclude = {"image"})
+@EqualsAndHashCode(doNotUseGetters = true)
 public final class ImageData {
 
   /**
@@ -170,59 +174,5 @@ public final class ImageData {
       default:
         throw new IllegalArgumentException("Invalid legacy skin");
     }
-  }
-
-  /**
-   * obtains the height.
-   *
-   * @return height.
-   */
-  public int getHeight() {
-    return this.height;
-  }
-
-  /**
-   * obtains the image.
-   *
-   * @return image.
-   */
-  public byte[] getImage() {
-    return this.image.clone();
-  }
-
-  /**
-   * obtains the width.
-   *
-   * @return width.
-   */
-  public int getWidth() {
-    return this.width;
-  }
-
-  @Override
-  public int hashCode() {
-    var result = Objects.hash(this.width, this.height);
-    result = 31 * result + Arrays.hashCode(this.image);
-    return result;
-  }
-
-  @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || this.getClass() != obj.getClass()) {
-      return false;
-    }
-    final var imageData = (ImageData) obj;
-    return this.width == imageData.width && this.height == imageData.height && Arrays.equals(this.image, imageData.image);
-  }
-
-  @Override
-  public String toString() {
-    return "ImageData{" +
-      "width=" + this.width +
-      ", height=" + this.height +
-      '}';
   }
 }

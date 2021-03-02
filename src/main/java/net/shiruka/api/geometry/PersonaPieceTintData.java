@@ -25,13 +25,16 @@
 
 package net.shiruka.api.geometry;
 
-import java.util.Collections;
 import java.util.List;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents persona piece tint data.
  */
+@RequiredArgsConstructor
+@Getter
 public final class PersonaPieceTintData {
 
   /**
@@ -45,35 +48,4 @@ public final class PersonaPieceTintData {
    */
   @NotNull
   private final String type;
-
-  /**
-   * ctor.
-   *
-   * @param colors the colors.
-   * @param type the type.
-   */
-  public PersonaPieceTintData(@NotNull final List<String> colors, @NotNull final String type) {
-    this.colors = Collections.unmodifiableList(colors);
-    this.type = type;
-  }
-
-  /**
-   * obtains the colors.
-   *
-   * @return colors.
-   */
-  @NotNull
-  public List<String> getColors() {
-    return this.colors;
-  }
-
-  /**
-   * obtains the type.
-   *
-   * @return type.
-   */
-  @NotNull
-  public String getType() {
-    return this.type;
-  }
 }
