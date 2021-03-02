@@ -103,7 +103,7 @@ public final class PackManifest {
   /**
    * the dependencies.
    */
-  @Nullable
+  @NotNull
   private List<Dependency> dependencies = Collections.emptyList();
 
   /**
