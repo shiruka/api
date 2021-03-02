@@ -154,7 +154,7 @@ public interface ChainData {
    *
    * @return xbox authed.
    */
-  boolean getXboxAuthed();
+  boolean isXboxAuthed();
 
   /**
    * obtains the xbox unique id.
