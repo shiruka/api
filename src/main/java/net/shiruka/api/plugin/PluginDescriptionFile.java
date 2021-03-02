@@ -305,7 +305,7 @@ public final class PluginDescriptionFile {
    *
    * @return a new instance of plugin description file.
    *
-   * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
+   * @throws InvalidDescriptionException if something goes wrong in the plugin.yml file.
    */
   @NotNull
   public static PluginDescriptionFile init(@NotNull final String name, @NotNull final String version,
@@ -324,8 +324,8 @@ public final class PluginDescriptionFile {
    *
    * @return a new instance of plugin description file.
    *
-   * @throws IOException if something went wrong in the plugin.yml file.
-   * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
+   * @throws IOException if something goes wrong in the plugin.yml file.
+   * @throws InvalidDescriptionException if something goes wrong in the plugin.yml file.
    */
   @NotNull
   public static PluginDescriptionFile init(@NotNull final InputStream stream) throws IOException,
@@ -343,7 +343,7 @@ public final class PluginDescriptionFile {
    *
    * @return a new instance of plugin description file.
    *
-   * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
+   * @throws InvalidDescriptionException if something goes wrong in the plugin.yml file.
    * @todo #1:30m Add language support for all the errors when parsing the plugin file.
    */
   @NotNull
@@ -585,7 +585,7 @@ public final class PluginDescriptionFile {
    *
    * @param writer the writer to save.
    *
-   * @throws IOException if something went wrong when writing values to the plugin.yml.
+   * @throws IOException if something goes wrong when writing values to the plugin.yml.
    */
   public void save(@NotNull final Writer writer) throws IOException {
     PluginDescriptionFile.MAPPER.writeValue(writer, this.saveMap());

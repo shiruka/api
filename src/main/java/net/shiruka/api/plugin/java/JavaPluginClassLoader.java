@@ -50,7 +50,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.utils.Validate;
 
 /**
  * a class that represents java plugin class loader.
@@ -156,8 +155,8 @@ public final class JavaPluginClassLoader extends URLClassLoader {
    * @param loader the loader.
    * @param parent the parent.
    *
-   * @throws IOException if something went wrong when reading the file.
-   * @throws InvalidPluginException if something went wrong when reading the plugin's classes.
+   * @throws IOException if something goes wrong when reading the file.
+   * @throws InvalidPluginException if something goes wrong when reading the plugin's classes.
    */
   public JavaPluginClassLoader(@NotNull final File dataFolder, @NotNull final PluginDescriptionFile description,
                                @NotNull final File file, @NotNull final JavaPluginLoader loader,
@@ -339,7 +338,7 @@ public final class JavaPluginClassLoader extends URLClassLoader {
    * @param plugin the plugin to initiates.
    */
   synchronized void initialize(@NotNull final JavaPlugin plugin) {
-    Validate.isTrue(plugin.getClass().getClassLoader() == this,
+    Preconditions.checkState(plugin.getClass().getClassLoader() == this,
       "Cannot initialize plugin outside of this class loader");
     if (this.plugin != null || this.pluginInit != null) {
       throw new IllegalArgumentException("Plugin already initialized!", this.pluginState);
