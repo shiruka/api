@@ -25,8 +25,13 @@
 
 package net.shiruka.api.plugin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.Collections;
@@ -88,6 +93,18 @@ public final class PluginDescriptionFile {
    * the main class key of the plugin.yml.
    */
   private static final String MAIN = "main";
+
+  /**
+   * the mapper.
+   */
+  private static final ObjectMapper MAPPER = new YAMLMapper()
+    .enable(SerializationFeature.INDENT_OUTPUT);
+
+  /**
+   * the map type.
+   */
+  private static final MapType MAP_TYPE = PluginDescriptionFile.MAPPER.getTypeFactory().constructMapType(HashMap.class, String.class,
+    Object.class);
 
   /**
    * the name key of the plugin.yml.
@@ -301,29 +318,22 @@ public final class PluginDescriptionFile {
   }
 
   /**
-   * the mapper.
-   */
-  private static final ObjectMapper MAPPER = new YAMLMapper()
-    .enable(SerializationFeature.INDENT_OUTPUT);
-
-  /**
-   * the map type.
-   */
-  private static final MapType MAP_TYPE = Yaml.MAPPER.getTypeFactory().constructMapType(HashMap.class, String.class,
-    Object.class);
-
-  /**
    * creates and returns a new plugin description file instance from the input stream.
    *
    * @param stream the stream to create.
    *
    * @return a new instance of plugin description file.
    *
+   * @throws IOException if something went wrong in the plugin.yml file.
    * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
    */
   @NotNull
-  public static PluginDescriptionFile init(@NotNull final InputStream stream) throws InvalidDescriptionException {
-    return PluginDescriptionFile.init(MAPPER.readValue(stream, MAP_TYPE));
+  public static PluginDescriptionFile init(@NotNull final InputStream stream) throws IOException,
+    InvalidDescriptionException {
+    //noinspection unchecked
+    final var map = (Map<String, Object>) PluginDescriptionFile.MAPPER
+      .readValue(stream, PluginDescriptionFile.MAP_TYPE);
+    return PluginDescriptionFile.init(map);
   }
 
   /**
@@ -574,9 +584,11 @@ public final class PluginDescriptionFile {
    * saves {@code this} to the given writer.
    *
    * @param writer the writer to save.
+   *
+   * @throws IOException if something went wrong when writing values to the plugin.yml.
    */
-  public void save(@NotNull final Writer writer) {
-    PluginDescriptionFile.YAML.get().dump(this.saveMap(), writer);
+  public void save(@NotNull final Writer writer) throws IOException {
+    PluginDescriptionFile.MAPPER.writeValue(writer, this.saveMap());
   }
 
   /**
