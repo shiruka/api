@@ -109,14 +109,14 @@ public final class PackManifest {
   /**
    * the format version.
    */
-  @Nullable
+  @NotNull
   @JsonProperty("format_version")
   private String formatVersion;
 
   /**
    * the header.
    */
-  @Nullable
+  @NotNull
   private Header header;
 
   /**
@@ -128,7 +128,7 @@ public final class PackManifest {
   /**
    * the modules.
    */
-  @Nullable
+  @NotNull
   private List<Module> modules = Collections.emptyList();
 
   /**
@@ -149,21 +149,6 @@ public final class PackManifest {
   @NotNull
   public static PackManifest load(@NotNull final InputStream stream) throws IOException {
     return Shiruka.JSON_MAPPER.readValue(stream, PackManifest.class);
-  }
-
-  /**
-   * checks if the pack manifest is valid.
-   *
-   * @return {@code true} if the pack manifest is valid.
-   */
-  public boolean isValid() {
-    return this.formatVersion != null &&
-      this.header != null &&
-      this.modules != null &&
-      this.header.description != null &&
-      this.header.name != null &&
-      this.header.uuid != null &&
-      this.header.version != null;
   }
 
   /**
@@ -194,7 +179,7 @@ public final class PackManifest {
     /**
      * the description.
      */
-    @Nullable
+    @NotNull
     private String description;
 
     /**
@@ -225,7 +210,7 @@ public final class PackManifest {
     /**
      * the name.
      */
-    @Nullable
+    @NotNull
     private String name;
 
     /**
@@ -250,13 +235,14 @@ public final class PackManifest {
     /**
      * the uuid.
      */
-    @Nullable
-    private UUID uuid;
+    @NotNull
+    @JsonProperty("uuid")
+    private UUID uniqueId;
 
     /**
      * the version.
      */
-    @Nullable
+    @NotNull
     private SemanticVersion version;
   }
 
