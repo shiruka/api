@@ -41,8 +41,6 @@ import net.shiruka.api.plugin.PluginLoader;
 import net.shiruka.api.plugin.UnknownDependencyException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
-import org.simpleyaml.configuration.serialization.ConfigurationSerialization;
 
 /**
  * a class that represents Java plugin loader.
@@ -159,10 +157,6 @@ public final class JavaPluginLoader implements PluginLoader {
   void setClass(@NotNull final String name, @NotNull final Class<?> clazz) {
     if (!this.classes.containsKey(name)) {
       this.classes.put(name, clazz);
-      if (ConfigurationSerializable.class.isAssignableFrom(clazz)) {
-        final Class<? extends ConfigurationSerializable> serializable = clazz.asSubclass(ConfigurationSerializable.class);
-        ConfigurationSerialization.registerClass(serializable);
-      }
     }
   }
 }
