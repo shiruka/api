@@ -25,7 +25,7 @@
 
 package net.shiruka.api.plugin.java;
 
-import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.configuration.FileConfiguration;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Objects;
