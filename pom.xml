@@ -47,19 +47,19 @@
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-core</artifactId>
-      <version>5.2.0</version>
+      <version>5.4.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-yaml</artifactId>
-      <version>5.2.0</version>
+      <version>5.4.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-json</artifactId>
-      <version>5.2.0</version>
+      <version>5.4.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
