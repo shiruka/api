@@ -45,21 +45,21 @@
   </scm>
   <dependencies>
     <dependency>
-      <groupId>me.carleslc.Simple-YAML</groupId>
-      <artifactId>Simple-Yaml</artifactId>
-      <version>1.7.2</version>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>configs-core</artifactId>
+      <version>5.4.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.github.portlek</groupId>
-      <artifactId>jsongration</artifactId>
-      <version>2.0.11</version>
+      <artifactId>configs-yaml</artifactId>
+      <version>5.4.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>me.HSGamer</groupId>
-      <artifactId>Simple-HJSON</artifactId>
-      <version>1.0</version>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>configs-json</artifactId>
+      <version>5.4.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

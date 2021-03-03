@@ -386,7 +386,7 @@ public interface Player extends HumanEntity, OfflinePlayer {
   boolean kick(@NotNull LoginResultEvent.LoginResult reason, @Nullable Text reasonString, boolean isAdmin);
 
   /**
-   * Allows this player to see a player that was previously hidden.
+   * allows this player to see a player that was previously hidden.
    *
    * @param plugin the plugin to show.
    * @param player the player to show.

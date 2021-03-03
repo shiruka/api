@@ -114,8 +114,8 @@ public interface PackManager extends Closeable {
    *
    * @param path the path to load.
    *
-   * @throws IllegalStateException if no suitable loader found, if manifest not found, if the specified
-   *   {@link PackManifest.PackType} is no supported.
+   * @throws IllegalStateException if no suitable loader found, if manifest not found, if the specified {@link
+   *   PackType} is no supported.
    */
   void loadPack(@NotNull Path path);
 
@@ -144,5 +144,5 @@ public interface PackManager extends Closeable {
    *
    * @throws IllegalArgumentException if the given cls is already registered.
    */
-  void registerPack(@NotNull PackManifest.PackType type, @NotNull Pack.Factory factory);
+  void registerPack(@NotNull PackType type, @NotNull Pack.Factory factory);
 }

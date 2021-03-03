@@ -25,11 +25,17 @@
 
 package net.shiruka.api.plugin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -37,8 +43,6 @@ import java.util.regex.Pattern;
 import net.shiruka.api.permission.Permission;
 import net.shiruka.api.permission.PermissionDefault;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 /**
  * a file interface to describes the plugins.
@@ -91,6 +95,18 @@ public final class PluginDescriptionFile {
   private static final String MAIN = "main";
 
   /**
+   * the mapper.
+   */
+  private static final ObjectMapper MAPPER = new YAMLMapper()
+    .enable(SerializationFeature.INDENT_OUTPUT);
+
+  /**
+   * the map type.
+   */
+  private static final MapType MAP_TYPE = PluginDescriptionFile.MAPPER.getTypeFactory().constructMapType(HashMap.class, String.class,
+    Object.class);
+
+  /**
    * the name key of the plugin.yml.
    */
   private static final String NAME = "name";
@@ -134,12 +150,6 @@ public final class PluginDescriptionFile {
    * the website key of the plugin.yml.
    */
   private static final String WEBSITE = "website";
-
-  /**
-   * a {@link Yaml} instance to determine plugin.yml.
-   */
-  private static final ThreadLocal<Yaml> YAML = ThreadLocal.withInitial(() ->
-    new Yaml(new SafeConstructor()));
 
   /**
    * the authors the plugin.
@@ -295,7 +305,7 @@ public final class PluginDescriptionFile {
    *
    * @return a new instance of plugin description file.
    *
-   * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
+   * @throws InvalidDescriptionException if something goes wrong in the plugin.yml file.
    */
   @NotNull
   public static PluginDescriptionFile init(@NotNull final String name, @NotNull final String version,
@@ -314,11 +324,16 @@ public final class PluginDescriptionFile {
    *
    * @return a new instance of plugin description file.
    *
-   * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
+   * @throws IOException if something goes wrong in the plugin.yml file.
+   * @throws InvalidDescriptionException if something goes wrong in the plugin.yml file.
    */
   @NotNull
-  public static PluginDescriptionFile init(@NotNull final InputStream stream) throws InvalidDescriptionException {
-    return PluginDescriptionFile.init(PluginDescriptionFile.YAML.get().<Map<String, Object>>load(stream));
+  public static PluginDescriptionFile init(@NotNull final InputStream stream) throws IOException,
+    InvalidDescriptionException {
+    //noinspection unchecked
+    final var map = (Map<String, Object>) PluginDescriptionFile.MAPPER
+      .readValue(stream, PluginDescriptionFile.MAP_TYPE);
+    return PluginDescriptionFile.init(map);
   }
 
   /**
@@ -328,7 +343,7 @@ public final class PluginDescriptionFile {
    *
    * @return a new instance of plugin description file.
    *
-   * @throws InvalidDescriptionException if something went wrong in the plugin.yml file.
+   * @throws InvalidDescriptionException if something goes wrong in the plugin.yml file.
    * @todo #1:30m Add language support for all the errors when parsing the plugin file.
    */
   @NotNull
@@ -569,9 +584,11 @@ public final class PluginDescriptionFile {
    * saves {@code this} to the given writer.
    *
    * @param writer the writer to save.
+   *
+   * @throws IOException if something goes wrong when writing values to the plugin.yml.
    */
-  public void save(@NotNull final Writer writer) {
-    PluginDescriptionFile.YAML.get().dump(this.saveMap(), writer);
+  public void save(@NotNull final Writer writer) throws IOException {
+    PluginDescriptionFile.MAPPER.writeValue(writer, this.saveMap());
   }
 
   /**

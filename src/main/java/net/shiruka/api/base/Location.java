@@ -26,6 +26,7 @@
 package net.shiruka.api.base;
 
 import com.google.common.base.Preconditions;
+import io.github.portlek.configs.util.NumberConversions;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -33,7 +34,6 @@ import java.util.Optional;
 import net.shiruka.api.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.utils.NumberConversions;
 
 /**
  * a class that represents locations.

@@ -25,6 +25,8 @@
 
 package net.shiruka.api;
 
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import java.util.Collection;
 import net.shiruka.api.command.CommandManager;
 import net.shiruka.api.command.sender.ConsoleCommandSender;
@@ -43,6 +45,16 @@ import org.jetbrains.annotations.NotNull;
  * a class that contains utility methods for Shiru ka server.
  */
 public interface Shiruka {
+
+  /**
+   * the json mapper.
+   */
+  JsonMapper JSON_MAPPER = new JsonMapper();
+
+  /**
+   * the yaml mapper.
+   */
+  YAMLMapper YAML_MAPPER = new YAMLMapper();
 
   /**
    * obtains the command manager instance.

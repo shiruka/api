@@ -150,17 +150,17 @@ public interface ChainData {
   String getUsername();
 
   /**
-   * obtains the xbox authed.
-   *
-   * @return xbox authed.
-   */
-  boolean getXboxAuthed();
-
-  /**
    * obtains the xbox unique id.
    *
    * @return xbox unique id.
    */
   @Nullable
   String getXboxUniqueId();
+
+  /**
+   * obtains the xbox authed.
+   *
+   * @return xbox authed.
+   */
+  boolean isXboxAuthed();
 }

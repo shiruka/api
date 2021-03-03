@@ -689,6 +689,6 @@ public final class CommandDispatcher {
       return self;
     }
     builder.append(close);
-    return self + CommandDispatcher.ARGUMENT_SEPARATOR + builder.toString();
+    return self + CommandDispatcher.ARGUMENT_SEPARATOR + builder;
   }
 }

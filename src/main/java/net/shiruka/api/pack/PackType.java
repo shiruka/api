@@ -23,25 +23,42 @@
  *
  */
 
-package net.shiruka.api.config.config;
-
-import net.shiruka.api.config.Config;
-import net.shiruka.api.config.ConfigPath;
-import net.shiruka.api.config.PathLoader;
-import org.jetbrains.annotations.NotNull;
+package net.shiruka.api.pack;
 
 /**
- * a {@link ConfigEnvelope} implementation to load {@link ConfigPath} automatically.
+ * an enum class that represents resource pack types.
  */
-public abstract class PathableConfig extends ConfigEnvelope {
-
+public enum PackType {
   /**
-   * ctor.
-   *
-   * @param origin the original {@link Config}.
+   * the invalid.
    */
-  protected PathableConfig(@NotNull final Config origin) {
-    super(origin);
-    PathLoader.load(this);
-  }
+  INVALID,
+  /**
+   * the resources.
+   */
+  RESOURCES,
+  /**
+   * the data.
+   */
+  DATA,
+  /**
+   * the plugin.
+   */
+  PLUGIN,
+  /**
+   * the client data.
+   */
+  CLIENT_DATA,
+  /**
+   * the interface.
+   */
+  INTERFACE,
+  /**
+   * the mandatory.
+   */
+  MANDATORY,
+  /**
+   * the world template.
+   */
+  WORLD_TEMPLATE
 }

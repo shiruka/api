@@ -278,7 +278,7 @@ public final class Permission {
         }
       } catch (final Throwable ex) {
         throw new IllegalArgumentException(String.format("Permission node '%s' in child of %s is invalid!",
-          key.toString(), name), ex);
+          key, name), ex);
       }
     });
     return children;

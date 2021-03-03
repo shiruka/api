@@ -80,7 +80,7 @@ public interface Pack extends Closeable {
    */
   @NotNull
   default UUID getId() {
-    return this.getManifest().getHeader().getUuid();
+    return this.getManifest().getHeader().getUniqueId();
   }
 
   /**

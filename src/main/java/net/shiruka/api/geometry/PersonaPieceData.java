@@ -25,106 +25,41 @@
 
 package net.shiruka.api.geometry;
 
+import lombok.Value;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents persona piece data.
  */
-public final class PersonaPieceData {
+@Value(staticConstructor = "of")
+public class PersonaPieceData {
 
   /**
    * the id.
    */
   @NotNull
-  private final String id;
+  String id;
 
   /**
    * the is default.
    */
-  private final boolean isDefault;
+  boolean isDefault;
 
   /**
    * the pack id.
    */
   @NotNull
-  private final String packId;
+  String packId;
 
   /**
    * the product id.
    */
   @NotNull
-  private final String productId;
+  String productId;
 
   /**
    * the type.
    */
   @NotNull
-  private final String type;
-
-  /**
-   * ctor.
-   *
-   * @param id the id.
-   * @param isDefault the id default.
-   * @param packId the pack id.
-   * @param productId the product id.
-   * @param type the type.
-   */
-  public PersonaPieceData(@NotNull final String id, final boolean isDefault, @NotNull final String packId,
-                          @NotNull final String productId, @NotNull final String type) {
-    this.id = id;
-    this.isDefault = isDefault;
-    this.packId = packId;
-    this.productId = productId;
-    this.type = type;
-  }
-
-  /**
-   * obtains the id.
-   *
-   * @return id.
-   */
-  @NotNull
-  public String getId() {
-    return this.id;
-  }
-
-  /**
-   * obtains the pack id.
-   *
-   * @return pack id.
-   */
-  @NotNull
-  public String getPackId() {
-    return this.packId;
-  }
-
-  /**
-   * obtains the product id.
-   *
-   * @return product id.
-   */
-  @NotNull
-  public String getProductId() {
-    return this.productId;
-  }
-
-  /**
-   * obtains the type.
-   *
-   * @return type.
-   */
-  @NotNull
-  public String getType() {
-    return this.type;
-  }
-
-  /**
-   * obtains the is default.
-   *
-   * @return is default.
-   */
-  public boolean isDefault() {
-    return this.isDefault;
-  }
+  String type;
 }

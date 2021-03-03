@@ -42,7 +42,7 @@ public interface Command {
    *
    * @return ran command result.
    *
-   * @throws CommandSyntaxException if something went wrong when running the command.
+   * @throws CommandSyntaxException if something goes wrong when running the command.
    */
   @NotNull
   CommandResult run(@NotNull CommandContext context) throws CommandSyntaxException;

@@ -25,10 +25,10 @@
 
 package net.shiruka.api.plugin.java;
 
+import io.github.portlek.configs.configuration.FileConfiguration;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Objects;
-import net.shiruka.api.config.config.YamlConfig;
 import net.shiruka.api.plugin.Plugin;
 import net.shiruka.api.plugin.PluginDescriptionFile;
 import net.shiruka.api.plugin.PluginLoader;
@@ -47,7 +47,7 @@ public abstract class JavaPlugin implements Plugin {
    * the default YAML configuration of the plugin.
    */
   @Nullable
-  private YamlConfig config;
+  private FileConfiguration config;
 
   /**
    * the logger.
@@ -57,7 +57,7 @@ public abstract class JavaPlugin implements Plugin {
 
   @NotNull
   @Override
-  public final YamlConfig getConfig() {
+  public final FileConfiguration getConfig() {
     return Objects.requireNonNull(this.config, "The plugin not initiated yet!");
   }
 

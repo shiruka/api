@@ -25,14 +25,14 @@
 
 package net.shiruka.api.event.events.server;
 
-import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.event.Cancellable;
+import net.shiruka.api.event.events.CommandSenderEvent;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * called when a command is run by a non-player.
  */
-public interface ServerCommandEvent extends Cancellable {
+public interface ServerCommandEvent extends Cancellable, CommandSenderEvent {
 
   /**
    * obtains the command.
@@ -48,12 +48,4 @@ public interface ServerCommandEvent extends Cancellable {
    * @param command the command to set.
    */
   void setCommand(@NotNull String command);
-
-  /**
-   * obtains the command sender.
-   *
-   * @return command sender.
-   */
-  @NotNull
-  CommandSender getSender();
 }
