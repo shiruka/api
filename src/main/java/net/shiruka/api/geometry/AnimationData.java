@@ -25,39 +25,37 @@
 
 package net.shiruka.api.geometry;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents animation data.
  */
-@RequiredArgsConstructor
-@Getter
-public final class AnimationData {
+@Value(staticConstructor = "of")
+public class AnimationData {
 
   /**
    * the expression type.
    */
   @NotNull
-  private final AnimationExpressionType expressionType;
+  AnimationExpressionType expressionType;
 
   /**
    * the frames.
    */
-  private final float frames;
+  float frames;
 
   /**
    * the image.
    */
   @NotNull
-  private final ImageData image;
+  ImageData image;
 
   /**
    * the texture type.
    */
   @NotNull
-  private final AnimatedTextureType textureType;
+  AnimatedTextureType textureType;
 
   /**
    * ctor.
@@ -65,9 +63,12 @@ public final class AnimationData {
    * @param frames the frames.
    * @param image the image.
    * @param textureType the texture type.
+   *
+   * @return an animation data instance.
    */
-  public AnimationData(final float frames, @NotNull final ImageData image,
-                       @NotNull final AnimatedTextureType textureType) {
-    this(AnimationExpressionType.LINEAR, frames, image, textureType);
+  @NotNull
+  public static AnimationData of(final float frames, @NotNull final ImageData image,
+                                 @NotNull final AnimatedTextureType textureType) {
+    return AnimationData.of(AnimationExpressionType.LINEAR, frames, image, textureType);
   }
 }

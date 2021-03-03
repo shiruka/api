@@ -26,26 +26,24 @@
 package net.shiruka.api.geometry;
 
 import java.util.List;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents persona piece tint data.
  */
-@RequiredArgsConstructor
-@Getter
-public final class PersonaPieceTintData {
+@Value(staticConstructor = "of")
+public class PersonaPieceTintData {
 
   /**
    * the colors.
    */
   @NotNull
-  private final List<String> colors;
+  List<String> colors;
 
   /**
    * the type.
    */
   @NotNull
-  private final String type;
+  String type;
 }

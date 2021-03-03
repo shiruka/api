@@ -25,43 +25,41 @@
 
 package net.shiruka.api.geometry;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents persona piece data.
  */
-@RequiredArgsConstructor
-@Getter
-public final class PersonaPieceData {
+@Value(staticConstructor = "of")
+public class PersonaPieceData {
 
   /**
    * the id.
    */
   @NotNull
-  private final String id;
+  String id;
 
   /**
    * the is default.
    */
-  private final boolean isDefault;
+  boolean isDefault;
 
   /**
    * the pack id.
    */
   @NotNull
-  private final String packId;
+  String packId;
 
   /**
    * the product id.
    */
   @NotNull
-  private final String productId;
+  String productId;
 
   /**
    * the type.
    */
   @NotNull
-  private final String type;
+  String type;
 }
