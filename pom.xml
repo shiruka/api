@@ -53,7 +53,7 @@
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-yaml</artifactId>
-      <version>5.6.0</version>
+      <version>5.7.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
