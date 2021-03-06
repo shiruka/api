@@ -27,7 +27,6 @@ package net.shiruka.api.command.arguments;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import net.shiruka.api.command.ArgumentType;
 import net.shiruka.api.command.TextReader;
@@ -62,7 +61,7 @@ public final class BooleanArgumentType implements ArgumentType<Boolean> {
   @Override
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
                                                     @NotNull final Suggestions.Builder builder) {
-    final var remaining = builder.getRemaining().toLowerCase(Locale.ROOT);
+    final var remaining = builder.getRemainingToLowerCase();
     if ("true".startsWith(remaining)) {
       builder.suggest("true");
     }

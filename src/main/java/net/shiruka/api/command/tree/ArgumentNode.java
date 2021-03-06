@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 import net.shiruka.api.command.ArgumentType;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandNode;
@@ -38,6 +39,7 @@ import net.shiruka.api.command.SuggestionProvider;
 import net.shiruka.api.command.TextReader;
 import net.shiruka.api.command.context.CommandContext;
 import net.shiruka.api.command.context.CommandContextBuilder;
+import net.shiruka.api.command.context.ParseResults;
 import net.shiruka.api.command.context.ParsedArgument;
 import net.shiruka.api.command.exceptions.CommandSyntaxException;
 import net.shiruka.api.command.suggestion.Suggestions;
@@ -88,6 +90,7 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
   /**
    * ctor.
    *
+   * @param contextRequirement the context requirement.
    * @param defaultNode the default node.
    * @param defaultValue the default value.
    * @param description the description.
@@ -102,13 +105,15 @@ public final class ArgumentNode<V> extends CommandNodeEnvelope {
    * @param type the type.
    * @param usage the usage.
    */
-  public ArgumentNode(@Nullable final CommandNode defaultNode, @Nullable final V defaultValue,
+  public ArgumentNode(@NotNull final Predicate<ParseResults> contextRequirement,
+                      @Nullable final CommandNode defaultNode, @Nullable final V defaultValue,
                       @Nullable final String description, final boolean fork, final boolean isDefaultNode,
                       @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
                       @NotNull final Set<Requirement> requirements, @Nullable final Command command,
                       @NotNull final String name, @Nullable final SuggestionProvider suggestions,
                       @NotNull final ArgumentType<V> type, @Nullable final String usage) {
-    super(defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, usage, command);
+    super(contextRequirement, defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, usage,
+      command);
     this.defaultValue = defaultValue;
     this.name = name;
     this.suggestions = suggestions;

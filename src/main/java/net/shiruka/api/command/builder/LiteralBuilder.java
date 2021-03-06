@@ -138,9 +138,9 @@ public final class LiteralBuilder extends ArgumentBuilder<LiteralBuilder> {
    */
   @NotNull
   private LiteralNode createMain(@NotNull final String literal, @NotNull final List<LiteralNode> aliases) {
-    final var node = new LiteralNode(aliases, this.getDefaultNode(), this.getDescription(), this.isFork(),
-      this.isDefaultNode(), this.getModifier(), this.getRedirect(), this.getRequirements(), this.getCommand(), literal,
-      this.getUsage());
+    final var node = new LiteralNode(aliases, this.getContextRequirement(), this.getDefaultNode(),
+      this.getDescription(), this.isFork(), this.isDefaultNode(), this.getModifier(), this.getRedirect(),
+      this.getRequirements(), this.getCommand(), literal, this.getUsage());
     this.getArguments().forEach(node::addChild);
     return node;
   }

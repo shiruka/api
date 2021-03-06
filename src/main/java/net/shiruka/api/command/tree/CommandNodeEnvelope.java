@@ -33,11 +33,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandNode;
 import net.shiruka.api.command.RedirectModifier;
 import net.shiruka.api.command.Requirement;
 import net.shiruka.api.command.TextReader;
+import net.shiruka.api.command.context.ParseResults;
 import net.shiruka.api.command.sender.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,6 +58,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the children.
    */
   private final Map<String, CommandNode> children = new Object2ObjectRBTreeMap<>();
+
+  /**
+   * the context requirement.
+   */
+  @NotNull
+  private final Predicate<ParseResults> contextRequirement;
 
   /**
    * the default node.
@@ -78,11 +86,6 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the is default node.
    */
   private final boolean isDefaultNode;
-
-  /**
-   * the literals.
-   */
-  private final Map<String, LiteralNode> literals = new Object2ObjectLinkedOpenHashMap<>();
 
   /**
    * the modifier.
@@ -115,8 +118,14 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   private Command command;
 
   /**
+   * the has literals.
+   */
+  private boolean hasLiterals = false;
+
+  /**
    * ctor.
    *
+   * @param contextRequirement the context requirement.
    * @param defaultNode the default node.
    * @param description the description.
    * @param fork the forks.
@@ -127,11 +136,13 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * @param usage the usage.
    * @param command the command.
    */
-  protected CommandNodeEnvelope(@Nullable final CommandNode defaultNode, @Nullable final String description,
+  protected CommandNodeEnvelope(@NotNull final Predicate<ParseResults> contextRequirement,
+                                @Nullable final CommandNode defaultNode, @Nullable final String description,
                                 final boolean fork, final boolean isDefaultNode,
                                 @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
                                 @NotNull final Set<Requirement> requirements, @Nullable final String usage,
                                 @Nullable final Command command) {
+    this.contextRequirement = contextRequirement;
     this.defaultNode = defaultNode;
     this.description = description;
     this.fork = fork;
@@ -160,7 +171,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     }
     this.children.put(name, node);
     if (node instanceof LiteralNode) {
-      this.literals.put(name, (LiteralNode) node);
+      this.hasLiterals = true;
     } else if (node instanceof ArgumentNode) {
       this.arguments.put(name, (ArgumentNode<?>) node);
     }
@@ -169,6 +180,11 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   @Override
   public final boolean canUse(@NotNull final CommandSender sender) {
     return this.requirements.stream().allMatch(predicate -> predicate.test(sender));
+  }
+
+  @Override
+  public final boolean canUse(@NotNull final ParseResults parse) {
+    return this.contextRequirement.test(parse);
   }
 
   @NotNull
@@ -192,6 +208,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   @Override
   public final void setCommand(@Nullable final Command command) {
     this.command = command;
+  }
+
+  @NotNull
+  @Override
+  public final Predicate<ParseResults> getContextRequirement() {
+    return this.contextRequirement;
   }
 
   @NotNull
@@ -224,7 +246,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     if (!input.canRead() && this.defaultNode != null) {
       return Collections.singleton(this.defaultNode);
     }
-    if (this.literals.size() <= 0) {
+    if (!this.hasLiterals) {
       return this.arguments.values();
     }
     final var cursor = input.getCursor();
@@ -233,8 +255,8 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     }
     final var text = input.getText().substring(cursor, input.getCursor());
     input.setCursor(cursor);
-    final var literal = this.literals.get(text);
-    if (literal != null) {
+    final var literal = this.children.get(text);
+    if (literal instanceof LiteralNode) {
       return Collections.singleton(literal);
     }
     return this.arguments.values();
@@ -264,9 +286,10 @@ public abstract class CommandNodeEnvelope implements CommandNode {
 
   @Override
   public final void removeChild(@NotNull final String node) {
-    this.children.remove(node);
-    this.literals.remove(node);
-    this.arguments.remove(node);
+    final var child = this.children.remove(node);
+    if (child != null) {
+      this.arguments.remove(node);
+    }
   }
 
   @Override
