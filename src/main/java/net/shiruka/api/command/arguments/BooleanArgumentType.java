@@ -27,7 +27,6 @@ package net.shiruka.api.command.arguments;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import net.shiruka.api.command.ArgumentType;
 import net.shiruka.api.command.TextReader;
