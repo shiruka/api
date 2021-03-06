@@ -93,9 +93,10 @@ public final class RequiredBuilder<V> extends ArgumentBuilder<RequiredBuilder<V>
   @NotNull
   @Override
   public ArgumentNode<V> build() {
-    final var result = new ArgumentNode<>(this.getDefaultNode(), this.getDefaultValue(), this.getDescription(),
-      this.isFork(), this.isDefaultNode(), this.getModifier(), this.getRedirect(), this.getRequirements(),
-      this.getCommand(), this.getName(), this.getSuggestions(), this.getType(), this.getUsage());
+    final var result = new ArgumentNode<>(this.getContextRequirement(), this.getDefaultNode(), this.getDefaultValue(),
+      this.getDescription(), this.isFork(), this.isDefaultNode(), this.getModifier(), this.getRedirect(),
+      this.getRequirements(), this.getCommand(), this.getName(), this.getSuggestions(), this.getType(),
+      this.getUsage());
     this.getArguments().forEach(result::addChild);
     return result;
   }

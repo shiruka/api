@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandException;
 import net.shiruka.api.command.CommandNode;
@@ -40,6 +41,7 @@ import net.shiruka.api.command.TextRange;
 import net.shiruka.api.command.TextReader;
 import net.shiruka.api.command.context.CommandContext;
 import net.shiruka.api.command.context.CommandContextBuilder;
+import net.shiruka.api.command.context.ParseResults;
 import net.shiruka.api.command.exceptions.CommandSyntaxException;
 import net.shiruka.api.command.suggestion.Suggestions;
 import org.jetbrains.annotations.NotNull;
@@ -66,6 +68,7 @@ public final class LiteralNode extends CommandNodeEnvelope {
    * ctor.
    *
    * @param aliases the aliases.
+   * @param contextRequirement the context requirement.
    * @param defaultNode the default node.
    * @param description the description.
    * @param fork the forks.
@@ -77,12 +80,14 @@ public final class LiteralNode extends CommandNodeEnvelope {
    * @param literal the literal.
    * @param usage the usage.
    */
-  public LiteralNode(@NotNull final List<LiteralNode> aliases, @Nullable final CommandNode defaultNode,
+  public LiteralNode(@NotNull final List<LiteralNode> aliases,
+                     @NotNull final Predicate<ParseResults> contextRequirement, @Nullable final CommandNode defaultNode,
                      @Nullable final String description, final boolean fork, final boolean isDefaultNode,
                      @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
                      @NotNull final Set<Requirement> requirements, @Nullable final Command command,
                      @NotNull final String literal, @Nullable final String usage) {
-    super(defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, usage, command);
+    super(contextRequirement, defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, usage,
+      command);
     this.aliases = Collections.unmodifiableList(aliases);
     this.literal = literal.toLowerCase(Locale.ROOT);
   }
@@ -143,7 +148,7 @@ public final class LiteralNode extends CommandNodeEnvelope {
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
                                                     @NotNull final Suggestions.Builder builder)
     throws CommandSyntaxException {
-    if (this.literal.startsWith(builder.getRemaining().toLowerCase(Locale.ROOT))) {
+    if (this.literal.regionMatches(true, 0, builder.getRemaining(), 0, builder.getRemaining().length())) {
       return builder.suggest(this.literal).buildFuture();
     }
     return Suggestions.empty();

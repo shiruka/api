@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import net.shiruka.api.base.Self;
 import net.shiruka.api.command.Command;
@@ -41,6 +42,7 @@ import net.shiruka.api.command.CommandNode;
 import net.shiruka.api.command.RedirectModifier;
 import net.shiruka.api.command.Requirement;
 import net.shiruka.api.command.SingleRedirectModifier;
+import net.shiruka.api.command.context.ParseResults;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.command.sender.ConsoleCommandSender;
 import net.shiruka.api.command.sender.RemoteConsoleCommandSender;
@@ -77,6 +79,12 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
    */
   @Nullable
   private Command command;
+
+  /**
+   * the context requirement.
+   */
+  @NotNull
+  private Predicate<ParseResults> contextRequirement = parse -> true;
 
   /**
    * the default node.
@@ -229,6 +237,16 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   @Nullable
   public final Command getCommand() {
     return this.command;
+  }
+
+  /**
+   * obtains the context requirement.
+   *
+   * @return context requirement.
+   */
+  @NotNull
+  public final Predicate<ParseResults> getContextRequirement() {
+    return this.contextRequirement;
   }
 
   /**
@@ -415,6 +433,19 @@ public abstract class ArgumentBuilder<T extends ArgumentBuilder<T>> implements S
   @NotNull
   public final T requires(@NotNull final Iterable<Requirement> requirements) {
     requirements.forEach(this.requirements::add);
+    return this.getSelf();
+  }
+
+  /**
+   * adds the given context requirements.
+   *
+   * @param requirements the requirements to set.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final T requiresWithContext(@NotNull final Predicate<ParseResults> requirements) {
+    this.contextRequirement = requirements;
     return this.getSelf();
   }
 

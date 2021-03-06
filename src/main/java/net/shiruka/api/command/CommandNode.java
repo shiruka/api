@@ -29,8 +29,10 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 import net.shiruka.api.command.context.CommandContext;
 import net.shiruka.api.command.context.CommandContextBuilder;
+import net.shiruka.api.command.context.ParseResults;
 import net.shiruka.api.command.exceptions.CommandSyntaxException;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.command.suggestion.Suggestions;
@@ -59,6 +61,15 @@ public interface CommandNode extends Comparable<CommandNode> {
    * @return {@code true} if the given command sender can use this command node.
    */
   boolean canUse(@NotNull CommandSender sender);
+
+  /**
+   * checks the parse result with {@link #getContextRequirement()}.
+   *
+   * @param parse the parse to check.
+   *
+   * @return {@code true} if the test succeeded.
+   */
+  boolean canUse(@NotNull ParseResults parse);
 
   /**
    * gives the child.
@@ -92,6 +103,14 @@ public interface CommandNode extends Comparable<CommandNode> {
    * @param command the command to set.
    */
   void setCommand(@Nullable Command command);
+
+  /**
+   * obtains the context requirement.
+   *
+   * @return context requirement.
+   */
+  @NotNull
+  Predicate<ParseResults> getContextRequirement();
 
   /**
    * obtains the default node.

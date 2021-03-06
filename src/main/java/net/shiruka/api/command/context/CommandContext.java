@@ -190,6 +190,16 @@ public final class CommandContext {
   }
 
   /**
+   * obtains the arguments.
+   *
+   * @return arguments.
+   */
+  @NotNull
+  public Map<String, ParsedArgument<?>> getArguments() {
+    return this.arguments;
+  }
+
+  /**
    * obtains the child.
    *
    * @return child.

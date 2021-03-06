@@ -154,10 +154,12 @@ public final class CommandDispatcher {
     //noinspection unchecked
     final CompletableFuture<Suggestions>[] futures = new CompletableFuture[parent.getChildren().size()];
     var i = 0;
+    final var remainingLower = truncatedInput.substring(start).toLowerCase();
     for (final var node : parent.getChildren()) {
       CompletableFuture<Suggestions> future = Suggestions.empty();
       try {
-        future = node.suggestions(context.build(truncatedInput), Suggestions.builder(truncatedInput, start));
+        future = node.suggestions(context.build(truncatedInput),
+          Suggestions.builder(truncatedInput, start, remainingLower));
       } catch (final CommandSyntaxException ignored) {
       }
       futures[i++] = future;
@@ -232,18 +234,29 @@ public final class CommandDispatcher {
           final var parse = CommandDispatcher.parseNodes(child.getRedirect(), reader,
             new CommandContextBuilder(reader.getCursor(), child.getRedirect(), sender));
           context.withChild(parse.getBuilder());
-          return new ParseResults(context, parse.getReader(), parse.getExceptions());
+          final var redirect = new ParseResults(context, parse.getReader(), parse.getExceptions());
+          if (child.canUse(redirect)) {
+            return redirect;
+          }
+        } else {
+          final var parse = CommandDispatcher.parseNodes(child, reader, context);
+          if (!child.canUse(parse)) {
+            continue;
+          }
+          if (potentials.get() == null) {
+            potentials.set(new ObjectArrayList<>(1));
+          }
+          potentials.get().add(parse);
         }
-        final var parse = CommandDispatcher.parseNodes(child, reader, context);
+      } else {
+        final var parse = new ParseResults(context, reader, Collections.emptyMap());
+        if (!child.canUse(parse)) {
+          continue;
+        }
         if (potentials.get() == null) {
           potentials.set(new ObjectArrayList<>(1));
         }
         potentials.get().add(parse);
-      } else {
-        if (potentials.get() == null) {
-          potentials.set(new ObjectArrayList<>(1));
-        }
-        potentials.get().add(new ParseResults(context, reader, Collections.emptyMap()));
       }
     }
     if (potentials.get() == null) {

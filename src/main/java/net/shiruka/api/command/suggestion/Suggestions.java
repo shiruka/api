@@ -32,11 +32,13 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.shiruka.api.command.TextRange;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents suggestions.
@@ -76,12 +78,27 @@ public final class Suggestions {
    *
    * @param input the input to create.
    * @param start the start to create.
+   * @param remainingLowercase the remaining lowercase to create.
+   *
+   * @return a new builder instance.
+   */
+  @NotNull
+  public static Builder builder(@NotNull final String input, final int start,
+                                @Nullable final String remainingLowercase) {
+    return new Builder(input, start, remainingLowercase);
+  }
+
+  /**
+   * creates a new {@link Builder} instance.
+   *
+   * @param input the input to create.
+   * @param start the start to create.
    *
    * @return a new builder instance.
    */
   @NotNull
   public static Builder builder(@NotNull final String input, final int start) {
-    return new Builder(input, start);
+    return Suggestions.builder(input, start, null);
   }
 
   /**
@@ -230,15 +247,23 @@ public final class Suggestions {
     private final int start;
 
     /**
+     * the remaining lowercase.
+     */
+    @Nullable
+    private String remainingLowercase;
+
+    /**
      * ctor.
      *
      * @param input the input.
      * @param start the start.
+     * @param remainingLowercase the remaining lowercase.
      */
-    Builder(@NotNull final String input, final int start) {
+    Builder(@NotNull final String input, final int start, @Nullable final String remainingLowercase) {
       this.input = input;
       this.start = start;
       this.remaining = input.substring(start);
+      this.remainingLowercase = remainingLowercase;
     }
 
     /**
@@ -282,6 +307,19 @@ public final class Suggestions {
     }
 
     /**
+     * obtains the remaining lowercase.
+     *
+     * @return remaining lowercase.
+     */
+    @NotNull
+    public String getRemainingToLowerCase() {
+      if (this.remainingLowercase == null) {
+        this.remainingLowercase = this.remaining.toLowerCase(Locale.ROOT);
+      }
+      return this.remainingLowercase;
+    }
+
+    /**
      * obtains the start.
      *
      * @return start.
@@ -297,7 +335,7 @@ public final class Suggestions {
      */
     @NotNull
     public Builder restart() {
-      return new Builder(this.input, this.start);
+      return Suggestions.builder(this.input, this.start);
     }
 
     /**

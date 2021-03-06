@@ -62,7 +62,7 @@ public final class BooleanArgumentType implements ArgumentType<Boolean> {
   @Override
   public CompletableFuture<Suggestions> suggestions(@NotNull final CommandContext context,
                                                     @NotNull final Suggestions.Builder builder) {
-    final var remaining = builder.getRemaining().toLowerCase(Locale.ROOT);
+    final var remaining = builder.getRemainingToLowerCase();
     if ("true".startsWith(remaining)) {
       builder.suggest("true");
     }
