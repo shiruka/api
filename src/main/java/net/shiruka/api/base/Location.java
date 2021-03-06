@@ -106,17 +106,6 @@ public final class Location implements Cloneable {
   }
 
   /**
-   * safely converts a double (location coordinate) to an int (block coordinate).
-   *
-   * @param location the location to get.
-   *
-   * @return block coordinate.
-   */
-  private static int locToBlock(final double location) {
-    return NumberConversions.floor(location);
-  }
-
-  /**
    * adds the location by another.
    *
    * @param location the location to add.
@@ -186,37 +175,6 @@ public final class Location implements Cloneable {
   }
 
   /**
-   * calculates the distance between this location and another.
-   *
-   * @param other the other to calculate.
-   *
-   * @return the distance.
-   *
-   * @throws IllegalArgumentException for differing worlds or not found world for {@code this} and {@code vector}.
-   * @see Vector3D
-   */
-  public double distance(@NotNull final Location other) {
-    return Math.sqrt(this.distanceSquared(other));
-  }
-
-  /**
-   * calculates the squared distance between this location and another.
-   *
-   * @param other the other to calculate.
-   *
-   * @return the distance.
-   *
-   * @throws IllegalArgumentException for differing worlds or not found world for {@code this} and {@code vector}.
-   * @see Vector3D
-   */
-  public double distanceSquared(@NotNull final Location other) {
-    this.checkTwoWorld(other);
-    return NumberConversions.square(this.x - other.x) +
-      NumberConversions.square(this.y - other.y) +
-      NumberConversions.square(this.z - other.z);
-  }
-
-  /**
    * gets a unit-vector pointing in the direction that this location is facing.
    *
    * @return a vector pointing the direction of this location's {@link #getPitch()} and {@link #getYaw()}.
@@ -230,31 +188,6 @@ public final class Location implements Cloneable {
       -xz * Math.sin(Math.toRadians(rotX)),
       -Math.sin(Math.toRadians(rotY)),
       xz * Math.cos(Math.toRadians(rotX)));
-  }
-
-  /**
-   * sets the {@link #getYaw() yaw} and {@link #getPitch() pitch} to point in the direction of the vector.
-   *
-   * @param vector3D the vector to set.
-   *
-   * @return the same location.
-   */
-  @NotNull
-  public Location setDirection(@NotNull final Vector3D vector3D) {
-    final var twoTimesPI = 2 * Math.PI;
-    final var vectorX = vector3D.getX();
-    final var vectorZ = vector3D.getZ();
-    if (vectorX == 0 && vectorZ == 0) {
-      this.pitch = vector3D.getY() > 0 ? -90 : 90;
-      return this;
-    }
-    final var theta = Math.atan2(-vectorX, vectorZ);
-    this.yaw = (float) Math.toDegrees((theta + twoTimesPI) % twoTimesPI);
-    final var x2 = NumberConversions.square(vectorX);
-    final var z2 = NumberConversions.square(vectorZ);
-    final var xz = Math.sqrt(x2 + z2);
-    this.pitch = (float) Math.toDegrees(Math.atan(-vector3D.getY() / xz));
-    return this;
   }
 
   /**
