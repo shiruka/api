@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an interface to determine login events.
  */
-public interface LoginEvent {
+public interface LoginEvent extends Event {
 
   /**
    * allows the player to join.
