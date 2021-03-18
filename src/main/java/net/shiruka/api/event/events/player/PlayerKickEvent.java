@@ -26,7 +26,7 @@
 package net.shiruka.api.event.events.player;
 
 import java.util.Optional;
-import net.shiruka.api.event.Cancellable;
+import net.shiruka.api.event.events.Cancellable;
 import net.shiruka.api.event.events.KickMessageEvent;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;

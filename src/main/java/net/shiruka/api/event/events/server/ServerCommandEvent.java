@@ -25,7 +25,7 @@
 
 package net.shiruka.api.event.events.server;
 
-import net.shiruka.api.event.Cancellable;
+import net.shiruka.api.event.events.Cancellable;
 import net.shiruka.api.event.events.CommandSenderEvent;
 import org.jetbrains.annotations.NotNull;
 

@@ -25,7 +25,7 @@
 
 package net.shiruka.api.event.events.player;
 
-import net.shiruka.api.event.Cancellable;
+import net.shiruka.api.event.events.Cancellable;
 import net.shiruka.api.event.events.ChainDataEvent;
 import net.shiruka.api.event.events.KickMessageEvent;
 

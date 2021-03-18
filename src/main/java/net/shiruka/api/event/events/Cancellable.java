@@ -23,7 +23,7 @@
  *
  */
 
-package net.shiruka.api.event;
+package net.shiruka.api.event.events;
 
 import net.shiruka.api.event.events.Event;
 
