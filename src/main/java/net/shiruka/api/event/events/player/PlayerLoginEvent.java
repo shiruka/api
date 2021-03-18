@@ -25,7 +25,7 @@
 
 package net.shiruka.api.event.events.player;
 
-import net.shiruka.api.event.events.KickEvent;
+import net.shiruka.api.event.events.KickMessageEvent;
 import net.shiruka.api.event.events.LoginResultEvent;
 import net.shiruka.api.event.events.PlayerEvent;
 import net.shiruka.api.text.Text;
@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * a class that represents player login events.
  */
-public interface PlayerLoginEvent extends PlayerEvent, LoginResultEvent, KickEvent {
+public interface PlayerLoginEvent extends PlayerEvent, LoginResultEvent, KickMessageEvent {
 
   /**
    * allows the player to join.

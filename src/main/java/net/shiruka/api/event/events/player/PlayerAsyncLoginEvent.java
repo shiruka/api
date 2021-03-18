@@ -28,7 +28,7 @@ package net.shiruka.api.event.events.player;
 import java.util.function.Consumer;
 import net.shiruka.api.entity.Player;
 import net.shiruka.api.event.events.ChainDataEvent;
-import net.shiruka.api.event.events.KickEvent;
+import net.shiruka.api.event.events.KickMessageEvent;
 import net.shiruka.api.event.events.LoginResultEvent;
 import net.shiruka.api.event.events.ObjectListEvent;
 import net.shiruka.api.text.Text;
@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an interface to determine player's async login events.
  */
-public interface PlayerAsyncLoginEvent extends ChainDataEvent, KickEvent, LoginResultEvent,
+public interface PlayerAsyncLoginEvent extends ChainDataEvent, KickMessageEvent, LoginResultEvent,
   ObjectListEvent<Consumer<Player>> {
 
   /**

@@ -31,9 +31,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine kick events.
+ * an interface to determine kick message events.
  */
-public interface KickEvent extends Event {
+public interface KickMessageEvent extends Event {
 
   /**
    * obtains the kick message.
