@@ -25,10 +25,22 @@
 
 package net.shiruka.api.text;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * an interface to determine texts.
  */
 public interface Text extends org.cactoos.Text {
+
+  /**
+   * creates an empty text.
+   *
+   * @return empty text.
+   */
+  @NotNull
+  static Text empty() {
+    return () -> "";
+  }
 
   @Override
   String asString();

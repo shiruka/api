@@ -114,7 +114,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerKickEvent}.
    */
   @NotNull
-  PlayerKickEvent playerKick(@NotNull Player player, @NotNull Text kickMessage, @Nullable Text leaveMessage);
+  PlayerKickEvent playerKick(@NotNull Player player, @NotNull Text kickMessage, @NotNull Text leaveMessage);
 
   /**
    * creates a new {@link PlayerKickEvent} instance.
@@ -149,7 +149,7 @@ public interface EventManager {
    */
   @NotNull
   default PlayerPreLoginEvent playerPreLogin(@NotNull final ChainData chainData) {
-    return this.playerPreLogin(chainData, null);
+    return this.playerPreLogin(chainData, Text.empty());
   }
 
   /**
@@ -161,7 +161,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerPreLoginEvent}.
    */
   @NotNull
-  PlayerPreLoginEvent playerPreLogin(@NotNull ChainData chainData, @Nullable Text kickMessage);
+  PlayerPreLoginEvent playerPreLogin(@NotNull ChainData chainData, @NotNull Text kickMessage);
 
   /**
    * creates a new {@link PlayerQuitEvent} instance.
@@ -172,7 +172,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerQuitEvent}.
    */
   @NotNull
-  default PlayerQuitEvent playerQuit(@NotNull final Player player, @Nullable final Text quitMessage) {
+  default PlayerQuitEvent playerQuit(@NotNull final Player player, @NotNull final Text quitMessage) {
     return this.playerQuit(player, quitMessage, PlayerQuitEvent.QuitReason.DISCONNECTED);
   }
 
@@ -186,7 +186,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerQuitEvent}.
    */
   @NotNull
-  PlayerQuitEvent playerQuit(@NotNull Player player, @Nullable Text quitMessage,
+  PlayerQuitEvent playerQuit(@NotNull Player player, @NotNull Text quitMessage,
                              @NotNull PlayerQuitEvent.QuitReason quitReason);
 
   /**
