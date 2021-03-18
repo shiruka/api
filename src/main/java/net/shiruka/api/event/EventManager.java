@@ -102,7 +102,7 @@ public interface EventManager {
    */
   @NotNull
   PlayerConnectionCloseEvent playerConnectionClose(@NotNull InetSocketAddress address, @NotNull Text name,
-                                                   @NotNull UUID uniqueId, @NotNull String xboxUniqueId);
+                                                   @NotNull UUID uniqueId, @Nullable String xboxUniqueId);
 
   /**
    * creates a new {@link PlayerKickEvent} instance.
