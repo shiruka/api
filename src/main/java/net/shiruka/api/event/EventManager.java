@@ -38,6 +38,7 @@ import net.shiruka.api.event.events.player.PlayerConnectionCloseEvent;
 import net.shiruka.api.event.events.player.PlayerKickEvent;
 import net.shiruka.api.event.events.player.PlayerLoginEvent;
 import net.shiruka.api.event.events.player.PlayerPreLoginEvent;
+import net.shiruka.api.event.events.player.PlayerQuitEvent;
 import net.shiruka.api.event.events.server.AsyncTabCompleteEvent;
 import net.shiruka.api.event.events.server.ServerCommandEvent;
 import net.shiruka.api.event.events.server.ServerExceptionEvent;
@@ -161,6 +162,32 @@ public interface EventManager {
    */
   @NotNull
   PlayerPreLoginEvent playerPreLogin(@NotNull ChainData chainData, @Nullable Text kickMessage);
+
+  /**
+   * creates a new {@link PlayerQuitEvent} instance.
+   *
+   * @param player the player to create.
+   * @param quitMessage the quit message to create.
+   *
+   * @return a new instance of {@link PlayerQuitEvent}.
+   */
+  @NotNull
+  default PlayerQuitEvent playerQuit(@NotNull final Player player, @Nullable final Text quitMessage) {
+    return this.playerQuit(player, quitMessage, PlayerQuitEvent.QuitReason.DISCONNECTED);
+  }
+
+  /**
+   * creates a new {@link PlayerQuitEvent} instance.
+   *
+   * @param player the player to create.
+   * @param quitMessage the quit message to create.
+   * @param quitReason the quit quitMessage.
+   *
+   * @return a new instance of {@link PlayerQuitEvent}.
+   */
+  @NotNull
+  PlayerQuitEvent playerQuit(@NotNull Player player, @Nullable Text quitMessage,
+                             @NotNull PlayerQuitEvent.QuitReason quitReason);
 
   /**
    * registers the given listener.
