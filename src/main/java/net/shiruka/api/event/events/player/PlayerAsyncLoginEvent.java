@@ -29,35 +29,15 @@ import java.util.function.Consumer;
 import net.shiruka.api.entity.Player;
 import net.shiruka.api.event.events.ChainDataEvent;
 import net.shiruka.api.event.events.KickMessageEvent;
+import net.shiruka.api.event.events.LoginEvent;
 import net.shiruka.api.event.events.LoginResultEvent;
 import net.shiruka.api.event.events.ObjectListEvent;
-import net.shiruka.api.text.Text;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine player's async login events.
  */
-public interface PlayerAsyncLoginEvent extends ChainDataEvent, KickMessageEvent, LoginResultEvent,
+public interface PlayerAsyncLoginEvent extends LoginEvent, ChainDataEvent, KickMessageEvent, LoginResultEvent,
   ObjectListEvent<Consumer<Player>> {
-
-  /**
-   * allows the player to join.
-   */
-  default void allow() {
-    this.setLoginResult(LoginResult.ALLOWED);
-  }
-
-  /**
-   * kicks the player with the given kick message.
-   *
-   * @param text the text to disallow.
-   * @param result the result to disallow.
-   */
-  default void disallow(@NotNull final LoginResult result, @Nullable final Text text) {
-    this.setLoginResult(result);
-    this.setKickMessage(text);
-  }
 
   @Override
   default boolean isAsync() {

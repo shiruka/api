@@ -26,32 +26,13 @@
 package net.shiruka.api.event.events.player;
 
 import net.shiruka.api.event.events.KickMessageEvent;
+import net.shiruka.api.event.events.LoginEvent;
 import net.shiruka.api.event.events.LoginResultEvent;
 import net.shiruka.api.event.events.PlayerEvent;
-import net.shiruka.api.text.Text;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents player login events.
  */
-public interface PlayerLoginEvent extends PlayerEvent, LoginResultEvent, KickMessageEvent {
+public interface PlayerLoginEvent extends LoginEvent, PlayerEvent, LoginResultEvent, KickMessageEvent {
 
-  /**
-   * allows the player to join.
-   */
-  default void allow() {
-    this.setLoginResult(LoginResult.ALLOWED);
-  }
-
-  /**
-   * kicks the player with the given kick message.
-   *
-   * @param text the text to disallow.
-   * @param result the result to disallow.
-   */
-  default void disallow(@NotNull final LoginResult result, @Nullable final Text text) {
-    this.setLoginResult(result);
-    this.setKickMessage(text);
-  }
 }
