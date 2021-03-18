@@ -104,9 +104,9 @@ public final class CommandSyntaxException extends Exception {
     if (cursor > CommandSyntaxException.CONTEXT_AMOUNT) {
       builder.append("...");
     }
-    builder.append(this.input, Math.max(0, cursor - CommandSyntaxException.CONTEXT_AMOUNT), cursor);
-    builder.append("<--[HERE]");
-    return builder.toString();
+    return builder
+      .append(this.input, Math.max(0, cursor - CommandSyntaxException.CONTEXT_AMOUNT), cursor)
+      .toString();
   }
 
   /**
