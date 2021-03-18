@@ -25,8 +25,6 @@
 
 package net.shiruka.api.event.events;
 
-import net.shiruka.api.event.events.Event;
-
 /**
  * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
  * was initially planned.
