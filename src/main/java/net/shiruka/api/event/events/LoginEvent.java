@@ -25,41 +25,36 @@
 
 package net.shiruka.api.event.events;
 
-import java.util.Optional;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine kick events.
+ * an interface to determine login events.
  */
-public interface KickEvent extends Event {
+public interface LoginEvent extends Event {
 
   /**
-   * obtains the kick message.
-   *
-   * @return kick message.
+   * allows the player to join.
    */
-  @NotNull
-  Optional<Text> getKickMessage();
+  default void allow() {
+    if (this instanceof LoginResultEvent) {
+      ((LoginResultEvent) this).setLoginResult(LoginResultEvent.LoginResult.ALLOWED);
+    }
+  }
 
   /**
-   * sets the kick message.
+   * kicks the player with the given kick message.
    *
-   * @param message the message to set.
+   * @param text the text to disallow.
+   * @param result the result to disallow.
    */
-  void setKickMessage(@Nullable Text message);
-
-  /**
-   * sets the kick message.
-   *
-   * @param message the message to set.
-   */
-  default void setKickMessage(@Nullable final String message) {
-    if (message == null) {
-      this.setKickMessage((Text) null);
-    } else {
-      this.setKickMessage(() -> message);
+  default void disallow(@NotNull final LoginResultEvent.LoginResult result, @Nullable final Text text) {
+    if (this instanceof LoginResultEvent) {
+      ((LoginResultEvent) this).setLoginResult(result);
+    }
+    if (this instanceof KickMessageEvent) {
+      ((KickMessageEvent) this).setKickMessage(text);
     }
   }
 }

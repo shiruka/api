@@ -33,7 +33,6 @@ import net.shiruka.api.base.ChainData;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.entity.Player;
 import net.shiruka.api.event.events.Event;
-import net.shiruka.api.event.events.LoginResultEvent;
 import net.shiruka.api.event.events.player.PlayerAsyncLoginEvent;
 import net.shiruka.api.event.events.player.PlayerConnectionCloseEvent;
 import net.shiruka.api.event.events.player.PlayerKickEvent;
@@ -109,13 +108,12 @@ public interface EventManager {
    *
    * @param player the player to create.
    * @param reason the reason to create.
-   * @param kickMessage the kickMessage to create.
+   * @param leaveMessage the leave message to create.
    *
    * @return a new instance of {@link PlayerKickEvent}.
    */
   @NotNull
-  PlayerKickEvent playerKick(@NotNull Player player, @NotNull LoginResultEvent.LoginResult reason,
-                             @NotNull Text kickMessage);
+  PlayerKickEvent playerKick(@NotNull Player player, @NotNull Text reason, @Nullable Text leaveMessage);
 
   /**
    * creates a new {@link PlayerKickEvent} instance.
@@ -126,7 +124,7 @@ public interface EventManager {
    * @return a new instance of {@link PlayerKickEvent}.
    */
   @NotNull
-  default PlayerKickEvent playerKick(@NotNull final Player player, @NotNull final LoginResultEvent.LoginResult reason) {
+  default PlayerKickEvent playerKick(@NotNull final Player player, @NotNull final Text reason) {
     return this.playerKick(player, reason,
       TranslatedText.get(EventManager.KEY_MULTIPLAYER_PLAYER_LEFT, player.getName()));
   }

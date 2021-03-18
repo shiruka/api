@@ -36,11 +36,11 @@ import org.jetbrains.annotations.NotNull;
 public interface ObjectListEvent<O> {
 
   /**
-   * adds the given action.
+   * adds the given object.
    *
-   * @param action the action to add.
+   * @param object the object to add.
    */
-  void addAction(@NotNull O action);
+  void addObject(@NotNull O object);
 
   /**
    * obtains the object list.
@@ -48,12 +48,12 @@ public interface ObjectListEvent<O> {
    * @return list of object.
    */
   @NotNull
-  List<O> getActions();
+  List<O> getObjects();
 
   /**
-   * removes the given action.
+   * removes the given object.
    *
-   * @param action the action to remove.
+   * @param object the object to remove.
    */
-  void removeAction(@NotNull O action);
+  void removeObject(@NotNull O object);
 }

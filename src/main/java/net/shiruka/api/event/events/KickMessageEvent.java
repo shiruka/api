@@ -23,38 +23,43 @@
  *
  */
 
-package net.shiruka.api.event;
+package net.shiruka.api.event.events;
 
-import net.shiruka.api.event.events.Event;
+import java.util.Optional;
+import net.shiruka.api.text.Text;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
- * was initially planned.
+ * an interface to determine kick message events.
  */
-public interface Cancellable extends Event {
+public interface KickMessageEvent extends Event {
 
   /**
-   * calls the event itself.
+   * obtains the kick message.
    *
-   * @return {@code true} if the event is not cancelled.
+   * @return kick message.
    */
-  @Override
-  default boolean callEvent() {
-    return Event.super.callEvent() &&
-      !this.isCancelled();
+  @NotNull
+  Optional<Text> getKickMessage();
+
+  /**
+   * sets the kick message.
+   *
+   * @param message the message to set.
+   */
+  void setKickMessage(@Nullable Text message);
+
+  /**
+   * sets the kick message.
+   *
+   * @param message the message to set.
+   */
+  default void setKickMessage(@Nullable final String message) {
+    if (message == null) {
+      this.setKickMessage((Text) null);
+    } else {
+      this.setKickMessage(() -> message);
+    }
   }
-
-  /**
-   * obtains the cancel state of the event.
-   *
-   * @return {@code true} if the event has been cancelled.
-   */
-  boolean isCancelled();
-
-  /**
-   * cancels state of the event.
-   *
-   * @param cancelled the cancelled to set.
-   */
-  void setCancelled(boolean cancelled);
 }
