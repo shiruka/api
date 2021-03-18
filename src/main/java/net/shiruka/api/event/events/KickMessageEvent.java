@@ -25,10 +25,8 @@
 
 package net.shiruka.api.event.events;
 
-import java.util.Optional;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine kick message events.
@@ -41,25 +39,21 @@ public interface KickMessageEvent extends Event {
    * @return kick message.
    */
   @NotNull
-  Optional<Text> getKickMessage();
+  Text getKickMessage();
 
   /**
    * sets the kick message.
    *
    * @param message the message to set.
    */
-  void setKickMessage(@Nullable Text message);
+  void setKickMessage(@NotNull Text message);
 
   /**
    * sets the kick message.
    *
    * @param message the message to set.
    */
-  default void setKickMessage(@Nullable final String message) {
-    if (message == null) {
-      this.setKickMessage((Text) null);
-    } else {
-      this.setKickMessage(() -> message);
-    }
+  default void setKickMessage(@NotNull final String message) {
+    this.setKickMessage(() -> message);
   }
 }

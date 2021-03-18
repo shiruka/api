@@ -25,10 +25,8 @@
 
 package net.shiruka.api.event.events;
 
-import java.util.Optional;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine quit message events.
@@ -41,25 +39,21 @@ public interface QuitMessageEvent extends Event {
    * @return quit message.
    */
   @NotNull
-  Optional<Text> getQuitMessage();
+  Text getQuitMessage();
 
   /**
    * sets the quit message.
    *
    * @param message the message to set.
    */
-  void setQuitMessage(@Nullable Text message);
+  void setQuitMessage(@NotNull Text message);
 
   /**
    * sets the quit message.
    *
    * @param message the message to set.
    */
-  default void setQuitMessage(@Nullable final String message) {
-    if (message == null) {
-      this.setQuitMessage((Text) null);
-    } else {
-      this.setQuitMessage(() -> message);
-    }
+  default void setQuitMessage(@NotNull final String message) {
+    this.setQuitMessage(() -> message);
   }
 }
