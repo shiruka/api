@@ -108,25 +108,25 @@ public interface EventManager {
    * creates a new {@link PlayerKickEvent} instance.
    *
    * @param player the player to create.
-   * @param reason the reason to create.
+   * @param kickMessage the kick message to create.
    * @param leaveMessage the leave message to create.
    *
    * @return a new instance of {@link PlayerKickEvent}.
    */
   @NotNull
-  PlayerKickEvent playerKick(@NotNull Player player, @NotNull Text reason, @Nullable Text leaveMessage);
+  PlayerKickEvent playerKick(@NotNull Player player, @NotNull Text kickMessage, @Nullable Text leaveMessage);
 
   /**
    * creates a new {@link PlayerKickEvent} instance.
    *
    * @param player the player to create.
-   * @param reason the reason to create.
+   * @param kickMessage the kick message to create.
    *
    * @return a new instance of {@link PlayerKickEvent}.
    */
   @NotNull
-  default PlayerKickEvent playerKick(@NotNull final Player player, @NotNull final Text reason) {
-    return this.playerKick(player, reason,
+  default PlayerKickEvent playerKick(@NotNull final Player player, @NotNull final Text kickMessage) {
+    return this.playerKick(player, kickMessage,
       TranslatedText.get(EventManager.KEY_MULTIPLAYER_PLAYER_LEFT, player.getName()));
   }
 
