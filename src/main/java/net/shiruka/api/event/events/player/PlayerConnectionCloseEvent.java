@@ -27,6 +27,7 @@ package net.shiruka.api.event.events.player;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;
+import net.shiruka.api.event.events.Event;
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an event that invokes when a player has disconnected.
  */
-public interface PlayerConnectionCloseEvent {
+public interface PlayerConnectionCloseEvent extends Event {
 
   /**
    * obtains the player address.
