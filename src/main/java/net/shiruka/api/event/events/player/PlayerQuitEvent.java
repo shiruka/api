@@ -30,7 +30,7 @@ import net.shiruka.api.event.events.QuitMessageEvent;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * called when a player leaves a server
+ * called when a player leaves a server.
  */
 public interface PlayerQuitEvent extends PlayerEvent, QuitMessageEvent {
 
