@@ -25,7 +25,9 @@
 
 package net.shiruka.api.event;
 
+import java.net.InetSocketAddress;
 import java.util.List;
+import java.util.UUID;
 import net.shiruka.api.Shiruka;
 import net.shiruka.api.base.ChainData;
 import net.shiruka.api.command.sender.CommandSender;
@@ -33,6 +35,7 @@ import net.shiruka.api.entity.Player;
 import net.shiruka.api.event.events.Event;
 import net.shiruka.api.event.events.LoginResultEvent;
 import net.shiruka.api.event.events.player.PlayerAsyncLoginEvent;
+import net.shiruka.api.event.events.player.PlayerConnectionCloseEvent;
 import net.shiruka.api.event.events.player.PlayerKickEvent;
 import net.shiruka.api.event.events.player.PlayerLoginEvent;
 import net.shiruka.api.event.events.player.PlayerPreLoginEvent;
@@ -86,6 +89,20 @@ public interface EventManager {
    */
   @NotNull
   PlayerAsyncLoginEvent playerAsyncLogin(@NotNull ChainData chainData);
+
+  /**
+   * creates a new {@link PlayerConnectionCloseEvent} instance.
+   *
+   * @param address the address to create.
+   * @param name the name to create.
+   * @param uniqueId the uniqueId to create.
+   * @param xboxUniqueId the xboxUniqueId to create.
+   *
+   * @return a new instance of {@link PlayerConnectionCloseEvent}.
+   */
+  @NotNull
+  PlayerConnectionCloseEvent playerConnectionClose(@NotNull InetSocketAddress address, @NotNull Text name,
+                                                   @NotNull UUID uniqueId, @NotNull String xboxUniqueId);
 
   /**
    * creates a new {@link PlayerKickEvent} instance.
