@@ -27,7 +27,6 @@ package net.shiruka.api.event.events;
 
 import net.shiruka.api.text.Text;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine login events.
@@ -49,7 +48,7 @@ public interface LoginEvent extends Event {
    * @param text the text to disallow.
    * @param result the result to disallow.
    */
-  default void disallow(@NotNull final LoginResultEvent.LoginResult result, @Nullable final Text text) {
+  default void disallow(@NotNull final LoginResultEvent.LoginResult result, @NotNull final Text text) {
     if (this instanceof LoginResultEvent) {
       ((LoginResultEvent) this).setLoginResult(result);
     }

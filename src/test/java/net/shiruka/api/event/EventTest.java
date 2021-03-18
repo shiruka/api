@@ -84,8 +84,8 @@ final class EventTest {
 
     @NotNull
     @Override
-    public Optional<Text> getKickMessage() {
-      return Optional.empty();
+    public Text getKickMessage() {
+      return Text.empty();
     }
 
     @Override
