@@ -47,13 +47,13 @@
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-core</artifactId>
-      <version>5.10.1</version>
+      <version>5.11.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-yaml</artifactId>
-      <version>5.10.1</version>
+      <version>5.11.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -95,13 +95,13 @@
     <dependency>
       <groupId>org.openjdk.jmh</groupId>
       <artifactId>jmh-core</artifactId>
-      <version>1.28</version>
+      <version>1.29</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.openjdk.jmh</groupId>
       <artifactId>jmh-generator-annprocess</artifactId>
-      <version>1.28</version>
+      <version>1.29</version>
       <scope>test</scope>
     </dependency>
     <dependency>
