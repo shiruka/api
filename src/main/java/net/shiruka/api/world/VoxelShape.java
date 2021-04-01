@@ -23,56 +23,17 @@
  *
  */
 
-package net.shiruka.api.entity;
-
-import net.shiruka.api.base.AxisAlignedBoundingBox;
-import net.shiruka.api.base.Named;
-import net.shiruka.api.base.Tick;
-import net.shiruka.api.base.Vector3D;
-import net.shiruka.api.command.sender.CommandSender;
-import net.shiruka.api.metadata.Metadatable;
-import org.jetbrains.annotations.NotNull;
+package net.shiruka.api.world;
 
 /**
- * an interface to determine entities on the Minecraft.
+ * an interface to determine voxel shapes.
  */
-public interface Entity extends CommandSender, Metadatable, Named, Tick {
+public interface VoxelShape {
 
   /**
-   * activates the collision load chunks.
-   */
-  void activateCollisionLoadChunks();
-
-  /**
-   * deactivates the collision load chunks.
-   */
-  void deactivateCollisionLoadChunks();
-
-  /**
-   * obtains the bounding box.
+   * checks if it's empty.
    *
-   * @return bounding box.
+   * @return {@code true} if it's empty.
    */
-  @NotNull
-  AxisAlignedBoundingBox getBoundingBox();
-
-  /**
-   * obtains the entity id.
-   *
-   * @return entity id.
-   */
-  long getEntityId();
-
-  /**
-   * obtains the location.
-   *
-   * @return location.
-   */
-  @NotNull
-  Vector3D getLocation();
-
-  /**
-   * removes the entity from the server.
-   */
-  void remove();
+  boolean isEmpty();
 }

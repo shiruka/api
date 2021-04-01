@@ -23,56 +23,60 @@
  *
  */
 
-package net.shiruka.api.entity;
-
-import net.shiruka.api.base.AxisAlignedBoundingBox;
-import net.shiruka.api.base.Named;
-import net.shiruka.api.base.Tick;
-import net.shiruka.api.base.Vector3D;
-import net.shiruka.api.command.sender.CommandSender;
-import net.shiruka.api.metadata.Metadatable;
-import org.jetbrains.annotations.NotNull;
+package net.shiruka.api.base;
 
 /**
- * an interface to determine entities on the Minecraft.
+ * a class that represents axi aligned bounding boxes.
  */
-public interface Entity extends CommandSender, Metadatable, Named, Tick {
+public final class AxisAlignedBoundingBox {
 
   /**
-   * activates the collision load chunks.
+   * the max x.
    */
-  void activateCollisionLoadChunks();
+  public final double maxX;
 
   /**
-   * deactivates the collision load chunks.
+   * the max y.
    */
-  void deactivateCollisionLoadChunks();
+  public final double maxY;
 
   /**
-   * obtains the bounding box.
+   * the max z.
+   */
+  public final double maxZ;
+
+  /**
+   * the min x.
+   */
+  public final double minX;
+
+  /**
+   * the min y.
+   */
+  public final double minY;
+
+  /**
+   * the min z.
+   */
+  public final double minZ;
+
+  /**
+   * ctor.
    *
-   * @return bounding box.
+   * @param minX the min x.
+   * @param minY the min y.
+   * @param minZ the min z.
+   * @param maxX the max x.
+   * @param maxY the max y.
+   * @param maxZ the max z.
    */
-  @NotNull
-  AxisAlignedBoundingBox getBoundingBox();
-
-  /**
-   * obtains the entity id.
-   *
-   * @return entity id.
-   */
-  long getEntityId();
-
-  /**
-   * obtains the location.
-   *
-   * @return location.
-   */
-  @NotNull
-  Vector3D getLocation();
-
-  /**
-   * removes the entity from the server.
-   */
-  void remove();
+  public AxisAlignedBoundingBox(final double minX, final double minY, final double minZ,
+                                final double maxX, final double maxY, final double maxZ) {
+    this.maxX = maxX;
+    this.maxY = maxY;
+    this.maxZ = maxZ;
+    this.minX = minX;
+    this.minY = minY;
+    this.minZ = minZ;
+  }
 }

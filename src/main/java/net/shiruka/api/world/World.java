@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine worlds, which may contain entities, chunks and blocks.
  */
-public interface World extends Metadatable {
+public interface World extends Metadatable, CollisionAccessor {
 
   /**
    * the over world.
