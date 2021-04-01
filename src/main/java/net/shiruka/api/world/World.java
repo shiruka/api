@@ -28,6 +28,7 @@ package net.shiruka.api.world;
 import java.util.Optional;
 import java.util.UUID;
 import net.shiruka.api.base.BlockPosition;
+import net.shiruka.api.base.GameMode;
 import net.shiruka.api.base.Namespaced;
 import net.shiruka.api.block.Block;
 import net.shiruka.api.metadata.Metadatable;
@@ -91,12 +92,28 @@ public interface World extends Metadatable {
   Resourced getDimensionKey();
 
   /**
+   * obtains the dimension manager.
+   *
+   * @return dimension manager.
+   */
+  @NotNull
+  DimensionManager getDimensionManager();
+
+  /**
    * gets the {@link Environment} type of this world.
    *
    * @return environment type of the world..
    */
   @NotNull
   Environment getEnvironment();
+
+  /**
+   * obtains the game mode of the world.
+   *
+   * @return game mode.
+   */
+  @NotNull
+  GameMode getGameMode();
 
   /**
    * obtains the chunk generator for this world.

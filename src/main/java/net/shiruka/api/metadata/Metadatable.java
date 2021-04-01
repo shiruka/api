@@ -46,9 +46,7 @@ public interface Metadatable {
    */
   @NotNull
   default Optional<MetadataValue> getFirstMetadata(@NotNull final String key) {
-    return Optional.of(this.getMetadata(key))
-      .filter(values -> !values.isEmpty())
-      .map(values -> values.get(0));
+    return this.getMetadata(key).stream().findFirst();
   }
 
   /**

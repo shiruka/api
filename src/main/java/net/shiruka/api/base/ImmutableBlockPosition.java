@@ -25,31 +25,15 @@
 
 package net.shiruka.api.base;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import net.shiruka.api.util.MathHelper;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an abstract class that represents block positions.
+ * a class that represents immutable block positions.
  */
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class BlockPosition implements Comparable<BlockPosition> {
+public final class ImmutableBlockPosition extends BlockPosition {
 
   /**
-   * the x.
+   * the zero position.
    */
-  private final int x;
-
-  /**
-   * the y.
-   */
-  private final int y;
-
-  /**
-   * the z.
-   */
-  private final int z;
+  public static final ImmutableBlockPosition ZERO = new ImmutableBlockPosition(0, 0, 0);
 
   /**
    * ctor.
@@ -58,39 +42,18 @@ public abstract class BlockPosition implements Comparable<BlockPosition> {
    * @param y the y.
    * @param z the z.
    */
-  protected BlockPosition(final double x, final double y, final double z) {
-    this(MathHelper.floor(x), MathHelper.floor(y), MathHelper.floor(z));
-  }
-
-  @Override
-  public final int compareTo(@NotNull final BlockPosition o) {
-    return this.y == o.y ? this.z == o.z ? this.x - o.x : this.z - o.z : this.y - o.y;
+  public ImmutableBlockPosition(final int x, final int y, final int z) {
+    super(x, y, z);
   }
 
   /**
-   * obtains the x.
+   * ctor.
    *
-   * @return x.
+   * @param x the x.
+   * @param y the y.
+   * @param z the z.
    */
-  public final int getX() {
-    return this.x;
-  }
-
-  /**
-   * obtains the y.
-   *
-   * @return y.
-   */
-  public final int getY() {
-    return this.y;
-  }
-
-  /**
-   * obtains the z.
-   *
-   * @return z.
-   */
-  public final int getZ() {
-    return this.z;
+  public ImmutableBlockPosition(final double x, final double y, final double z) {
+    super(x, y, z);
   }
 }

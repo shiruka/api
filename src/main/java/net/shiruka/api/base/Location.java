@@ -30,6 +30,8 @@ import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.Getter;
+import lombok.Setter;
 import net.shiruka.api.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,6 +44,8 @@ public final class Location implements Cloneable {
   /**
    * the pitch.
    */
+  @Setter
+  @Getter
   private float pitch;
 
   /**
@@ -53,21 +57,29 @@ public final class Location implements Cloneable {
   /**
    * the x.
    */
+  @Setter
+  @Getter
   private double x;
 
   /**
    * the y.
    */
+  @Setter
+  @Getter
   private double y;
 
   /**
    * the yaw.
    */
+  @Setter
+  @Getter
   private float yaw;
 
   /**
    * the z.
    */
+  @Setter
+  @Getter
   private double z;
 
   /**
@@ -176,35 +188,15 @@ public final class Location implements Cloneable {
   /**
    * gets a unit-vector pointing in the direction that this location is facing.
    *
-   * @return a vector pointing the direction of this location's {@link #getPitch()} and {@link #getYaw()}.
+   * @return a vector pointing the direction of this location's {@link #pitch} and {@link #yaw}.
    */
   @NotNull
   public Vector3D getDirection() {
-    final var rotX = this.getYaw();
-    final var rotY = this.getPitch();
-    final double xz = Math.cos(Math.toRadians(rotY));
+    final var xz = Math.cos(Math.toRadians(this.pitch));
     return new Vector3D(
-      -xz * Math.sin(Math.toRadians(rotX)),
-      -Math.sin(Math.toRadians(rotY)),
-      xz * Math.cos(Math.toRadians(rotX)));
-  }
-
-  /**
-   * obtains the pitch.
-   *
-   * @return pitch.
-   */
-  public float getPitch() {
-    return this.pitch;
-  }
-
-  /**
-   * sets the pitch.
-   *
-   * @param pitch the pitch to set.
-   */
-  public void setPitch(final float pitch) {
-    this.pitch = pitch;
+      -xz * Math.sin(Math.toRadians(this.yaw)),
+      -Math.sin(Math.toRadians(this.pitch)),
+      xz * Math.cos(Math.toRadians(this.yaw)));
   }
 
   /**
@@ -248,24 +240,6 @@ public final class Location implements Cloneable {
    *
    * @return x.
    */
-  public double getX() {
-    return this.x;
-  }
-
-  /**
-   * sets the x.
-   *
-   * @param x the x to set.
-   */
-  public void setX(final double x) {
-    this.x = x;
-  }
-
-  /**
-   * obtains the x.
-   *
-   * @return x.
-   */
   @NotNull
   public Number getXAsNumber() {
     return this.x;
@@ -286,45 +260,9 @@ public final class Location implements Cloneable {
    *
    * @return yaw.
    */
-  public float getYaw() {
-    return this.yaw;
-  }
-
-  /**
-   * sets the yaw.
-   *
-   * @param yaw the yaw to set.
-   */
-  public void setYaw(final float yaw) {
-    this.yaw = yaw;
-  }
-
-  /**
-   * obtains the yaw.
-   *
-   * @return yaw.
-   */
   @NotNull
   public Number getYawAsNumber() {
     return this.yaw;
-  }
-
-  /**
-   * obtains the z.
-   *
-   * @return z.
-   */
-  public double getZ() {
-    return this.z;
-  }
-
-  /**
-   * sets the z.
-   *
-   * @param z the z to set.
-   */
-  public void setZ(final double z) {
-    this.z = z;
   }
 
   /**
@@ -339,33 +277,24 @@ public final class Location implements Cloneable {
 
   @Override
   public int hashCode() {
-    int hash = 3;
-    final var world = this.world == null ? null : this.world.get();
-    hash = 19 * hash + (world != null ? world.hashCode() : 0);
-    hash = 19 * hash + (int) (Double.doubleToLongBits(this.x) ^ Double.doubleToLongBits(this.x) >>> 32);
-    hash = 19 * hash + (int) (Double.doubleToLongBits(this.y) ^ Double.doubleToLongBits(this.y) >>> 32);
-    hash = 19 * hash + (int) (Double.doubleToLongBits(this.z) ^ Double.doubleToLongBits(this.z) >>> 32);
-    hash = 19 * hash + Float.floatToIntBits(this.pitch);
-    hash = 19 * hash + Float.floatToIntBits(this.yaw);
-    return hash;
+    return Objects.hash(this.pitch, this.world, this.x, this.y, this.yaw, this.z);
   }
 
   @Override
   public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
     if (obj == null || this.getClass() != obj.getClass()) {
       return false;
     }
-    final var other = (Location) obj;
-    final var thisWorld = this.world == null ? null : this.world.get();
-    final var otherWorld = other.world == null ? null : other.world.get();
-    if (!Objects.equals(thisWorld, otherWorld) ||
-      Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x) ||
-      Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y) ||
-      Double.doubleToLongBits(this.z) != Double.doubleToLongBits(other.z) ||
-      Float.floatToIntBits(this.pitch) != Float.floatToIntBits(other.pitch)) {
-      return false;
-    }
-    return Float.floatToIntBits(this.yaw) == Float.floatToIntBits(other.yaw);
+    final Location location = (Location) obj;
+    return Float.compare(location.pitch, this.pitch) == 0 &&
+      Double.compare(location.x, this.x) == 0 &&
+      Double.compare(location.y, this.y) == 0 &&
+      Float.compare(location.yaw, this.yaw) == 0 &&
+      Double.compare(location.z, this.z) == 0 &&
+      Objects.equals(this.world, location.world);
   }
 
   @Override
@@ -422,15 +351,6 @@ public final class Location implements Cloneable {
     this.y = y;
     this.z = z;
     return this;
-  }
-
-  /**
-   * sets the y.
-   *
-   * @param y the y to set.
-   */
-  public void setY(final double y) {
-    this.y = y;
   }
 
   /**

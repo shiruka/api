@@ -27,8 +27,10 @@ package net.shiruka.api.entity;
 
 import net.shiruka.api.base.Named;
 import net.shiruka.api.base.Tick;
+import net.shiruka.api.base.Vector3D;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.metadata.Metadatable;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine entities on the Minecraft.
@@ -41,6 +43,14 @@ public interface Entity extends CommandSender, Metadatable, Named, Tick {
    * @return entity id.
    */
   long getEntityId();
+
+  /**
+   * obtains the location.
+   *
+   * @return location.
+   */
+  @NotNull
+  Vector3D getLocation();
 
   /**
    * removes the entity from the server.
