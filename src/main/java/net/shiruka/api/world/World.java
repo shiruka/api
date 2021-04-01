@@ -27,8 +27,8 @@ package net.shiruka.api.world;
 
 import java.util.Optional;
 import java.util.UUID;
-import net.shiruka.api.base.BlockPosition;
 import net.shiruka.api.base.GameMode;
+import net.shiruka.api.base.ImmutableBlockPosition;
 import net.shiruka.api.base.Namespaced;
 import net.shiruka.api.block.Block;
 import net.shiruka.api.metadata.Metadatable;
@@ -154,7 +154,7 @@ public interface World extends Metadatable {
    * @return spawn.
    */
   @NotNull
-  BlockPosition getSpawn();
+  ImmutableBlockPosition getSpawn();
 
   /**
    * obtains the unique id.
