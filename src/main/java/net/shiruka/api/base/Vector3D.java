@@ -26,12 +26,19 @@
 package net.shiruka.api.base;
 
 import java.util.Objects;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a vector is an immutable container of 3 coordinate values.
  */
+@AllArgsConstructor
 public final class Vector3D {
+
+  /**
+   * the zero vector.
+   */
+  public static final Vector3D ZERO = new Vector3D();
 
   /**
    * the x.
@@ -52,22 +59,7 @@ public final class Vector3D {
    * ctor.
    */
   public Vector3D() {
-    this.x = 0;
-    this.y = 0;
-    this.z = 0;
-  }
-
-  /**
-   * ctor.
-   *
-   * @param x the x.
-   * @param y the y.
-   * @param z the z.
-   */
-  public Vector3D(final double x, final double y, final double z) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
+    this(0.0d, 0.0d, 0.0d);
   }
 
   /**
@@ -78,9 +70,7 @@ public final class Vector3D {
    * @param z the z.
    */
   public Vector3D(final int x, final int y, final int z) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
+    this((double) x, y, z);
   }
 
   /**
