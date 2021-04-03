@@ -25,7 +25,7 @@
 
 package net.shiruka.api.world;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 import net.shiruka.api.registry.Resourced;
@@ -54,7 +54,7 @@ public interface WorldManager {
    * @return world instance by resource.
    */
   @NotNull
-  Optional<World> getWorldByResourced(@NotNull Resourced resource);
+  Optional<World> getWorldByResource(@NotNull Resourced resource);
 
   /**
    * gets the world by unique id.
@@ -72,5 +72,5 @@ public interface WorldManager {
    * @return worlds.
    */
   @NotNull
-  List<World> getWorlds();
+  Collection<World> getWorlds();
 }
