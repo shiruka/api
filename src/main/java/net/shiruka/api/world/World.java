@@ -53,6 +53,14 @@ public interface World extends Metadatable {
   Resourced THE_NETHER = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_nether"));
 
   /**
+   * obtains the dimension key.
+   *
+   * @return dimension key.
+   */
+  @NotNull
+  Resourced getDimensionKey();
+
+  /**
    * obtains the world name.
    *
    * @return world name.
