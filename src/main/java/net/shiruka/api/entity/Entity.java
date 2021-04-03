@@ -25,10 +25,9 @@
 
 package net.shiruka.api.entity;
 
-import net.shiruka.api.base.AxisAlignedBoundingBox;
+import net.shiruka.api.base.Location;
 import net.shiruka.api.base.Named;
 import net.shiruka.api.base.Tick;
-import net.shiruka.api.base.Vector3D;
 import net.shiruka.api.command.sender.CommandSender;
 import net.shiruka.api.metadata.Metadatable;
 import org.jetbrains.annotations.NotNull;
@@ -37,24 +36,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine entities on the Minecraft.
  */
 public interface Entity extends CommandSender, Metadatable, Named, Tick {
-
-  /**
-   * activates the collision load chunks.
-   */
-  void activateCollisionLoadChunks();
-
-  /**
-   * deactivates the collision load chunks.
-   */
-  void deactivateCollisionLoadChunks();
-
-  /**
-   * obtains the bounding box.
-   *
-   * @return bounding box.
-   */
-  @NotNull
-  AxisAlignedBoundingBox getBoundingBox();
 
   /**
    * obtains the entity id.
@@ -69,7 +50,7 @@ public interface Entity extends CommandSender, Metadatable, Named, Tick {
    * @return location.
    */
   @NotNull
-  Vector3D getLocation();
+  Location getLocation();
 
   /**
    * removes the entity from the server.
