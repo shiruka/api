@@ -25,9 +25,10 @@
 
 package net.shiruka.api.world;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
+import net.shiruka.api.registry.Resourced;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -36,46 +37,34 @@ import org.jetbrains.annotations.NotNull;
 public interface WorldManager {
 
   /**
-   * creates a chunk data for use in a generator.
+   * gets the world by name.
    *
-   * @param world the world to create.
+   * @param name the name to get.
    *
-   * @return a new chunk data for the world.
+   * @return world instance by name.
    */
   @NotNull
-  ChunkData createChunkData(@NotNull World world);
+  Optional<World> getWorldByName(@NotNull String name);
 
   /**
-   * creates a chunk data for use in a generator, that is populated by the vanilla generator for that world.
+   * gets the world by resource.
    *
-   * @param world the world to create.
-   * @param x the x to create.
-   * @param z the z to create.
+   * @param resource the resource to get.
    *
-   * @return a new chunk data for the world.
+   * @return world instance by resource.
    */
   @NotNull
-  ChunkData createNativeChunkData(@NotNull World world, int x, int z);
-
-  /**
-   * creates a new world from the given {@code worldCreator}.
-   *
-   * @param worldCreator the world creator to create.
-   *
-   * @return a newly created world.
-   */
-  @NotNull
-  Optional<World> createWorld(@NotNull WorldCreator worldCreator);
+  Optional<World> getWorldByResource(@NotNull Resourced resource);
 
   /**
    * gets the world by unique id.
    *
    * @param uniqueId the unique to get.
    *
-   * @return world by unique id instance.
+   * @return world instance by unique id.
    */
   @NotNull
-  Optional<World> getWorld(@NotNull UUID uniqueId);
+  Optional<World> getWorldByUniqueId(@NotNull UUID uniqueId);
 
   /**
    * obtains all the worlds.
@@ -83,5 +72,5 @@ public interface WorldManager {
    * @return worlds.
    */
   @NotNull
-  List<World> getWorlds();
+  Collection<World> getWorlds();
 }

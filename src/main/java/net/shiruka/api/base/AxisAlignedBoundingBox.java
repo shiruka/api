@@ -23,74 +23,60 @@
  *
  */
 
-package net.shiruka.api.world;
-
-import it.unimi.dsi.fastutil.bytes.Byte2ObjectOpenHashMap;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
+package net.shiruka.api.base;
 
 /**
- * an enum class that represents various map environment types that a world may be.
+ * a class that represents axi aligned bounding boxes.
  */
-public enum Environment {
-  /**
-   * "normal"/"surface world" map.
-   */
-  NORMAL(0),
-  /**
-   * a nether based map ("hell").
-   */
-  NETHER(-1),
-  /**
-   * the "end" map.
-   */
-  THE_END(1);
+public final class AxisAlignedBoundingBox {
 
   /**
-   * the cache.
+   * the max x.
    */
-  private static final Map<Byte, Environment> CACHE = new Byte2ObjectOpenHashMap<>();
+  public final double maxX;
 
   /**
-   * the id.
+   * the max y.
    */
-  private final byte id;
+  public final double maxY;
 
-  static {
-    Arrays.stream(Environment.values())
-      .forEach(env -> Environment.CACHE.put(env.getId(), env));
-  }
+  /**
+   * the max z.
+   */
+  public final double maxZ;
+
+  /**
+   * the min x.
+   */
+  public final double minX;
+
+  /**
+   * the min y.
+   */
+  public final double minY;
+
+  /**
+   * the min z.
+   */
+  public final double minZ;
 
   /**
    * ctor.
    *
-   * @param id the id.
+   * @param minX the min x.
+   * @param minY the min y.
+   * @param minZ the min z.
+   * @param maxX the max x.
+   * @param maxY the max y.
+   * @param maxZ the max z.
    */
-  Environment(final Number id) {
-    this.id = id.byteValue();
-  }
-
-  /**
-   * obtains an environment by id.
-   *
-   * @param id the id to get.
-   *
-   * @return the environment.
-   */
-  @NotNull
-  public static Environment getEnvironment(final byte id) {
-    return Optional.ofNullable(Environment.CACHE.get(id))
-      .orElseThrow();
-  }
-
-  /**
-   * obtains the id.
-   *
-   * @return id.
-   */
-  public byte getId() {
-    return this.id;
+  public AxisAlignedBoundingBox(final double minX, final double minY, final double minZ,
+                                final double maxX, final double maxY, final double maxZ) {
+    this.maxX = maxX;
+    this.maxY = maxY;
+    this.maxZ = maxZ;
+    this.minX = minX;
+    this.minY = minY;
+    this.minZ = minZ;
   }
 }

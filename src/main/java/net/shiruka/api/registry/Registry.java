@@ -44,6 +44,11 @@ public final class Registry {
   public static final Resourced ROOT = Registry.create(Registry.ROOT_NAMESPACE);
 
   /**
+   * the dimension type.
+   */
+  public static final Resourced DIMENSION_TYPE = Registry.minecraft("dimension_type");
+
+  /**
    * the world.
    */
   public static final Resourced WORLD = Registry.minecraft("world");

@@ -25,11 +25,8 @@
 
 package net.shiruka.api.world;
 
-import java.util.Optional;
 import java.util.UUID;
-import net.shiruka.api.base.BlockPosition;
 import net.shiruka.api.base.Namespaced;
-import net.shiruka.api.block.Block;
 import net.shiruka.api.metadata.Metadatable;
 import net.shiruka.api.registry.Registry;
 import net.shiruka.api.registry.Resourced;
@@ -56,65 +53,12 @@ public interface World extends Metadatable {
   Resourced THE_NETHER = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_nether"));
 
   /**
-   * obtains whether or not structures are being generated.
-   *
-   * @return {@code true} if structures are being generated.
-   */
-  boolean canGenerateStructures();
-
-  /**
-   * gets the {@link Block} at the given coordinates.
-   *
-   * @param x the x to get.
-   * @param y the y to get.
-   * @param z the z to get.
-   *
-   * @return block at the given coordinates.
-   */
-  @NotNull
-  Block getBlockAt(int x, int y, int z);
-
-  /**
-   * obtains the default type of this world.
-   *
-   * @return default type of this world.
-   */
-  @NotNull
-  WorldType getDefaultWorldType();
-
-  /**
    * obtains the dimension key.
    *
    * @return dimension key.
    */
   @NotNull
   Resourced getDimensionKey();
-
-  /**
-   * gets the {@link Environment} type of this world.
-   *
-   * @return environment type of the world..
-   */
-  @NotNull
-  Environment getEnvironment();
-
-  /**
-   * obtains the chunk generator for this world.
-   *
-   * @return chunk generator associated with this world.
-   */
-  @NotNull
-  Optional<ChunkGenerator> getGenerator();
-
-  /**
-   * gets the highest non-empty (impassable) coordinate at the given coordinates.
-   *
-   * @param x the x to get.
-   * @param z the z to get.
-   *
-   * @return the y coordinate of the highest non-empty block.
-   */
-  int getHighestBlockYAt(int x, int z);
 
   /**
    * obtains the world name.
@@ -125,32 +69,10 @@ public interface World extends Metadatable {
   String getName();
 
   /**
-   * obtains the seed for this world.
-   *
-   * @return seed of the world.
-   */
-  long getSeed();
-
-  /**
-   * obtains the spawn.
-   *
-   * @return spawn.
-   */
-  @NotNull
-  BlockPosition getSpawn();
-
-  /**
    * obtains the unique id.
    *
    * @return unique id.
    */
   @NotNull
   UUID getUniqueId();
-
-  /**
-   * gets whether the world is hardcore or not.
-   *
-   * @return hardcore status.
-   */
-  boolean isHardcore();
 }

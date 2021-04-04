@@ -28,11 +28,8 @@ package net.shiruka.api.plugin;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import java.io.File;
 import java.io.InputStream;
-import java.util.Optional;
-import net.shiruka.api.world.ChunkGenerator;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine plugins.
@@ -54,20 +51,6 @@ public interface Plugin {
    */
   @NotNull
   File getDataFolder();
-
-  /**
-   * gets a {@link ChunkGenerator} for use in a default world, as specified in the server configuration.
-   *
-   * @param worldName the world name to get.
-   * @param id the id to get.
-   *
-   * @return chunkGenerator for use in the default world generation.
-   */
-  @NotNull
-  default Optional<ChunkGenerator> getDefaultWorldGenerator(@NotNull final String worldName,
-                                                            @Nullable final String id) {
-    return Optional.empty();
-  }
 
   /**
    * obtains the plugin description file interface.

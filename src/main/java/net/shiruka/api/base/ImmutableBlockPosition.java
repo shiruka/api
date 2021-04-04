@@ -23,11 +23,37 @@
  *
  */
 
-package net.shiruka.api.world;
+package net.shiruka.api.base;
 
 /**
- * an interface to determine chunks.
+ * a class that represents immutable block positions.
  */
-public interface Chunk {
+public final class ImmutableBlockPosition extends BlockPosition {
 
+  /**
+   * the zero position.
+   */
+  public static final ImmutableBlockPosition ZERO = new ImmutableBlockPosition(0, 0, 0);
+
+  /**
+   * ctor.
+   *
+   * @param x the x.
+   * @param y the y.
+   * @param z the z.
+   */
+  public ImmutableBlockPosition(final int x, final int y, final int z) {
+    super(x, y, z);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param x the x.
+   * @param y the y.
+   * @param z the z.
+   */
+  public ImmutableBlockPosition(final double x, final double y, final double z) {
+    super(x, y, z);
+  }
 }

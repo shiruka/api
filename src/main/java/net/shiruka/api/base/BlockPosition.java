@@ -25,40 +25,31 @@
 
 package net.shiruka.api.base;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import net.shiruka.api.util.MathHelper;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * an abstract class that represents block positions.
  */
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BlockPosition implements Comparable<BlockPosition> {
 
   /**
    * the x.
    */
-  protected int x;
+  private final int x;
 
   /**
    * the y.
    */
-  protected int y;
+  private final int y;
 
   /**
    * the z.
    */
-  protected int z;
-
-  /**
-   * ctor.
-   *
-   * @param x the x.
-   * @param y the y.
-   * @param z the z.
-   */
-  protected BlockPosition(final int x, final int y, final int z) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
-  }
+  private final int z;
 
   /**
    * ctor.
@@ -69,6 +60,11 @@ public abstract class BlockPosition implements Comparable<BlockPosition> {
    */
   protected BlockPosition(final double x, final double y, final double z) {
     this(MathHelper.floor(x), MathHelper.floor(y), MathHelper.floor(z));
+  }
+
+  @Override
+  public final int compareTo(@NotNull final BlockPosition o) {
+    return this.y == o.y ? this.z == o.z ? this.x - o.x : this.z - o.z : this.y - o.y;
   }
 
   /**
