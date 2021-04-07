@@ -25,6 +25,7 @@
 
 package net.shiruka.api.pack;
 
+import com.nukkitx.protocol.bedrock.data.ResourcePackType;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
