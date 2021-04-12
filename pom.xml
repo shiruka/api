@@ -43,6 +43,12 @@
     <connection>scm:git:git://github.com/shiruka/api.git</connection>
     <developerConnection>scm:git:ssh://github.com/shiruka/api.git</developerConnection>
   </scm>
+  <repositories>
+    <repository>
+      <url>https://repo.nukkitx.com/maven-snapshots/</url>
+      <id>nukkitx-repo-snapshot</id>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>io.github.portlek</groupId>
@@ -115,24 +121,18 @@
       <artifactId>guava-testlib</artifactId>
       <version>30.1.1-jre</version>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
       <version>3.9.0</version>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.mockito</groupId>
-          <artifactId>mockito-core</artifactId>
-        </exclusion>
-      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.nukkitx.protocol</groupId>
+      <artifactId>bedrock-v431</artifactId>
+      <version>2.7.0-SNAPSHOT</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 </project>
