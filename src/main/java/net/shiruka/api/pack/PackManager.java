@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -67,12 +68,12 @@ public interface PackManager extends Closeable {
   /**
    * obtains the pack from the given unique id.
    *
-   * @param id the id to obtain.
+   * @param uniqueId the unique id to obtain.
    *
    * @return obtained pack.
    */
   @NotNull
-  Optional<Pack> getPack(@NotNull String id);
+  Optional<Pack> getPackById(@NotNull UUID uniqueId);
 
   /**
    * obtains the pack from the given entry.
