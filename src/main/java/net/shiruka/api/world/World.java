@@ -26,6 +26,7 @@
 package net.shiruka.api.world;
 
 import java.util.UUID;
+import net.shiruka.api.base.Location;
 import net.shiruka.api.base.Namespaced;
 import net.shiruka.api.metadata.Metadatable;
 import net.shiruka.api.registry.Registry;
@@ -67,6 +68,21 @@ public interface World extends Metadatable {
    */
   @NotNull
   String getName();
+
+  /**
+   * obtains the spawn point.
+   *
+   * @return spawn point.
+   */
+  @NotNull
+  Location getSpawnPoint();
+
+  /**
+   * sets the spawn point of the world.
+   *
+   * @param location the location to set.
+   */
+  void setSpawnPoint(@NotNull Location location);
 
   /**
    * obtains the unique id.
