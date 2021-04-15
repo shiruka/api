@@ -25,6 +25,7 @@
 
 package net.shiruka.api.world;
 
+import java.util.Optional;
 import java.util.UUID;
 import net.shiruka.api.base.BlockPosition;
 import net.shiruka.api.base.Namespaced;
@@ -79,6 +80,17 @@ public interface World extends Metadatable {
   default Block getBlock(final int x, final int y, final int z) {
     return this.getBlock(new BlockPosition(x, y, z));
   }
+
+  /**
+   * obtains the chunk.
+   *
+   * @param x the x to obtain.
+   * @param z the z to obtain.
+   *
+   * @return chunk at the x and z.-
+   */
+  @NotNull
+  Optional<Chunk> getChunk(int x, int z);
 
   /**
    * obtains the dimension key.
