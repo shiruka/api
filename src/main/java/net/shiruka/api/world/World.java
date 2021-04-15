@@ -26,8 +26,9 @@
 package net.shiruka.api.world;
 
 import java.util.UUID;
-import net.shiruka.api.base.Location;
+import net.shiruka.api.base.BlockPosition;
 import net.shiruka.api.base.Namespaced;
+import net.shiruka.api.block.Block;
 import net.shiruka.api.metadata.Metadatable;
 import net.shiruka.api.registry.Registry;
 import net.shiruka.api.registry.Resourced;
@@ -54,12 +55,48 @@ public interface World extends Metadatable {
   Resourced THE_NETHER = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_nether"));
 
   /**
+   * obtains the block at the position.
+   *
+   * @param position the position to obtain.
+   *
+   * @return block at the position.
+   */
+  @NotNull
+  Block getBlock(@NotNull BlockPosition position);
+
+  /**
+   * obtains the block at the position.
+   *
+   * @param x the x to obtain.
+   * @param y the y to obtain.
+   * @param z the z to obtain.
+   *
+   * @return block at the position.
+   *
+   * @see #getBlock(BlockPosition)
+   */
+  @NotNull
+  default Block getBlock(final int x, final int y, final int z) {
+    return this.getBlock(new BlockPosition(x, y, z));
+  }
+
+  /**
    * obtains the dimension key.
    *
    * @return dimension key.
    */
   @NotNull
   Resourced getDimensionKey();
+
+  /**
+   * obtains the game rule value .
+   *
+   * @param gameRule the game rule to obtain.
+   * @param <T> type of the game rule's value.
+   *
+   * @return game rule value.
+   */
+  @NotNull <T> T getGameRule(@NotNull GameRule<T> gameRule);
 
   /**
    * obtains the world name.
@@ -75,14 +112,14 @@ public interface World extends Metadatable {
    * @return spawn point.
    */
   @NotNull
-  Location getSpawnPoint();
+  BlockPosition getSpawnPoint();
 
   /**
    * sets the spawn point of the world.
    *
    * @param location the location to set.
    */
-  void setSpawnPoint(@NotNull Location location);
+  void setSpawnPoint(@NotNull BlockPosition location);
 
   /**
    * obtains the unique id.
@@ -91,4 +128,13 @@ public interface World extends Metadatable {
    */
   @NotNull
   UUID getUniqueId();
+
+  /**
+   * sets the game rule.
+   *
+   * @param gameRule the game rule to set.
+   * @param value the value to set.
+   * @param <T> type of the game rule's value.
+   */
+  <T> void setGameRule(@NotNull GameRule<T> gameRule, @NotNull T value);
 }
