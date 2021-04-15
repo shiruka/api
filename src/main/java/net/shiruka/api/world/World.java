@@ -25,6 +25,7 @@
 
 package net.shiruka.api.world;
 
+import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 import net.shiruka.api.base.BlockPosition;
@@ -54,6 +55,17 @@ public interface World extends Metadatable {
    * the nether.
    */
   Resourced THE_NETHER = Resourced.create(Registry.WORLD, Namespaced.minecraft("the_nether"));
+
+  /**
+   * generates an empty chunk.
+   *
+   * @param x the x to generate.
+   * @param z the z to generate.
+   *
+   * @return a newly generated empty chunk.
+   */
+  @NotNull
+  Chunk generateEmptyChunk(int x, int z);
 
   /**
    * obtains the block at the position.
@@ -119,6 +131,17 @@ public interface World extends Metadatable {
   String getName();
 
   /**
+   * gets or generates a chunk.
+   *
+   * @param x the x to get.
+   * @param z the z to get.
+   *
+   * @return chunk at x and z.
+   */
+  @NotNull
+  Chunk getOrGenerateChunk(int x, int z);
+
+  /**
    * obtains the spawn point.
    *
    * @return spawn point.
@@ -134,12 +157,32 @@ public interface World extends Metadatable {
   void setSpawnPoint(@NotNull BlockPosition location);
 
   /**
+   * obtains the time.
+   *
+   * @return time.
+   */
+  @NotNull
+  Duration getTime();
+
+  /**
+   * sets the time.
+   *
+   * @param time the time to set.
+   */
+  void setTime(@NotNull Duration time);
+
+  /**
    * obtains the unique id.
    *
    * @return unique id.
    */
   @NotNull
   UUID getUniqueId();
+
+  /**
+   * saves the world.
+   */
+  void save();
 
   /**
    * sets the game rule.
@@ -149,4 +192,12 @@ public interface World extends Metadatable {
    * @param <T> type of the game rule's value.
    */
   <T> void setGameRule(@NotNull GameRule<T> gameRule, @NotNull T value);
+
+  /**
+   * unloads chunk at the given coordinates.
+   *
+   * @param x the x to unload.
+   * @param z the z to unload.
+   */
+  void unloadChunk(int x, int z);
 }
