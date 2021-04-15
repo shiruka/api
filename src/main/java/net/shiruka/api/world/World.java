@@ -123,6 +123,14 @@ public interface World extends Metadatable {
   @NotNull <T> T getGameRule(@NotNull GameRule<T> gameRule);
 
   /**
+   * obtains the holder.
+   *
+   * @return holder.
+   */
+  @NotNull
+  WorldHolder getHolder();
+
+  /**
    * obtains the world name.
    *
    * @return world name.
