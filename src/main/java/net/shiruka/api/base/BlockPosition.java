@@ -33,12 +33,12 @@ import org.jetbrains.annotations.NotNull;
  * a vector is an immutable container of 3 coordinate values.
  */
 @AllArgsConstructor
-public final class Vector3D {
+public final class BlockPosition {
 
   /**
    * the zero vector.
    */
-  public static final Vector3D ZERO = new Vector3D();
+  public static final BlockPosition ZERO = new BlockPosition();
 
   /**
    * the x.
@@ -58,7 +58,7 @@ public final class Vector3D {
   /**
    * ctor.
    */
-  public Vector3D() {
+  public BlockPosition() {
     this(0.0d, 0.0d, 0.0d);
   }
 
@@ -69,7 +69,7 @@ public final class Vector3D {
    * @param y the y.
    * @param z the z.
    */
-  public Vector3D(final int x, final int y, final int z) {
+  public BlockPosition(final int x, final int y, final int z) {
     this((double) x, y, z);
   }
 
@@ -138,7 +138,7 @@ public final class Vector3D {
    * @return the magnitude squared.
    */
   public double getMagnitudeSquared() {
-    return Vector3D.square(this.x) + Vector3D.square(this.y) + Vector3D.square(this.z);
+    return BlockPosition.square(this.x) + BlockPosition.square(this.y) + BlockPosition.square(this.z);
   }
 
   /**
@@ -159,7 +159,7 @@ public final class Vector3D {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector3D setX(final int x) {
+  public BlockPosition setX(final int x) {
     return this.setX((double) x);
   }
 
@@ -172,7 +172,7 @@ public final class Vector3D {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector3D setX(final double x) {
+  public BlockPosition setX(final double x) {
     this.x = x;
     return this;
   }
@@ -195,7 +195,7 @@ public final class Vector3D {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector3D setY(final int y) {
+  public BlockPosition setY(final int y) {
     return this.setY((double) y);
   }
 
@@ -208,7 +208,7 @@ public final class Vector3D {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector3D setY(final double y) {
+  public BlockPosition setY(final double y) {
     this.y = y;
     return this;
   }
@@ -231,7 +231,7 @@ public final class Vector3D {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector3D setZ(final int z) {
+  public BlockPosition setZ(final int z) {
     return this.setZ((double) z);
   }
 
@@ -244,7 +244,7 @@ public final class Vector3D {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public Vector3D setZ(final double z) {
+  public BlockPosition setZ(final double z) {
     this.z = z;
     return this;
   }
@@ -256,13 +256,13 @@ public final class Vector3D {
 
   @Override
   public boolean equals(final Object obj) {
-    if (!(obj instanceof Vector3D)) {
+    if (!(obj instanceof BlockPosition)) {
       return false;
     }
-    final var vector = (Vector3D) obj;
-    return Vector3D.eq(this.x, vector.x) &&
-      Vector3D.eq(this.y, vector.y) &&
-      Vector3D.eq(this.z, vector.z);
+    final var vector = (BlockPosition) obj;
+    return BlockPosition.eq(this.x, vector.x) &&
+      BlockPosition.eq(this.y, vector.y) &&
+      BlockPosition.eq(this.z, vector.z);
   }
 
   @Override
