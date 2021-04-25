@@ -73,10 +73,10 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   private final Predicate<ParseResults> contextRequirement;
 
   /**
-   * the default node.
+   * the default command node.
    */
   @Nullable
-  private final CommandNode defaultNode;
+  private final CommandNode defaultCommandNode;
 
   /**
    * the description.
@@ -92,16 +92,17 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   private final boolean fork;
 
   /**
-   * the is default node.
+   * the default node.
    */
-  private final boolean isDefaultNode;
+  @Getter
+  private final boolean defaultNode;
 
   /**
-   * the modifier.
+   * the redirect modifier.
    */
   @Nullable
   @Getter
-  private final RedirectModifier modifier;
+  private final RedirectModifier redirectModifier;
 
   /**
    * the redirect.
@@ -141,28 +142,28 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * ctor.
    *
    * @param contextRequirement the context requirement.
-   * @param defaultNode the default node.
+   * @param defaultCommandNode the default command node.
    * @param description the description.
    * @param fork the forks.
-   * @param isDefaultNode the is default node.
-   * @param modifier the modifier.
+   * @param defaultNode the default node.
+   * @param redirectModifier the redirect modifier.
    * @param redirect the redirect.
    * @param requirements the requirement.
    * @param usage the usage.
    * @param command the command.
    */
   protected CommandNodeEnvelope(@NotNull final Predicate<ParseResults> contextRequirement,
-                                @Nullable final CommandNode defaultNode, @Nullable final String description,
-                                final boolean fork, final boolean isDefaultNode,
-                                @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
+                                @Nullable final CommandNode defaultCommandNode, @Nullable final String description,
+                                final boolean fork, final boolean defaultNode,
+                                @Nullable final RedirectModifier redirectModifier, @Nullable final CommandNode redirect,
                                 @NotNull final Set<Requirement> requirements, @Nullable final String usage,
                                 @Nullable final Command command) {
     this.contextRequirement = contextRequirement;
-    this.defaultNode = defaultNode;
+    this.defaultCommandNode = defaultCommandNode;
     this.description = description;
     this.fork = fork;
-    this.isDefaultNode = isDefaultNode;
-    this.modifier = modifier;
+    this.defaultNode = defaultNode;
+    this.redirectModifier = redirectModifier;
     this.redirect = redirect;
     this.requirements = Collections.unmodifiableSet(requirements);
     this.usage = usage;
@@ -216,15 +217,15 @@ public abstract class CommandNodeEnvelope implements CommandNode {
 
   @NotNull
   @Override
-  public final Optional<CommandNode> getDefaultNode() {
-    return Optional.ofNullable(this.defaultNode);
+  public final Optional<CommandNode> getDefaultCommandNode() {
+    return Optional.ofNullable(this.defaultCommandNode);
   }
 
   @NotNull
   @Override
   public final Collection<? extends CommandNode> getRelevantNodes(@NotNull final TextReader input) {
-    if (!input.canRead() && this.defaultNode != null) {
-      return Collections.singleton(this.defaultNode);
+    if (!input.canRead() && this.defaultCommandNode != null) {
+      return Collections.singleton(this.defaultCommandNode);
     }
     if (!this.hasLiterals) {
       return this.arguments.values();
@@ -248,11 +249,6 @@ public abstract class CommandNodeEnvelope implements CommandNode {
       }
     }
     return this.arguments.values();
-  }
-
-  @Override
-  public final boolean isDefaultNode() {
-    return this.isDefaultNode;
   }
 
   @Override

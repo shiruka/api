@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
+import lombok.Getter;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandException;
 import net.shiruka.api.command.CommandNode;
@@ -56,12 +57,14 @@ public final class LiteralNode extends CommandNodeEnvelope {
    * the aliases.
    */
   @NotNull
+  @Getter
   private final List<LiteralNode> aliases;
 
   /**
    * the literal.
    */
   @NotNull
+  @Getter
   private final String literal;
 
   /**
@@ -69,11 +72,11 @@ public final class LiteralNode extends CommandNodeEnvelope {
    *
    * @param aliases the aliases.
    * @param contextRequirement the context requirement.
-   * @param defaultNode the default node.
+   * @param defaultCommandNode the default command node.
    * @param description the description.
    * @param fork the forks.
-   * @param isDefaultNode the is default node.
-   * @param modifier the modifier.
+   * @param defaultNode the default node.
+   * @param redirectModifier the redirect modifier.
    * @param redirect the redirect.
    * @param requirements the requirement.
    * @param command the command.
@@ -81,25 +84,15 @@ public final class LiteralNode extends CommandNodeEnvelope {
    * @param usage the usage.
    */
   public LiteralNode(@NotNull final List<LiteralNode> aliases,
-                     @NotNull final Predicate<ParseResults> contextRequirement, @Nullable final CommandNode defaultNode,
-                     @Nullable final String description, final boolean fork, final boolean isDefaultNode,
-                     @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
-                     @NotNull final Set<Requirement> requirements, @Nullable final Command command,
-                     @NotNull final String literal, @Nullable final String usage) {
-    super(contextRequirement, defaultNode, description, fork, isDefaultNode, modifier, redirect, requirements, usage,
-      command);
+                     @NotNull final Predicate<ParseResults> contextRequirement,
+                     @Nullable final CommandNode defaultCommandNode, @Nullable final String description,
+                     final boolean fork, final boolean defaultNode, @Nullable final RedirectModifier redirectModifier,
+                     @Nullable final CommandNode redirect, @NotNull final Set<Requirement> requirements,
+                     @Nullable final Command command, @NotNull final String literal, @Nullable final String usage) {
+    super(contextRequirement, defaultCommandNode, description, fork, defaultNode, redirectModifier, redirect,
+      requirements, usage, command);
     this.aliases = Collections.unmodifiableList(aliases);
     this.literal = literal.toLowerCase(Locale.ROOT);
-  }
-
-  /**
-   * obtains the aliases.
-   *
-   * @return aliases.
-   */
-  @NotNull
-  public List<LiteralNode> getAliases() {
-    return this.aliases;
   }
 
   @NotNull
@@ -152,16 +145,6 @@ public final class LiteralNode extends CommandNodeEnvelope {
       return builder.suggest(this.literal).buildFuture();
     }
     return Suggestions.empty();
-  }
-
-  /**
-   * obtains the literal.
-   *
-   * @return literal.
-   */
-  @NotNull
-  public String getLiteral() {
-    return this.literal;
   }
 
   @Override
