@@ -79,6 +79,12 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   private final CommandNode defaultCommandNode;
 
   /**
+   * the default node.
+   */
+  @Getter
+  private final boolean defaultNode;
+
+  /**
    * the description.
    */
   @Nullable
@@ -92,10 +98,11 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   private final boolean fork;
 
   /**
-   * the default node.
+   * the redirect.
    */
+  @Nullable
   @Getter
-  private final boolean defaultNode;
+  private final CommandNode redirect;
 
   /**
    * the redirect modifier.
@@ -103,13 +110,6 @@ public abstract class CommandNodeEnvelope implements CommandNode {
   @Nullable
   @Getter
   private final RedirectModifier redirectModifier;
-
-  /**
-   * the redirect.
-   */
-  @Nullable
-  @Getter
-  private final CommandNode redirect;
 
   /**
    * the requirement.
@@ -269,7 +269,9 @@ public abstract class CommandNodeEnvelope implements CommandNode {
 
   @Override
   public int hashCode() {
-    return 31 * this.children.hashCode() + (this.command != null ? this.command.hashCode() : 0);
+    return 31 * this.children.hashCode() +
+      (this.command != null ? this.command.hashCode() : 0) +
+      System.identityHashCode(this.redirect);
   }
 
   @Override
@@ -281,7 +283,10 @@ public abstract class CommandNodeEnvelope implements CommandNode {
       return false;
     }
     final var that = (CommandNodeEnvelope) obj;
-    return this.children.equals(that.children) &&
-      Objects.equals(this.command, that.command);
+    if (!this.children.equals(that.children) ||
+      !Objects.equals(this.command, that.command)) {
+      return false;
+    }
+    return this.redirect == that.redirect;
   }
 }
