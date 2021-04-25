@@ -27,6 +27,7 @@ package net.shiruka.api.command.tree;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectRBTreeMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -34,6 +35,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandNode;
 import net.shiruka.api.command.RedirectModifier;
@@ -47,6 +52,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an abstract implementation of {@link CommandNode}.
  */
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class CommandNodeEnvelope implements CommandNode {
 
   /**
@@ -63,6 +69,7 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the context requirement.
    */
   @NotNull
+  @Getter
   private final Predicate<ParseResults> contextRequirement;
 
   /**
@@ -75,11 +82,13 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the description.
    */
   @Nullable
+  @Getter
   private final String description;
 
   /**
    * the fork.
    */
+  @Getter
   private final boolean fork;
 
   /**
@@ -91,30 +100,36 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the modifier.
    */
   @Nullable
+  @Getter
   private final RedirectModifier modifier;
 
   /**
    * the redirect.
    */
   @Nullable
+  @Getter
   private final CommandNode redirect;
 
   /**
    * the requirement.
    */
   @NotNull
+  @Getter
   private final Set<Requirement> requirements;
 
   /**
    * the usage.
    */
   @Nullable
+  @Getter
   private final String usage;
 
   /**
    * the command.
    */
   @Nullable
+  @Getter
+  @Setter
   private Command command;
 
   /**
@@ -199,45 +214,10 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     return this.children.values();
   }
 
-  @Nullable
-  @Override
-  public final Command getCommand() {
-    return this.command;
-  }
-
-  @Override
-  public final void setCommand(@Nullable final Command command) {
-    this.command = command;
-  }
-
-  @NotNull
-  @Override
-  public final Predicate<ParseResults> getContextRequirement() {
-    return this.contextRequirement;
-  }
-
   @NotNull
   @Override
   public final Optional<CommandNode> getDefaultNode() {
     return Optional.ofNullable(this.defaultNode);
-  }
-
-  @Nullable
-  @Override
-  public final String getDescription() {
-    return this.description;
-  }
-
-  @Nullable
-  @Override
-  public final CommandNode getRedirect() {
-    return this.redirect;
-  }
-
-  @Nullable
-  @Override
-  public final RedirectModifier getRedirectModifier() {
-    return this.modifier;
   }
 
   @NotNull
@@ -257,31 +237,22 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     input.setCursor(cursor);
     final var literal = this.children.get(text);
     if (literal instanceof LiteralNode) {
-      return Collections.singleton(literal);
+      final var argumentsCount = this.arguments.size();
+      if (argumentsCount == 0) {
+        return Collections.singletonList(literal);
+      } else {
+        final var nodes = new ObjectArrayList<CommandNode>(argumentsCount + 1);
+        nodes.add(literal);
+        nodes.addAll(this.arguments.values());
+        return nodes;
+      }
     }
     return this.arguments.values();
-  }
-
-  @NotNull
-  @Override
-  public final Set<Requirement> getRequirements() {
-    return this.requirements;
-  }
-
-  @Nullable
-  @Override
-  public final String getUsage() {
-    return this.usage;
   }
 
   @Override
   public final boolean isDefaultNode() {
     return this.isDefaultNode;
-  }
-
-  @Override
-  public final boolean isFork() {
-    return this.fork;
   }
 
   @Override
