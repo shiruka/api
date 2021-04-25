@@ -52,7 +52,6 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an abstract implementation of {@link CommandNode}.
  */
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class CommandNodeEnvelope implements CommandNode {
 
   /**
