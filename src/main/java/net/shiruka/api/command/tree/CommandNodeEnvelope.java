@@ -27,6 +27,7 @@ package net.shiruka.api.command.tree;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectRBTreeMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -34,6 +35,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
+import lombok.Getter;
+import lombok.Setter;
 import net.shiruka.api.command.Command;
 import net.shiruka.api.command.CommandNode;
 import net.shiruka.api.command.RedirectModifier;
@@ -63,58 +66,68 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * the context requirement.
    */
   @NotNull
+  @Getter
   private final Predicate<ParseResults> contextRequirement;
+
+  /**
+   * the default command node.
+   */
+  @Nullable
+  private final CommandNode defaultCommandNode;
 
   /**
    * the default node.
    */
-  @Nullable
-  private final CommandNode defaultNode;
+  @Getter
+  private final boolean defaultNode;
 
   /**
    * the description.
    */
   @Nullable
+  @Getter
   private final String description;
 
   /**
    * the fork.
    */
+  @Getter
   private final boolean fork;
-
-  /**
-   * the is default node.
-   */
-  private final boolean isDefaultNode;
-
-  /**
-   * the modifier.
-   */
-  @Nullable
-  private final RedirectModifier modifier;
 
   /**
    * the redirect.
    */
   @Nullable
+  @Getter
   private final CommandNode redirect;
+
+  /**
+   * the redirect modifier.
+   */
+  @Nullable
+  @Getter
+  private final RedirectModifier redirectModifier;
 
   /**
    * the requirement.
    */
   @NotNull
+  @Getter
   private final Set<Requirement> requirements;
 
   /**
    * the usage.
    */
   @Nullable
+  @Getter
   private final String usage;
 
   /**
    * the command.
    */
   @Nullable
+  @Getter
+  @Setter
   private Command command;
 
   /**
@@ -126,28 +139,28 @@ public abstract class CommandNodeEnvelope implements CommandNode {
    * ctor.
    *
    * @param contextRequirement the context requirement.
-   * @param defaultNode the default node.
+   * @param defaultCommandNode the default command node.
    * @param description the description.
    * @param fork the forks.
-   * @param isDefaultNode the is default node.
-   * @param modifier the modifier.
+   * @param defaultNode the default node.
+   * @param redirectModifier the redirect modifier.
    * @param redirect the redirect.
    * @param requirements the requirement.
    * @param usage the usage.
    * @param command the command.
    */
   protected CommandNodeEnvelope(@NotNull final Predicate<ParseResults> contextRequirement,
-                                @Nullable final CommandNode defaultNode, @Nullable final String description,
-                                final boolean fork, final boolean isDefaultNode,
-                                @Nullable final RedirectModifier modifier, @Nullable final CommandNode redirect,
+                                @Nullable final CommandNode defaultCommandNode, @Nullable final String description,
+                                final boolean fork, final boolean defaultNode,
+                                @Nullable final RedirectModifier redirectModifier, @Nullable final CommandNode redirect,
                                 @NotNull final Set<Requirement> requirements, @Nullable final String usage,
                                 @Nullable final Command command) {
     this.contextRequirement = contextRequirement;
-    this.defaultNode = defaultNode;
+    this.defaultCommandNode = defaultCommandNode;
     this.description = description;
     this.fork = fork;
-    this.isDefaultNode = isDefaultNode;
-    this.modifier = modifier;
+    this.defaultNode = defaultNode;
+    this.redirectModifier = redirectModifier;
     this.redirect = redirect;
     this.requirements = Collections.unmodifiableSet(requirements);
     this.usage = usage;
@@ -199,52 +212,17 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     return this.children.values();
   }
 
-  @Nullable
-  @Override
-  public final Command getCommand() {
-    return this.command;
-  }
-
-  @Override
-  public final void setCommand(@Nullable final Command command) {
-    this.command = command;
-  }
-
   @NotNull
   @Override
-  public final Predicate<ParseResults> getContextRequirement() {
-    return this.contextRequirement;
-  }
-
-  @NotNull
-  @Override
-  public final Optional<CommandNode> getDefaultNode() {
-    return Optional.ofNullable(this.defaultNode);
-  }
-
-  @Nullable
-  @Override
-  public final String getDescription() {
-    return this.description;
-  }
-
-  @Nullable
-  @Override
-  public final CommandNode getRedirect() {
-    return this.redirect;
-  }
-
-  @Nullable
-  @Override
-  public final RedirectModifier getRedirectModifier() {
-    return this.modifier;
+  public final Optional<CommandNode> getDefaultCommandNode() {
+    return Optional.ofNullable(this.defaultCommandNode);
   }
 
   @NotNull
   @Override
   public final Collection<? extends CommandNode> getRelevantNodes(@NotNull final TextReader input) {
-    if (!input.canRead() && this.defaultNode != null) {
-      return Collections.singleton(this.defaultNode);
+    if (!input.canRead() && this.defaultCommandNode != null) {
+      return Collections.singleton(this.defaultCommandNode);
     }
     if (!this.hasLiterals) {
       return this.arguments.values();
@@ -257,31 +235,17 @@ public abstract class CommandNodeEnvelope implements CommandNode {
     input.setCursor(cursor);
     final var literal = this.children.get(text);
     if (literal instanceof LiteralNode) {
-      return Collections.singleton(literal);
+      final var argumentsCount = this.arguments.size();
+      if (argumentsCount == 0) {
+        return Collections.singletonList(literal);
+      } else {
+        final var nodes = new ObjectArrayList<CommandNode>(argumentsCount + 1);
+        nodes.add(literal);
+        nodes.addAll(this.arguments.values());
+        return nodes;
+      }
     }
     return this.arguments.values();
-  }
-
-  @NotNull
-  @Override
-  public final Set<Requirement> getRequirements() {
-    return this.requirements;
-  }
-
-  @Nullable
-  @Override
-  public final String getUsage() {
-    return this.usage;
-  }
-
-  @Override
-  public final boolean isDefaultNode() {
-    return this.isDefaultNode;
-  }
-
-  @Override
-  public final boolean isFork() {
-    return this.fork;
   }
 
   @Override
@@ -302,7 +266,9 @@ public abstract class CommandNodeEnvelope implements CommandNode {
 
   @Override
   public int hashCode() {
-    return 31 * this.children.hashCode() + (this.command != null ? this.command.hashCode() : 0);
+    return 31 * this.children.hashCode() +
+      (this.command != null ? this.command.hashCode() : 0) +
+      System.identityHashCode(this.redirect);
   }
 
   @Override
@@ -314,7 +280,10 @@ public abstract class CommandNodeEnvelope implements CommandNode {
       return false;
     }
     final var that = (CommandNodeEnvelope) obj;
-    return this.children.equals(that.children) &&
-      Objects.equals(this.command, that.command);
+    if (!this.children.equals(that.children) ||
+      !Objects.equals(this.command, that.command)) {
+      return false;
+    }
+    return this.redirect == that.redirect;
   }
 }

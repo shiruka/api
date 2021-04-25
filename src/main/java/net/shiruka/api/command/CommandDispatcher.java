@@ -181,8 +181,8 @@ public final class CommandDispatcher {
    */
   private static boolean isNodeExecutable(@NotNull final CommandNode node) {
     var tempNode = node;
-    while (tempNode.getCommand() == null && tempNode.getDefaultNode().isPresent()) {
-      tempNode = tempNode.getDefaultNode().get();
+    while (tempNode.getCommand() == null && tempNode.getDefaultCommandNode().isPresent()) {
+      tempNode = tempNode.getDefaultCommandNode().get();
     }
     return tempNode.getCommand() != null;
   }
@@ -228,7 +228,7 @@ public final class CommandDispatcher {
         continue;
       }
       context.withCommand(child.getCommand());
-      if (reader.canRead(child.getRedirect() == null ? 2 : 1) || child.getDefaultNode().isPresent()) {
+      if (reader.canRead(child.getRedirect() == null ? 2 : 1) || child.getDefaultCommandNode().isPresent()) {
         reader.skip();
         if (child.getRedirect() != null) {
           final var parse = CommandDispatcher.parseNodes(child.getRedirect(), reader,

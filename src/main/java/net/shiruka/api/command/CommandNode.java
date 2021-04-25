@@ -118,7 +118,7 @@ public interface CommandNode extends Comparable<CommandNode> {
    * @return default node.
    */
   @NotNull
-  Optional<CommandNode> getDefaultNode();
+  Optional<CommandNode> getDefaultCommandNode();
 
   /**
    * obtains the description.
