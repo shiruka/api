@@ -53,13 +53,13 @@
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-core</artifactId>
-      <version>5.15.2</version>
+      <version>5.16.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-yaml</artifactId>
-      <version>5.15.2</version>
+      <version>5.16.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
