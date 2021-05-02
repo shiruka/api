@@ -126,6 +126,7 @@ public final class TranslatedText implements GameMessage, MessageSupplier {
     return Collections.unmodifiableList(this.siblings);
   }
 
+  @NotNull
   @Override
   public String asString() {
     return this.translate(Shiruka.getLanguageManager().getServerLanguage());
