@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine texts.
  */
-public interface Text extends org.cactoos.Text {
+public interface Text {
 
   /**
    * creates an empty text.
@@ -42,6 +42,11 @@ public interface Text extends org.cactoos.Text {
     return () -> "";
   }
 
-  @Override
+  /**
+   * obtains the content.
+   *
+   * @return content.
+   */
+  @NotNull
   String asString();
 }
