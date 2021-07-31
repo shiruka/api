@@ -10,6 +10,16 @@ import org.jetbrains.annotations.NotNull;
 public interface Task {
 
   /**
+   * creates a task builder.
+   *
+   * @return a newly created task builder.
+   */
+  @NotNull
+  static Task.Builder newBuilder() {
+    return Scheduler.get().newBuilder();
+  }
+
+  /**
    * obtains the delay.
    *
    * @return delay.
