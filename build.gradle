@@ -48,6 +48,7 @@ checkstyle {
 }
 
 test {
+    useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
 
@@ -67,11 +68,17 @@ dependencies {
 
     annotationProcessor "org.projectlombok:lombok"
     annotationProcessor "org.jetbrains:annotations"
+
+    testImplementation "org.jetbrains:annotations"
+    testImplementation "org.hamcrest:hamcrest-library"
+    testImplementation "com.google.guava:guava-testlib"
+    testImplementation "org.mockito:mockito-junit-jupiter"
+    testImplementation "org.junit.jupiter:junit-jupiter"
 }
 
 publishing {
     publications {
-        shadow(MavenPublication) { publication ->
+        maven(MavenPublication) { publication ->
             from components.java
             artifact tasks.sourcesJar
             artifact tasks.javadocJar
