@@ -2,7 +2,6 @@ plugins {
     id "java"
     id "checkstyle"
     id "maven-publish"
-    id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
 
 group "net.shiruka"
@@ -42,32 +41,27 @@ repositories {
     mavenLocal()
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "io.github.parentpom:ppom:3.4.45"
-    }
-}
-
 dependencies {
-    implementation "org.projectlombok:lombok"
-    implementation "org.jetbrains:annotations"
-    implementation "com.google.guava:guava"
+    implementation 'org.projectlombok:lombok:1.18.20'
+    implementation 'org.jetbrains:annotations:21.0.1'
+    implementation 'com.google.guava:guava:30.1.1-jre'
 
-    annotationProcessor "org.projectlombok:lombok"
-    annotationProcessor "org.jetbrains:annotations"
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.jetbrains:annotations:21.0.1'
 
-    testImplementation "org.junit.jupiter:junit-jupiter"
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
 }
 
 publishing {
     publications {
-        maven(MavenPublication) {
-            from components.java
-            artifact tasks.sourcesJar
-            artifact tasks.javadocJar
+        pub(MavenPublication) {
             groupId project.group
             artifactId project.name
             version project.version
+
+            from components.java
+            artifact tasks.sourcesJar
+            artifact tasks.javadocJar
         }
     }
 }
