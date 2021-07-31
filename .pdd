@@ -1,4 +1,5 @@
 --source=.
 --verbose
 --exclude target/**/*
+--exclude build/**/*
 --exclude .idea/**/*

@@ -39,9 +39,6 @@ test {
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://repo.nukkitx.com/maven-snapshots/"
-    }
     mavenLocal()
 }
 
