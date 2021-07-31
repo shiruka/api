@@ -21,10 +21,10 @@ dependencyManagement {
 
 repositories {
     mavenCentral()
-    mavenLocal()
     maven {
         url "https://repo.nukkitx.com/maven-snapshots/"
     }
+    mavenLocal()
 }
 
 javadoc {
@@ -53,18 +53,13 @@ dependencies {
     annotationProcessor "org.jetbrains:annotations"
 }
 
-shadowJar {
-    archiveClassifier.set(null)
-    archiveBaseName.set("api")
-}
-
 publishing {
     publications {
         shadow(MavenPublication) { publication ->
-            project.shadow.component(publication)
+            from components.java
             artifact tasks.sourcesJar
             artifact tasks.javadocJar
-            groupId sub.group
+            groupId "${project.group}"
             artifactId "api"
             version project.version
         }
