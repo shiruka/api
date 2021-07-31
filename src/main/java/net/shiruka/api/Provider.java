@@ -72,7 +72,8 @@ public interface Provider {
     @Override
     public <T> Optional<T> provide(@NotNull final Class<? extends T> cls) {
       //noinspection unchecked
-      return Optional.ofNullable((T) this.implementations.get(cls));
+      return Optional.ofNullable(this.implementations.get(cls))
+        .map(o -> (T) o);
     }
 
     @Override
