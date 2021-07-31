@@ -1,5 +1,7 @@
 plugins {
     id "java"
+    id "jacoco"
+    id "checkstyle"
     id "maven-publish"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
@@ -41,6 +43,18 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+checkstyle {
+    configFile = file("checkstyle.xml")
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
 dependencies {
     compileOnly "org.projectlombok:lombok"
     compileOnly "org.jetbrains:annotations"
@@ -59,8 +73,8 @@ publishing {
             from components.java
             artifact tasks.sourcesJar
             artifact tasks.javadocJar
-            groupId "${project.group}"
-            artifactId "api"
+            groupId project.group
+            artifactId project.name
             version project.version
         }
     }
