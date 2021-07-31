@@ -58,10 +58,6 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok"
     annotationProcessor "org.jetbrains:annotations"
 
-    testImplementation "org.llorllale:cactoos-matchers"
-    testImplementation "org.hamcrest:hamcrest-library"
-    testImplementation "com.google.guava:guava-testlib"
-    testImplementation "org.mockito:mockito-junit-jupiter"
     testImplementation "org.junit.jupiter:junit-jupiter"
 }
 
