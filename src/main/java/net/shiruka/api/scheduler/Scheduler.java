@@ -17,4 +17,12 @@ public interface Scheduler {
   static Scheduler get() {
     return Shiruka.provideOrThrow(Scheduler.class);
   }
+
+  /**
+   * creates a task builder.
+   *
+   * @return a newly created task builder.
+   */
+  @NotNull
+  Task.Builder newBuilder();
 }
