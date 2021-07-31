@@ -38,6 +38,7 @@ public interface Provider {
    * registers the object.
    *
    * @param t the object to register.
+   * @param <T> type of the provided object.
    */
   <T> void register(@NotNull T t);
 }

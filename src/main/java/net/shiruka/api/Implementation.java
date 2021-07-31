@@ -18,6 +18,12 @@ final class Implementation {
   private static Server server;
 
   /**
+   * ctor.
+   */
+  private Implementation() {
+  }
+
+  /**
    * obtains the server.
    *
    * @return server.
