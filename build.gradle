@@ -46,7 +46,7 @@ dependencies {
     compileOnly "org.jetbrains:annotations"
     compileOnly "com.google.guava:guava"
     compileOnly "it.unimi.dsi:fastutil"
-    compileOnly "org.apache.logging.log4j:log4j-api"
+    compileOnly "org.apache.logging.log4j:log4j-core"
     compileOnly "com.nukkitx.protocol:bedrock-v448:2.8.1-SNAPSHOT"
 
     annotationProcessor "org.projectlombok:lombok"
