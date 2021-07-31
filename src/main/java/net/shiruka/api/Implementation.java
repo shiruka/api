@@ -24,7 +24,8 @@ final class Implementation {
    */
   @NotNull
   static Server getServer() {
-    return Objects.requireNonNull(Implementation.server, "The server not set yet!");
+    return Objects.requireNonNull(Implementation.server,
+      "The server not set yet!");
   }
 
   /**
