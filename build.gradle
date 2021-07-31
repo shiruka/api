@@ -48,8 +48,8 @@ checkstyle {
     checkstyleTest.enabled = false
 }
 
-test.beforeSuite { TestDescriptor suite ->
-    System.setProperty('user.language', 'en')
+test.beforeSuite {
+    System.setProperty("user.language", "en")
 }
 
 test {
