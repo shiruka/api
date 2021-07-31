@@ -1,6 +1,5 @@
 plugins {
     id "java"
-    id "jacoco"
     id "checkstyle"
     id "maven-publish"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
@@ -48,17 +47,8 @@ checkstyle {
     checkstyleTest.enabled = false
 }
 
-test.beforeSuite {
-    System.setProperty("user.language", "en")
-}
-
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-    dependsOn test
 }
 
 dependencies {
