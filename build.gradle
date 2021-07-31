@@ -1,0 +1,72 @@
+plugins {
+    id "java"
+    id "maven-publish"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+}
+
+group "net.shiruka"
+
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.github.parentpom:ppom:3.4.45"
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url "https://repo.nukkitx.com/maven-snapshots/"
+    }
+}
+
+javadoc {
+    options.tags = ["todo"]
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier "sources"
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok"
+    compileOnly "org.jetbrains:annotations"
+    compileOnly "com.google.guava:guava"
+    compileOnly "it.unimi.dsi:fastutil"
+    compileOnly "org.apache.logging.log4j:log4j-api"
+    compileOnly "com.nukkitx.protocol:bedrock-v448:2.8.1-SNAPSHOT"
+
+    annotationProcessor "org.projectlombok:lombok"
+    annotationProcessor "org.jetbrains:annotations"
+}
+
+shadowJar {
+    archiveClassifier.set(null)
+    archiveBaseName.set("api")
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) { publication ->
+            project.shadow.component(publication)
+            artifact tasks.sourcesJar
+            artifact tasks.javadocJar
+            groupId sub.group
+            artifactId "api"
+            version project.version
+        }
+    }
+}
