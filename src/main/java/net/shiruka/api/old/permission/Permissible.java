@@ -1,0 +1,116 @@
+package net.shiruka.api.old.permission;
+
+import java.util.Optional;
+import java.util.Set;
+import net.shiruka.api.old.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Represents an object that may be assigned permissions.
+ */
+public interface Permissible extends ServerOperator {
+
+  /**
+   * adds a new {@link PermissionAttachment} with a single permission by name and value.
+   *
+   * @param plugin the plugin to add.
+   * @param name the name to add.
+   * @param value the value to add.
+   *
+   * @return permission attachment that was just created.
+   */
+  @NotNull
+  PermissionAttachment addAttachment(@NotNull Plugin plugin, @NotNull String name, boolean value);
+
+  /**
+   * adds a new empty {@link PermissionAttachment} to this object.
+   *
+   * @param plugin the plugin to add.
+   *
+   * @return permission attachment that was just created.
+   */
+  @NotNull
+  PermissionAttachment addAttachment(@NotNull Plugin plugin);
+
+  /**
+   * temporarily adds a new {@link PermissionAttachment} with a single permission by name and value.
+   *
+   * @param plugin the plugin to add.
+   * @param name the name to add.
+   * @param value the value to add.
+   * @param ticks the ticks to add.
+   *
+   * @return permission attachment that was just created.
+   */
+  @NotNull
+  Optional<PermissionAttachment> addAttachment(@NotNull Plugin plugin, @NotNull String name, boolean value, long ticks);
+
+  /**
+   * temporarily adds a new empty {@link PermissionAttachment} to this object.
+   *
+   * @param plugin the plugin to add.
+   * @param ticks the ticks to add.
+   *
+   * @return permission attachment that was just created.
+   */
+  @NotNull
+  Optional<PermissionAttachment> addAttachment(@NotNull Plugin plugin, long ticks);
+
+  /**
+   * gets a set containing all of the permissions currently in effect by this object.
+   *
+   * @return set of currently effective permissions.
+   */
+  @NotNull
+  Set<PermissionAttachmentInfo> getEffectivePermissions();
+
+  /**
+   * gets the value of the specified permission, if set.
+   *
+   * @param name the name to get.
+   *
+   * @return value of the permission.
+   */
+  boolean hasPermission(@NotNull String name);
+
+  /**
+   * gets the value of the specified permission, if set.
+   *
+   * @param perm the perm to get.
+   *
+   * @return value of the permission.
+   */
+  boolean hasPermission(@NotNull Permission perm);
+
+  /**
+   * checks if this object contains an override for the specified permission, by fully qualified name.
+   *
+   * @param name the name to check.
+   *
+   * @return {@code true} if the permission is set, otherwise {@code false}.
+   */
+  boolean isPermissionSet(@NotNull String name);
+
+  /**
+   * checks if this object contains an override for the specified {@link Permission}.
+   *
+   * @param perm the perm to check.
+   *
+   * @return {@code true} if the permission is set, otherwise {@code false}.
+   */
+  boolean isPermissionSet(@NotNull Permission perm);
+
+  /**
+   * recalculates the permissions for this object, if the attachments have changed values.
+   */
+  void recalculatePermissions();
+
+  /**
+   * removes the given {@link PermissionAttachment} from this object.
+   *
+   * @param attachment the attachment to remove.
+   *
+   * @throws IllegalArgumentException when the specified attachment isn't part of this object.
+   */
+  void removeAttachment(@NotNull PermissionAttachment attachment);
+}
