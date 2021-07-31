@@ -1,4 +1,4 @@
 /**
- * the package that contains the main classes.
+ * the package that contains core classes.
  */
 package net.shiruka.api;
