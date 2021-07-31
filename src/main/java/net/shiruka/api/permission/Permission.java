@@ -239,7 +239,7 @@ public final class Permission {
     final var children = new Object2BooleanLinkedOpenHashMap<String>();
     input.forEach((key, value) -> {
       if (value instanceof Boolean) {
-        children.put(key.toString(), (Boolean) value);
+        children.put(key.toString(), (boolean) value);
         return;
       }
       Preconditions.checkArgument(value instanceof Map, "Child '%s' contains invalid value!",

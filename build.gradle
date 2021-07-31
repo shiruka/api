@@ -45,9 +45,11 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 checkstyle {
     configFile = file("checkstyle.xml")
+    checkstyleTest.enabled = false
 }
 
 test {
+    jvmArgs += ['-Duser.language=en', '-Duser.country=US']
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
@@ -57,21 +59,18 @@ jacocoTestReport {
 }
 
 dependencies {
-    compileOnly "org.projectlombok:lombok"
-    compileOnly "org.jetbrains:annotations"
-    compileOnly "com.google.guava:guava"
-    compileOnly "it.unimi.dsi:fastutil"
-    compileOnly "org.apache.logging.log4j:log4j-core"
-    compileOnly "com.fasterxml.jackson.core:jackson-databind"
-    compileOnly "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
-    compileOnly "com.nukkitx.protocol:bedrock-v448:2.8.1-SNAPSHOT"
+    implementation "org.projectlombok:lombok"
+    implementation "org.jetbrains:annotations"
+    implementation "com.google.guava:guava"
+    implementation "it.unimi.dsi:fastutil"
+    implementation "org.apache.logging.log4j:log4j-core"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
+    implementation "com.nukkitx.protocol:bedrock-v448:2.8.1-SNAPSHOT"
 
     annotationProcessor "org.projectlombok:lombok"
     annotationProcessor "org.jetbrains:annotations"
 
-    testImplementation "org.jetbrains:annotations"
-    testImplementation "it.unimi.dsi:fastutil"
-    testImplementation "org.apache.logging.log4j:log4j-core"
     testImplementation "org.llorllale:cactoos-matchers"
     testImplementation "org.hamcrest:hamcrest-library"
     testImplementation "com.google.guava:guava-testlib"
