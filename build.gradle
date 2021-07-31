@@ -70,6 +70,9 @@ dependencies {
     annotationProcessor "org.jetbrains:annotations"
 
     testImplementation "org.jetbrains:annotations"
+    testImplementation "it.unimi.dsi:fastutil"
+    testImplementation "org.apache.logging.log4j:log4j-core"
+    testImplementation "org.llorllale:cactoos-matchers"
     testImplementation "org.hamcrest:hamcrest-library"
     testImplementation "com.google.guava:guava-testlib"
     testImplementation "org.mockito:mockito-junit-jupiter"
