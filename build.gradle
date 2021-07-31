@@ -48,8 +48,11 @@ checkstyle {
     checkstyleTest.enabled = false
 }
 
+test.beforeSuite { TestDescriptor suite ->
+    System.setProperty('user.language', 'en')
+}
+
 test {
-    jvmArgs += ['-Duser.language=en', '-Duser.country=US']
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }

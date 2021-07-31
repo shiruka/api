@@ -180,7 +180,7 @@ public final class Permission {
         children = new Object2BooleanLinkedOpenHashMap<>();
         for (final var child : (Iterable<?>) childrenValue) {
           if (child != null) {
-            children.put(child.toString(), Boolean.TRUE);
+            children.put(child.toString(), true);
           }
         }
       } else if (!(childrenValue instanceof Map)) {
@@ -247,7 +247,7 @@ public final class Permission {
       try {
         final var perm = Permission.loadPermission(key.toString(), (Map<?, ?>) value,
           def, output);
-        children.put(perm.getName(), Boolean.TRUE);
+        children.put(perm.getName(), true);
         if (output != null) {
           output.add(perm);
         }
