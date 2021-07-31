@@ -14,20 +14,6 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "io.github.parentpom:ppom:3.4.45"
-    }
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        url "https://repo.nukkitx.com/maven-snapshots/"
-    }
-    mavenLocal()
-}
-
 javadoc {
     options.tags = ["todo"]
 }
@@ -49,6 +35,20 @@ checkstyle {
 
 test {
     useJUnitPlatform()
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.nukkitx.com/maven-snapshots/"
+    }
+    mavenLocal()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.github.parentpom:ppom:3.4.45"
+    }
 }
 
 dependencies {
