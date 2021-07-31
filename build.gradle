@@ -54,12 +54,6 @@ dependencyManagement {
 dependencies {
     implementation "org.projectlombok:lombok"
     implementation "org.jetbrains:annotations"
-    implementation "com.google.guava:guava"
-    implementation "it.unimi.dsi:fastutil"
-    implementation 'org.apache.logging.log4j:log4j-core'
-    implementation "com.fasterxml.jackson.core:jackson-databind"
-    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
-    implementation "com.nukkitx.protocol:bedrock-v448:2.8.1-SNAPSHOT"
 
     annotationProcessor "org.projectlombok:lombok"
     annotationProcessor "org.jetbrains:annotations"
