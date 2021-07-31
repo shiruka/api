@@ -54,6 +54,7 @@ dependencyManagement {
 dependencies {
     implementation "org.projectlombok:lombok"
     implementation "org.jetbrains:annotations"
+    implementation "com.google.guava:guava"
 
     annotationProcessor "org.projectlombok:lombok"
     annotationProcessor "org.jetbrains:annotations"
