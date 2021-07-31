@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine interface providers.
  */
+@SuppressWarnings("unchecked")
 public interface Provider {
 
   /**
@@ -71,7 +72,6 @@ public interface Provider {
     @NotNull
     @Override
     public <T> Optional<T> provide(@NotNull final Class<? extends T> cls) {
-      //noinspection unchecked
       return Optional.ofNullable(this.implementations.get(cls))
         .map(o -> (T) o);
     }
