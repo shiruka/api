@@ -62,7 +62,7 @@ dependencies {
     compileOnly "it.unimi.dsi:fastutil"
     compileOnly "org.apache.logging.log4j:log4j-core"
     compileOnly "com.fasterxml.jackson.core:jackson-databind"
-    compileOnly "com.fasterxml.jackson.core:jackson-dataformat-yaml"
+    compileOnly "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
     compileOnly "com.nukkitx.protocol:bedrock-v448:2.8.1-SNAPSHOT"
 
     annotationProcessor "org.projectlombok:lombok"
