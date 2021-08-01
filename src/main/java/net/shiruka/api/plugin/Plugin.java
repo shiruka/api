@@ -103,7 +103,7 @@ public interface Plugin {
    * </pre>
    *
    * @param name name of the plugin.
-   * @param loadOrder load order of the plugin, .
+   * @param loadOrder load order of the plugin.
    */
   @NotNull
   record Description(
