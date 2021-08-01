@@ -49,8 +49,8 @@ public interface Plugin {
    * @throws InvalidDescriptionException if something goes wrong when parsing the map.
    * @throws ClassNotFoundException if the plugin's main class not found.
    */
-  @SuppressWarnings("unchecked")
   @NotNull
+  @SuppressWarnings("unchecked")
   static Plugin of(@NotNull final File file) throws InvalidDescriptionException, IOException,
     ClassNotFoundException {
     final var description = Description.of(file);

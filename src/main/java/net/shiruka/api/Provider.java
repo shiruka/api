@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine interface providers.
  */
-@SuppressWarnings("unchecked")
 public interface Provider {
 
   /**
@@ -60,6 +59,7 @@ public interface Provider {
   /**
    * a simple implementation for {@link Provider}.
    */
+  @SuppressWarnings("unchecked")
   @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
   final class Impl implements Provider {
 
