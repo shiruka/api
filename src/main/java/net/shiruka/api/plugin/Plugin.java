@@ -103,11 +103,14 @@ public interface Plugin {
    * </pre>
    *
    * @param name name of the plugin.
+   * @param main plugin's main class path.
+   *   the separator could be {@literal .} or {@literal /} or {@literal \} or {@literal -}.
    * @param loadOrder load order of the plugin.
    */
   @NotNull
   record Description(
     @NotNull String name,
+    @NotNull String main,
     @NotNull LoadOrder loadOrder
   ) {
 
