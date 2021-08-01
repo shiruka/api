@@ -46,17 +46,20 @@ public interface Plugin {
   /**
    * runs after the plugin disable.
    */
-  void onDisable();
+  default void onDisable() {
+  }
 
   /**
    * runs after the plugin enable.
    */
-  void onEnable();
+  default void onEnable() {
+  }
 
   /**
    * runs after the plugin load.
    */
-  void onLoad();
+  default void onLoad() {
+  }
 
   /**
    * an interface to determine load order for plugins.
