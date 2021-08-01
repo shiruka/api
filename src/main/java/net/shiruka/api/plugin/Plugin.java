@@ -26,6 +26,7 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
@@ -55,15 +56,14 @@ public interface Plugin {
       .map(Path::toFile)
       .filter(File::isFile)
       .filter(file -> file.getName().endsWith(".jar"))
-      .map(file -> {
+      .flatMap(file -> {
         try {
-          return Plugin.of(file);
+          return Stream.of(Plugin.of(file));
         } catch (final InvalidDescriptionException | IOException | ClassNotFoundException e) {
           e.printStackTrace();
         }
-        return null;
+        return Stream.empty();
       })
-      .filter(Objects::nonNull)
       .toList();
   }
 
