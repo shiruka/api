@@ -76,6 +76,16 @@ public interface Task {
     Task build();
 
     /**
+     * sets task async.
+     *
+     * @param async the async to set.
+     *
+     * @return creates a clone of {@code this} with the new async value.
+     */
+    @NotNull
+    Builder withAsync(boolean async);
+
+    /**
      * sets the delay of the task.
      *
      * @param delay the delay to set.
