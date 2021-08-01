@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,6 +39,50 @@ import tr.com.infumia.infumialib.maps.MutableMap;
  * an interface to determine plugins.
  */
 public interface Plugin {
+
+  /**
+   * creates a plugin instance list from the plugin folder.
+   *
+   * @param folder the folder to create.
+   *
+   * @return plugin list.
+   *
+   * @throws IOException if something goes wrong when listing plugin files in the folder.
+   */
+  @NotNull
+  static Collection<Plugin> all(@NotNull final Path folder) throws IOException {
+    return Files.list(folder)
+      .map(Path::toFile)
+      .filter(File::isFile)
+      .filter(file -> file.getName().endsWith(".jar"))
+      .map(file -> {
+        try {
+          return Plugin.of(file);
+        } catch (final InvalidDescriptionException | IOException | ClassNotFoundException e) {
+          e.printStackTrace();
+        }
+        return null;
+      })
+      .filter(Objects::nonNull)
+      .collect(Collectors.toSet());
+  }
+
+  /**
+   * creates a plugin instance from the plugin file.
+   *
+   * @param file the file to create.
+   *
+   * @return a newly created plugin instance.
+   *
+   * @throws IOException if something goes wrong when reading values in the file.
+   * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+   * @throws ClassNotFoundException if the plugin's main class not found.
+   */
+  @NotNull
+  static Plugin of(@NotNull final Path file) throws InvalidDescriptionException, IOException,
+    ClassNotFoundException {
+    return Plugin.of(file.toFile());
+  }
 
   /**
    * creates a plugin instance from the plugin file.
@@ -209,6 +255,22 @@ public interface Plugin {
      * the pattern for validate plugin names.
      */
     private static final Pattern VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$");
+
+    /**
+     * creates a description instance from the file.
+     *
+     * @param file the file to create.
+     *
+     * @return a newly created description from file.
+     *
+     * @throws java.io.FileNotFoundException if the file not found.
+     * @throws IOException if something goes wrong when reading values in the file.
+     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+     */
+    @NotNull
+    public static Description of(@NotNull final Path file) throws IOException, InvalidDescriptionException {
+      return Description.of(file.toFile());
+    }
 
     /**
      * creates a description instance from the file.
