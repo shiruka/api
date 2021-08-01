@@ -62,7 +62,8 @@ public interface Plugin {
     return Guice.createInjector(binder -> {
       binder.bind(Description.class).toInstance(description);
       binder.bind(Logger.class).toInstance(logger);
-      binder.bind(Scheduler.class).toInstance(Scheduler.get());
+      binder.bind(Scheduler.Sync.class).toInstance(Scheduler.getSync());
+      binder.bind(Scheduler.Async.class).toInstance(Scheduler.getAsync());
       binder.bind(Server.class).toInstance(Shiruka.getServer());
     }).getInstance(pluginClass);
   }

@@ -14,7 +14,7 @@ public interface Scheduler {
    * @return implementation of async Scheduler.
    */
   @NotNull
-  static Scheduler getAsync() {
+  static Async getAsync() {
     return Shiruka.provideOrThrow(Async.class);
   }
 
@@ -24,7 +24,7 @@ public interface Scheduler {
    * @return implementation of sync Scheduler.
    */
   @NotNull
-  static Scheduler getSync() {
+  static Sync getSync() {
     return Shiruka.provideOrThrow(Sync.class);
   }
 
