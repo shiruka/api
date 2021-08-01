@@ -6,18 +6,27 @@ import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import de.skuzzle.semantic.Version;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
+import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine plugins.
@@ -77,6 +86,20 @@ public interface Plugin {
     }
 
     /**
+     * gets the load order from the given type.
+     *
+     * @param type the type to get.
+     *
+     * @return load order.
+     */
+    @NotNull
+    public static Optional<LoadOrder> getByType(@NotNull final String type) {
+      return Arrays.stream(LoadOrder.values())
+        .filter(loadOrder -> loadOrder.is(type))
+        .findFirst();
+    }
+
+    /**
      * checks if {@link #types} contains the given type.
      *
      * @param type the type to check.
@@ -106,9 +129,9 @@ public interface Plugin {
    *   contributors: # default is empty
    *     - "portlek"
    *   website: https://shiruka.net
-   *   depend: # default is empty
+   *   depends: # default is empty
    *     - "test-depend"
-   *   soft-depend: # default is empty
+   *   soft-depends: # default is empty
    *     - "test-soft-depend"
    *   load-before: # default is empty
    *     - "test-load-before"
@@ -166,6 +189,23 @@ public interface Plugin {
     private static final Pattern VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$");
 
     /**
+     * creates a description instance from the file.
+     *
+     * @param file the file to create.
+     *
+     * @return a newly created description from file.
+     *
+     * @throws java.io.FileNotFoundException if the file not found.
+     * @throws IOException if something goes wrong when reading values in the file.
+     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+     */
+    @NotNull
+    public static Description of(@NotNull final File file) throws IOException, InvalidDescriptionException {
+      @Cleanup final var stream = new FileInputStream(file);
+      return Description.of(stream);
+    }
+
+    /**
      * creates a description instance from the stream.
      *
      * @param stream the stream to create.
@@ -191,67 +231,128 @@ public interface Plugin {
      */
     @NotNull
     public static Description of(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
-      // Essential keys.
-      final var nameKey = "name";
-      final var mainKey = "main";
-      // Parse name of the plugin.
-      @NotNull final String name;
-      try {
-        name = Objects.requireNonNull((String) map.get(nameKey));
-      } catch (final NullPointerException e) {
-        throw new InvalidDescriptionException(String.format("The key called %s not found in the plugin file!",
-          nameKey));
-      } catch (final ClassCastException e) {
-        throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
-          nameKey, map.get(nameKey).getClass()));
-      }
-      // Parse main class path of the plugin.
-      @NotNull final String main;
-      try {
-        main = Objects.requireNonNull((String) map.get(mainKey));
-      } catch (final NullPointerException e) {
-        throw new InvalidDescriptionException(String.format("The key called %s not found in the plugin file!",
-          mainKey));
-      } catch (final ClassCastException e) {
-        throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
-          mainKey, map.get(mainKey).getClass()));
-      }
-      // Keys.
-      final var versionKey = "version";
-      final var descriptionKey = "description";
-      final var loadKey = "load";
-      final var authorsKey = "authors";
-      final var contributorsKey = "contributors";
-      final var prefixKey = "prefix";
-      final var dependsKey = "depends";
-      final var softDependsKey = "soft-depends";
-      final var loadBeforeKey = "load-before";
-      final var websiteKey = "website";
-      // Default values.
-      var version = Version.create(1);
-      final var description = "";
-      final var loadOrder = LoadOrder.POST_WORLD;
-      final var authors = Collections.<String>emptySet();
-      final var contributors = Collections.<String>emptySet();
-      final var prefix = name;
-      final var depends = Collections.<String>emptySet();
-      final var softDepends = Collections.<String>emptySet();
-      final var loadBefore = Collections.<String>emptySet();
-      final var website = "";
-      // Parse version.
-      try {
-        final var versionString = (String) map.get(versionKey);
-        if (versionString != null) {
-          version = Version.parseVersion(versionString, true);
-        }
-      } catch (final ClassCastException e) {
-        if (map.containsKey(versionKey)) {
-          throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
-            versionKey, map.get(versionKey).getClass()));
-        }
-      }
+      final var name = Description.essential(map, "name", String.class);
+      final var main = Description.essential(map, "main", String.class);
+      final var version = Description.optional(map, "version", String.class, Version.create(1), versionString ->
+        Version.parseVersion(versionString, true));
+      final var description = Description.optional(map, "description", String.class, "");
+      final var loadOrder = Description.optional(map, "load", String.class, LoadOrder.POST_WORLD, s ->
+        LoadOrder.getByType(s).orElse(null));
+      final var authors = Description.optionalCollection(map, "authors");
+      final var contributors = Description.optionalCollection(map, "contributors");
+      final var prefix = Description.optional(map, "prefix", String.class, name);
+      final var depends = Description.optionalCollection(map, "depends");
+      final var softDepends = Description.optionalCollection(map, "soft-depends");
+      final var loadBefore = Description.optionalCollection(map, "load-before");
+      final var website = Description.optional(map, "website", String.class, "");
       return new Description(name, main, version, description, loadOrder, authors, contributors, prefix, depends,
         softDepends, loadBefore, website);
+    }
+
+    /**
+     * gets the value from the map at the given key.
+     *
+     * @param map the map to get.
+     * @param key the key to get.
+     * @param type the type to get..
+     * @param <T> type of the final value.
+     *
+     * @return requested value.
+     *
+     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+     */
+    @NotNull
+    private static <T> T essential(@NotNull final Map<String, Object> map, @NotNull final String key,
+                                   @NotNull final Class<T> type)
+      throws InvalidDescriptionException {
+      try {
+        return Objects.requireNonNull(type.cast(map.get(key)));
+      } catch (final NullPointerException e) {
+        throw new InvalidDescriptionException(String.format("The key called %s not found in the plugin file!",
+          key));
+      } catch (final ClassCastException e) {
+        throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
+          key, map.get(key).getClass()));
+      }
+    }
+
+    /**
+     * gets the value from the map at the given key.
+     *
+     * @param map the map to get.
+     * @param key the key to get.
+     * @param type the type to get.
+     * @param defaultValue the default value to get.
+     * @param <T> type of the final value.
+     *
+     * @return requested value.
+     *
+     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+     */
+    @NotNull
+    private static <T> T optional(@NotNull final Map<String, Object> map, @NotNull final String key,
+                                  @NotNull final Class<T> type, @NotNull final T defaultValue)
+      throws InvalidDescriptionException {
+      return Description.optional(map, key, type, defaultValue, UnaryOperator.identity());
+    }
+
+    /**
+     * gets the value from the map at the given key.
+     *
+     * @param map the map to get.
+     * @param key the key to get.
+     * @param type the type to get.
+     * @param defaultValue the default value to get.
+     * @param mappingFunction the mapping function to get.
+     * @param <T> type of the map value.
+     * @param <Y> type of the final value.
+     *
+     * @return requested value.
+     *
+     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+     */
+    @NotNull
+    private static <T, Y> Y optional(@NotNull final Map<String, Object> map, @NotNull final String key,
+                                     @NotNull final Class<T> type, @NotNull final Y defaultValue,
+                                     @NotNull final Function<@NotNull T, @Nullable Y> mappingFunction)
+      throws InvalidDescriptionException {
+      final var value = map.get(key);
+      if (value == null) {
+        return defaultValue;
+      }
+      try {
+        final var mapped = mappingFunction.apply(type.cast(value));
+        if (mapped == null) {
+          return defaultValue;
+        }
+        return mapped;
+      } catch (final NullPointerException e) {
+        throw new InvalidDescriptionException(String.format("The key called %s not found in the plugin file!",
+          key));
+      } catch (final ClassCastException e) {
+        throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
+          key, value.getClass()));
+      }
+    }
+
+    /**
+     * gets the value from the map at the given key.
+     *
+     * @param map the map to get.
+     * @param key the key to get.
+     *
+     * @return requested value.
+     *
+     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+     */
+    @NotNull
+    private static Collection<String> optionalCollection(@NotNull final Map<String, Object> map,
+                                                         @NotNull final String key)
+      throws InvalidDescriptionException {
+      return Description.optional(map, key, Collection.class, Collections.emptySet(), collection ->
+        ((Collection<?>) collection).stream()
+          .map(Object::toString)
+          .collect(Collectors.toSet()));
     }
   }
 }
