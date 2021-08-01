@@ -102,8 +102,8 @@ public interface Plugin {
    *   prefix: "Test Plugin" # default is name
    * </pre>
    *
-   * @param name the name.
-   * @param loadOrder the load order.
+   * @param name name of the plugin.
+   * @param loadOrder load order of the plugin, .
    */
   @NotNull
   record Description(
