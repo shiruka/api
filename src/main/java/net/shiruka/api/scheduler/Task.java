@@ -2,6 +2,7 @@ package net.shiruka.api.scheduler;
 
 import java.time.Duration;
 import java.util.function.Consumer;
+import net.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -50,6 +51,14 @@ public interface Task {
    */
   @NotNull
   String getName();
+
+  /**
+   * obtains the plugin.
+   *
+   * @return plugin.
+   */
+  @NotNull
+  Plugin getPlugin();
 
   /**
    * an interface to determine builders for {@link Task}.
@@ -105,5 +114,15 @@ public interface Task {
      */
     @NotNull
     Builder withName(@NotNull String name);
+
+    /**
+     * sets the plugin of the task.
+     *
+     * @param plugin the plugin to set.
+     *
+     * @return creates a clone of {@code this} with the new plugin value.
+     */
+    @NotNull
+    Builder withPlugin(@NotNull Plugin plugin);
   }
 }
