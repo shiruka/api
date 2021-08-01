@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
+import net.shiruka.api.Server;
+import net.shiruka.api.Shiruka;
 import net.shiruka.api.scheduler.Scheduler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,6 +63,7 @@ public interface Plugin {
       binder.bind(Description.class).toInstance(description);
       binder.bind(Logger.class).toInstance(logger);
       binder.bind(Scheduler.class).toInstance(Scheduler.get());
+      binder.bind(Server.class).toInstance(Shiruka.getServer());
     }).getInstance(pluginClass);
   }
 
