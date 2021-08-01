@@ -1,8 +1,20 @@
 package net.shiruka.api.plugin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import de.skuzzle.semantic.Version;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -135,5 +147,111 @@ public interface Plugin {
     @NotNull String website
   ) {
 
+    /**
+     * the mapper.
+     */
+    private static final ObjectMapper MAPPER = new YAMLMapper()
+      .enable(YAMLGenerator.Feature.INDENT_ARRAYS)
+      .enable(SerializationFeature.INDENT_OUTPUT);
+
+    /**
+     * the map type.
+     */
+    private static final MapType MAP_TYPE = Description.MAPPER.getTypeFactory()
+      .constructMapType(HashMap.class, String.class, Object.class);
+
+    /**
+     * the pattern for validate plugin names.
+     */
+    private static final Pattern VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$");
+
+    /**
+     * creates a description instance from the stream.
+     *
+     * @param stream the stream to create.
+     *
+     * @return a newly created description from stream.
+     *
+     * @throws IOException if something goes wrong when reading values in the stream.
+     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+     */
+    @NotNull
+    public static Description of(@NotNull final InputStream stream) throws IOException, InvalidDescriptionException {
+      return Description.of(Description.MAPPER.<Map<String, Object>>readValue(stream, Description.MAP_TYPE));
+    }
+
+    /**
+     * creates a description instance from the map.
+     *
+     * @param map the map to create.
+     *
+     * @return a newly created description from map.
+     *
+     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+     */
+    @NotNull
+    public static Description of(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
+      // Essential keys.
+      final var nameKey = "name";
+      final var mainKey = "main";
+      // Parse name of the plugin.
+      @NotNull final String name;
+      try {
+        name = Objects.requireNonNull((String) map.get(nameKey));
+      } catch (final NullPointerException e) {
+        throw new InvalidDescriptionException(String.format("The key called %s not found in the plugin file!",
+          nameKey));
+      } catch (final ClassCastException e) {
+        throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
+          nameKey, map.get(nameKey).getClass()));
+      }
+      // Parse main class path of the plugin.
+      @NotNull final String main;
+      try {
+        main = Objects.requireNonNull((String) map.get(mainKey));
+      } catch (final NullPointerException e) {
+        throw new InvalidDescriptionException(String.format("The key called %s not found in the plugin file!",
+          mainKey));
+      } catch (final ClassCastException e) {
+        throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
+          mainKey, map.get(mainKey).getClass()));
+      }
+      // Keys.
+      final var versionKey = "version";
+      final var descriptionKey = "description";
+      final var loadKey = "load";
+      final var authorsKey = "authors";
+      final var contributorsKey = "contributors";
+      final var prefixKey = "prefix";
+      final var dependsKey = "depends";
+      final var softDependsKey = "soft-depends";
+      final var loadBeforeKey = "load-before";
+      final var websiteKey = "website";
+      // Default values.
+      var version = Version.create(1);
+      final var description = "";
+      final var loadOrder = LoadOrder.POST_WORLD;
+      final var authors = Collections.<String>emptySet();
+      final var contributors = Collections.<String>emptySet();
+      final var prefix = name;
+      final var depends = Collections.<String>emptySet();
+      final var softDepends = Collections.<String>emptySet();
+      final var loadBefore = Collections.<String>emptySet();
+      final var website = "";
+      // Parse version.
+      try {
+        final var versionString = (String) map.get(versionKey);
+        if (versionString != null) {
+          version = Version.parseVersion(versionString, true);
+        }
+      } catch (final ClassCastException e) {
+        if (map.containsKey(versionKey)) {
+          throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
+            versionKey, map.get(versionKey).getClass()));
+        }
+      }
+      return new Description(name, main, version, description, loadOrder, authors, contributors, prefix, depends,
+        softDepends, loadBefore, website);
+    }
   }
 }
