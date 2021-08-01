@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
+import net.shiruka.api.scheduler.Scheduler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -59,6 +60,7 @@ public interface Plugin {
     return Guice.createInjector(binder -> {
       binder.bind(Description.class).toInstance(description);
       binder.bind(Logger.class).toInstance(logger);
+      binder.bind(Scheduler.class).toInstance(Scheduler.get());
     }).getInstance(pluginClass);
   }
 
