@@ -20,6 +20,7 @@ final class InvalidDescriptionException extends Exception {
    * ctor.
    *
    * @param message the message.
+   * @param args the args.
    */
   InvalidDescriptionException(@NotNull final String message, @NotNull final Object... args) {
     this(String.format(message, args));
