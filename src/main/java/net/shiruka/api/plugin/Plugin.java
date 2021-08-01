@@ -182,7 +182,7 @@ public interface Plugin {
    * @see <a href="https://semver.org/">version syntax</a>
    */
   @NotNull
-  record Description(
+  final record Description(
     @NotNull String name,
     @NotNull String main,
     @NotNull Version version,
