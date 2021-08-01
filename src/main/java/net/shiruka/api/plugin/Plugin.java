@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import com.google.inject.Guice;
 import de.skuzzle.semantic.Version;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tr.com.infumia.infumialib.maps.MutableMap;
@@ -36,30 +39,43 @@ import tr.com.infumia.infumialib.maps.MutableMap;
 public interface Plugin {
 
   /**
-   * obtains the description.
+   * creates a plugin instance from the plugin file.
    *
-   * @return description.
+   * @param file the file to create.
+   *
+   * @return a newly created plugin instance.
+   *
+   * @throws IOException if something goes wrong when reading values in the file.
+   * @throws InvalidDescriptionException if something goes wrong when parsing the map.
+   * @throws ClassNotFoundException if the plugin's main class not found.
    */
+  @SuppressWarnings("unchecked")
   @NotNull
-  Description getDescription();
+  static Plugin of(@NotNull final File file) throws InvalidDescriptionException, IOException,
+    ClassNotFoundException {
+    final var description = Description.of(file);
+    final var pluginClass = (Class<? extends Plugin>) Class.forName(description.main());
+    final var logger = LogManager.getLogger(description.prefix());
+    return Guice.createInjector(binder -> {
+      binder.bind(Description.class).toInstance(description);
+      binder.bind(Logger.class).toInstance(logger);
+    }).getInstance(pluginClass);
+  }
 
   /**
    * runs after the plugin disable.
    */
-  default void onDisable() {
-  }
+  void onDisable();
 
   /**
    * runs after the plugin enable.
    */
-  default void onEnable() {
-  }
+  void onEnable();
 
   /**
    * runs after the plugin load.
    */
-  default void onLoad() {
-  }
+  void onLoad();
 
   /**
    * an interface to determine load order for plugins.
