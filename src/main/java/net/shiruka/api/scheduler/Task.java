@@ -11,13 +11,30 @@ import org.jetbrains.annotations.NotNull;
 public interface Task {
 
   /**
-   * creates a task builder.
+   * creates an async task builder.
    *
-   * @return a newly created task builder.
+   * @return a newly created async task builder.
    */
   @NotNull
-  static Task.Builder newBuilder() {
-    return Scheduler.get().newBuilder();
+  static Task.Builder newAsyncBuilder() {
+    return Scheduler.getAsync().newBuilder();
+  }
+
+  /**
+   * creates a sync task builder.
+   *
+   * @return a newly created sync task builder.
+   */
+  @NotNull
+  static Task.Builder newSyncBuilder() {
+    return Scheduler.getSync().newBuilder();
+  }
+
+  /**
+   * executes the task.
+   */
+  default void execute() {
+    this.getScheduler().execute(this);
   }
 
   /**
@@ -61,6 +78,14 @@ public interface Task {
   Plugin getPlugin();
 
   /**
+   * obtains the scheduler.
+   *
+   * @return scheduler.
+   */
+  @NotNull
+  Scheduler getScheduler();
+
+  /**
    * an interface to determine builders for {@link Task}.
    */
   interface Builder {
@@ -76,14 +101,11 @@ public interface Task {
     Task build();
 
     /**
-     * sets task async.
-     *
-     * @param async the async to set.
-     *
-     * @return creates a clone of {@code this} with the new async value.
+     * executes the task.
      */
-    @NotNull
-    Builder withAsync(boolean async);
+    default void execute() {
+      this.build().execute();
+    }
 
     /**
      * sets the delay of the task.
