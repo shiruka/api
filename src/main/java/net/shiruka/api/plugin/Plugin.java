@@ -77,12 +77,38 @@ public interface Plugin {
 
   /**
    * a simple record class that implements {@link Description}.
+   * <p>
+   * example to show scheme of the plugin file:
+   * <pre>
+   *   # Required
+   *   name: Test Plugin
+   *   main: net.shiruka.test.TestPlugin
+   *
+   *   # Optional
+   *   version: "1.0.0-SNAPSHOT" # default is 1.0.0
+   *   description: "A simple plugin to show developers how to create a plugin." # default is empty
+   *   load: startup # default is post-world
+   *   authors: # default is empty
+   *     - "Shiru ka"
+   *   contributors: # default is empty
+   *     - "portlek"
+   *   website: https://shiruka.net
+   *   depend: # default is empty
+   *     - "test-depend"
+   *   soft-depend: # default is empty
+   *     - "test-soft-depend"
+   *   load-before: # default is empty
+   *     - "test-load-before"
+   *   prefix: "Test Plugin" # default is name
+   * </pre>
+   *
+   * @param name the name.
+   * @param loadOrder the load order.
    */
   @NotNull
   record Description(
-    @NotNull String id,
     @NotNull String name,
-    @NotNull Plugin.LoadOrder loadOrder
+    @NotNull LoadOrder loadOrder
   ) {
 
   }
