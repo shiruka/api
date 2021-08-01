@@ -12,6 +12,11 @@ import org.jetbrains.annotations.Nullable;
 final class Implementation {
 
   /**
+   * the lock.
+   */
+  private static final Object LOCK = new Object();
+
+  /**
    * the server instance.
    */
   @Nullable
@@ -41,7 +46,7 @@ final class Implementation {
    *
    * @throws IllegalStateException if the server is already set.
    */
-  @Synchronized("server")
+  @Synchronized("LOCK")
   static void setServer(@NotNull final Server server) {
     Preconditions.checkState(Implementation.server == null,
       "The server has been set already!", Implementation.server);
