@@ -104,16 +104,35 @@ public interface Plugin {
    * </pre>
    *
    * @param name name of the plugin.
-   * @param main plugin's main class path.
-   *   the separator could be {@literal .} or {@literal /} or {@literal \} or {@literal -}.
+   * @param main plugin's main class path. the separator could be {@literal .} or {@literal /} or {@literal \} or
+   *   {@literal -}.
+   * @param version version of the plugin.
+   * @param description description of the plugin.
    * @param loadOrder load order of the plugin.
+   * @param authors authors of the plugin.
+   * @param contributors contributors of the plugin.
+   * @param prefix prefix, which will use for logging, of the plugin.
+   * @param depends dependencies, which the server HAVE TO have, of the plugin.
+   * @param softDepends soft-dependencies, which the server DON'T HAVE TO have, of the plugin.
+   * @param loadBefore loads the plugin before these plugins.
+   * @param website website of the plugin.
+   *
+   * @see <a href="https://semver.org/">version syntax</a>
    */
   @NotNull
   record Description(
     @NotNull String name,
     @NotNull String main,
     @NotNull Version version,
-    @NotNull LoadOrder loadOrder
+    @NotNull String description,
+    @NotNull LoadOrder loadOrder,
+    @NotNull Collection<String> authors,
+    @NotNull Collection<String> contributors,
+    @NotNull String prefix,
+    @NotNull Collection<String> depends,
+    @NotNull Collection<String> softDepends,
+    @NotNull Collection<String> loadBefore,
+    @NotNull String website
   ) {
 
   }
