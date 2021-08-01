@@ -15,4 +15,13 @@ final class InvalidDescriptionException extends Exception {
   InvalidDescriptionException(@NotNull final String message) {
     super(message);
   }
+
+  /**
+   * ctor.
+   *
+   * @param message the message.
+   */
+  InvalidDescriptionException(@NotNull final String message, @NotNull final Object... args) {
+    this(String.format(message, args));
+  }
 }

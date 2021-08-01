@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,6 +28,7 @@ import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tr.com.infumia.infumialib.maps.MutableMap;
 
 /**
  * an interface to determine plugins.
@@ -94,8 +96,9 @@ public interface Plugin {
      */
     @NotNull
     public static Optional<LoadOrder> getByType(@NotNull final String type) {
+      final var lowerCase = type.toLowerCase(Locale.ROOT);
       return Arrays.stream(LoadOrder.values())
-        .filter(loadOrder -> loadOrder.is(type))
+        .filter(loadOrder -> loadOrder.is(lowerCase))
         .findFirst();
     }
 
@@ -232,18 +235,19 @@ public interface Plugin {
     @NotNull
     public static Description of(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
       final var name = Description.essential(map, "name", String.class);
+      Description.validateName(name);
       final var main = Description.essential(map, "main", String.class);
       final var version = Description.optional(map, "version", String.class, Version.create(1), versionString ->
         Version.parseVersion(versionString, true));
       final var description = Description.optional(map, "description", String.class, "");
       final var loadOrder = Description.optional(map, "load", String.class, LoadOrder.POST_WORLD, s ->
         LoadOrder.getByType(s).orElse(null));
-      final var authors = Description.optionalCollection(map, "authors");
-      final var contributors = Description.optionalCollection(map, "contributors");
+      final var authors = Description.optionalStringCollection(map, "authors");
+      final var contributors = Description.optionalStringCollection(map, "contributors");
       final var prefix = Description.optional(map, "prefix", String.class, name);
-      final var depends = Description.optionalCollection(map, "depends");
-      final var softDepends = Description.optionalCollection(map, "soft-depends");
-      final var loadBefore = Description.optionalCollection(map, "load-before");
+      final var depends = Description.optionalStringCollection(map, "depends");
+      final var softDepends = Description.optionalStringCollection(map, "soft-depends");
+      final var loadBefore = Description.optionalStringCollection(map, "load-before");
       final var website = Description.optional(map, "website", String.class, "");
       return new Description(name, main, version, description, loadOrder, authors, contributors, prefix, depends,
         softDepends, loadBefore, website);
@@ -268,11 +272,11 @@ public interface Plugin {
       try {
         return Objects.requireNonNull(type.cast(map.get(key)));
       } catch (final NullPointerException e) {
-        throw new InvalidDescriptionException(String.format("The key called %s not found in the plugin file!",
-          key));
+        throw new InvalidDescriptionException("The key called %s not found in the plugin file!",
+          key);
       } catch (final ClassCastException e) {
-        throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
-          key, map.get(key).getClass()));
+        throw new InvalidDescriptionException("Invalid type for %s key, found %s!",
+          key, map.get(key).getClass());
       }
     }
 
@@ -327,11 +331,11 @@ public interface Plugin {
         }
         return mapped;
       } catch (final NullPointerException e) {
-        throw new InvalidDescriptionException(String.format("The key called %s not found in the plugin file!",
-          key));
+        throw new InvalidDescriptionException("The key called %s not found in the plugin file!",
+          key);
       } catch (final ClassCastException e) {
-        throw new InvalidDescriptionException(String.format("Invalid type for %s key, found %s!",
-          key, value.getClass()));
+        throw new InvalidDescriptionException("Invalid type for %s key, found %s!",
+          key, value.getClass());
       }
     }
 
@@ -346,13 +350,49 @@ public interface Plugin {
      * @throws InvalidDescriptionException if something goes wrong when parsing the map.
      */
     @NotNull
-    private static Collection<String> optionalCollection(@NotNull final Map<String, Object> map,
-                                                         @NotNull final String key)
+    private static Collection<String> optionalStringCollection(@NotNull final Map<String, Object> map,
+                                                               @NotNull final String key)
       throws InvalidDescriptionException {
       return Description.optional(map, key, Collection.class, Collections.emptySet(), collection ->
         ((Collection<?>) collection).stream()
           .map(Object::toString)
           .collect(Collectors.toSet()));
+    }
+
+    /**
+     * validates the name and returns it back.
+     *
+     * @param name the name to validate.
+     *
+     * @throws InvalidDescriptionException if the name has invalid characters.
+     * @see #VALID_NAME
+     */
+    private static void validateName(@NotNull final String name) throws InvalidDescriptionException {
+      if (!Description.VALID_NAME.matcher(name).matches()) {
+        throw new InvalidDescriptionException("The name %s contains invalid characters!",
+          name);
+      }
+    }
+
+    /**
+     * converts all variables into a map.
+     *
+     * @return serialized map.
+     */
+    @NotNull
+    public Map<String, Object> serialize() {
+      return MutableMap.<String, Object>of("name", this.name)
+        .with("main", this.main)
+        .with("version", this.version.toString())
+        .with("description", this.description)
+        .with("load", this.loadOrder.name().toLowerCase(Locale.ROOT))
+        .with("authors", this.authors)
+        .with("contributors", this.contributors)
+        .with("prefix", this.prefix)
+        .with("depends", this.depends)
+        .with("soft-depends", this.softDepends)
+        .with("load-before", this.loadBefore)
+        .with("website", this.website);
     }
   }
 }
