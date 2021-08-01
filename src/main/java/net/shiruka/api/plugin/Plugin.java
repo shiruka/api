@@ -405,7 +405,8 @@ public interface Plugin {
      */
     @NotNull
     public Map<String, Object> serialize() {
-      return MutableMap.<String, Object>of("name", this.name)
+      return MutableMap.<String, Object>of()
+        .with("name", this.name)
         .with("main", this.main)
         .with("version", this.version.toString())
         .with("description", this.description)
