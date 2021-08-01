@@ -1,5 +1,6 @@
 package net.shiruka.api.plugin;
 
+import de.skuzzle.semantic.Version;
 import java.util.Collection;
 import java.util.Set;
 import lombok.AccessLevel;
@@ -111,6 +112,7 @@ public interface Plugin {
   record Description(
     @NotNull String name,
     @NotNull String main,
+    @NotNull Version version,
     @NotNull LoadOrder loadOrder
   ) {
 
