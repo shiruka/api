@@ -64,7 +64,7 @@ public interface Plugin {
         return null;
       })
       .filter(Objects::nonNull)
-      .collect(Collectors.toSet());
+      .toList();
   }
 
   /**
