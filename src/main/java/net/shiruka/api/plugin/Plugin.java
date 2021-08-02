@@ -5,14 +5,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import com.google.inject.Guice;
 import de.skuzzle.semantic.Version;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,12 +22,8 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import lombok.AccessLevel;
-import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tr.com.infumia.infumialib.maps.MutableMap;
@@ -40,73 +32,6 @@ import tr.com.infumia.infumialib.maps.MutableMap;
  * an interface to determine plugins.
  */
 public interface Plugin {
-
-  /**
-   * creates a plugin instance list from the plugin folder.
-   *
-   * @param folder the folder to create.
-   *
-   * @return plugin list.
-   *
-   * @throws IOException if something goes wrong when listing plugin files in the folder.
-   */
-  @NotNull
-  static Collection<Plugin> all(@NotNull final Path folder) throws IOException {
-    return Files.list(folder)
-      .map(Path::toFile)
-      .filter(File::isFile)
-      .filter(file -> file.getName().endsWith(".jar"))
-      .flatMap(file -> {
-        try {
-          return Stream.of(Plugin.of(file));
-        } catch (final InvalidDescriptionException | IOException | ClassNotFoundException e) {
-          e.printStackTrace();
-        }
-        return Stream.empty();
-      })
-      .toList();
-  }
-
-  /**
-   * creates a plugin instance from the plugin file.
-   *
-   * @param file the file to create.
-   *
-   * @return a newly created plugin instance.
-   *
-   * @throws IOException if something goes wrong when reading values in the file.
-   * @throws InvalidDescriptionException if something goes wrong when parsing the map.
-   * @throws ClassNotFoundException if the plugin's main class not found.
-   */
-  @NotNull
-  static Plugin of(@NotNull final Path file) throws InvalidDescriptionException, IOException,
-    ClassNotFoundException {
-    return Plugin.of(file.toFile());
-  }
-
-  /**
-   * creates a plugin instance from the plugin file.
-   *
-   * @param file the file to create.
-   *
-   * @return a newly created plugin instance.
-   *
-   * @throws IOException if something goes wrong when reading values in the file.
-   * @throws InvalidDescriptionException if something goes wrong when parsing the map.
-   * @throws ClassNotFoundException if the plugin's main class not found.
-   */
-  @NotNull
-  @SuppressWarnings("unchecked")
-  static Plugin of(@NotNull final File file) throws InvalidDescriptionException, IOException,
-    ClassNotFoundException {
-    final var description = Description.of(file);
-    final var pluginClass = (Class<? extends Plugin>) Class.forName(description.main());
-    final var logger = LogManager.getLogger(description.prefix());
-    return Guice.createInjector(binder -> {
-      binder.bind(Description.class).toInstance(description);
-      binder.bind(Logger.class).toInstance(logger);
-    }).getInstance(pluginClass);
-  }
 
   /**
    * runs after the plugin disable.
@@ -180,6 +105,56 @@ public interface Plugin {
   }
 
   /**
+   * an interface to determine plugin loaders.
+   */
+  interface Loader {
+
+    /**
+     * loads the plugin.
+     *
+     * @param file the file to load.
+     *
+     * @return loaded plugin.
+     *
+     * @throws InvalidDescriptionException if something goes wrong when parsing the description.
+     */
+    @NotNull
+    Description loadDescription(@NotNull File file) throws InvalidDescriptionException;
+  }
+
+  /**
+   * an interface to determine plugin managers.
+   */
+  interface Manager {
+
+    /**
+     * obtains all plugin loaders.
+     *
+     * @return all plugin loaders.
+     */
+    @NotNull
+    Map<Pattern, Loader> getLoaders();
+
+    /**
+     * loads the plugin in the folder.
+     *
+     * @param folder the folder to load.
+     *
+     * @return all loaded plugins in the folder.
+     */
+    @NotNull
+    Collection<Plugin> loadPlugins(@NotNull File folder);
+
+    /**
+     * registers a new plugin loader.
+     *
+     * @param pattern the pattern to register.
+     * @param loader the loader to register.
+     */
+    void registerLoader(@NotNull Pattern pattern, @NotNull Loader loader);
+  }
+
+  /**
    * a simple record class that implements {@link Description}.
    * <p>
    * example to show scheme of the plugin file:
@@ -197,6 +172,8 @@ public interface Plugin {
    *   contributors: # default is empty
    *     - "portlek"
    *   website: https://shiruka.net
+   *   provides:
+   *     - "test-provide"
    *   depends: # default is empty
    *     - "test-depend"
    *   soft-depends: # default is empty
@@ -215,6 +192,7 @@ public interface Plugin {
    * @param authors authors of the plugin.
    * @param contributors contributors of the plugin.
    * @param prefix prefix, which will use for logging, of the plugin.
+   * @param provides plugin APIs which this plugin provides.
    * @param depends dependencies, which the server HAVE TO have, of the plugin.
    * @param softDepends soft-dependencies, which the server DON'T HAVE TO have, of the plugin.
    * @param loadBefore loads the plugin before these plugins.
@@ -232,6 +210,7 @@ public interface Plugin {
     @NotNull Collection<String> authors,
     @NotNull Collection<String> contributors,
     @NotNull String prefix,
+    @NotNull Collection<String> provides,
     @NotNull Collection<String> depends,
     @NotNull Collection<String> softDepends,
     @NotNull Collection<String> loadBefore,
@@ -255,39 +234,6 @@ public interface Plugin {
      * the pattern for validate plugin names.
      */
     private static final Pattern VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$");
-
-    /**
-     * creates a description instance from the file.
-     *
-     * @param file the file to create.
-     *
-     * @return a newly created description from file.
-     *
-     * @throws java.io.FileNotFoundException if the file not found.
-     * @throws IOException if something goes wrong when reading values in the file.
-     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
-     */
-    @NotNull
-    public static Description of(@NotNull final Path file) throws IOException, InvalidDescriptionException {
-      return Description.of(file.toFile());
-    }
-
-    /**
-     * creates a description instance from the file.
-     *
-     * @param file the file to create.
-     *
-     * @return a newly created description from file.
-     *
-     * @throws java.io.FileNotFoundException if the file not found.
-     * @throws IOException if something goes wrong when reading values in the file.
-     * @throws InvalidDescriptionException if something goes wrong when parsing the map.
-     */
-    @NotNull
-    public static Description of(@NotNull final File file) throws IOException, InvalidDescriptionException {
-      @Cleanup final var stream = new FileInputStream(file);
-      return Description.of(stream);
-    }
 
     /**
      * creates a description instance from the stream.
@@ -327,11 +273,12 @@ public interface Plugin {
       final var contributors = Description.optionalStringCollection(map, "contributors");
       final var prefix = Description.optional(map, "prefix", String.class, name);
       final var depends = Description.optionalStringCollection(map, "depends");
+      final var provides = Description.optionalStringCollection(map, "provides");
       final var softDepends = Description.optionalStringCollection(map, "soft-depends");
       final var loadBefore = Description.optionalStringCollection(map, "load-before");
       final var website = Description.optional(map, "website", String.class, "");
       return new Description(name, main, version, description, loadOrder, authors, contributors, prefix, depends,
-        softDepends, loadBefore, website);
+        provides, softDepends, loadBefore, website);
     }
 
     /**
