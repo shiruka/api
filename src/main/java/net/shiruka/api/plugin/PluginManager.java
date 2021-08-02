@@ -143,10 +143,27 @@ public final class PluginManager implements Plugin.Manager {
       }
     }
     while (!plugins.isEmpty()) {
+      var missingDependency = true;
       final var iterator = plugins.entrySet().iterator();
       while (iterator.hasNext()) {
         final var next = iterator.next();
         final var plugin = next.getKey();
+        final var dependenciesAsPlugin = dependencies.get(plugin);
+        if (dependenciesAsPlugin != null) {
+          final var dependencyIterator = dependenciesAsPlugin.iterator();
+          final var missingHardDependencies = new HashSet<>(dependenciesAsPlugin.size());
+          while (dependencyIterator.hasNext()) {
+            final var dependency = dependencyIterator.next();
+            if (loadedPlugins.contains(dependency)) {
+              dependencyIterator.remove();
+            } else if (!plugins.containsKey(dependency) && !pluginsProvided.containsKey(dependency)) {
+              missingHardDependencies.add(dependency);
+            }
+          }
+          if (!missingHardDependencies.isEmpty()) {
+            missingDependency = false;
+          }
+        }
       }
     }
     return Collections.emptySet();
