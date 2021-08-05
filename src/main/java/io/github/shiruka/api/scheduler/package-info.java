@@ -1,4 +1,4 @@
 /**
  * the package that contains scheduler classes.
  */
-package net.shiruka.api.scheduler;
+package io.github.shiruka.api.scheduler;

@@ -1,6 +1,6 @@
-package net.shiruka.api.scheduler;
+package io.github.shiruka.api.scheduler;
 
-import net.shiruka.api.Shiruka;
+import io.github.shiruka.api.Shiruka;
 import org.jetbrains.annotations.NotNull;
 
 /**

@@ -1,4 +1,4 @@
-package net.shiruka.api;
+package io.github.shiruka.api;
 
 import com.google.common.base.Preconditions;
 import java.util.Objects;

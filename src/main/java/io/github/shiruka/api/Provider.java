@@ -1,4 +1,4 @@
-package net.shiruka.api;
+package io.github.shiruka.api;
 
 import java.util.Map;
 import java.util.NoSuchElementException;

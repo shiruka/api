@@ -1,4 +1,4 @@
-package net.shiruka.api.plugin;
+package io.github.shiruka.api.plugin;
 
 import org.jetbrains.annotations.NotNull;
 

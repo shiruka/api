@@ -1,11 +1,11 @@
-package net.shiruka.api.plugin.java;
+package io.github.shiruka.api.plugin.java;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.jar.JarFile;
-import net.shiruka.api.plugin.InvalidDescriptionException;
-import net.shiruka.api.plugin.Plugin;
+import io.github.shiruka.api.plugin.InvalidDescriptionException;
+import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**

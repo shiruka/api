@@ -1,4 +1,4 @@
-package net.shiruka.api.plugin;
+package io.github.shiruka.api.plugin;
 
 import com.google.common.base.Preconditions;
 import com.google.common.graph.GraphBuilder;

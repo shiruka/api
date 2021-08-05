@@ -1,4 +1,4 @@
-package net.shiruka.api.scheduler;
+package io.github.shiruka.api.scheduler;
 
 /**
  * an interface to determine scheduled tasks.

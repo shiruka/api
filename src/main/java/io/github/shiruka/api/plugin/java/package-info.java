@@ -1,4 +1,4 @@
 /**
  * the package that contains java plugin classes.
  */
-package net.shiruka.api.plugin.java;
+package io.github.shiruka.api.plugin.java;

@@ -1,8 +1,8 @@
-package net.shiruka.api.scheduler;
+package io.github.shiruka.api.scheduler;
 
 import java.time.Duration;
 import java.util.function.Consumer;
-import net.shiruka.api.plugin.Plugin;
+import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
