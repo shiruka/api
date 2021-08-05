@@ -120,6 +120,19 @@ public interface Plugin {
      */
     @NotNull
     Description loadDescription(@NotNull File file) throws InvalidDescriptionException;
+
+    /**
+     * loads the plugin from the file.
+     *
+     * @param file the file to load.
+     *
+     * @return loaded plugin.
+     *
+     * @throws InvalidPluginException when the specified file is not a plugin.
+     * @throws UnknownDependencyException if a required dependency could not be found.
+     */
+    @NotNull
+    Plugin.Container loadPlugin(@NotNull File file) throws InvalidPluginException, UnknownDependencyException;
   }
 
   /**
@@ -136,6 +149,21 @@ public interface Plugin {
     Map<Pattern, Loader> getLoaders();
 
     /**
+     * loads the plugin from the given.
+     *
+     * @param file the file to load.
+     *
+     * @return loaded plugin.
+     *
+     * @throws InvalidPluginException when the file is not a valid plugin.
+     * @throws InvalidDescriptionException when the file contains an invalid description.
+     * @throws UnknownDependencyException if a required dependency could not be resolved.
+     */
+    @Nullable
+    Container loadPlugin(@NotNull File file) throws InvalidPluginException, InvalidDescriptionException,
+      UnknownDependencyException;
+
+    /**
      * loads the plugin in the folder.
      *
      * @param folder the folder to load.
@@ -143,7 +171,7 @@ public interface Plugin {
      * @return all loaded plugins in the folder.
      */
     @NotNull
-    Collection<Plugin> loadPlugins(@NotNull File folder);
+    Collection<Container> loadPlugins(@NotNull File folder);
 
     /**
      * registers a new plugin loader.
@@ -152,6 +180,16 @@ public interface Plugin {
      * @param loader the loader to register.
      */
     void registerLoader(@NotNull Pattern pattern, @NotNull Loader loader);
+  }
+
+  /**
+   * a record class that represents plugin containers to store date of plugins.
+   */
+  final record Container(
+    @NotNull Plugin plugin,
+    @NotNull Description description
+  ) {
+
   }
 
   /**

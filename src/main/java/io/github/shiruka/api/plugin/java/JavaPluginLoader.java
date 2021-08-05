@@ -1,11 +1,13 @@
 package io.github.shiruka.api.plugin.java;
 
+import io.github.shiruka.api.plugin.InvalidDescriptionException;
+import io.github.shiruka.api.plugin.InvalidPluginException;
+import io.github.shiruka.api.plugin.Plugin;
+import io.github.shiruka.api.plugin.UnknownDependencyException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.jar.JarFile;
-import io.github.shiruka.api.plugin.InvalidDescriptionException;
-import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -25,5 +27,12 @@ public final class JavaPluginLoader implements Plugin.Loader {
     } catch (final IOException e) {
       throw new InvalidDescriptionException(e);
     }
+  }
+
+  @NotNull
+  @Override
+  public Plugin.Container loadPlugin(@NotNull final File file) throws InvalidPluginException, UnknownDependencyException {
+
+    return null;
   }
 }

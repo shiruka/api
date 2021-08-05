@@ -1,6 +1,7 @@
 package io.github.shiruka.api.plugin;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import java.io.File;
@@ -10,10 +11,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
@@ -34,12 +36,17 @@ public final class PluginManager implements Plugin.Manager {
   /**
    * the plugin loaders.
    */
-  private final Map<Pattern, Plugin.Loader> pluginLoaders = new HashMap<>();
+  private final Map<Pattern, Plugin.Loader> pluginLoaders = new ConcurrentHashMap<>();
 
   /**
    * the plugins.
    */
-  private final List<Plugin> plugins = new ArrayList<>();
+  private final Set<Plugin.Container> plugins = Sets.newConcurrentHashSet();
+
+  /**
+   * the plugins.
+   */
+  private final Map<String, Plugin.Container> pluginsByName = new ConcurrentHashMap<>();
 
   @NotNull
   @Override
@@ -47,9 +54,30 @@ public final class PluginManager implements Plugin.Manager {
     return Collections.unmodifiableMap(this.pluginLoaders);
   }
 
+  @Nullable
+  @Override
+  public Plugin.Container loadPlugin(@NotNull final File file) throws InvalidPluginException,
+    UnknownDependencyException {
+    Plugin.Container result = null;
+    for (final var filter : this.pluginLoaders.keySet()) {
+      if (filter.matcher(file.getName()).find()) {
+        result = this.pluginLoaders.get(filter).loadPlugin(file);
+      }
+    }
+    if (result != null) {
+      this.plugins.add(result);
+      final var description = result.description();
+      this.pluginsByName.put(description.name().toLowerCase(Locale.ROOT), result);
+      for (final var provided : description.provides()) {
+        this.pluginsByName.putIfAbsent(provided.toLowerCase(Locale.ROOT), result);
+      }
+    }
+    return result;
+  }
+
   @Override
   @NotNull
-  public Collection<Plugin> loadPlugins(@NotNull final File folder) {
+  public Collection<Plugin.Container> loadPlugins(@NotNull final File folder) {
     Preconditions.checkState(folder.isDirectory(), "The folder must be a directory!");
     final var listFiles = Objects.requireNonNull(folder.listFiles(), "list files");
     final var patterns = this.pluginLoaders.keySet();
@@ -58,6 +86,7 @@ public final class PluginManager implements Plugin.Manager {
     final var pluginsProvided = new HashMap<String, String>();
     final var dependencies = new HashMap<String, Collection<String>>();
     final var softDependencies = new HashMap<String, Collection<String>>();
+    final var result = new ArrayList<Plugin.Container>();
     for (final var file : listFiles) {
       @Nullable Plugin.Loader loader = null;
       for (final var pattern : patterns) {
@@ -144,14 +173,14 @@ public final class PluginManager implements Plugin.Manager {
     }
     while (!plugins.isEmpty()) {
       var missingDependency = true;
-      final var iterator = plugins.entrySet().iterator();
+      var iterator = plugins.entrySet().iterator();
       while (iterator.hasNext()) {
         final var next = iterator.next();
         final var plugin = next.getKey();
         final var dependenciesAsPlugin = dependencies.get(plugin);
         if (dependenciesAsPlugin != null) {
           final var dependencyIterator = dependenciesAsPlugin.iterator();
-          final var missingHardDependencies = new HashSet<>(dependenciesAsPlugin.size());
+          final var missingHardDependencies = new HashSet<String>(dependenciesAsPlugin.size());
           while (dependencyIterator.hasNext()) {
             final var dependency = dependencyIterator.next();
             if (loadedPlugins.contains(dependency)) {
@@ -162,11 +191,87 @@ public final class PluginManager implements Plugin.Manager {
           }
           if (!missingHardDependencies.isEmpty()) {
             missingDependency = false;
+            iterator.remove();
+            softDependencies.remove(plugin);
+            dependencies.remove(plugin);
+            PluginManager.log.fatal("Could not load '{}' in folder '{}'",
+              next.getValue().getPath(), next.getValue().getParentFile().getPath(),
+              new UnknownDependencyException("Unknown/missing dependency plugins: [%s]. Please download and install these plugins to run '%s'.",
+                String.join(", ", missingHardDependencies), plugin));
+          }
+          if (dependencies.containsKey(plugin) && dependencies.get(plugin).isEmpty()) {
+            dependencies.remove(plugin);
+          }
+        }
+        if (softDependencies.containsKey(plugin)) {
+          softDependencies.get(plugin).removeIf(softDependency ->
+            !plugins.containsKey(softDependency) && !pluginsProvided.containsKey(softDependency));
+          if (softDependencies.get(plugin).isEmpty()) {
+            softDependencies.remove(plugin);
+          }
+        }
+        if (!(dependencies.containsKey(plugin) || softDependencies.containsKey(plugin)) && plugins.containsKey(plugin)) {
+          final var file = plugins.get(plugin);
+          iterator.remove();
+          missingDependency = false;
+          try {
+            final var loadedPlugin = this.loadPlugin(file);
+            if (loadedPlugin != null) {
+              result.add(loadedPlugin);
+              loadedPlugins.add(loadedPlugin.description().name());
+              loadedPlugins.addAll(loadedPlugin.description().provides());
+            } else {
+              PluginManager.log.fatal("Could not load '{}' in folder '{}'", file.getPath(), file.getParentFile().getPath());
+            }
+          } catch (final InvalidPluginException e) {
+            PluginManager.log.fatal(String.format("Could not load '%s' in folder '%s'",
+              file.getPath(), file.getParentFile().getPath()), e);
+          }
+        }
+      }
+      if (missingDependency) {
+        iterator = plugins.entrySet().iterator();
+        while (iterator.hasNext()) {
+          final var entry = iterator.next();
+          final var plugin = entry.getKey();
+          if (!dependencies.containsKey(plugin)) {
+            softDependencies.remove(plugin);
+            missingDependency = false;
+            final var file = entry.getValue();
+            iterator.remove();
+            final var path = file.getPath();
+            final var parentPath = file.getParentFile().getPath();
+            try {
+              final var loadedPlugin = this.loadPlugin(file);
+              if (loadedPlugin != null) {
+                result.add(loadedPlugin);
+                loadedPlugins.add(loadedPlugin.description().name());
+                loadedPlugins.addAll(loadedPlugin.description().provides());
+              } else {
+                PluginManager.log.fatal("Could not load '{}' in folder '{}'",
+                  path, parentPath);
+              }
+              break;
+            } catch (final InvalidPluginException ex) {
+              PluginManager.log.fatal(String.format("Could not load '%s' in folder '%s'",
+                path, parentPath), ex);
+            }
+          }
+        }
+        if (missingDependency) {
+          softDependencies.clear();
+          dependencies.clear();
+          final var failedPluginIterator = plugins.values().iterator();
+          while (failedPluginIterator.hasNext()) {
+            final var file = failedPluginIterator.next();
+            failedPluginIterator.remove();
+            PluginManager.log.fatal("Could not load '{}' in folder '{}': circular dependency detected",
+              file.getPath(), file.getParentFile().getPath());
           }
         }
       }
     }
-    return Collections.emptySet();
+    return result;
   }
 
   @Override
