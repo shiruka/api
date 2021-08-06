@@ -14,9 +14,12 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
  * a class that represents a simple implementation for {@link Plugin.Manager}.
  */
 @Log4j2
+@RequiredArgsConstructor
 public final class PluginManager implements Plugin.Manager {
 
   /**
@@ -48,10 +52,23 @@ public final class PluginManager implements Plugin.Manager {
    */
   private final Map<String, Plugin.Container> pluginsByName = new ConcurrentHashMap<>();
 
+  /**
+   * the plugins directory.
+   */
+  @NotNull
+  @Getter
+  private final File pluginsDirectory;
+
   @NotNull
   @Override
   public Map<Pattern, Plugin.Loader> getLoaders() {
     return Collections.unmodifiableMap(this.pluginLoaders);
+  }
+
+  @NotNull
+  @Override
+  public Optional<Plugin.Container> getPlugin(@NotNull final String plugin) {
+    return Optional.ofNullable(this.pluginsByName.get(plugin));
   }
 
   @Nullable

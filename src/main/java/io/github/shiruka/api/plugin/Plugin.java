@@ -151,6 +151,24 @@ public interface Plugin {
     Map<Pattern, Loader> getLoaders();
 
     /**
+     * gets a plugin by name.
+     *
+     * @param plugin the plugin to get.
+     *
+     * @return plugin.
+     */
+    @NotNull
+    Optional<Plugin.Container> getPlugin(@NotNull String plugin);
+
+    /**
+     * obtains the plugins directory.
+     *
+     * @return plugins directory.
+     */
+    @NotNull
+    File getPluginsDirectory();
+
+    /**
      * loads the plugin from the given.
      *
      * @param file the file to load.
@@ -189,10 +207,12 @@ public interface Plugin {
    *
    * @param plugin the plugin.
    * @param description the description.
+   * @param classLoader the class loader.
    */
   final record Container(
     @NotNull Plugin plugin,
-    @NotNull Description description
+    @NotNull Description description,
+    @NotNull ClassLoader classLoader
   ) {
 
   }
@@ -451,6 +471,16 @@ public interface Plugin {
         throw new InvalidDescriptionException("The name %s contains invalid characters!",
           name);
       }
+    }
+
+    /**
+     * obtains the full name.
+     *
+     * @return full name.
+     */
+    @NotNull
+    public String getFullName() {
+      return this.name + " v" + this.version;
     }
 
     /**

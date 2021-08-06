@@ -1,5 +1,6 @@
 package io.github.shiruka.api;
 
+import io.github.shiruka.api.plugin.Plugin;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,18 @@ import org.jetbrains.annotations.NotNull;
  * a core interface for Shiru ka.
  */
 public interface Shiruka {
+
+  /**
+   * obtains the plugin manager.
+   *
+   * @return plugin manager.
+   *
+   * @throws NoSuchElementException if the plugin manager not found.
+   */
+  @NotNull
+  static Plugin.Manager getPluginManager() {
+    return Shiruka.provideOrThrow(Plugin.Manager.class);
+  }
 
   /**
    * obtains the server.
