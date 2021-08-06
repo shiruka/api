@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import io.github.shiruka.api.event.Event;
 import io.github.shiruka.api.version.Version;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Logger;
@@ -114,6 +116,30 @@ public interface Plugin {
   interface Loader {
 
     /**
+     * disables the plugin.
+     *
+     * @param plugin the plugin to disable.
+     */
+    default void disablePlugin(@NotNull final Container plugin) {
+      this.disablePlugin(plugin, false);
+    }
+
+    /**
+     * disables the plugin.
+     *
+     * @param plugin the plugin to disable.
+     * @param closeClassLoaders the close class loaders to disable.
+     */
+    void disablePlugin(@NotNull Container plugin, boolean closeClassLoaders);
+
+    /**
+     * enables the plugin.
+     *
+     * @param plugin the plugin to enable.
+     */
+    void enablePlugin(@NotNull Container plugin);
+
+    /**
      * loads the plugin.
      *
      * @param file the file to load.
@@ -143,6 +169,62 @@ public interface Plugin {
    * an interface to determine plugin managers.
    */
   interface Manager {
+
+    /**
+     * calls the event.
+     *
+     * @param event the event to call.
+     *
+     * @throws IllegalStateException when an asynchronous event is fired from synchronous code.
+     */
+    void callEvent(@NotNull Event event) throws IllegalStateException;
+
+    /**
+     * clears all the plugins.
+     */
+    void clearPlugins();
+
+    /**
+     * disables the plugin.
+     *
+     * @param plugin the plugin to disable.
+     */
+    default void disablePlugin(@NotNull final Container plugin) {
+      this.disablePlugin(plugin, false);
+    }
+
+    /**
+     * disables the plugin.
+     *
+     * @param plugin the plugin to disable.
+     * @param closeClassLoaders the close class loaders to disable.
+     */
+    void disablePlugin(@NotNull Container plugin, boolean closeClassLoaders);
+
+    /**
+     * disables all the plugins.
+     */
+    default void disablePlugins() {
+      this.disablePlugins(false);
+    }
+
+    /**
+     * disables all the plugins.
+     *
+     * @param closeClassLoaders the close class loaders to disable.
+     */
+    default void disablePlugins(final boolean closeClassLoaders) {
+      for (final var plugin : this.getPlugins()) {
+        this.disablePlugin(plugin, closeClassLoaders);
+      }
+    }
+
+    /**
+     * enables the plugin.
+     *
+     * @param plugin the plugin to enable.
+     */
+    void enablePlugin(@NotNull Container plugin);
 
     /**
      * obtains all plugin loaders.
@@ -177,6 +259,28 @@ public interface Plugin {
      */
     @NotNull
     File getPluginsDirectory();
+
+    /**
+     * checks if the plugin is enabled.
+     *
+     * @param plugin the plugin to check.
+     *
+     * @return {@code true} if the plugin enabled.
+     */
+    default boolean isPluginEnabled(@NotNull final String plugin) {
+      return this.getPlugin(plugin)
+        .map(this::isPluginEnabled)
+        .orElse(false);
+    }
+
+    /**
+     * checks if the plugin is enabled.
+     *
+     * @param plugin the plugin to check.
+     *
+     * @return {@code true} if the plugin enabled.
+     */
+    boolean isPluginEnabled(@NotNull Container plugin);
 
     /**
      * checks if the plugin transitive depend.
@@ -224,23 +328,75 @@ public interface Plugin {
 
   /**
    * a record class that represents plugin containers to store date of plugins.
-   *
-   * @param plugin the plugin.
-   * @param description the description.
-   * @param logger the logger.
-   * @param dataFolder the data folder.
-   * @param pluginFile the plugin file.
-   * @param classLoader the class loader.
    */
-  final record Container(
-    @NotNull Plugin plugin,
-    @NotNull Description description,
-    @NotNull Logger logger,
-    @NotNull File dataFolder,
-    @NotNull File pluginFile,
-    @NotNull ClassLoader classLoader
-  ) {
+  @Getter
+  @RequiredArgsConstructor
+  final class Container {
 
+    /**
+     * the class loader.
+     */
+    @NotNull
+    private final ClassLoader classLoader;
+
+    /**
+     * the data folder.
+     */
+    @NotNull
+    private final File dataFolder;
+
+    /**
+     * the description.
+     */
+    @NotNull
+    private final Description description;
+
+    /**
+     * the loader.
+     */
+    @NotNull
+    private final Loader loader;
+
+    /**
+     * the logger.
+     */
+    @NotNull
+    private final Logger logger;
+
+    /**
+     * the plugin.
+     */
+    @NotNull
+    private final Plugin plugin;
+
+    /**
+     * the plugin file.
+     */
+    @NotNull
+    private final File pluginFile;
+
+    /**
+     * the enabled.
+     */
+    @Getter
+    private boolean enabled;
+
+    /**
+     * sets the enabled.
+     *
+     * @param enabled the enabled to set.
+     */
+    public void setEnabled(final boolean enabled) {
+      if (this.enabled == enabled) {
+        return;
+      }
+      this.enabled = enabled;
+      if (this.enabled) {
+        this.plugin.onEnable();
+      } else {
+        this.plugin.onDisable();
+      }
+    }
   }
 
   /**

@@ -107,13 +107,14 @@ public final class PluginClassLoader extends URLClassLoader {
         mainClassPath);
     }
     this.pluginContainer = new Plugin.Container(
+      this,
+      dataFolder,
+      description,
+      this.loader,
+      logger,
       Guice.createInjector(new JavaPluginModule(dataFolder, description, logger, pluginFile, this))
         .getInstance(pluginClass),
-      description,
-      logger,
-      dataFolder,
-      pluginFile,
-      this);
+      pluginFile);
   }
 
   @Override
@@ -195,7 +196,7 @@ public final class PluginClassLoader extends URLClassLoader {
   /**
    * loads the class.
    *
-   * @param name the name to load.
+   * @param classPath the class path to load.
    * @param resolve the resolve to load.
    * @param checkGlobal the check global to load.
    *
@@ -204,26 +205,27 @@ public final class PluginClassLoader extends URLClassLoader {
    * @throws ClassNotFoundException if the class not found.
    */
   @NotNull
-  Class<?> loadClass0(@NotNull final String name, final boolean resolve, final boolean checkGlobal)
+  Class<?> loadClass0(@NotNull final String classPath, final boolean resolve, final boolean checkGlobal)
     throws ClassNotFoundException {
     try {
-      return super.loadClass(name, resolve);
+      return super.loadClass(classPath, resolve);
     } catch (final ClassNotFoundException ignored) {
     }
     if (!checkGlobal) {
-      throw new ClassNotFoundException(name);
+      throw new ClassNotFoundException(classPath);
     }
-    final var result = Optional.ofNullable(this.loader.getClassByName(name, resolve, this.pluginContainer, this))
-      .orElseThrow(() -> new ClassNotFoundException(name));
+    final var result = Optional.ofNullable(this.loader.getClassByName(classPath, resolve, this.pluginContainer, this))
+      .orElseThrow(() -> new ClassNotFoundException(classPath));
     if (result.getClassLoader() instanceof PluginClassLoader pluginClassLoader) {
       final var provider = pluginClassLoader.getPluginContainer();
-      final var description = provider.description();
+      final var description = provider.getDescription();
+      final var name = description.name();
       if (provider != this.pluginContainer &&
-        !this.seenIllegalAccess.contains(description.name()) &&
+        !this.seenIllegalAccess.contains(name) &&
         !Shiruka.getPluginManager().isTransitiveDepend(this.pluginContainer, provider)) {
-        this.seenIllegalAccess.add(description.name());
-        this.pluginContainer.logger().warn("Loaded class {} from {} which is not a depend, soft-depend or load-before of this plugin.",
-          name, description.getFullName());
+        this.seenIllegalAccess.add(name);
+        this.pluginContainer.getLogger().warn("Loaded class {} from {} which is not a depend, soft-depend or load-before of this plugin.",
+          classPath, description.getFullName());
       }
     }
     return result;

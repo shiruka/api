@@ -5,6 +5,11 @@ import com.google.common.collect.Sets;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
+import io.github.shiruka.api.Shiruka;
+import io.github.shiruka.api.event.Event;
+import io.github.shiruka.api.event.server.ServerExceptionEvent;
+import io.github.shiruka.api.exception.ServerPluginEnableDisableException;
+import io.github.shiruka.api.scheduler.Scheduler;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,12 +38,6 @@ import org.jetbrains.annotations.Nullable;
 public final class PluginManager implements Plugin.Manager {
 
   /**
-   * the dependency graph.
-   */
-  private final MutableGraph<String> dependencyGraph = GraphBuilder.directed()
-    .build();
-
-  /**
    * the plugin loaders.
    */
   private final Map<Pattern, Plugin.Loader> pluginLoaders = new ConcurrentHashMap<>();
@@ -60,6 +59,61 @@ public final class PluginManager implements Plugin.Manager {
   @Getter
   private final File pluginsDirectory;
 
+  /**
+   * the dependency graph.
+   */
+  @NotNull
+  private MutableGraph<String> dependencyGraph = GraphBuilder.directed()
+    .build();
+
+  @Override
+  public void callEvent(@NotNull final Event event) throws IllegalStateException {
+  }
+
+  @Override
+  public void clearPlugins() {
+    synchronized (this) {
+      this.disablePlugins(true);
+      this.plugins.clear();
+      this.pluginsByName.clear();
+      this.dependencyGraph = GraphBuilder.directed().build();
+      this.pluginLoaders.clear();
+    }
+  }
+
+  @Override
+  public synchronized void disablePlugin(@NotNull final Plugin.Container plugin, final boolean closeClassLoaders) {
+    if (!plugin.isEnabled()) {
+      return;
+    }
+    try {
+      plugin.getLoader().disablePlugin(plugin, closeClassLoaders);
+    } catch (final Throwable e) {
+      this.handlePluginException("Error occurred (in the plugin loader) while disabling %s (Is it up to date?)".formatted(
+        plugin.getDescription().getFullName()), e, plugin);
+    }
+    try {
+      Scheduler.getSync().cancelTasks(plugin);
+      Scheduler.getAsync().cancelTasks(plugin);
+    } catch (final Throwable e) {
+      this.handlePluginException("Error occurred (in the plugin loader) while cancelling tasks for %s (Is it up to date?)".formatted(
+        plugin.getDescription().getFullName()), e, plugin);
+    }
+  }
+
+  @Override
+  public synchronized void enablePlugin(@NotNull final Plugin.Container plugin) {
+    if (plugin.isEnabled()) {
+      return;
+    }
+    try {
+      plugin.getLoader().enablePlugin(plugin);
+    } catch (final Throwable e) {
+      this.handlePluginException("Error occurred (in the plugin loader) while enabling %s (Is it up to date?)".formatted(
+        plugin.getDescription().getFullName()), e, plugin);
+    }
+  }
+
   @NotNull
   @Override
   public Map<Pattern, Plugin.Loader> getLoaders() {
@@ -79,13 +133,18 @@ public final class PluginManager implements Plugin.Manager {
   }
 
   @Override
+  public synchronized boolean isPluginEnabled(@NotNull final Plugin.Container plugin) {
+    return this.plugins.contains(plugin) && plugin.isEnabled();
+  }
+
+  @Override
   public boolean isTransitiveDepend(@NotNull final Plugin.Container plugin, @NotNull final Plugin.Container depend) {
-    final var name = plugin.description().name();
+    final var name = plugin.getDescription().name();
     if (!this.dependencyGraph.nodes().contains(name)) {
       return false;
     }
     final var reachableNodes = Graphs.reachableNodes(this.dependencyGraph, name);
-    final var dependDescription = depend.description();
+    final var dependDescription = depend.getDescription();
     return reachableNodes.contains(dependDescription.name()) ||
       dependDescription.provides().stream().anyMatch(reachableNodes::contains);
   }
@@ -102,7 +161,7 @@ public final class PluginManager implements Plugin.Manager {
     }
     if (result != null) {
       this.plugins.add(result);
-      final var description = result.description();
+      final var description = result.getDescription();
       this.pluginsByName.put(description.name().toLowerCase(Locale.ROOT), result);
       for (final var provided : description.provides()) {
         this.pluginsByName.putIfAbsent(provided.toLowerCase(Locale.ROOT), result);
@@ -254,8 +313,9 @@ public final class PluginManager implements Plugin.Manager {
             final var loadedPlugin = this.loadPlugin(file);
             if (loadedPlugin != null) {
               result.add(loadedPlugin);
-              loadedPlugins.add(loadedPlugin.description().name());
-              loadedPlugins.addAll(loadedPlugin.description().provides());
+              final var description = loadedPlugin.getDescription();
+              loadedPlugins.add(description.name());
+              loadedPlugins.addAll(description.provides());
             } else {
               PluginManager.log.fatal("Could not load '{}' in folder '{}'", file.getPath(), file.getParentFile().getPath());
             }
@@ -281,8 +341,9 @@ public final class PluginManager implements Plugin.Manager {
               final var loadedPlugin = this.loadPlugin(file);
               if (loadedPlugin != null) {
                 result.add(loadedPlugin);
-                loadedPlugins.add(loadedPlugin.description().name());
-                loadedPlugins.addAll(loadedPlugin.description().provides());
+                final var description = loadedPlugin.getDescription();
+                loadedPlugins.add(description.name());
+                loadedPlugins.addAll(description.provides());
               } else {
                 PluginManager.log.fatal("Could not load '{}' in folder '{}'",
                   path, parentPath);
@@ -313,5 +374,18 @@ public final class PluginManager implements Plugin.Manager {
   @Override
   public void registerLoader(@NotNull final Pattern pattern, @NotNull final Plugin.Loader loader) {
     this.pluginLoaders.put(pattern, loader);
+  }
+
+  /**
+   * handles plugin exceptions.
+   *
+   * @param message the message to handle.
+   * @param throwable the throwable to handle.
+   * @param plugin the plugin to handle.
+   */
+  private void handlePluginException(@NotNull final String message, @NotNull final Throwable throwable,
+                                     @NotNull final Plugin.Container plugin) {
+    Shiruka.getLogger().fatal(message, throwable);
+    this.callEvent(new ServerExceptionEvent(new ServerPluginEnableDisableException(message, throwable, plugin)));
   }
 }

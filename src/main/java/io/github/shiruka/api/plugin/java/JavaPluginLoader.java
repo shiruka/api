@@ -1,6 +1,8 @@
 package io.github.shiruka.api.plugin.java;
 
 import io.github.shiruka.api.Shiruka;
+import io.github.shiruka.api.event.plugin.PluginDisableEvent;
+import io.github.shiruka.api.event.plugin.PluginEnableEvent;
 import io.github.shiruka.api.plugin.InvalidDescriptionException;
 import io.github.shiruka.api.plugin.InvalidPluginException;
 import io.github.shiruka.api.plugin.Plugin;
@@ -38,6 +40,60 @@ public final class JavaPluginLoader implements Plugin.Loader {
    * the loaders.
    */
   private final List<PluginClassLoader> loaders = new CopyOnWriteArrayList<>();
+
+  @Override
+  public void disablePlugin(@NotNull final Plugin.Container plugin, final boolean closeClassLoaders) {
+    if (!plugin.isEnabled()) {
+      return;
+    }
+    final var message = "Disabling %s".formatted(plugin.getDescription().getFullName());
+    plugin.getLogger().info(message);
+    Shiruka.getPluginManager().callEvent(new PluginDisableEvent(plugin));
+    try {
+      plugin.setEnabled(false);
+    } catch (final Throwable e) {
+      Shiruka.getLogger().fatal("Error occurred while disabling %s (Is it up to date?)".formatted(
+        plugin.getDescription().getFullName()), e);
+    }
+    if (plugin.getClassLoader() instanceof PluginClassLoader loader) {
+      this.loaders.remove(loader);
+      try {
+        loader.close();
+      } catch (final IOException ignored) {
+      }
+      try {
+        if (closeClassLoaders) {
+          loader.close();
+        }
+      } catch (final IOException e) {
+        Shiruka.getLogger().warn("Error closing the Plugin Class Loader for {}", plugin.getDescription().getFullName());
+        e.printStackTrace();
+      }
+    }
+  }
+
+  @Override
+  public void enablePlugin(@NotNull final Plugin.Container plugin) {
+    if (plugin.isEnabled()) {
+      return;
+    }
+    final var enableMsg = "Enabling " + plugin.getDescription().getFullName();
+    plugin.getLogger().info(enableMsg);
+    final var pluginLoader = (PluginClassLoader) plugin.getClassLoader();
+    if (!this.loaders.contains(pluginLoader)) {
+      this.loaders.add(pluginLoader);
+      Shiruka.getLogger().warn("Enabled plugin with unregistered PluginClassLoader {}", plugin.getDescription().getFullName());
+    }
+    try {
+      plugin.setEnabled(true);
+    } catch (final Throwable e) {
+      Shiruka.getLogger().fatal("Error occurred while enabling %s (Is it up to date?)".formatted(
+        plugin.getDescription().getFullName()), e);
+      Shiruka.getPluginManager().disablePlugin(plugin, true);
+      return;
+    }
+    Shiruka.getPluginManager().callEvent(new PluginEnableEvent(plugin));
+  }
 
   @NotNull
   @Override

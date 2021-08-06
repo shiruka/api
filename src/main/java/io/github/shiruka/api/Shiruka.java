@@ -3,12 +3,23 @@ package io.github.shiruka.api;
 import io.github.shiruka.api.plugin.Plugin;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a core interface for Shiru ka.
  */
 public interface Shiruka {
+
+  /**
+   * obtains the logger.
+   *
+   * @return logger.
+   */
+  @NotNull
+  static Logger getLogger() {
+    return Shiruka.getServer().getLogger();
+  }
 
   /**
    * obtains the plugin manager.
