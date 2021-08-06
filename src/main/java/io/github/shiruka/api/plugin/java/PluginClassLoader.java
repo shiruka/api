@@ -1,5 +1,7 @@
 package io.github.shiruka.api.plugin.java;
 
+import com.google.common.base.Preconditions;
+import com.google.common.io.ByteStreams;
 import com.google.inject.Guice;
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.plugin.InvalidPluginException;
@@ -8,8 +10,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.CodeSource;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarFile;
@@ -25,6 +29,11 @@ import org.jetbrains.annotations.Nullable;
  * a class that represents plugin class loaders.
  */
 public final class PluginClassLoader extends URLClassLoader {
+
+  /**
+   * the classes.
+   */
+  private final Map<String, Class<?>> classes = new ConcurrentHashMap<>();
 
   /**
    * the data folder.
@@ -135,6 +144,53 @@ public final class PluginClassLoader extends URLClassLoader {
   @Override
   public void addURL(@NotNull final URL url) {
     super.addURL(url);
+  }
+
+  @Override
+  protected Class<?> findClass(@NotNull final String name) throws ClassNotFoundException {
+    if (name.startsWith("io.github.shiruka.")) {
+      throw new ClassNotFoundException(name);
+    }
+    var result = this.classes.get(name);
+    if (result != null) {
+      return result;
+    }
+    final var path = name.replace('.', '/').concat(".class");
+    final var entry = this.jar.getJarEntry(path);
+    if (entry == null) {
+      result = super.findClass(name);
+      this.classes.put(name, result);
+      return result;
+    }
+    final byte[] classBytes;
+    try (final var is = this.jar.getInputStream(entry)) {
+      classBytes = ByteStreams.toByteArray(is);
+    } catch (final IOException ex) {
+      throw new ClassNotFoundException(name, ex);
+    }
+    final var dot = name.lastIndexOf('.');
+    if (dot != -1) {
+      final var packageName = name.substring(0, dot);
+      if (this.getDefinedPackage(packageName) == null) {
+        try {
+          this.definePackage(packageName, this.manifest, this.url);
+        } catch (final IllegalArgumentException ex) {
+          Preconditions.checkState(this.getDefinedPackage(packageName) != null, "Cannot find package %s",
+            packageName);
+        }
+      }
+    }
+    result = this.defineClass(
+      name,
+      classBytes,
+      0,
+      classBytes.length,
+      new CodeSource(this.url, entry.getCodeSigners()));
+    if (result == null) {
+      result = super.findClass(name);
+    }
+    this.classes.put(name, result);
+    return result;
   }
 
   @Override

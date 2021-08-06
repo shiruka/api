@@ -218,6 +218,7 @@ public interface Plugin {
    *
    * @param plugin the plugin.
    * @param description the description.
+   * @param logger the logger.
    * @param classLoader the class loader.
    */
   final record Container(
