@@ -186,6 +186,9 @@ public interface Plugin {
 
   /**
    * a record class that represents plugin containers to store date of plugins.
+   *
+   * @param plugin the plugin.
+   * @param description the description.
    */
   final record Container(
     @NotNull Plugin plugin,
