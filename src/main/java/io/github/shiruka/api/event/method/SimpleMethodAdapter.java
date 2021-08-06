@@ -86,6 +86,7 @@ public final class SimpleMethodAdapter implements MethodAdapter {
    * @param listener the listener to find.
    * @param consumer the consumer to run when a subscriber is found.
    */
+  @SuppressWarnings("unchecked")
   private void findSubscribers(@NotNull final Listener listener,
                                @NotNull final BiConsumer<Class<? extends Event>, EventSubscriber> consumer) {
     Arrays.stream(listener.getClass().getDeclaredMethods())
@@ -108,7 +109,6 @@ public final class SimpleMethodAdapter implements MethodAdapter {
         }
         try {
           final var executor = this.factory.create(listener, method);
-          //noinspection unchecked
           final var eventClass = (Class<? extends Event>) methodParameterType;
           final var subscriber = new MethodEventSubscriber(eventClass, method, executor, listener,
             this.methodScanner.dispatchOrder(listener, method),
