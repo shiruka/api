@@ -94,17 +94,18 @@ public final class PluginClassLoader extends URLClassLoader {
     this.url = pluginFile.toURI().toURL();
     this.logger = LogManager.getLogger(description.prefix());
     final Class<?> mainClass;
+    final var mainClassPath = description.main();
     try {
-      mainClass = Class.forName(description.main(), true, this);
+      mainClass = Class.forName(mainClassPath, true, this);
     } catch (final ClassNotFoundException ex) {
-      throw new InvalidPluginException("Cannot find main class `%s'", ex, description.main());
+      throw new InvalidPluginException("Cannot find main class `%s'", ex, mainClassPath);
     }
     final Class<? extends Plugin> pluginClass;
     try {
       pluginClass = mainClass.asSubclass(Plugin.class);
     } catch (final ClassCastException ex) {
       throw new InvalidPluginException("Main class `%s' does not implement Plugin", ex,
-        description.main());
+        mainClassPath);
     }
     final var module = new JavaPluginModule(dataFolder, description, this.logger, pluginFile, this);
     final var plugin = Guice.createInjector(module)
