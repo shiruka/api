@@ -312,7 +312,7 @@ public interface Plugin {
         try {
           Version.of(s);
         } catch (final ParseException e) {
-          Description.log.error(String.format("Couldn't parse the version %s", s), e);
+          Description.log.error("Couldn't parse the version %s".formatted(s), e);
           Description.log.info("Using default version(1.0.0) instead");
         }
         return Version.of(1);

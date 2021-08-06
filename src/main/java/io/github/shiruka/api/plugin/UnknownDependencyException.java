@@ -14,6 +14,6 @@ public final class UnknownDependencyException extends RuntimeException {
    * @param args the args.
    */
   public UnknownDependencyException(@NotNull final String message, @NotNull final Object... args) {
-    super(String.format(message, args));
+    super(message.formatted(args));
   }
 }

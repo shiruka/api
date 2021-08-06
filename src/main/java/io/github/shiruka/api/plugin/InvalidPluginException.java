@@ -5,4 +5,12 @@ package io.github.shiruka.api.plugin;
  */
 public final class InvalidPluginException extends Exception {
 
+  /**
+   * ctor.
+   *
+   * @param cause the cause.
+   */
+  public InvalidPluginException(final Throwable cause) {
+    super(cause);
+  }
 }

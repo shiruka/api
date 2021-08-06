@@ -7,6 +7,7 @@ import io.github.shiruka.api.plugin.UnknownDependencyException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.jar.JarFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +32,11 @@ public final class JavaPluginLoader implements Plugin.Loader {
 
   @NotNull
   @Override
-  public Plugin.Container loadPlugin(@NotNull final File file) throws InvalidPluginException, UnknownDependencyException {
+  public Plugin.Container loadPlugin(@NotNull final File file) throws InvalidPluginException,
+    UnknownDependencyException {
+    if (Files.notExists(file.toPath())) {
+      throw new InvalidPluginException(new FileNotFoundException("%s does not exist".formatted(file.getPath())));
+    }
     return null;
   }
 }

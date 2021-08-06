@@ -224,7 +224,7 @@ public final class PluginManager implements Plugin.Manager {
               PluginManager.log.fatal("Could not load '{}' in folder '{}'", file.getPath(), file.getParentFile().getPath());
             }
           } catch (final InvalidPluginException e) {
-            PluginManager.log.fatal(String.format("Could not load '%s' in folder '%s'",
+            PluginManager.log.fatal("Could not load '%s' in folder '%s'".formatted(
               file.getPath(), file.getParentFile().getPath()), e);
           }
         }
@@ -253,7 +253,7 @@ public final class PluginManager implements Plugin.Manager {
               }
               break;
             } catch (final InvalidPluginException ex) {
-              PluginManager.log.fatal(String.format("Could not load '%s' in folder '%s'",
+              PluginManager.log.fatal("Could not load '%s' in folder '%s'".formatted(
                 path, parentPath), ex);
             }
           }

@@ -14,7 +14,7 @@ public final class InvalidDescriptionException extends Exception {
    * @param args the args.
    */
   public InvalidDescriptionException(@NotNull final String message, @NotNull final Object... args) {
-    super(String.format(message, args));
+    super(message.formatted(args));
   }
 
   /**
