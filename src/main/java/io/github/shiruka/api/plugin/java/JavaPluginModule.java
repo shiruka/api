@@ -10,6 +10,11 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents java plugin module.
+ *
+ * @param dataFolder the data folder.
+ * @param description the description.
+ * @param logger the logger.
+ * @param pluginFile the plugin file.
  */
 public record JavaPluginModule(
   @NotNull File dataFolder,
