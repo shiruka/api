@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine singular listener.
+ *
+ * @param <T> type of the event.
  */
 public interface SingleListener<T extends Event> extends Listener {
 
@@ -12,5 +14,5 @@ public interface SingleListener<T extends Event> extends Listener {
    *
    * @param event the event to handle.
    */
-  void handle(@NotNull final T event);
+  void handle(@NotNull T event);
 }
