@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import de.skuzzle.semantic.Version;
+import io.github.shiruka.api.version.Version;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,6 +25,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tr.com.infumia.infumialib.maps.MutableMap;
@@ -238,6 +240,7 @@ public interface Plugin {
    *
    * @see <a href="https://semver.org/">version syntax</a>
    */
+  @Log4j2
   @NotNull
   final record Description(
     @NotNull String name,
@@ -302,8 +305,15 @@ public interface Plugin {
       final var name = Description.essential(map, "name", String.class);
       Description.validateName(name);
       final var main = Description.essential(map, "main", String.class);
-      final var version = Description.optional(map, "version", String.class, Version.create(1), versionString ->
-        Version.parseVersion(versionString, true));
+      final var version = Description.optional(map, "version", String.class, Version.of(1), s -> {
+        try {
+          Version.of(s);
+        } catch (final ParseException e) {
+          Description.log.error(String.format("Couldn't parse the version %s", s), e);
+          Description.log.info("Using default version(1.0.0) instead");
+        }
+        return Version.of(1);
+      });
       final var description = Description.optional(map, "description", String.class, "");
       final var loadOrder = Description.optional(map, "load", String.class, LoadOrder.POST_WORLD, s ->
         LoadOrder.getByType(s).orElse(null));

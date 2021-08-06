@@ -32,7 +32,6 @@ public final class JavaPluginLoader implements Plugin.Loader {
   @NotNull
   @Override
   public Plugin.Container loadPlugin(@NotNull final File file) throws InvalidPluginException, UnknownDependencyException {
-
     return null;
   }
 }
