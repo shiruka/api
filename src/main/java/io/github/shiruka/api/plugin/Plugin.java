@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tr.com.infumia.infumialib.maps.MutableMap;
@@ -169,6 +170,16 @@ public interface Plugin {
     File getPluginsDirectory();
 
     /**
+     * checks if the plugin transitive depend.
+     *
+     * @param plugin the plugin to check.
+     * @param depend the depend to check.
+     *
+     * @return {@code true} if the plugin transitive depend.
+     */
+    boolean isTransitiveDepend(@NotNull Container plugin, @NotNull Container depend);
+
+    /**
      * loads the plugin from the given.
      *
      * @param file the file to load.
@@ -212,6 +223,7 @@ public interface Plugin {
   final record Container(
     @NotNull Plugin plugin,
     @NotNull Description description,
+    @NotNull Logger logger,
     @NotNull ClassLoader classLoader
   ) {
 

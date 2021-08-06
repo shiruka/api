@@ -3,6 +3,7 @@ package io.github.shiruka.api.plugin;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import java.io.File;
 import java.util.ArrayList;
@@ -69,6 +70,18 @@ public final class PluginManager implements Plugin.Manager {
   @Override
   public Optional<Plugin.Container> getPlugin(@NotNull final String plugin) {
     return Optional.ofNullable(this.pluginsByName.get(plugin));
+  }
+
+  @Override
+  public boolean isTransitiveDepend(@NotNull final Plugin.Container plugin, @NotNull final Plugin.Container depend) {
+    final var description = plugin.description();
+    if (!this.dependencyGraph.nodes().contains(description.name())) {
+      return false;
+    }
+    final var reachableNodes = Graphs.reachableNodes(this.dependencyGraph, description.name());
+    final var dependDescription = depend.description();
+    return reachableNodes.contains(dependDescription.name()) ||
+      dependDescription.provides().stream().anyMatch(reachableNodes::contains);
   }
 
   @Nullable
