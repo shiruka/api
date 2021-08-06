@@ -45,6 +45,7 @@ repositories {
 
 dependencies {
     // Implementation
+    implementation 'it.unimi.dsi:fastutil:8.5.4'
     implementation "com.lmax:disruptor:3.4.4"
     implementation "com.google.inject:guice:5.0.1"
     implementation "org.projectlombok:lombok:1.18.20"
@@ -54,7 +55,6 @@ dependencies {
     implementation "com.github.Infumia.InfumiaLib:InfumiaCommon:2.3.6"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.12.4"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.4"
-
 
     // Processor
     annotationProcessor "org.projectlombok:lombok:1.18.20"

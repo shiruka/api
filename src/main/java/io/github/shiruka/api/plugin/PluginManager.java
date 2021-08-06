@@ -6,8 +6,7 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.Event;
-import io.github.shiruka.api.event.server.ServerExceptionEvent;
+import io.github.shiruka.api.event.events.server.ServerExceptionEvent;
 import io.github.shiruka.api.exception.ServerPluginEnableDisableException;
 import io.github.shiruka.api.scheduler.Scheduler;
 import java.io.File;
@@ -66,8 +65,17 @@ public final class PluginManager implements Plugin.Manager {
   private MutableGraph<String> dependencyGraph = GraphBuilder.directed()
     .build();
 
-  @Override
-  public void callEvent(@NotNull final Event event) throws IllegalStateException {
+  /**
+   * handles plugin exceptions.
+   *
+   * @param message the message to handle.
+   * @param throwable the throwable to handle.
+   * @param plugin the plugin to handle.
+   */
+  private static void handlePluginException(@NotNull final String message, @NotNull final Throwable throwable,
+                                            @NotNull final Plugin.Container plugin) {
+    Shiruka.getLogger().fatal(message, throwable);
+    new ServerExceptionEvent(new ServerPluginEnableDisableException(message, throwable, plugin)).callEvent();
   }
 
   @Override
@@ -89,14 +97,14 @@ public final class PluginManager implements Plugin.Manager {
     try {
       plugin.getLoader().disablePlugin(plugin, closeClassLoaders);
     } catch (final Throwable e) {
-      this.handlePluginException("Error occurred (in the plugin loader) while disabling %s (Is it up to date?)".formatted(
+      PluginManager.handlePluginException("Error occurred (in the plugin loader) while disabling %s (Is it up to date?)".formatted(
         plugin.getDescription().getFullName()), e, plugin);
     }
     try {
       Scheduler.getSync().cancelTasks(plugin);
       Scheduler.getAsync().cancelTasks(plugin);
     } catch (final Throwable e) {
-      this.handlePluginException("Error occurred (in the plugin loader) while cancelling tasks for %s (Is it up to date?)".formatted(
+      PluginManager.handlePluginException("Error occurred (in the plugin loader) while cancelling tasks for %s (Is it up to date?)".formatted(
         plugin.getDescription().getFullName()), e, plugin);
     }
   }
@@ -109,7 +117,7 @@ public final class PluginManager implements Plugin.Manager {
     try {
       plugin.getLoader().enablePlugin(plugin);
     } catch (final Throwable e) {
-      this.handlePluginException("Error occurred (in the plugin loader) while enabling %s (Is it up to date?)".formatted(
+      PluginManager.handlePluginException("Error occurred (in the plugin loader) while enabling %s (Is it up to date?)".formatted(
         plugin.getDescription().getFullName()), e, plugin);
     }
   }
@@ -374,18 +382,5 @@ public final class PluginManager implements Plugin.Manager {
   @Override
   public void registerLoader(@NotNull final Pattern pattern, @NotNull final Plugin.Loader loader) {
     this.pluginLoaders.put(pattern, loader);
-  }
-
-  /**
-   * handles plugin exceptions.
-   *
-   * @param message the message to handle.
-   * @param throwable the throwable to handle.
-   * @param plugin the plugin to handle.
-   */
-  private void handlePluginException(@NotNull final String message, @NotNull final Throwable throwable,
-                                     @NotNull final Plugin.Container plugin) {
-    Shiruka.getLogger().fatal(message, throwable);
-    this.callEvent(new ServerExceptionEvent(new ServerPluginEnableDisableException(message, throwable, plugin)));
   }
 }

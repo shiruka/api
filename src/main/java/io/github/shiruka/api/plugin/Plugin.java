@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import io.github.shiruka.api.event.Event;
 import io.github.shiruka.api.version.Version;
 import java.io.File;
 import java.io.IOException;
@@ -169,15 +168,6 @@ public interface Plugin {
    * an interface to determine plugin managers.
    */
   interface Manager {
-
-    /**
-     * calls the event.
-     *
-     * @param event the event to call.
-     *
-     * @throws IllegalStateException when an asynchronous event is fired from synchronous code.
-     */
-    void callEvent(@NotNull Event event) throws IllegalStateException;
 
     /**
      * clears all the plugins.

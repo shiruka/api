@@ -1,4 +1,4 @@
-package io.github.shiruka.api.event.plugin;
+package io.github.shiruka.api.event.events;
 
 import io.github.shiruka.api.plugin.Plugin;
 import lombok.AccessLevel;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  */
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-abstract class PluginEvent implements io.github.shiruka.api.event.PluginEvent {
+public abstract class PluginEvent implements io.github.shiruka.api.event.PluginEvent {
 
   /**
    * the plugin.

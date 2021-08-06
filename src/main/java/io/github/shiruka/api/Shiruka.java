@@ -1,5 +1,6 @@
 package io.github.shiruka.api;
 
+import io.github.shiruka.api.event.EventManager;
 import io.github.shiruka.api.plugin.Plugin;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -10,6 +11,16 @@ import org.jetbrains.annotations.NotNull;
  * a core interface for Shiru ka.
  */
 public interface Shiruka {
+
+  /**
+   * obtains the event manager.
+   *
+   * @return event manager.
+   */
+  @NotNull
+  static EventManager getEventManager() {
+    return Shiruka.getServer().getEventManager();
+  }
 
   /**
    * obtains the logger.

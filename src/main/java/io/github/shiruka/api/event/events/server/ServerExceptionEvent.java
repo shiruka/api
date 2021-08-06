@@ -1,4 +1,4 @@
-package io.github.shiruka.api.event.server;
+package io.github.shiruka.api.event.events.server;
 
 import io.github.shiruka.api.event.Event;
 import io.github.shiruka.api.exception.ServerException;
