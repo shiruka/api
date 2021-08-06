@@ -74,11 +74,11 @@ public final class PluginManager implements Plugin.Manager {
 
   @Override
   public boolean isTransitiveDepend(@NotNull final Plugin.Container plugin, @NotNull final Plugin.Container depend) {
-    final var description = plugin.description();
-    if (!this.dependencyGraph.nodes().contains(description.name())) {
+    final var name = plugin.description().name();
+    if (!this.dependencyGraph.nodes().contains(name)) {
       return false;
     }
-    final var reachableNodes = Graphs.reachableNodes(this.dependencyGraph, description.name());
+    final var reachableNodes = Graphs.reachableNodes(this.dependencyGraph, name);
     final var dependDescription = depend.description();
     return reachableNodes.contains(dependDescription.name()) ||
       dependDescription.provides().stream().anyMatch(reachableNodes::contains);
