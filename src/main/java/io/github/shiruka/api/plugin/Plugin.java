@@ -219,12 +219,16 @@ public interface Plugin {
    * @param plugin the plugin.
    * @param description the description.
    * @param logger the logger.
+   * @param dataFolder the data folder.
+   * @param pluginFile the plugin file.
    * @param classLoader the class loader.
    */
   final record Container(
     @NotNull Plugin plugin,
     @NotNull Description description,
     @NotNull Logger logger,
+    @NotNull File dataFolder,
+    @NotNull File pluginFile,
     @NotNull ClassLoader classLoader
   ) {
 

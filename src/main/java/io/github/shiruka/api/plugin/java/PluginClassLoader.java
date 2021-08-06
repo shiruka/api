@@ -21,7 +21,6 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipFile;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,18 +35,6 @@ public final class PluginClassLoader extends URLClassLoader {
   private final Map<String, Class<?>> classes = new ConcurrentHashMap<>();
 
   /**
-   * the data folder.
-   */
-  @NotNull
-  private final File dataFolder;
-
-  /**
-   * the file.
-   */
-  @NotNull
-  private final File file;
-
-  /**
    * the jar.
    */
   @NotNull
@@ -58,12 +45,6 @@ public final class PluginClassLoader extends URLClassLoader {
    */
   @NotNull
   private final JavaPluginLoader loader;
-
-  /**
-   * the logger.
-   */
-  @NotNull
-  private final Logger logger;
 
   /**
    * the manifest.
@@ -106,12 +87,10 @@ public final class PluginClassLoader extends URLClassLoader {
                     @NotNull final File pluginFile) throws InvalidPluginException, IOException {
     super(pluginFile.getName(), new URL[]{pluginFile.toURI().toURL()}, parent);
     this.loader = loader;
-    this.dataFolder = dataFolder;
-    this.file = pluginFile;
     this.jar = new JarFile(pluginFile, true, ZipFile.OPEN_READ, JarFile.runtimeVersion());
     this.manifest = this.jar.getManifest();
     this.url = pluginFile.toURI().toURL();
-    this.logger = LogManager.getLogger(description.prefix());
+    final var logger = LogManager.getLogger(description.prefix());
     final Class<?> mainClass;
     final var mainClassPath = description.main();
     try {
@@ -126,10 +105,14 @@ public final class PluginClassLoader extends URLClassLoader {
       throw new InvalidPluginException("Main class `%s' does not implement Plugin", ex,
         mainClassPath);
     }
-    final var module = new JavaPluginModule(dataFolder, description, this.logger, pluginFile, this);
-    final var plugin = Guice.createInjector(module)
-      .getInstance(pluginClass);
-    this.pluginContainer = new Plugin.Container(plugin, description, this.logger, this);
+    this.pluginContainer = new Plugin.Container(
+      Guice.createInjector(new JavaPluginModule(dataFolder, description, logger, pluginFile, this))
+        .getInstance(pluginClass),
+      description,
+      logger,
+      dataFolder,
+      pluginFile,
+      this);
   }
 
   @Override
