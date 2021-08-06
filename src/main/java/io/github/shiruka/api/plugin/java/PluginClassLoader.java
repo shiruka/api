@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Enumeration;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipFile;
@@ -116,5 +117,15 @@ public final class PluginClassLoader extends URLClassLoader {
   @Override
   public void addURL(@NotNull final URL url) {
     super.addURL(url);
+  }
+
+  @Override
+  public URL getResource(@NotNull final String name) {
+    return this.findResource(name);
+  }
+
+  @Override
+  public Enumeration<URL> getResources(@NotNull final String name) throws IOException {
+    return this.findResources(name);
   }
 }
