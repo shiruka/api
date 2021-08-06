@@ -1,6 +1,8 @@
 package io.github.shiruka.api.plugin.java;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Guice;
 import io.github.shiruka.api.Shiruka;
@@ -11,11 +13,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.CodeSource;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Optional;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipFile;
@@ -32,7 +33,7 @@ public final class PluginClassLoader extends URLClassLoader {
   /**
    * the classes.
    */
-  private final Map<String, Class<?>> classes = new ConcurrentHashMap<>();
+  private final Map<String, Class<?>> classes = Maps.newConcurrentMap();
 
   /**
    * the jar.
@@ -62,7 +63,7 @@ public final class PluginClassLoader extends URLClassLoader {
   /**
    * the seen illegal access.
    */
-  private final Set<String> seenIllegalAccess = Collections.newSetFromMap(new ConcurrentHashMap<>());
+  private final Collection<String> seenIllegalAccess = Sets.newConcurrentHashSet();
 
   /**
    * the url.
@@ -101,8 +102,8 @@ public final class PluginClassLoader extends URLClassLoader {
     final Class<? extends Plugin> pluginClass;
     try {
       pluginClass = mainClass.asSubclass(Plugin.class);
-    } catch (final ClassCastException ex) {
-      throw new InvalidPluginException("Main class `%s' does not implement Plugin", ex,
+    } catch (final ClassCastException e) {
+      throw new InvalidPluginException("Main class `%s' does not implement Plugin", e,
         mainClassPath);
     }
     this.pluginContainer = new Plugin.Container(
@@ -212,19 +213,17 @@ public final class PluginClassLoader extends URLClassLoader {
     if (!checkGlobal) {
       throw new ClassNotFoundException(name);
     }
-    final var result = this.loader.getClassByName(name, resolve, this.pluginContainer, this);
-    if (result == null) {
-      throw new ClassNotFoundException(name);
-    }
-    final var classLoader = result.getClassLoader();
-    if (classLoader instanceof PluginClassLoader pluginClassLoader) {
+    final var result = Optional.ofNullable(this.loader.getClassByName(name, resolve, this.pluginContainer, this))
+      .orElseThrow(() -> new ClassNotFoundException(name));
+    if (result.getClassLoader() instanceof PluginClassLoader pluginClassLoader) {
       final var provider = pluginClassLoader.getPluginContainer();
-      if (provider != this.pluginContainer
-        && !this.seenIllegalAccess.contains(provider.description().name())
-        && !Shiruka.getPluginManager().isTransitiveDepend(this.pluginContainer, provider)) {
-        this.seenIllegalAccess.add(provider.description().name());
+      final var description = provider.description();
+      if (provider != this.pluginContainer &&
+        !this.seenIllegalAccess.contains(description.name()) &&
+        !Shiruka.getPluginManager().isTransitiveDepend(this.pluginContainer, provider)) {
+        this.seenIllegalAccess.add(description.name());
         this.pluginContainer.logger().warn("Loaded class {} from {} which is not a depend, soft-depend or load-before of this plugin.",
-          name, provider.description().getFullName());
+          name, description.getFullName());
       }
     }
     return result;
