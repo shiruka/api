@@ -48,7 +48,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
     }
     final var message = "Disabling %s".formatted(plugin.getDescription().getFullName());
     plugin.getLogger().info(message);
-    Shiruka.getPluginManager().callEvent(new PluginDisableEvent(plugin));
+    new PluginDisableEvent(plugin).callEvent();
     try {
       plugin.setEnabled(false);
     } catch (final Throwable e) {
@@ -92,7 +92,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
       Shiruka.getPluginManager().disablePlugin(plugin, true);
       return;
     }
-    Shiruka.getPluginManager().callEvent(new PluginEnableEvent(plugin));
+    new PluginEnableEvent(plugin).callEvent();
   }
 
   @NotNull
