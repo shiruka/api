@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -314,7 +315,8 @@ public interface Plugin {
     /**
      * the pattern for validate plugin names.
      */
-    private static final Pattern VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$");
+    private static final Predicate<String> VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$")
+      .asMatchPredicate();
 
     /**
      * creates a description instance from the stream.
@@ -484,7 +486,7 @@ public interface Plugin {
      * @see #VALID_NAME
      */
     private static void validateName(@NotNull final String name) throws InvalidDescriptionException {
-      if (!Description.VALID_NAME.matcher(name).matches()) {
+      if (!Description.VALID_NAME.test(name)) {
         throw new InvalidDescriptionException("The name %s contains invalid characters!",
           name);
       }
