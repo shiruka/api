@@ -109,7 +109,7 @@ public final class PluginManager implements Plugin.Manager {
           continue;
         }
         if (name.indexOf(' ') != -1) {
-          PluginManager.log.fatal("Couldn't load '{}' in folder '{}': uses the space-character in its name!",
+          PluginManager.log.fatal("Couldn't load '{}' in folder '{}': Uses the space-character in its name!",
             file.getPath(), file.getParentFile().getPath());
           continue;
         }
@@ -265,7 +265,7 @@ public final class PluginManager implements Plugin.Manager {
           while (failedPluginIterator.hasNext()) {
             final var file = failedPluginIterator.next();
             failedPluginIterator.remove();
-            PluginManager.log.fatal("Could not load '{}' in folder '{}': circular dependency detected",
+            PluginManager.log.fatal("Could not load '{}' in folder '{}': Circular dependency detected",
               file.getPath(), file.getParentFile().getPath());
           }
         }
