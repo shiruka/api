@@ -112,4 +112,9 @@ public final class PluginClassLoader extends URLClassLoader {
       .getInstance(pluginClass);
     this.pluginContainer = new Plugin.Container(plugin, description, this);
   }
+
+  @Override
+  public void addURL(@NotNull final URL url) {
+    super.addURL(url);
+  }
 }
