@@ -15,12 +15,14 @@ import org.jetbrains.annotations.NotNull;
  * @param description the description.
  * @param logger the logger.
  * @param pluginFile the plugin file.
+ * @param pluginClassLoader the plugin class loader.
  */
 public record JavaPluginModule(
   @NotNull File dataFolder,
   @NotNull Plugin.Description description,
   @NotNull Logger logger,
-  @NotNull File pluginFile
+  @NotNull File pluginFile,
+  @NotNull PluginClassLoader pluginClassLoader
 ) implements Module {
 
   @Override
@@ -29,5 +31,6 @@ public record JavaPluginModule(
     binder.bind(Plugin.Description.class).toInstance(this.description);
     binder.bind(File.class).annotatedWith(Names.named("dataFolder")).toInstance(this.dataFolder);
     binder.bind(File.class).annotatedWith(Names.named("pluginFile")).toInstance(this.pluginFile);
+    binder.bind(ClassLoader.class).toInstance(this.pluginClassLoader);
   }
 }

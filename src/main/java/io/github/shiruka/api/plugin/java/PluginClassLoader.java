@@ -106,7 +106,8 @@ public final class PluginClassLoader extends URLClassLoader {
       throw new InvalidPluginException("Main class `%s' does not implement Plugin", ex,
         description.main());
     }
-    final var plugin = Guice.createInjector(new JavaPluginModule(dataFolder, description, this.logger, pluginFile))
+    final var module = new JavaPluginModule(dataFolder, description, this.logger, pluginFile, this);
+    final var plugin = Guice.createInjector(module)
       .getInstance(pluginClass);
     this.pluginContainer = new Plugin.Container(plugin, description, this);
   }
