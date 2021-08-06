@@ -163,6 +163,14 @@ public interface Plugin {
     Optional<Plugin.Container> getPlugin(@NotNull String plugin);
 
     /**
+     * obtains the plugins.
+     *
+     * @return plugins.
+     */
+    @NotNull
+    Collection<Plugin.Container> getPlugins();
+
+    /**
      * obtains the plugins directory.
      *
      * @return plugins directory.
@@ -344,7 +352,7 @@ public interface Plugin {
      */
     @NotNull
     public static Description of(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
-      final var name = Description.essential(map, "name", String.class);
+      final var name = Description.essential(map, "name", String.class).replace(' ', '_');
       Description.validateName(name);
       final var main = Description.essential(map, "main", String.class);
       final var version = Description.optional(map, "version", String.class, Version.of(1), s -> {

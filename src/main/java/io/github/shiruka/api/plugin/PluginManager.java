@@ -68,8 +68,14 @@ public final class PluginManager implements Plugin.Manager {
 
   @NotNull
   @Override
-  public Optional<Plugin.Container> getPlugin(@NotNull final String plugin) {
-    return Optional.ofNullable(this.pluginsByName.get(plugin));
+  public synchronized Optional<Plugin.Container> getPlugin(@NotNull final String plugin) {
+    return Optional.ofNullable(this.pluginsByName.get(plugin.replace(' ', '_').toLowerCase(Locale.ROOT)));
+  }
+
+  @NotNull
+  @Override
+  public synchronized Collection<Plugin.Container> getPlugins() {
+    return Collections.unmodifiableSet(this.plugins);
   }
 
   @Override
@@ -86,7 +92,7 @@ public final class PluginManager implements Plugin.Manager {
 
   @Nullable
   @Override
-  public Plugin.Container loadPlugin(@NotNull final File file) throws InvalidPluginException,
+  public synchronized Plugin.Container loadPlugin(@NotNull final File file) throws InvalidPluginException,
     UnknownDependencyException {
     Plugin.Container result = null;
     for (final var filter : this.pluginLoaders.keySet()) {
