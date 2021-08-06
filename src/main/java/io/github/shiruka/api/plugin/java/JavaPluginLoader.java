@@ -1,8 +1,8 @@
 package io.github.shiruka.api.plugin.java;
 
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.events.plugin.PluginEnableEvent;
 import io.github.shiruka.api.event.events.plugin.PluginDisableEvent;
+import io.github.shiruka.api.event.events.plugin.PluginEnableEvent;
 import io.github.shiruka.api.plugin.InvalidDescriptionException;
 import io.github.shiruka.api.plugin.InvalidPluginException;
 import io.github.shiruka.api.plugin.Plugin;
