@@ -76,8 +76,8 @@ public final class SimpleMethodAdapter implements MethodAdapter {
   @Override
   public void unregister(@NotNull final Listener listener) {
     this.controller.unregister(h ->
-      h instanceof MethodEventSubscriber &&
-        ((MethodEventSubscriber) h).getListener() == listener);
+      h instanceof MethodEventSubscriber methodEventSubscriber &&
+        methodEventSubscriber.getListener() == listener);
   }
 
   /**
