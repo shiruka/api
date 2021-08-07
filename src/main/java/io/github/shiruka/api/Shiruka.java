@@ -2,6 +2,7 @@ package io.github.shiruka.api;
 
 import io.github.shiruka.api.event.EventManager;
 import io.github.shiruka.api.plugin.Plugin;
+import io.github.shiruka.api.scheduler.Scheduler;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.apache.logging.log4j.Logger;
@@ -13,13 +14,23 @@ import org.jetbrains.annotations.NotNull;
 public interface Shiruka {
 
   /**
+   * gets the implementation of async Scheduler.
+   *
+   * @return implementation of async Scheduler.
+   */
+  @NotNull
+  static Scheduler.Async getAsyncScheduler() {
+    return Scheduler.getAsync();
+  }
+
+  /**
    * obtains the event manager.
    *
    * @return event manager.
    */
   @NotNull
   static EventManager getEventManager() {
-    return Shiruka.getServer().getEventManager();
+    return Shiruka.provideOrThrow(EventManager.class);
   }
 
   /**
@@ -63,6 +74,16 @@ public interface Shiruka {
    */
   static void setServer(@NotNull final Server server) {
     Implementation.setServer(server);
+  }
+
+  /**
+   * gets the implementation of sync Scheduler.
+   *
+   * @return implementation of sync Scheduler.
+   */
+  @NotNull
+  static Scheduler.Sync getSyncScheduler() {
+    return Scheduler.getSync();
   }
 
   /**
