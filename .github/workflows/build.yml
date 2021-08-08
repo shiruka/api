@@ -21,6 +21,7 @@ jobs:
           cd ..
           git clone https://github.com/jreleaser/jreleaser.git
           cd jreleaser
+          chmod +x gradlew
           ./gradlew publishToMavenLocal
           cd ..
           cd api
