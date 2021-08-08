@@ -43,7 +43,7 @@ jobs:
       - uses: jreleaser/release-action@v1
         with:
           version: early-access
-          arguments: assemble
+          arguments: full-release
         env:
           JRELEASER_PROJECT_VERSION: ${{ steps.vars.outputs.version }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
