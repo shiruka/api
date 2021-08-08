@@ -11,8 +11,9 @@ java {
     targetCompatibility = JavaVersion.VERSION_16
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompiler) {
     options.encoding = "UTF-8"
+    options.compilerArgs += ["-Duser.language=en", "-Duser.country=US"]
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

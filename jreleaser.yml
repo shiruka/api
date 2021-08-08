@@ -1,0 +1,67 @@
+project:
+  name: api
+  description: An Api project that helps developers to create unique plugins for Shiru ka.
+  website: https://shiruka.github.io
+  authors:
+    - Hasan Demirtaş
+  license: MIT
+  java:
+    groupId: io.github.shiruka
+    version: 16
+    multiProject: true
+  extraProperties:
+    inceptionYear: 2021
+
+release:
+  github:
+    owner: shiruka
+    overwrite: true
+    sign: true
+    changelog:
+      formatted: ALWAYS
+      format: '- {{commitShortHash}} {{commitTitle}}'
+      contributors:
+        format: '- {{contributorName}}{{#contributorUsernameAsLink}} ({{.}}){{/contributorUsernameAsLink}}'
+      labelers:
+        - label: 'merge_pull'
+          title: 'Merge pull'
+        - label: 'merge_branch'
+          title: 'Merge branch'
+        - label: 'feature'
+          title: 'Resolves #'
+          body: 'Resolves #'
+        - label: 'issue'
+          title: 'Fixes #'
+          body: 'Fixes #'
+        - label: 'issue'
+          title: 'Relates to #'
+          body: 'Relates to #'
+        - label: 'task'
+          title: '[chore]'
+        - label: 'dependencies'
+          title: '[deps]'
+      categories:
+        - title: 'Merge'
+          labels:
+            - 'merge_pull'
+            - 'merge_branch'
+        - title: '🚀 Features'
+          labels:
+            - 'feature'
+        - title: '✅ Issues'
+          labels:
+            - 'issue'
+        - title: '🧰 Tasks'
+          labels:
+            - 'task'
+        - title: '⚙️  Dependencies'
+          labels:
+            - 'dependencies'
+      hide:
+        categories:
+          - 'Merge'
+        contributors:
+          - 'GitHub'
+      replacers:
+        - search: '\[chore\] '
+        - search: '\[deps\] '
