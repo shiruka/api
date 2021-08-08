@@ -2,8 +2,6 @@ plugins {
     id "java"
     id "checkstyle"
     id "maven-publish"
-    id "org.jreleaser" version "0.7.0-SNAPSHOT"
-    id "org.jreleaser.jdks" version "0.7.0-SNAPSHOT"
 }
 
 group "net.shiruka"
@@ -77,22 +75,6 @@ publishing {
             from components.java
             artifact tasks.sourcesJar
             artifact tasks.javadocJar
-        }
-    }
-}
-
-jreleaser {
-    project {
-        website = 'https://shiruka.github.io/'
-        authors = ['Shiru ka']
-        license = 'MIT'
-        extraProperties.put('inceptionYear', '2021')
-    }
-
-    release {
-        github {
-            owner = "Shiru ka"
-            overwrite = true
         }
     }
 }
