@@ -1,20 +1,18 @@
 name: EarlyAccess
 
 on:
-  pull_request:
+  push:
     branches: [ master ]
 
 jobs:
   build:
     name: EarlyAccess
-    if: startsWith(github.event.head_commit.message, 'Releasing version') != true
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
-    runs-on: ${{ matrix.os }}
+    if: github.repository == 'shiruka/api' && startsWith(github.event.head_commit.message, 'Releasing version') != true
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - uses: DeLaGuardo/setup-graalvm@4.0
         with:
@@ -38,3 +36,14 @@ jobs:
       - run: |
           chmod +x gradlew
           ./gradlew build
+
+      - run: echo ::set-output name=version::$(cat VERSION)
+        id: vars
+
+      - uses: jreleaser/release-action@v1
+        with:
+          version: early-access
+          arguments: assemble
+        env:
+          JRELEASER_PROJECT_VERSION: ${{ steps.vars.outputs.version }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
