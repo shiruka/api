@@ -18,5 +18,13 @@ jobs:
           java: java16
 
       - run: |
+          cd ..
+          git clone https://github.com/jreleaser/jreleaser.git
+          cd jreleaser
+          ./gradlew publishToMavenLocal
+          cd ..
+          cd api
+
+      - run: |
           chmod +x gradlew
           ./gradlew build
