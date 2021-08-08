@@ -16,7 +16,6 @@ release:
   github:
     owner: shiruka
     overwrite: true
-    sign: true
     changelog:
       formatted: ALWAYS
       format: '- {{commitShortHash}} {{commitTitle}}'
