@@ -17,12 +17,28 @@ jobs:
       contents: read
       security-events: write
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - uses: github/codeql-action/init@v1
-      with:
-        languages: java
+      - uses: github/codeql-action/init@v1
+        with:
+          languages: java
 
-    - uses: github/codeql-action/autobuild@v1
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-cache-${{ hashFiles('**/*.gradle') }}-${{ hashFiles('**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-    - uses: github/codeql-action/analyze@v1
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradlew') }}
+          restore-keys: |
+            ${{ runner.os }}-gradlew-
+
+      - run: |
+          chmod +x gradlew
+          ./gradlew build
+
+      - uses: github/codeql-action/analyze@v1
