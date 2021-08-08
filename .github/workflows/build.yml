@@ -35,4 +35,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradlew-
 
-      - run: ./gradlew build
+      - run: |
+          chmod +x gradlew
+          ./gradlew build
