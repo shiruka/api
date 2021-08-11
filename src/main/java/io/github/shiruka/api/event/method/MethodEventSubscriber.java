@@ -60,7 +60,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
   private final Class<?> type;
 
   /**
-   * ctpr.
+   * ctor.
    *
    * @param eventClass the event class.
    * @param method the method.
