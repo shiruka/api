@@ -1,5 +1,6 @@
 package io.github.shiruka.api.event;
 
+import io.github.shiruka.api.event.events.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,25 +11,23 @@ import org.jetbrains.annotations.Nullable;
 public interface EventSubscriber {
 
   /**
+   * gets if cancelled events should be posted to this subscriber.
+   *
+   * @return if cancelled events should be posted.
+   */
+  default boolean acceptsCancelled() {
+    return true;
+  }
+
+  /**
    * gets the post order this subscriber should be called at.
    *
    * @return the post order of this subscriber.
    *
    * @see DispatchOrder
    */
-  @NotNull
-  default DispatchOrder getDispatchOrder() {
+  default int dispatchOrder() {
     return DispatchOrder.MIDDLE;
-  }
-
-  /**
-   * gets the generic type of this subscriber, if it is known.
-   *
-   * @return the generic type of the subscriber.
-   */
-  @Nullable
-  default Class<?> getType() {
-    return null;
   }
 
   /**
@@ -43,11 +42,12 @@ public interface EventSubscriber {
   void invoke(@NotNull Event event) throws Throwable;
 
   /**
-   * gets if cancelled events should be posted to this subscriber.
+   * gets the generic type of this subscriber, if it is known.
    *
-   * @return if cancelled events should be posted.
+   * @return the generic type of the subscriber.
    */
-  default boolean isIgnoreCancelled() {
-    return true;
+  @Nullable
+  default Class<?> type() {
+    return null;
   }
 }

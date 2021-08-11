@@ -6,6 +6,8 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.reflect.TypeToken;
+import io.github.shiruka.api.event.events.Cancellable;
+import io.github.shiruka.api.event.events.Event;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.Comparator;
@@ -13,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 import lombok.Synchronized;
 import org.jetbrains.annotations.NotNull;
@@ -37,19 +38,19 @@ public final class SimpleEventController implements EventController {
    * @return true if the event should be posted.
    */
   private static boolean shouldPost(@NotNull final Event event, @NotNull final EventSubscriber subscriber) {
-    if (!subscriber.isIgnoreCancelled() &&
+    if (!subscriber.acceptsCancelled() &&
       event instanceof Cancellable cancellable &&
       cancellable.cancelled()) {
       return false;
     }
-    final var type = subscriber.getType();
+    final var type = subscriber.type();
     return type != null &&
       type.isAssignableFrom(event.getClass());
   }
 
   @NotNull
   @Override
-  public CompletableFuture<PostResult> call(@NotNull final Event event) {
+  public PostResult call(@NotNull final Event event) {
     Map<EventSubscriber, Throwable> exceptions = null;
     for (final var subscriber : this.registry.subscribers(event.getClass())) {
       if (!SimpleEventController.shouldPost(event, subscriber)) {
@@ -65,9 +66,9 @@ public final class SimpleEventController implements EventController {
       }
     }
     if (exceptions == null) {
-      return CompletableFuture.completedFuture(PostResult.success());
+      return PostResult.success();
     }
-    return CompletableFuture.completedFuture(PostResult.failure(exceptions));
+    return PostResult.failure(exceptions);
   }
 
   @Override
@@ -122,7 +123,7 @@ public final class SimpleEventController implements EventController {
             .map(this.subscribers::get)
             .forEach(list::addAll);
         }
-        list.sort(Comparator.comparingInt(value -> value.getDispatchOrder().getOrder().intValue()));
+        list.sort(Comparator.comparingInt(EventSubscriber::dispatchOrder));
         return list;
       }));
 

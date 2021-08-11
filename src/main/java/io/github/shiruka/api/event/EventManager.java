@@ -1,5 +1,6 @@
 package io.github.shiruka.api.event;
 
+import io.github.shiruka.api.event.events.Event;
 import org.jetbrains.annotations.NotNull;
 
 /**

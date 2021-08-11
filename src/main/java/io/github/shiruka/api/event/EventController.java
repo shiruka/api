@@ -1,6 +1,6 @@
 package io.github.shiruka.api.event;
 
-import java.util.concurrent.CompletableFuture;
+import io.github.shiruka.api.event.events.Event;
 import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,10 +14,10 @@ public interface EventController {
    *
    * @param event the event to dispatch.
    *
-   * @return a completable future instance.
+   * @return post result.
    */
   @NotNull
-  CompletableFuture<PostResult> call(@NotNull Event event);
+  PostResult call(@NotNull Event event);
 
   /**
    * registers the given {@code subscriber} to receive events.
