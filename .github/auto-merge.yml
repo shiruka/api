@@ -1,20 +1,13 @@
 updateBranch: true
-
 deleteBranchAfterMerge: true
-
 reportStatus: true
-
 minApprovals:
   COLLABORATOR: 0
-
 maxRequestedChanges:
   NONE: 0
-
 blockingLabels:
   - blocked
-
 rules:
   - minApprovals:
       OWNER: 1
-
 mergeCommitMessage: "{title} (#{number})"
