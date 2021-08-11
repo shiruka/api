@@ -396,7 +396,7 @@ public interface Plugin {
    * <pre>
    *   # Required
    *   name: Test Plugin
-   *   main: net.shiruka.test.TestPlugin
+   *   main: io.github.shiruka.test.TestPlugin
    *
    *   # Optional
    *   version: "1.0.0-SNAPSHOT" # default is 1.0.0
@@ -406,7 +406,7 @@ public interface Plugin {
    *     - "Shiru ka"
    *   contributors: # default is empty
    *     - "portlek"
-   *   website: https://shiruka.net
+   *   website: https://shiruka.github.io
    *   provides:
    *     - "test-provide"
    *   depends: # default is empty
