@@ -19,7 +19,7 @@ public interface Shiruka {
    * @return implementation of async Scheduler.
    */
   @NotNull
-  static Scheduler.Async getAsyncScheduler() {
+  static Scheduler.Async asyncScheduler() {
     return Shiruka.provideOrThrow(Scheduler.Async.class);
   }
 
@@ -31,7 +31,7 @@ public interface Shiruka {
    * @throws NoSuchElementException if the event manager not found.
    */
   @NotNull
-  static EventManager getEventManager() {
+  static EventManager eventManager() {
     return Shiruka.provideOrThrow(EventManager.class);
   }
 
@@ -41,8 +41,8 @@ public interface Shiruka {
    * @return logger.
    */
   @NotNull
-  static Logger getLogger() {
-    return Shiruka.getServer().getLogger();
+  static Logger logger() {
+    return Shiruka.server().logger();
   }
 
   /**
@@ -53,49 +53,8 @@ public interface Shiruka {
    * @throws NoSuchElementException if the plugin manager not found.
    */
   @NotNull
-  static Plugin.Manager getPluginManager() {
+  static Plugin.Manager pluginManager() {
     return Shiruka.provideOrThrow(Plugin.Manager.class);
-  }
-
-  /**
-   * obtains the provider.
-   *
-   * @return provider.
-   */
-  @NotNull
-  static Provider getProvider() {
-    return Shiruka.getServer().getProvider();
-  }
-
-  /**
-   * obtains the server.
-   *
-   * @return server.
-   */
-  @NotNull
-  static Server getServer() {
-    return Implementation.getServer();
-  }
-
-  /**
-   * sets the server.
-   *
-   * @param server the server to set.
-   *
-   * @throws IllegalStateException if the server is already set.
-   */
-  static void setServer(@NotNull final Server server) {
-    Implementation.setServer(server);
-  }
-
-  /**
-   * gets the implementation of sync Scheduler.
-   *
-   * @return implementation of sync Scheduler.
-   */
-  @NotNull
-  static Scheduler.Sync getSyncScheduler() {
-    return Shiruka.provideOrThrow(Scheduler.Sync.class);
   }
 
   /**
@@ -108,7 +67,7 @@ public interface Shiruka {
    */
   @NotNull
   static <T> Optional<T> provide(@NotNull final Class<? extends T> cls) {
-    return Shiruka.getProvider().provide(cls);
+    return Shiruka.provider().provide(cls);
   }
 
   /**
@@ -123,6 +82,47 @@ public interface Shiruka {
    */
   @NotNull
   static <T> T provideOrThrow(@NotNull final Class<? extends T> cls) {
-    return Shiruka.getProvider().provideOrThrow(cls);
+    return Shiruka.provider().provideOrThrow(cls);
+  }
+
+  /**
+   * obtains the provider.
+   *
+   * @return provider.
+   */
+  @NotNull
+  static Provider provider() {
+    return Shiruka.server().provider();
+  }
+
+  /**
+   * obtains the server.
+   *
+   * @return server.
+   */
+  @NotNull
+  static Server server() {
+    return Implementation.server();
+  }
+
+  /**
+   * sets the server.
+   *
+   * @param server the server to set.
+   *
+   * @throws IllegalStateException if the server is already set.
+   */
+  static void server(@NotNull final Server server) {
+    Implementation.server(server);
+  }
+
+  /**
+   * gets the implementation of sync Scheduler.
+   *
+   * @return implementation of sync Scheduler.
+   */
+  @NotNull
+  static Scheduler.Sync syncScheduler() {
+    return Shiruka.provideOrThrow(Scheduler.Sync.class);
   }
 }

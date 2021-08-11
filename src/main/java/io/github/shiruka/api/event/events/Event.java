@@ -8,21 +8,21 @@ import io.github.shiruka.api.Shiruka;
 public interface Event {
 
   /**
+   * checks if the event is async.
+   *
+   * @return {@code false} by default, {@code true} if the event fires asynchronously.
+   */
+  default boolean async() {
+    return false;
+  }
+
+  /**
    * calls the event itself.
    *
    * @return {@code true}.
    */
   default boolean callEvent() {
-    Shiruka.getEventManager().call(this);
+    Shiruka.eventManager().call(this);
     return true;
-  }
-
-  /**
-   * checks if the event is async.
-   *
-   * @return {@code false} by default, {@code true} if the event fires asynchronously.
-   */
-  default boolean isAsync() {
-    return false;
   }
 }

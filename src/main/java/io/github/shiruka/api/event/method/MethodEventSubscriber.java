@@ -22,6 +22,12 @@ import org.jetbrains.annotations.Nullable;
 public final class MethodEventSubscriber implements EventSubscriber {
 
   /**
+   * the accepts cancelled.
+   */
+  @Getter
+  private final boolean acceptsCancelled;
+
+  /**
    * the dispatch order.
    */
   @Getter
@@ -38,12 +44,6 @@ public final class MethodEventSubscriber implements EventSubscriber {
    */
   @NotNull
   private final EventExecutor executor;
-
-  /**
-   * the include cancelled.
-   */
-  @Getter
-  private final boolean ignoreCancelled;
 
   /**
    * the listener.
@@ -77,7 +77,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
     this.executor = executor;
     this.listener = listener;
     this.dispatchOrder = dispatchOrder;
-    this.ignoreCancelled = ignoreCancelled;
+    this.acceptsCancelled = ignoreCancelled;
   }
 
   @Override

@@ -43,19 +43,20 @@ public final class JavaPluginLoader implements Plugin.Loader {
 
   @Override
   public void disablePlugin(@NotNull final Plugin.Container plugin, final boolean closeClassLoaders) {
-    if (!plugin.isEnabled()) {
+    if (!plugin.enabled()) {
       return;
     }
-    final var message = "Disabling %s".formatted(plugin.getDescription().getFullName());
-    plugin.getLogger().info(message);
+    final var fullName = plugin.description().fullName();
+    final var message = "Disabling %s".formatted(fullName);
+    plugin.logger().info(message);
     new PluginDisableEvent(plugin).callEvent();
     try {
       plugin.setEnabled(false);
     } catch (final Throwable e) {
-      Shiruka.getLogger().fatal("Error occurred while disabling %s (Is it up to date?)".formatted(
-        plugin.getDescription().getFullName()), e);
+      Shiruka.logger().fatal("Error occurred while disabling %s (Is it up to date?)".formatted(
+        fullName), e);
     }
-    if (plugin.getClassLoader() instanceof PluginClassLoader loader) {
+    if (plugin.classLoader() instanceof PluginClassLoader loader) {
       this.loaders.remove(loader);
       try {
         loader.close();
@@ -66,7 +67,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
           loader.close();
         }
       } catch (final IOException e) {
-        Shiruka.getLogger().warn("Error closing the Plugin Class Loader for {}", plugin.getDescription().getFullName());
+        Shiruka.logger().warn("Error closing the Plugin Class Loader for {}", fullName);
         e.printStackTrace();
       }
     }
@@ -74,22 +75,23 @@ public final class JavaPluginLoader implements Plugin.Loader {
 
   @Override
   public void enablePlugin(@NotNull final Plugin.Container plugin) {
-    if (plugin.isEnabled()) {
+    if (plugin.enabled()) {
       return;
     }
-    final var enableMsg = "Enabling " + plugin.getDescription().getFullName();
-    plugin.getLogger().info(enableMsg);
-    final var pluginLoader = (PluginClassLoader) plugin.getClassLoader();
+    final var fullName = plugin.description().fullName();
+    final var enableMsg = "Enabling " + fullName;
+    plugin.logger().info(enableMsg);
+    final var pluginLoader = (PluginClassLoader) plugin.classLoader();
     if (!this.loaders.contains(pluginLoader)) {
       this.loaders.add(pluginLoader);
-      Shiruka.getLogger().warn("Enabled plugin with unregistered PluginClassLoader {}", plugin.getDescription().getFullName());
+      Shiruka.logger().warn("Enabled plugin with unregistered PluginClassLoader {}", fullName);
     }
     try {
       plugin.setEnabled(true);
     } catch (final Throwable e) {
-      Shiruka.getLogger().fatal("Error occurred while enabling %s (Is it up to date?)".formatted(
-        plugin.getDescription().getFullName()), e);
-      Shiruka.getPluginManager().disablePlugin(plugin, true);
+      Shiruka.logger().fatal("Error occurred while enabling %s (Is it up to date?)".formatted(
+        fullName), e);
+      Shiruka.pluginManager().disablePlugin(plugin, true);
       return;
     }
     new PluginEnableEvent(plugin).callEvent();
@@ -122,21 +124,21 @@ public final class JavaPluginLoader implements Plugin.Loader {
     } catch (final InvalidDescriptionException ex) {
       throw new InvalidPluginException(ex);
     }
-    final var parentFile = Shiruka.getPluginManager().getPluginsDirectory();
+    final var parentFile = Shiruka.pluginManager().pluginsDirectory();
     final var dataFolder = new File(parentFile, description.name());
     if (Files.exists(dataFolder.toPath()) && !Files.isDirectory(dataFolder.toPath())) {
       throw new InvalidPluginException("Projected data folder: `%s' for %s (%s) exists and is not a directory",
-        dataFolder, description.getFullName(), file);
+        dataFolder, description.fullName(), file);
     }
     final var missingHardDependencies = new HashSet<>(description.depends().size());
     for (final var pluginName : description.depends()) {
-      if (Shiruka.getPluginManager().getPlugin(pluginName).isEmpty()) {
+      if (Shiruka.pluginManager().plugin(pluginName).isEmpty()) {
         missingHardDependencies.add(pluginName);
       }
     }
     if (!missingHardDependencies.isEmpty()) {
       throw new UnknownDependencyException("Unknown/missing dependency plugins: [%s]. Please download and install these plugins to run '%s'.",
-        missingHardDependencies, description.getFullName());
+        missingHardDependencies, description.fullName());
     }
     final PluginClassLoader loader;
     try {
@@ -147,7 +149,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
       throw new InvalidPluginException(ex);
     }
     this.loaders.add(loader);
-    return loader.getPluginContainer();
+    return loader.pluginContainer();
   }
 
   /**
@@ -170,12 +172,12 @@ public final class JavaPluginLoader implements Plugin.Loader {
     }
     lock.writeLock().lock();
     try {
-      final var pluginManager = Shiruka.getPluginManager();
+      final var pluginManager = Shiruka.pluginManager();
       try {
         return requester.loadClass0(
           name,
           false,
-          pluginManager.isTransitiveDepend(container, requester.getPluginContainer()));
+          pluginManager.isTransitiveDepend(container, requester.pluginContainer()));
       } catch (final ClassNotFoundException ignored) {
       }
       for (final var loader : this.loaders) {
@@ -183,7 +185,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
           return loader.loadClass0(
             name,
             resolve,
-            pluginManager.isTransitiveDepend(container, loader.getPluginContainer()));
+            pluginManager.isTransitiveDepend(container, loader.pluginContainer()));
         } catch (final ClassNotFoundException ignored) {
         }
       }

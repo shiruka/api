@@ -14,7 +14,7 @@ public interface Server {
    * @return logger.
    */
   @NotNull
-  Logger getLogger();
+  Logger logger();
 
   /**
    * obtains the provider.
@@ -22,5 +22,5 @@ public interface Server {
    * @return provider.
    */
   @NotNull
-  Provider getProvider();
+  Provider provider();
 }
