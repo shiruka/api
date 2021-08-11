@@ -3,6 +3,9 @@ package io.github.shiruka.api.exception;
 import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * an exception class that represents server plugin enable disable exception.
+ */
 public final class ServerPluginEnableDisableException extends ServerPluginException {
 
   /**
