@@ -1,5 +1,6 @@
 package io.github.shiruka.api.event;
 
+import io.github.shiruka.api.event.events.Event;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
 import org.jetbrains.annotations.NotNull;
@@ -7,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface that can invoke a defined method on a listener object when an event is posted.
  */
+@FunctionalInterface
 public interface EventExecutor {
 
   /**
@@ -37,6 +39,7 @@ public interface EventExecutor {
   /**
    * factory for {@link EventExecutor}s.
    */
+  @FunctionalInterface
   interface Factory {
 
     /**

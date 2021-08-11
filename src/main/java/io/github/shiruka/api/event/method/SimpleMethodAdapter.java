@@ -1,12 +1,11 @@
 package io.github.shiruka.api.event.method;
 
-import io.github.shiruka.api.event.Event;
 import io.github.shiruka.api.event.EventController;
 import io.github.shiruka.api.event.EventExecutor;
 import io.github.shiruka.api.event.EventSubscriber;
 import io.github.shiruka.api.event.Listener;
-import io.github.shiruka.api.event.PostResult;
 import io.github.shiruka.api.event.SimpleEventController;
+import io.github.shiruka.api.event.events.Event;
 import java.util.Arrays;
 import java.util.function.BiConsumer;
 import lombok.RequiredArgsConstructor;
@@ -64,8 +63,7 @@ public final class SimpleMethodAdapter implements MethodAdapter {
 
   @Override
   public void call(@NotNull final Event event) {
-    this.controller.call(event)
-      .thenAccept(PostResult::raise);
+    this.controller.call(event).raise();
   }
 
   @Override
@@ -75,9 +73,9 @@ public final class SimpleMethodAdapter implements MethodAdapter {
 
   @Override
   public void unregister(@NotNull final Listener listener) {
-    this.controller.unregister(h ->
-      h instanceof MethodEventSubscriber methodEventSubscriber &&
-        methodEventSubscriber.getListener() == listener);
+    this.controller.unregister(event ->
+      event instanceof MethodEventSubscriber subscriber &&
+        subscriber.listener() == listener);
   }
 
   /**

@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -90,7 +91,7 @@ public interface Plugin {
      * @return load order.
      */
     @NotNull
-    public static Optional<LoadOrder> getByType(@NotNull final String type) {
+    public static Optional<LoadOrder> byType(@NotNull final String type) {
       final var lowerCase = type.toLowerCase(Locale.ROOT);
       return Arrays.stream(LoadOrder.values())
         .filter(loadOrder -> loadOrder.is(lowerCase))
@@ -204,7 +205,7 @@ public interface Plugin {
      * @param closeClassLoaders the close class loaders to disable.
      */
     default void disablePlugins(final boolean closeClassLoaders) {
-      for (final var plugin : this.getPlugins()) {
+      for (final var plugin : this.plugins()) {
         this.disablePlugin(plugin, closeClassLoaders);
       }
     }
@@ -217,40 +218,6 @@ public interface Plugin {
     void enablePlugin(@NotNull Container plugin);
 
     /**
-     * obtains all plugin loaders.
-     *
-     * @return all plugin loaders.
-     */
-    @NotNull
-    Map<Pattern, Loader> getLoaders();
-
-    /**
-     * gets a plugin by name.
-     *
-     * @param plugin the plugin to get.
-     *
-     * @return plugin.
-     */
-    @NotNull
-    Optional<Plugin.Container> getPlugin(@NotNull String plugin);
-
-    /**
-     * obtains the plugins.
-     *
-     * @return plugins.
-     */
-    @NotNull
-    Collection<Plugin.Container> getPlugins();
-
-    /**
-     * obtains the plugins directory.
-     *
-     * @return plugins directory.
-     */
-    @NotNull
-    File getPluginsDirectory();
-
-    /**
      * checks if the plugin is enabled.
      *
      * @param plugin the plugin to check.
@@ -258,7 +225,7 @@ public interface Plugin {
      * @return {@code true} if the plugin enabled.
      */
     default boolean isPluginEnabled(@NotNull final String plugin) {
-      return this.getPlugin(plugin)
+      return this.plugin(plugin)
         .map(this::isPluginEnabled)
         .orElse(false);
     }
@@ -308,6 +275,40 @@ public interface Plugin {
     Collection<Container> loadPlugins(@NotNull File folder);
 
     /**
+     * obtains all plugin loaders.
+     *
+     * @return all plugin loaders.
+     */
+    @NotNull
+    Map<Pattern, Loader> loaders();
+
+    /**
+     * gets a plugin by name.
+     *
+     * @param plugin the plugin to get.
+     *
+     * @return plugin.
+     */
+    @NotNull
+    Optional<Plugin.Container> plugin(@NotNull String plugin);
+
+    /**
+     * obtains the plugins.
+     *
+     * @return plugins.
+     */
+    @NotNull
+    Collection<Plugin.Container> plugins();
+
+    /**
+     * obtains the plugins directory.
+     *
+     * @return plugins directory.
+     */
+    @NotNull
+    File pluginsDirectory();
+
+    /**
      * registers a new plugin loader.
      *
      * @param pattern the pattern to register.
@@ -320,6 +321,7 @@ public interface Plugin {
    * a record class that represents plugin containers to store date of plugins.
    */
   @Getter
+  @Accessors(fluent = true)
   @RequiredArgsConstructor
   final class Container {
 
@@ -368,7 +370,6 @@ public interface Plugin {
     /**
      * the enabled.
      */
-    @Getter
     private boolean enabled;
 
     /**
@@ -512,7 +513,7 @@ public interface Plugin {
       });
       final var description = Description.optional(map, "description", String.class, "");
       final var loadOrder = Description.optional(map, "load", String.class, LoadOrder.POST_WORLD, s ->
-        LoadOrder.getByType(s).orElse(null));
+        LoadOrder.byType(s).orElse(null));
       final var authors = Description.optionalStringCollection(map, "authors");
       final var contributors = Description.optionalStringCollection(map, "contributors");
       final var prefix = Description.optional(map, "prefix", String.class, name);
@@ -652,7 +653,7 @@ public interface Plugin {
      * @return full name.
      */
     @NotNull
-    public String getFullName() {
+    public String fullName() {
       return this.name + " v" + this.version;
     }
 

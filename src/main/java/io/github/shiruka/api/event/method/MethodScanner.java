@@ -33,7 +33,7 @@ public interface MethodScanner {
    */
   default boolean consumeCancelledEvents(@NotNull final Listener listener, @NotNull final Method method) {
     return method.isAnnotationPresent(EventHandler.class) &&
-      method.getAnnotation(EventHandler.class).ignoreCancelled();
+      method.getAnnotation(EventHandler.class).acceptsCancelled();
   }
 
   /**
@@ -46,8 +46,7 @@ public interface MethodScanner {
    *
    * @see DispatchOrder
    */
-  @NotNull
-  default DispatchOrder dispatchOrder(@NotNull final Listener listener, @NotNull final Method method) {
+  default int dispatchOrder(@NotNull final Listener listener, @NotNull final Method method) {
     return method.isAnnotationPresent(EventHandler.class)
       ? method.getAnnotation(EventHandler.class).priority()
       : DispatchOrder.MIDDLE;

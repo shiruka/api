@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,6 +34,7 @@ import org.jetbrains.annotations.Nullable;
  * a class that represents a simple implementation for {@link Plugin.Manager}.
  */
 @Log4j2
+@Accessors(fluent = true)
 @RequiredArgsConstructor
 public final class PluginManager implements Plugin.Manager {
 
@@ -74,7 +76,7 @@ public final class PluginManager implements Plugin.Manager {
    */
   private static void handlePluginException(@NotNull final String message, @NotNull final Throwable throwable,
                                             @NotNull final Plugin.Container plugin) {
-    Shiruka.getLogger().fatal(message, throwable);
+    Shiruka.logger().fatal(message, throwable);
     new ServerExceptionEvent(new ServerPluginEnableDisableException(message, throwable, plugin)).callEvent();
   }
 
@@ -91,68 +93,51 @@ public final class PluginManager implements Plugin.Manager {
 
   @Override
   public synchronized void disablePlugin(@NotNull final Plugin.Container plugin, final boolean closeClassLoaders) {
-    if (!plugin.isEnabled()) {
+    if (!plugin.enabled()) {
       return;
     }
+    final var fullName = plugin.description().fullName();
     try {
-      plugin.getLoader().disablePlugin(plugin, closeClassLoaders);
+      plugin.loader().disablePlugin(plugin, closeClassLoaders);
     } catch (final Throwable e) {
       PluginManager.handlePluginException("Error occurred (in the plugin loader) while disabling %s (Is it up to date?)".formatted(
-        plugin.getDescription().getFullName()), e, plugin);
+        fullName), e, plugin);
     }
     try {
-      Scheduler.getSync().cancelTasks(plugin);
-      Scheduler.getAsync().cancelTasks(plugin);
+      Scheduler.sync().cancelTasks(plugin);
+      Scheduler.async().cancelTasks(plugin);
     } catch (final Throwable e) {
       PluginManager.handlePluginException("Error occurred (in the plugin loader) while cancelling tasks for %s (Is it up to date?)".formatted(
-        plugin.getDescription().getFullName()), e, plugin);
+        fullName), e, plugin);
     }
   }
 
   @Override
   public synchronized void enablePlugin(@NotNull final Plugin.Container plugin) {
-    if (plugin.isEnabled()) {
+    if (plugin.enabled()) {
       return;
     }
     try {
-      plugin.getLoader().enablePlugin(plugin);
+      plugin.loader().enablePlugin(plugin);
     } catch (final Throwable e) {
       PluginManager.handlePluginException("Error occurred (in the plugin loader) while enabling %s (Is it up to date?)".formatted(
-        plugin.getDescription().getFullName()), e, plugin);
+        plugin.description().fullName()), e, plugin);
     }
-  }
-
-  @NotNull
-  @Override
-  public Map<Pattern, Plugin.Loader> getLoaders() {
-    return Collections.unmodifiableMap(this.pluginLoaders);
-  }
-
-  @NotNull
-  @Override
-  public synchronized Optional<Plugin.Container> getPlugin(@NotNull final String plugin) {
-    return Optional.ofNullable(this.pluginsByName.get(plugin.replace(' ', '_').toLowerCase(Locale.ROOT)));
-  }
-
-  @NotNull
-  @Override
-  public synchronized Collection<Plugin.Container> getPlugins() {
-    return Collections.unmodifiableSet(this.plugins);
   }
 
   @Override
   public synchronized boolean isPluginEnabled(@NotNull final Plugin.Container plugin) {
-    return this.plugins.contains(plugin) && plugin.isEnabled();
+    return this.plugins.contains(plugin) && plugin.enabled();
   }
 
   @Override
   public boolean isTransitiveDepend(@NotNull final Plugin.Container plugin, @NotNull final Plugin.Container depend) {
-    final var name = plugin.getDescription().name();
+    final var name = plugin.description().name();
     if (!this.dependencyGraph.nodes().contains(name)) {
       return false;
     }
     final var reachableNodes = Graphs.reachableNodes(this.dependencyGraph, name);
-    final var dependDescription = depend.getDescription();
+    final var dependDescription = depend.description();
     return reachableNodes.contains(dependDescription.name()) ||
       dependDescription.provides().stream().anyMatch(reachableNodes::contains);
   }
@@ -169,7 +154,7 @@ public final class PluginManager implements Plugin.Manager {
     }
     if (result != null) {
       this.plugins.add(result);
-      final var description = result.getDescription();
+      final var description = result.description();
       this.pluginsByName.put(description.name().toLowerCase(Locale.ROOT), result);
       for (final var provided : description.provides()) {
         this.pluginsByName.putIfAbsent(provided.toLowerCase(Locale.ROOT), result);
@@ -201,6 +186,8 @@ public final class PluginManager implements Plugin.Manager {
         continue;
       }
       final Plugin.Description description;
+      final var filePath = file.getPath();
+      final var parentFilePath = file.getParentFile().getPath();
       try {
         description = loader.loadDescription(file);
         final var name = description.name();
@@ -208,23 +195,23 @@ public final class PluginManager implements Plugin.Manager {
           name.equalsIgnoreCase("minecraft") ||
           name.equalsIgnoreCase("mojang")) {
           PluginManager.log.fatal("Couldn't load '{}' in folder '{}': Restricted name!",
-            file.getPath(), file.getParentFile().getPath());
+            filePath, parentFilePath);
           continue;
         }
         if (name.indexOf(' ') != -1) {
           PluginManager.log.fatal("Couldn't load '{}' in folder '{}': Uses the space-character in its name!",
-            file.getPath(), file.getParentFile().getPath());
+            filePath, parentFilePath);
           continue;
         }
       } catch (final InvalidDescriptionException e) {
         PluginManager.log.fatal("Couldn't load '{}' in folder '{}'!",
-          file.getPath(), file.getParentFile().getPath(), e);
+          filePath, parentFilePath, e);
         continue;
       }
       final var pluginFile = plugins.put(description.name(), file);
       if (pluginFile != null) {
         PluginManager.log.fatal("Ambiguous plugin name `{}' for files `{}' and `{}' in `{}'",
-          description.name(), file.getPath(), pluginFile.getPath(), file.getParentFile().getPath());
+          description.name(), filePath, pluginFile.getPath(), parentFilePath);
       }
       final var removedProvided = pluginsProvided.remove(description.name());
       if (removedProvided != null) {
@@ -235,7 +222,7 @@ public final class PluginManager implements Plugin.Manager {
         final var providedFile = plugins.get(provide);
         if (providedFile != null) {
           PluginManager.log.error("`{} provides `{}' while this is also the name of `{}' in `{}'",
-            file.getPath(), provide, providedFile.getPath(), file.getParentFile().getPath());
+            filePath, provide, providedFile.getPath(), parentFilePath);
         } else {
           final var replacedPlugin = pluginsProvided.put(provide, description.name());
           if (replacedPlugin != null) {
@@ -321,7 +308,7 @@ public final class PluginManager implements Plugin.Manager {
             final var loadedPlugin = this.loadPlugin(file);
             if (loadedPlugin != null) {
               result.add(loadedPlugin);
-              final var description = loadedPlugin.getDescription();
+              final var description = loadedPlugin.description();
               loadedPlugins.add(description.name());
               loadedPlugins.addAll(description.provides());
             } else {
@@ -349,7 +336,7 @@ public final class PluginManager implements Plugin.Manager {
               final var loadedPlugin = this.loadPlugin(file);
               if (loadedPlugin != null) {
                 result.add(loadedPlugin);
-                final var description = loadedPlugin.getDescription();
+                final var description = loadedPlugin.description();
                 loadedPlugins.add(description.name());
                 loadedPlugins.addAll(description.provides());
               } else {
@@ -377,6 +364,24 @@ public final class PluginManager implements Plugin.Manager {
       }
     }
     return result;
+  }
+
+  @NotNull
+  @Override
+  public Map<Pattern, Plugin.Loader> loaders() {
+    return Collections.unmodifiableMap(this.pluginLoaders);
+  }
+
+  @NotNull
+  @Override
+  public synchronized Optional<Plugin.Container> plugin(@NotNull final String plugin) {
+    return Optional.ofNullable(this.pluginsByName.get(plugin.replace(' ', '_').toLowerCase(Locale.ROOT)));
+  }
+
+  @NotNull
+  @Override
+  public synchronized Collection<Plugin.Container> plugins() {
+    return Collections.unmodifiableSet(this.plugins);
   }
 
   @Override

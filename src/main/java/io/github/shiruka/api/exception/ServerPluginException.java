@@ -2,12 +2,14 @@ package io.github.shiruka.api.exception;
 
 import io.github.shiruka.api.plugin.Plugin;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an exception class that represents wrapper for server plugin exceptions.
  */
 @Getter
+@Accessors(fluent = true)
 public class ServerPluginException extends ServerException {
 
   /**

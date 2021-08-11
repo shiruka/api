@@ -17,7 +17,7 @@ public interface Task {
    */
   @NotNull
   static Task.Builder newAsyncBuilder() {
-    return Scheduler.getAsync().newBuilder();
+    return Scheduler.async().newBuilder();
   }
 
   /**
@@ -27,14 +27,7 @@ public interface Task {
    */
   @NotNull
   static Task.Builder newSyncBuilder() {
-    return Scheduler.getSync().newBuilder();
-  }
-
-  /**
-   * executes the task.
-   */
-  default void execute() {
-    this.getScheduler().execute(this);
+    return Scheduler.sync().newBuilder();
   }
 
   /**
@@ -43,7 +36,14 @@ public interface Task {
    * @return delay.
    */
   @NotNull
-  Duration getDelay();
+  Duration delay();
+
+  /**
+   * executes the task.
+   */
+  default void execute() {
+    this.scheduler().execute(this);
+  }
 
   /**
    * obtains the interval.
@@ -51,7 +51,7 @@ public interface Task {
    * @return interval.
    */
   @NotNull
-  Duration getInterval();
+  Duration interval();
 
   /**
    * obtains the job.
@@ -59,7 +59,7 @@ public interface Task {
    * @return the job
    */
   @NotNull
-  Consumer<ScheduledTask> getJob();
+  Consumer<ScheduledTask> job();
 
   /**
    * obtains the name.
@@ -67,7 +67,7 @@ public interface Task {
    * @return name.
    */
   @NotNull
-  String getName();
+  String name();
 
   /**
    * obtains the plugin.
@@ -75,7 +75,7 @@ public interface Task {
    * @return plugin.
    */
   @NotNull
-  Plugin getPlugin();
+  Plugin plugin();
 
   /**
    * obtains the scheduler.
@@ -83,7 +83,7 @@ public interface Task {
    * @return scheduler.
    */
   @NotNull
-  Scheduler getScheduler();
+  Scheduler scheduler();
 
   /**
    * an interface to determine builders for {@link Task}.

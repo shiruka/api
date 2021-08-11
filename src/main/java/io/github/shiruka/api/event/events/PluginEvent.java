@@ -1,21 +1,18 @@
 package io.github.shiruka.api.event.events;
 
 import io.github.shiruka.api.plugin.Plugin;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an abstract class that represents plugin events.
+ * an interface to determine plugin events.
  */
-@Getter
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class PluginEvent implements io.github.shiruka.api.event.PluginEvent {
+public interface PluginEvent extends Event {
 
   /**
-   * the plugin.
+   * obtains the plugin.
+   *
+   * @return plugin.
    */
   @NotNull
-  private final Plugin.Container plugin;
+  Plugin.Container plugin();
 }

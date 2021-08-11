@@ -21,6 +21,7 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipFile;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * a class that represents plugin class loaders.
  */
+@Accessors(fluent = true)
 public final class PluginClassLoader extends URLClassLoader {
 
   /**
@@ -56,8 +58,8 @@ public final class PluginClassLoader extends URLClassLoader {
   /**
    * the plugin container.
    */
-  @NotNull
   @Getter
+  @NotNull
   private final Plugin.Container pluginContainer;
 
   /**
@@ -216,17 +218,18 @@ public final class PluginClassLoader extends URLClassLoader {
     }
     final var result = Optional.ofNullable(this.loader.getClassByName(classPath, resolve, this.pluginContainer, this))
       .orElseThrow(() -> new ClassNotFoundException(classPath));
-    if (result.getClassLoader() instanceof PluginClassLoader pluginClassLoader) {
-      final var provider = pluginClassLoader.getPluginContainer();
-      final var description = provider.getDescription();
-      final var name = description.name();
-      if (provider != this.pluginContainer &&
-        !this.seenIllegalAccess.contains(name) &&
-        !Shiruka.getPluginManager().isTransitiveDepend(this.pluginContainer, provider)) {
-        this.seenIllegalAccess.add(name);
-        this.pluginContainer.getLogger().warn("Loaded class {} from {} which is not a depend, soft-depend or load-before of this plugin.",
-          classPath, description.getFullName());
-      }
+    if (!(result.getClassLoader() instanceof PluginClassLoader pluginClassLoader)) {
+      return result;
+    }
+    final var provider = pluginClassLoader.pluginContainer();
+    final var description = provider.description();
+    final var name = description.name();
+    if (provider != this.pluginContainer &&
+      !this.seenIllegalAccess.contains(name) &&
+      !Shiruka.pluginManager().isTransitiveDepend(this.pluginContainer, provider)) {
+      this.seenIllegalAccess.add(name);
+      this.pluginContainer.logger().warn("Loaded class {} from {} which is not a depend, soft-depend or load-before of this plugin.",
+        classPath, description.fullName());
     }
     return result;
   }

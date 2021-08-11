@@ -1,4 +1,4 @@
-package io.github.shiruka.api.event;
+package io.github.shiruka.api.event.events;
 
 /**
  * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than
@@ -13,8 +13,7 @@ public interface Cancellable extends Event {
    */
   @Override
   default boolean callEvent() {
-    return Event.super.callEvent() &&
-      this.isCancelled();
+    return Event.super.callEvent() && this.cancelled();
   }
 
   /**
@@ -22,12 +21,12 @@ public interface Cancellable extends Event {
    *
    * @return {@code true} if the event has been cancelled.
    */
-  boolean isCancelled();
+  boolean cancelled();
 
   /**
    * cancels state of the event.
    *
    * @param cancelled the cancelled to set.
    */
-  void setCancelled(boolean cancelled);
+  void cancelled(boolean cancelled);
 }
