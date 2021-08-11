@@ -2,9 +2,10 @@ plugins {
     id "java"
     id "checkstyle"
     id "maven-publish"
+    id "signing"
 }
 
-group "net.shiruka"
+group "io.github.shiruka"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_16
@@ -23,6 +24,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     javadoc.options.tags = ["todo"]
+    javadoc.options.addBooleanOption("html5", true)
     classifier "javadoc"
     from javadoc.destinationDir
 }
@@ -66,8 +68,16 @@ dependencies {
 }
 
 publishing {
+    repositories {
+        maven {
+            def releasesRepoUrl = layout.buildDirectory.dir('repos/releases')
+            def snapshotsRepoUrl = layout.buildDirectory.dir('repos/snapshots')
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+
     publications {
-        pub(MavenPublication) {
+        mavenJava(MavenPublication) {
             groupId project.group
             artifactId project.name
             version project.version
@@ -75,6 +85,33 @@ publishing {
             from components.java
             artifact tasks.sourcesJar
             artifact tasks.javadocJar
+            pom {
+                name = "Shiru ka Api"
+                description = "An Api project that helps developers to create unique plugins for Shiru ka."
+                url = "https://shiruka.github.io/"
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "https://mit-license.org/license.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "portlek"
+                        name = "Hasan Demirtaş"
+                        email = "utsukushihito@outlook.com"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/shiruka/api.git"
+                    developerConnection = "scm:git:ssh://github.com/shiruka/api.git"
+                    url = "https://github.com/shiruka/api"
+                }
+            }
         }
     }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
