@@ -8,6 +8,6 @@ maxRequestedChanges:
 blockingLabels:
   - blocked
 rules:
-  - minApprovals:
-      OWNER: 1
+  - requiredLabels:
+      - automerge
 mergeCommitMessage: "{title} (#{number})"
