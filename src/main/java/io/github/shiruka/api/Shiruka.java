@@ -20,13 +20,15 @@ public interface Shiruka {
    */
   @NotNull
   static Scheduler.Async getAsyncScheduler() {
-    return Scheduler.getAsync();
+    return Shiruka.provideOrThrow(Scheduler.Async.class);
   }
 
   /**
    * obtains the event manager.
    *
    * @return event manager.
+   *
+   * @throws NoSuchElementException if the event manager not found.
    */
   @NotNull
   static EventManager getEventManager() {
@@ -53,6 +55,16 @@ public interface Shiruka {
   @NotNull
   static Plugin.Manager getPluginManager() {
     return Shiruka.provideOrThrow(Plugin.Manager.class);
+  }
+
+  /**
+   * obtains the provider.
+   *
+   * @return provider.
+   */
+  @NotNull
+  static Provider getProvider() {
+    return Shiruka.getServer().getProvider();
   }
 
   /**
@@ -83,7 +95,7 @@ public interface Shiruka {
    */
   @NotNull
   static Scheduler.Sync getSyncScheduler() {
-    return Scheduler.getSync();
+    return Shiruka.provideOrThrow(Scheduler.Sync.class);
   }
 
   /**
@@ -96,7 +108,7 @@ public interface Shiruka {
    */
   @NotNull
   static <T> Optional<T> provide(@NotNull final Class<? extends T> cls) {
-    return Shiruka.getServer().getProvider().provide(cls);
+    return Shiruka.getProvider().provide(cls);
   }
 
   /**
@@ -111,6 +123,6 @@ public interface Shiruka {
    */
   @NotNull
   static <T> T provideOrThrow(@NotNull final Class<? extends T> cls) {
-    return Shiruka.getServer().getProvider().provideOrThrow(cls);
+    return Shiruka.getProvider().provideOrThrow(cls);
   }
 }
