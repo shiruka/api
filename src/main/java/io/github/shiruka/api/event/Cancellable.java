@@ -13,8 +13,7 @@ public interface Cancellable extends Event {
    */
   @Override
   default boolean callEvent() {
-    return Event.super.callEvent() &&
-      this.isCancelled();
+    return Event.super.callEvent() && this.isCancelled();
   }
 
   /**

@@ -14,5 +14,5 @@ public interface PluginEvent extends Event {
    * @return plugin.
    */
   @NotNull
-  Plugin.Container getPlugin();
+  Plugin.Container plugin();
 }
