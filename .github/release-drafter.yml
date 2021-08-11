@@ -8,13 +8,13 @@ categories:
   - title: Breaking
     label: breaking
   - title: New
-    label: feature
+    label: enhancement
   - title: Bug Fixes
     label: bug
   - title: Maintenance
     label: maintenance
   - title: Documentation
-    label: docs
+    label: documentation
   - title: Dependency Updates
     label: dependencies
 
@@ -24,12 +24,12 @@ version-resolver:
       - breaking
   minor:
     labels:
-      - feature
+      - enhancement
   patch:
     labels:
       - bug
       - maintenance
-      - docs
+      - documentation
       - dependencies
       - security
 
