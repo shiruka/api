@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -13,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
  */
 @Getter
 @EqualsAndHashCode
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Version implements Comparable<Version> {
 
   /**
@@ -43,24 +46,6 @@ public final class Version implements Comparable<Version> {
   private final List<String> preRelease;
 
   /**
-   * ctor.
-   *
-   * @param major the major.
-   * @param minor the minor.
-   * @param patch the patch.
-   * @param buildMeta the build meta.
-   * @param preRelease the pre release.
-   */
-  private Version(final int major, final int minor, final int patch,
-                  @NotNull final List<String> buildMeta, @NotNull final List<String> preRelease) {
-    this.major = major;
-    this.minor = minor;
-    this.patch = patch;
-    this.buildMeta = buildMeta;
-    this.preRelease = preRelease;
-  }
-
-  /**
    * creates a simple version instance.
    *
    * @param major the major to create.
@@ -74,7 +59,7 @@ public final class Version implements Comparable<Version> {
   @NotNull
   public static Version of(final int major, final int minor, final int patch,
                            @NotNull final List<String> buildMeta, @NotNull final List<String> preRelease) {
-    return new Version(major, minor, patch, buildMeta, preRelease);
+    return new Version(buildMeta, major, minor, patch, preRelease);
   }
 
   /**
