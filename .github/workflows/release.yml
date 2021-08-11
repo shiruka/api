@@ -2,7 +2,7 @@ name: Release
 
 on:
   release:
-    types: [published]
+    types: [ published ]
 
 jobs:
   build:
@@ -36,5 +36,6 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - run: |
+          [[ "${{ github.event.release.tag_name }}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
           chmod +x gradlew
-          ./gradlew publish
+          .\gradlew publish -Pversion="${{ github.event.release.tag_name }}" -Psigning.gnupg.keyName="${{ secrets.GPG_SECRET_KEY_ID }}" -Psigning.gnupg.passphrase="${{ secrets.GPG_PASSPHRASE }}" -PossrhUsername="${{ secrets.SONATYPE_USERNAME }}" -PossrhPassword="${{ secrets.SONATYPE_PASSWORD }}"
