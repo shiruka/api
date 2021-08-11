@@ -3,6 +3,7 @@ plugins {
   id "checkstyle"
   id "maven-publish"
   id "signing"
+  id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
 }
 
 group "io.github.shiruka"
@@ -68,18 +69,6 @@ dependencies {
 }
 
 publishing {
-  repositories {
-    maven {
-      credentials {
-        username findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
-        password findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
-      }
-      url version.endsWith('SNAPSHOT')
-        ? "https://oss.sonatype.org/content/repositories/snapshots"
-        : "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-    }
-  }
-
   publications {
     mavenJava(MavenPublication) {
       groupId project.group
@@ -119,4 +108,10 @@ publishing {
 signing {
   useGpgCmd()
   sign publishing.publications.mavenJava
+}
+
+nexusPublishing {
+  repositories {
+    sonatype()
+  }
 }
