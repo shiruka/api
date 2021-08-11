@@ -2,7 +2,6 @@ package io.github.shiruka.api;
 
 import com.google.common.base.Preconditions;
 import java.util.Objects;
-import lombok.Synchronized;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
