@@ -3,6 +3,7 @@ plugins {
   id "checkstyle"
   id "maven-publish"
   id "signing"
+  id "io.freefair.lombok" version "6.1.0"
   id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
 }
 
@@ -52,7 +53,6 @@ dependencies {
   compileOnly "com.lmax:disruptor:3.4.4"
   compileOnly "it.unimi.dsi:fastutil:8.5.4"
   compileOnly "com.google.inject:guice:5.0.1"
-  compileOnly "org.projectlombok:lombok:1.18.20"
   compileOnly "org.jetbrains:annotations:22.0.0"
   compileOnly "com.google.guava:guava:30.1.1-jre"
   compileOnly "org.apache.logging.log4j:log4j-core:2.14.1"
@@ -61,7 +61,6 @@ dependencies {
   compileOnly "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.4"
 
   // Processor
-  annotationProcessor "org.projectlombok:lombok:1.18.20"
   annotationProcessor "org.jetbrains:annotations:21.0.1"
 
   // Test
