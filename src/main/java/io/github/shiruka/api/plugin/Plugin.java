@@ -391,7 +391,7 @@ public interface Plugin {
   }
 
   /**
-   * a simple record class that implements {@link Description}.
+   * a simple record class that represents description file of plugins.
    * <p>
    * example to show scheme of the plugin file:
    * <pre>
