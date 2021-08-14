@@ -3,7 +3,7 @@ package io.github.shiruka.api.math;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents three dimensional vectors.
+ * a class that represents block positions.
  *
  * @param x the x.
  * @param y the y.
@@ -16,18 +16,18 @@ public record BlockPosition(
 ) {
 
   /**
-   * the zero vector.
+   * the zero position.
    */
   private static final BlockPosition ZERO = BlockPosition.zero();
 
   /**
-   * creates a vector.
+   * creates a block position.
    *
    * @param x the x to create.
    * @param y the y to create.
    * @param z the z to create.
    *
-   * @return a newly created vector.
+   * @return a newly created block position.
    */
   @NotNull
   public static BlockPosition of(final int x, final int y, final int z) {
@@ -35,9 +35,21 @@ public record BlockPosition(
   }
 
   /**
-   * creates a zero vector.
+   * creates a block position.
    *
-   * @return zero vector.
+   * @param vector the vector to create.
+   *
+   * @return a newly created block position.
+   */
+  @NotNull
+  public static BlockPosition of(@NotNull final Vector3D vector) {
+    return BlockPosition.of((int) vector.x(), (int) vector.y(), (int) vector.z());
+  }
+
+  /**
+   * creates a zero position.
+   *
+   * @return zero position.
    */
   @NotNull
   public static BlockPosition zero() {
@@ -51,7 +63,7 @@ public record BlockPosition(
    * @param y the y to add.
    * @param z the z to add.
    *
-   * @return a newly created vector.
+   * @return a newly created block position.
    */
   @NotNull
   public BlockPosition add(final int x, final int y, final int z) {
@@ -77,7 +89,7 @@ public record BlockPosition(
    * @param y the y to divide.
    * @param z the z to divide.
    *
-   * @return a newly created vector.
+   * @return a newly created block position.
    */
   @NotNull
   public BlockPosition divide(final int x, final int y, final int z) {
@@ -103,7 +115,7 @@ public record BlockPosition(
    * @param y the y to multiply.
    * @param z the z to multiply.
    *
-   * @return a newly created vector.
+   * @return a newly created block position.
    */
   @NotNull
   public BlockPosition multiply(final int x, final int y, final int z) {
@@ -129,7 +141,7 @@ public record BlockPosition(
    * @param y the y to subtract.
    * @param z the z to subtract.
    *
-   * @return a newly created vector.
+   * @return a newly created block position.
    */
   @NotNull
   public BlockPosition subtract(final int x, final int y, final int z) {
@@ -153,7 +165,7 @@ public record BlockPosition(
    *
    * @param x the x to set.
    *
-   * @return a newly created vector with the new x value.
+   * @return a newly created block position with the new x value.
    */
   @NotNull
   public BlockPosition x(final int x) {
@@ -165,7 +177,7 @@ public record BlockPosition(
    *
    * @param y the y to set.
    *
-   * @return a newly created vector with the new y value.
+   * @return a newly created block position with the new y value.
    */
   @NotNull
   public BlockPosition y(final int y) {
@@ -177,7 +189,7 @@ public record BlockPosition(
    *
    * @param z the z to set.
    *
-   * @return a newly created vector with the new z value.
+   * @return a newly created block position with the new z value.
    */
   @NotNull
   public BlockPosition z(final int z) {

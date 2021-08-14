@@ -1,5 +1,6 @@
 package io.github.shiruka.api.base;
 
+import io.github.shiruka.api.block.Block;
 import io.github.shiruka.api.math.Vector3D;
 import io.github.shiruka.api.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,16 @@ public record Location(
   public static Location of(@NotNull final World world, @NotNull final Vector3D position, final float yaw,
                             final float pitch) {
     return new Location(world, position, yaw, pitch);
+  }
+
+  /**
+   * gets the block at {@code this} location.
+   *
+   * @return block at the location.
+   */
+  @NotNull
+  public Block asBlock() {
+    return this.world.block(this.position);
   }
 
   /**

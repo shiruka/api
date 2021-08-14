@@ -1,6 +1,9 @@
 package io.github.shiruka.api.world;
 
 import io.github.shiruka.api.base.Location;
+import io.github.shiruka.api.block.Block;
+import io.github.shiruka.api.math.BlockPosition;
+import io.github.shiruka.api.math.Vector3D;
 import java.util.Collection;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +12,42 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine Minecraft worlds.
  */
 public interface World {
+
+  /**
+   * gets the block at the position.
+   *
+   * @param vector the vector to get.
+   *
+   * @return block at the position.
+   */
+  @NotNull
+  default Block block(@NotNull final Vector3D vector) {
+    return this.block(vector.asPosition());
+  }
+
+  /**
+   * gets the block at the position.
+   *
+   * @param position the position to get.
+   *
+   * @return block at the position.
+   */
+  @NotNull
+  default Block block(@NotNull final BlockPosition position) {
+    return this.block(position.x(), position.y(), position.z());
+  }
+
+  /**
+   * gets the block at the position.
+   *
+   * @param x the x to get.
+   * @param y the y to get.
+   * @param z the z to get.
+   *
+   * @return block at the position.
+   */
+  @NotNull
+  Block block(int x, int y, int z);
 
   /**
    * obtains the difficulty.
