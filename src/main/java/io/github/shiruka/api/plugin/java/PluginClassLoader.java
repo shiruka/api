@@ -84,6 +84,7 @@ public final class PluginClassLoader extends URLClassLoader {
    *
    * @throws InvalidPluginException if something goes wrong when creating the plugin's instance.
    * @throws IOException if an I/O error has occurred.
+   * @todo #401:15m Move the codes into a static method called from.
    */
   PluginClassLoader(@NotNull final JavaPluginLoader loader, @Nullable final ClassLoader parent,
                     @NotNull final Plugin.Description description, @NotNull final File dataFolder,
