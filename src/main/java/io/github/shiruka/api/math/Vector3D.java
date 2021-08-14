@@ -161,15 +161,6 @@ public record Vector3D(
   }
 
   /**
-   * obtains the x as int.
-   *
-   * @return x as int.
-   */
-  public int xAsInt() {
-    return (int) this.x();
-  }
-
-  /**
    * sets the y.
    *
    * @param y the y to set.
@@ -182,15 +173,6 @@ public record Vector3D(
   }
 
   /**
-   * obtains the y as int.
-   *
-   * @return y as int.
-   */
-  public int yAsInt() {
-    return (int) this.y();
-  }
-
-  /**
    * sets the z.
    *
    * @param z the z to set.
@@ -200,14 +182,5 @@ public record Vector3D(
   @NotNull
   public Vector3D z(final double z) {
     return Vector3D.of(this.x, this.y, z);
-  }
-
-  /**
-   * obtains the z as int.
-   *
-   * @return z as int.
-   */
-  public int zAsInt() {
-    return (int) this.z();
   }
 }
