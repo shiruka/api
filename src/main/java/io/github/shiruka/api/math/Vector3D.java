@@ -71,6 +71,16 @@ public record Vector3D(
   }
 
   /**
+   * gets the vector as position.
+   *
+   * @return vector as position.
+   */
+  @NotNull
+  public BlockPosition asPosition() {
+    return BlockPosition.of(this);
+  }
+
+  /**
    * divides the given x, y and, z with {@code this}.
    *
    * @param x the x to divide.
