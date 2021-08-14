@@ -8,13 +8,13 @@ import org.jetbrains.annotations.NotNull;
  * a class that represents locations.
  *
  * @param world the world.
- * @param vector the vector.
+ * @param position the position.
  * @param yaw the yaw.
  * @param pitch the pitch.
  */
 public record Location(
   @NotNull World world,
-  @NotNull Vector3D vector,
+  @NotNull Vector3D position,
   float yaw,
   float pitch
 ) {
@@ -23,16 +23,16 @@ public record Location(
    * creates a location.
    *
    * @param world the world to create.
-   * @param vector the vector to create.
+   * @param position the position to create.
    * @param yaw the yaw to create.
    * @param pitch the pitch to create.
    *
    * @return a newly created location.
    */
   @NotNull
-  public static Location of(@NotNull final World world, @NotNull final Vector3D vector, final float yaw,
+  public static Location of(@NotNull final World world, @NotNull final Vector3D position, final float yaw,
                             final float pitch) {
-    return new Location(world, vector, yaw, pitch);
+    return new Location(world, position, yaw, pitch);
   }
 
   /**
@@ -44,19 +44,19 @@ public record Location(
    */
   @NotNull
   public Location pitch(final float pitch) {
-    return Location.of(this.world, this.vector, this.yaw, pitch);
+    return Location.of(this.world, this.position, this.yaw, pitch);
   }
 
   /**
-   * sets the vector.
+   * sets the position.
    *
-   * @param vector the vector to set.
+   * @param position the position to set.
    *
-   * @return a newly created location with the new vector value.
+   * @return a newly created location with the new position value.
    */
   @NotNull
-  public Location vector(@NotNull final Vector3D vector) {
-    return Location.of(this.world, vector, this.yaw, this.pitch);
+  public Location position(@NotNull final Vector3D position) {
+    return Location.of(this.world, position, this.yaw, this.pitch);
   }
 
   /**
@@ -69,8 +69,8 @@ public record Location(
    * @return a newly created location with the new x, y and, z values.
    */
   @NotNull
-  public Location vector(final double x, final double y, final double z) {
-    return this.vector(Vector3D.of(x, y, z));
+  public Location position(final double x, final double y, final double z) {
+    return this.position(Vector3D.of(x, y, z));
   }
 
   /**
@@ -82,7 +82,7 @@ public record Location(
    */
   @NotNull
   public Location world(@NotNull final World world) {
-    return Location.of(world, this.vector, this.yaw, this.pitch);
+    return Location.of(world, this.position, this.yaw, this.pitch);
   }
 
   /**
@@ -94,7 +94,7 @@ public record Location(
    */
   @NotNull
   public Location x(final double x) {
-    return this.vector(this.vector.x(x));
+    return this.position(this.position.x(x));
   }
 
   /**
@@ -106,7 +106,7 @@ public record Location(
    */
   @NotNull
   public Location y(final double y) {
-    return this.vector(this.vector.y(y));
+    return this.position(this.position.y(y));
   }
 
   /**
@@ -118,7 +118,7 @@ public record Location(
    */
   @NotNull
   public Location yaw(final float yaw) {
-    return Location.of(this.world, this.vector, yaw, this.pitch);
+    return Location.of(this.world, this.position, yaw, this.pitch);
   }
 
   /**
@@ -130,6 +130,6 @@ public record Location(
    */
   @NotNull
   public Location z(final double z) {
-    return this.vector(this.vector.z(z));
+    return this.position(this.position.z(z));
   }
 }
