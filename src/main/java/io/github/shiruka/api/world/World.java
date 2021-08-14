@@ -1,5 +1,6 @@
 package io.github.shiruka.api.world;
 
+import io.github.shiruka.api.base.Location;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,4 +24,19 @@ public interface World {
    */
   @NotNull
   UUID getUniqueId();
+
+  /**
+   * obtains the spawn location.
+   *
+   * @return spawn location.
+   */
+  @NotNull
+  Location spawnLocation();
+
+  /**
+   * sets the spawn location.
+   *
+   * @param location the location to set.
+   */
+  void spawnLocation(@NotNull Location location);
 }
