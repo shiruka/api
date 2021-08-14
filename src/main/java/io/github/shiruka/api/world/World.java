@@ -60,7 +60,7 @@ public interface World {
    * @return chunk at the position.
    */
   @NotNull
-  Optional<Chunk> chunk(int x, int z);
+  Optional<Chunk> chunkAt(int x, int z);
 
   /**
    * gets chunk at the position or generates it.
@@ -71,7 +71,7 @@ public interface World {
    * @return chunk at the position.
    */
   @NotNull
-  Chunk chunkOrGenerate(int x, int z);
+  Chunk chunkAtOrGenerate(int x, int z);
 
   /**
    * obtains the difficulty.
