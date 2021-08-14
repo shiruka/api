@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * a class that represents game rules.
  *
+ * @param nbtName the nbt name.
+ * @param type the type.
  * @param <T> type of the rule.
  */
 @SuppressWarnings("unchecked")

@@ -15,7 +15,22 @@ import org.jetbrains.annotations.NotNull;
 @Accessors(fluent = true)
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public enum Difficulty {
-  ;
+  /**
+   * the peaceful.
+   */
+  PEACEFUL(0),
+  /**
+   * the easy.
+   */
+  EASY(1),
+  /**
+   * the normal.
+   */
+  NORMAL(2),
+  /**
+   * the hard.
+   */
+  HARD(3);
 
   /**
    * the id.
