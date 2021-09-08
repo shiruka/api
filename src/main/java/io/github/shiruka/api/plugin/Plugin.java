@@ -377,7 +377,7 @@ public interface Plugin {
      *
      * @param enabled the enabled to set.
      */
-    public void setEnabled(final boolean enabled) {
+    public void enabled(final boolean enabled) {
       if (this.enabled == enabled) {
         return;
       }
