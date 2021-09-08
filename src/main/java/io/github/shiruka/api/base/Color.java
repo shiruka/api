@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * the class that represents colors.
+ * a class that represents colors.
  */
 public final class Color {
 
