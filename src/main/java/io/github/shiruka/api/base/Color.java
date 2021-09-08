@@ -16,7 +16,7 @@ public final class Color {
   /**
    * the color char.
    */
-  private static final char COLOR_CHAR = '§';
+  private static final String COLOR_CHAR = "§";
 
   /**
    * the color char unique.
@@ -81,6 +81,12 @@ public final class Color {
    */
   private static final Pattern NAMED_COLORIZE_PATTERN =
     Pattern.compile("\\" + Color.HEX_COLOR_START + Color.HEX_COLOR_CHAR + "([a-zA-Z-]){3,}" + Color.HEX_COLOR_END);
+
+  /**
+   * the ctor.
+   */
+  private Color() {
+  }
 
   /**
    * adds the color name with the hex code.
@@ -262,7 +268,7 @@ public final class Color {
     while (matcher.find()) {
       final var group = matcher.group();
       final var hexColor = Color.HEX_COLOR_START + Color.HEX_COLOR_CHAR +
-        group.substring(2).replace(String.valueOf(Color.COLOR_CHAR), "") +
+        group.substring(2).replace(Color.COLOR_CHAR, "") +
         Color.HEX_COLOR_END;
       replaced = replaced.replace(group, hexColor);
     }
@@ -282,7 +288,7 @@ public final class Color {
     final var matcher = Color.LEGACY_DE_COLORIZE_PATTERN.matcher(replaced);
     while (matcher.find()) {
       final var group = matcher.group();
-      final var color = Color.LEGACY_COLOR_CHAR + group.replace(String.valueOf(Color.COLOR_CHAR), "");
+      final var color = Color.LEGACY_COLOR_CHAR + group.replace(Color.COLOR_CHAR, "");
       replaced = replaced.replace(group, color);
     }
     return replaced;
@@ -303,7 +309,7 @@ public final class Color {
       final var group = matcher.group();
       final var hexCode = group
         .replace(String.valueOf(Color.COLOR_CHAR_UNIQUE), "")
-        .replace(String.valueOf(Color.COLOR_CHAR), "")
+        .replace(Color.COLOR_CHAR, "")
         .toLowerCase(Locale.ROOT);
       Color.getColorByHex(hexCode).ifPresent(s ->
         replaced.set(replaced.get().replace(group, s)));
@@ -432,7 +438,7 @@ public final class Color {
       final var group = matcher.group();
       final var hexCode = group
         .replace(String.valueOf(Color.COLOR_CHAR_UNIQUE), "")
-        .replace(String.valueOf(Color.COLOR_CHAR), "")
+        .replace(Color.COLOR_CHAR, "")
         .toLowerCase(Locale.ROOT);
       if (Color.HEX_TO_COLOR.containsKey(hexCode)) {
         replaced.set(replaced.get().replace(group, ""));
