@@ -45,16 +45,17 @@ public interface Provider {
    */
   @NotNull
   default <T> T provideOrThrow(@NotNull final Class<? extends T> cls) {
-    return this.provide(cls).orElseThrow();
+    return this.provide(cls).orElseThrow(() ->
+      new IllegalStateException("Provider for %s not found!"
+        .formatted(cls.toString())));
   }
 
   /**
    * registers the object.
    *
-   * @param t the object to register.
-   * @param <T> type of the provided object.
+   * @param object the object to register.
    */
-  <T> void register(@NotNull T t);
+  void register(@NotNull Object object);
 
   /**
    * a simple implementation for {@link Provider}.
@@ -77,8 +78,8 @@ public interface Provider {
     }
 
     @Override
-    public <T> void register(@NotNull final T t) {
-      this.implementations.put(t.getClass(), t);
+    public void register(@NotNull final Object object) {
+      this.implementations.put(object.getClass(), object);
     }
   }
 }

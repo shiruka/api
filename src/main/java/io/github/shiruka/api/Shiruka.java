@@ -3,6 +3,7 @@ package io.github.shiruka.api;
 import io.github.shiruka.api.event.EventManager;
 import io.github.shiruka.api.plugin.Plugin;
 import io.github.shiruka.api.scheduler.Scheduler;
+import io.github.shiruka.api.scheduler.Task;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.apache.logging.log4j.Logger;
@@ -124,5 +125,15 @@ public interface Shiruka {
   @NotNull
   static Scheduler.Sync syncScheduler() {
     return Shiruka.provideOrThrow(Scheduler.Sync.class);
+  }
+
+  /**
+   * gets the implementation of task factory.
+   *
+   * @return implementation of task factory.
+   */
+  @NotNull
+  static Task.Factory taskFactory() {
+    return Shiruka.provideOrThrow(Task.Factory.class);
   }
 }
