@@ -676,7 +676,8 @@ public interface Plugin {
         .with("depends", this.depends)
         .with("soft-depends", this.softDepends)
         .with("load-before", this.loadBefore)
-        .with("website", this.website);
+        .with("website", this.website)
+        .with("provides", this.provides);
     }
   }
 }
