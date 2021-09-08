@@ -34,7 +34,7 @@ public interface Scheduler {
    *
    * @param plugin the plugin to cancel.
    */
-  void cancelTasks(Plugin.Container plugin);
+  void cancelTasks(@NotNull Plugin.Container plugin);
 
   /**
    * executes the given task.
@@ -49,7 +49,9 @@ public interface Scheduler {
    * @return a newly created task builder.
    */
   @NotNull
-  Task.Builder newBuilder();
+  default Task.Builder newBuilder() {
+    return new Task.Builder.Impl(this);
+  }
 
   /**
    * a marker interface to determine async schedulers.

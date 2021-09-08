@@ -5,4 +5,8 @@ package io.github.shiruka.api.scheduler;
  */
 public interface ScheduledTask {
 
+  /**
+   * cancels the task.
+   */
+  void cancel();
 }
