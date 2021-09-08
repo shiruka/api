@@ -21,6 +21,14 @@ public interface ScheduledTask {
   Status status();
 
   /**
+   * obtains the task.
+   *
+   * @return task.
+   */
+  @NotNull
+  Task task();
+
+  /**
    * an enum class that contains status of scheduled tasks.
    */
   enum Status {

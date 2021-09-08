@@ -37,6 +37,13 @@ public interface Scheduler {
   void cancelTasks(@NotNull Plugin.Container plugin);
 
   /**
+   * cancels the the task of the id.
+   *
+   * @param taskId the task id to cancel.
+   */
+  void cancelTasks(long taskId);
+
+  /**
    * executes the given task.
    *
    * @param task the task to execute.
