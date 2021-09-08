@@ -5,8 +5,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * the class that represents colors.
@@ -303,18 +305,7 @@ public final class Color {
    */
   @NotNull
   public static String deColorizeNamed(@NotNull final String text) {
-    final var replaced = new AtomicReference<>(text);
-    final var matcher = Color.DE_COLORIZE_PATTERN.matcher(replaced.get());
-    while (matcher.find()) {
-      final var group = matcher.group();
-      final var hexCode = group
-        .replace(String.valueOf(Color.COLOR_CHAR_UNIQUE), "")
-        .replace(Color.COLOR_CHAR, "")
-        .toLowerCase(Locale.ROOT);
-      Color.getColorByHex(hexCode).ifPresent(s ->
-        replaced.set(replaced.get().replace(group, s)));
-    }
-    return replaced.get();
+    return Color.stripColorNamed(text, hexCode -> Color.getColorByHex(hexCode).orElse(null));
   }
 
   /**
@@ -432,6 +423,20 @@ public final class Color {
    */
   @NotNull
   public static String stripColorNamed(@NotNull final String text) {
+    return Color.stripColorNamed(text, hexCode -> "");
+  }
+
+  /**
+   * strips the text.
+   *
+   * @param text the text to strip.
+   * @param replace the replace to strip.
+   *
+   * @return striped text.
+   */
+  @NotNull
+  public static String stripColorNamed(@NotNull final String text,
+                                       @NotNull final Function<@NotNull String, @Nullable String> replace) {
     final var replaced = new AtomicReference<>(text);
     final var matcher = Color.DE_COLORIZE_PATTERN.matcher(replaced.get());
     while (matcher.find()) {
@@ -441,7 +446,10 @@ public final class Color {
         .replace(Color.COLOR_CHAR, "")
         .toLowerCase(Locale.ROOT);
       if (Color.HEX_TO_COLOR.containsKey(hexCode)) {
-        replaced.set(replaced.get().replace(group, ""));
+        final var replacement = replace.apply(hexCode);
+        if (replacement != null) {
+          replaced.set(replaced.get().replace(group, replacement));
+        }
       }
     }
     return replaced.get();
