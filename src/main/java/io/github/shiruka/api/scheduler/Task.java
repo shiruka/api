@@ -47,8 +47,9 @@ public interface Task {
   /**
    * executes the task.
    */
-  default void execute() {
-    this.scheduler().execute(this);
+  @NotNull
+  default ScheduledTask execute() {
+    return this.scheduler().execute(this);
   }
 
   /**

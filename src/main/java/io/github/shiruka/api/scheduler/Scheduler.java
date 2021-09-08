@@ -40,8 +40,11 @@ public interface Scheduler {
    * executes the given task.
    *
    * @param task the task to execute.
+   *
+   * @return scheduled task.
    */
-  void execute(@NotNull Task task);
+  @NotNull
+  ScheduledTask execute(@NotNull Task task);
 
   /**
    * creates a task builder.
