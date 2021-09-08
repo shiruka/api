@@ -3,7 +3,6 @@ package io.github.shiruka.api;
 import io.github.shiruka.api.event.EventManager;
 import io.github.shiruka.api.plugin.Plugin;
 import io.github.shiruka.api.scheduler.Scheduler;
-import io.github.shiruka.api.scheduler.Task;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.apache.logging.log4j.Logger;
