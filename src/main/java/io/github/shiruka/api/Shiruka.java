@@ -126,14 +126,4 @@ public interface Shiruka {
   static Scheduler.Sync syncScheduler() {
     return Shiruka.provideOrThrow(Scheduler.Sync.class);
   }
-
-  /**
-   * gets the implementation of task factory.
-   *
-   * @return implementation of task factory.
-   */
-  @NotNull
-  static Task.Factory taskFactory() {
-    return Shiruka.provideOrThrow(Task.Factory.class);
-  }
 }

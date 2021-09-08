@@ -1,9 +1,7 @@
 package io.github.shiruka.api.scheduler;
 
-import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.plugin.Plugin;
 import java.time.Duration;
-import java.util.Optional;
 import java.util.function.Consumer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,7 +22,7 @@ public interface Task {
    * @return a newly created async task builder.
    */
   @NotNull
-  static Task.Builder newAsyncBuilder() {
+  static Task.Builder asyncBuilder() {
     return Scheduler.async().newBuilder();
   }
 
@@ -34,7 +32,7 @@ public interface Task {
    * @return a newly created sync task builder.
    */
   @NotNull
-  static Task.Builder newSyncBuilder() {
+  static Task.Builder syncBuilder() {
     return Scheduler.sync().newBuilder();
   }
 
@@ -145,8 +143,8 @@ public interface Task {
      *
      * @return plugin.
      */
-    @NotNull
-    Optional<Plugin> plugin();
+    @Nullable
+    Plugin plugin();
 
     /**
      * obtains the scheduler.
@@ -256,6 +254,7 @@ public interface Task {
        * the plugin.
        */
       @With
+      @Getter
       @Nullable
       private Plugin plugin;
 
@@ -271,30 +270,71 @@ public interface Task {
       @NotNull
       @Override
       public Task build() {
-        return Shiruka.taskFactory().create(this);
-      }
-
-      @NotNull
-      @Override
-      public Optional<Plugin> plugin() {
-        return Optional.ofNullable(this.plugin);
+        return new Task.Impl(this);
       }
     }
   }
 
   /**
-   * an interface to determine task providers.
+   * an implementation for task.
    */
-  interface Factory {
+  @Accessors(fluent = true)
+  final class Impl implements Task {
 
     /**
-     * creates a task from the builder.
-     *
-     * @param builder the builder to create.
-     *
-     * @return a newly built task.
+     * the delay.
      */
+    @Getter
     @NotNull
-    Task create(@NotNull Builder builder);
+    private final Duration delay;
+
+    /**
+     * the interval.
+     */
+    @Getter
+    @NotNull
+    private final Duration interval;
+
+    /**
+     * the job.
+     */
+    @Getter
+    @NotNull
+    private final Consumer<ScheduledTask> job;
+
+    /**
+     * the name.
+     */
+    @Getter
+    @NotNull
+    private final String name;
+
+    /**
+     * the plugin.
+     */
+    @Getter
+    @Nullable
+    private final Plugin plugin;
+
+    /**
+     * the scheduler.
+     */
+    @Getter
+    @NotNull
+    private final Scheduler scheduler;
+
+    /**
+     * ctor.
+     *
+     * @param builder the builder.
+     */
+    Impl(@NotNull final Task.Builder builder) {
+      this.scheduler = builder.scheduler();
+      this.plugin = builder.plugin();
+      this.delay = builder.delay();
+      this.interval = builder.interval();
+      this.job = builder.job();
+      this.name = builder.name();
+    }
   }
 }
