@@ -149,6 +149,14 @@ public interface Task {
     Optional<Plugin> plugin();
 
     /**
+     * obtains the scheduler.
+     *
+     * @return scheduler.
+     */
+    @NotNull
+    Scheduler scheduler();
+
+    /**
      * sets the delay of the task.
      *
      * @param delay the delay to set.
@@ -208,6 +216,7 @@ public interface Task {
       /**
        * the scheduler.
        */
+      @Getter
       @NotNull
       private final Scheduler scheduler;
 
