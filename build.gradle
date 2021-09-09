@@ -28,6 +28,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
   javadoc.options.addBooleanOption("html5", true)
   classifier "javadoc"
   from javadoc.destinationDir
+  exclude "io/github/shiruka/api/base/Colors.java"
 }
 
 checkstyle {
