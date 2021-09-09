@@ -41,7 +41,7 @@ public interface Scheduler {
    *
    * @param taskId the task id to cancel.
    */
-  void cancelTasks(long taskId);
+  void cancelTasks(int taskId);
 
   /**
    * executes the given task.
