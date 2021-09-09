@@ -42,17 +42,20 @@ public interface Plugin {
   /**
    * runs after the plugin disable.
    */
-  void onDisable();
+  default void onDisable() {
+  }
 
   /**
    * runs after the plugin enable.
    */
-  void onEnable();
+  default void onEnable() {
+  }
 
   /**
    * runs after the plugin load.
    */
-  void onLoad();
+  default void onLoad() {
+  }
 
   /**
    * an interface to determine load order for plugins.
@@ -502,14 +505,15 @@ public interface Plugin {
       final var name = Description.essential(map, "name", String.class).replace(' ', '_');
       Description.validateName(name);
       final var main = Description.essential(map, "main", String.class);
-      final var version = Description.optional(map, "version", String.class, Version.of(1), s -> {
+      final var defaultVersion = Version.of(1);
+      final var version = Description.optional(map, "version", String.class, defaultVersion, s -> {
         try {
           Version.of(s);
         } catch (final ParseException e) {
           Description.log.error("Couldn't parse the version %s".formatted(s), e);
           Description.log.info("Using default version(1.0.0) instead");
         }
-        return Version.of(1);
+        return defaultVersion;
       });
       final var description = Description.optional(map, "description", String.class, "");
       final var loadOrder = Description.optional(map, "load", String.class, LoadOrder.POST_WORLD, s ->

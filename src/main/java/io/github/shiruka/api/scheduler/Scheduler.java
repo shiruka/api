@@ -54,6 +54,13 @@ public interface Scheduler {
   ScheduledTask execute(@NotNull Task task);
 
   /**
+   * heartbeats the scheduler.
+   *
+   * @param currentTick the current tick to heartbeat.
+   */
+  void heartbeat(int currentTick);
+
+  /**
    * creates a task builder.
    *
    * @return a newly created task builder.

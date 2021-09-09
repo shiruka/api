@@ -13,12 +13,11 @@ public interface ScheduledTask {
   void cancel();
 
   /**
-   * obtains the status.
+   * obtains the id.
    *
-   * @return status.
+   * @return id.
    */
-  @NotNull
-  Status status();
+  int id();
 
   /**
    * obtains the task.
@@ -27,22 +26,4 @@ public interface ScheduledTask {
    */
   @NotNull
   Task task();
-
-  /**
-   * an enum class that contains status of scheduled tasks.
-   */
-  enum Status {
-    /**
-     * the running.
-     */
-    RUNNING,
-    /**
-     * the cancelled.
-     */
-    CANCELLED,
-    /**
-     * the finished.
-     */
-    FINISHED
-  }
 }
