@@ -1,6 +1,7 @@
 package io.github.shiruka.api.scheduler;
 
 import io.github.shiruka.api.Shiruka;
+import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -27,6 +28,13 @@ public interface Scheduler {
   static Sync sync() {
     return Shiruka.syncScheduler();
   }
+
+  /**
+   * cancels all the task of the plugin.
+   *
+   * @param plugin the plugin to cancel.
+   */
+  void cancelTasks(@NotNull Plugin.Container plugin);
 
   /**
    * cancels the the task of the id.
