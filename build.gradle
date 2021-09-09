@@ -18,6 +18,10 @@ tasks.withType(JavaCompiler) {
   options.compilerArgs += ["-Duser.language=en", "-Duser.country=US"]
 }
 
+javadoc {
+  exclude "io/github/shiruka/api/base/Colors.java"
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
   classifier "sources"
   from sourceSets.main.allSource
@@ -28,7 +32,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
   javadoc.options.addBooleanOption("html5", true)
   classifier "javadoc"
   from javadoc.destinationDir
-  exclude "io/github/shiruka/api/base/Colors.java"
 }
 
 checkstyle {
