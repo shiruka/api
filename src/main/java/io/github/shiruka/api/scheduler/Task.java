@@ -1,7 +1,6 @@
 package io.github.shiruka.api.scheduler;
 
 import io.github.shiruka.api.plugin.Plugin;
-import java.time.Duration;
 import java.util.function.Consumer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,7 +8,7 @@ import lombok.Getter;
 import lombok.With;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
 
 /**
  * an interface to determine tasks.
@@ -41,14 +40,16 @@ public interface Task {
    *
    * @return delay.
    */
-  @NotNull
-  Duration delay();
+  long delay();
 
   /**
    * executes the task.
+   *
+   * @return scheduled task.
    */
-  default void execute() {
-    this.scheduler().execute(this);
+  @NotNull
+  default ScheduledTask execute() {
+    return this.scheduler().execute(this);
   }
 
   /**
@@ -56,8 +57,25 @@ public interface Task {
    *
    * @return interval.
    */
-  @NotNull
-  Duration interval();
+  long interval();
+
+  /**
+   * checks if the task is async.
+   *
+   * @return {@code true } if the task is async.
+   */
+  default boolean isAsync() {
+    return this.scheduler() instanceof Scheduler.Async;
+  }
+
+  /**
+   * checks if the task is sync.
+   *
+   * @return {@code true } if the task is sync.
+   */
+  default boolean isSync() {
+    return this.scheduler() instanceof Scheduler.Sync;
+  }
 
   /**
    * obtains the job.
@@ -80,8 +98,8 @@ public interface Task {
    *
    * @return plugin.
    */
-  @Nullable
-  Plugin plugin();
+  @NotNull
+  Plugin.Container plugin();
 
   /**
    * obtains the scheduler.
@@ -111,16 +129,14 @@ public interface Task {
      *
      * @return delay.
      */
-    @NotNull
-    Duration delay();
+    long delay();
 
     /**
      * obtains the interval.
      *
      * @return interval.
      */
-    @NotNull
-    Duration interval();
+    long interval();
 
     /**
      * obtains the job.
@@ -143,8 +159,8 @@ public interface Task {
      *
      * @return plugin.
      */
-    @Nullable
-    Plugin plugin();
+    @NotNull
+    Plugin.Container plugin();
 
     /**
      * obtains the scheduler.
@@ -162,7 +178,7 @@ public interface Task {
      * @return creates a clone of {@code this} with the new delay value.
      */
     @NotNull
-    Builder withDelay(@NotNull Duration delay);
+    Builder withDelay(long delay);
 
     /**
      * sets the interval of the task.
@@ -172,7 +188,7 @@ public interface Task {
      * @return creates a clone of {@code this} with the new interval value.
      */
     @NotNull
-    Builder withInterval(@NotNull Duration interval);
+    Builder withInterval(long interval);
 
     /**
      * sets the job of the task.
@@ -202,7 +218,7 @@ public interface Task {
      * @return creates a clone of {@code this} with the new plugin value.
      */
     @NotNull
-    Builder withPlugin(@Nullable Plugin plugin);
+    Builder withPlugin(@NotNull Plugin.Container plugin);
 
     /**
      * an implementation for task builder interface.
@@ -221,18 +237,20 @@ public interface Task {
       /**
        * the delay.
        */
-      @With
+      @With(onParam_ = {
+        @Range(from = 0, to = Long.MAX_VALUE)
+      })
       @Getter
-      @NotNull
-      private Duration delay;
+      private long delay = -1L;
 
       /**
        * the interval.
        */
-      @With
+      @With(onParam_ = {
+        @Range(from = 0, to = Long.MAX_VALUE)
+      })
       @Getter
-      @NotNull
-      private Duration interval;
+      private long interval = -1L;
 
       /**
        * the job.
@@ -255,8 +273,8 @@ public interface Task {
        */
       @With
       @Getter
-      @Nullable
-      private Plugin plugin;
+      @NotNull
+      private Plugin.Container plugin;
 
       /**
        * ctor.
@@ -285,15 +303,13 @@ public interface Task {
      * the delay.
      */
     @Getter
-    @NotNull
-    private final Duration delay;
+    private final long delay;
 
     /**
      * the interval.
      */
     @Getter
-    @NotNull
-    private final Duration interval;
+    private final long interval;
 
     /**
      * the job.
@@ -313,8 +329,8 @@ public interface Task {
      * the plugin.
      */
     @Getter
-    @Nullable
-    private final Plugin plugin;
+    @NotNull
+    private final Plugin.Container plugin;
 
     /**
      * the scheduler.

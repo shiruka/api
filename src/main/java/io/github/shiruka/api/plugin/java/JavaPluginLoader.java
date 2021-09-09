@@ -51,7 +51,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
     plugin.logger().info(message);
     new PluginDisableEvent(plugin).callEvent();
     try {
-      plugin.setEnabled(false);
+      plugin.enabled(false);
     } catch (final Throwable e) {
       Shiruka.logger().fatal("Error occurred while disabling %s (Is it up to date?)".formatted(
         fullName), e);
@@ -87,7 +87,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
       Shiruka.logger().warn("Enabled plugin with unregistered PluginClassLoader {}", fullName);
     }
     try {
-      plugin.setEnabled(true);
+      plugin.enabled(true);
     } catch (final Throwable e) {
       Shiruka.logger().fatal("Error occurred while enabling %s (Is it up to date?)".formatted(
         fullName), e);

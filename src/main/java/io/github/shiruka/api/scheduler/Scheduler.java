@@ -37,11 +37,28 @@ public interface Scheduler {
   void cancelTasks(@NotNull Plugin.Container plugin);
 
   /**
+   * cancels the the task of the id.
+   *
+   * @param taskId the task id to cancel.
+   */
+  void cancelTasks(int taskId);
+
+  /**
    * executes the given task.
    *
    * @param task the task to execute.
+   *
+   * @return scheduled task.
    */
-  void execute(@NotNull Task task);
+  @NotNull
+  ScheduledTask execute(@NotNull Task task);
+
+  /**
+   * heartbeats the scheduler.
+   *
+   * @param currentTick the current tick to heartbeat.
+   */
+  void heartbeat(int currentTick);
 
   /**
    * creates a task builder.

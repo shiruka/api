@@ -1,9 +1,9 @@
 package io.github.shiruka.api;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -68,7 +68,7 @@ public interface Provider {
      * the implementations.
      */
     @NotNull
-    private final Map<Class<?>, Object> implementations = new ConcurrentHashMap<>();
+    private final Map<Class<?>, Object> implementations = new HashMap<>();
 
     @NotNull
     @Override
