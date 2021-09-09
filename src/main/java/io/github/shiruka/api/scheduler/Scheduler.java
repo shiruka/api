@@ -1,7 +1,6 @@
 package io.github.shiruka.api.scheduler;
 
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
