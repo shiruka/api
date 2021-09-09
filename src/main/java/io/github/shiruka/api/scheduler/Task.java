@@ -237,18 +237,12 @@ public interface Task {
       /**
        * the delay.
        */
-      @With(onParam_ = {
-        @Range(from = 0, to = Long.MAX_VALUE)
-      })
       @Getter
       private long delay = -1L;
 
       /**
        * the interval.
        */
-      @With(onParam_ = {
-        @Range(from = 0, to = Long.MAX_VALUE)
-      })
       @Getter
       private long interval = -1L;
 
@@ -289,6 +283,20 @@ public interface Task {
       @Override
       public Task build() {
         return new Task.Impl(this);
+      }
+
+      @NotNull
+      @Override
+      public Builder withDelay(@Range(from = 0, to = Long.MAX_VALUE) final long delay) {
+        this.delay = delay;
+        return this;
+      }
+
+      @NotNull
+      @Override
+      public Builder withInterval(@Range(from = 0, to = Long.MAX_VALUE) final long interval) {
+        this.interval = interval;
+        return this;
       }
     }
   }
