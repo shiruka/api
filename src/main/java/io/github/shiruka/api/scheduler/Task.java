@@ -44,6 +44,8 @@ public interface Task {
 
   /**
    * executes the task.
+   *
+   * @return scheduled task.
    */
   @NotNull
   default ScheduledTask execute() {
