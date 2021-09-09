@@ -124,9 +124,8 @@ public final class JavaPluginLoader implements Plugin.Loader {
     } catch (final InvalidDescriptionException ex) {
       throw new InvalidPluginException(ex);
     }
-    final var parentFile = Shiruka.pluginManager().pluginsDirectory();
-    final var dataFolder = new File(parentFile, description.name());
-    if (Files.exists(dataFolder.toPath()) && !Files.isDirectory(dataFolder.toPath())) {
+    final var dataFolder = Shiruka.pluginManager().pluginsDirectory().resolve(description.name());
+    if (Files.exists(dataFolder) && !Files.isDirectory(dataFolder)) {
       throw new InvalidPluginException("Projected data folder: `%s' for %s (%s) exists and is not a directory",
         dataFolder, description.fullName(), file);
     }

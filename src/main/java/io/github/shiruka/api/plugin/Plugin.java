@@ -9,6 +9,7 @@ import io.github.shiruka.api.version.Version;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -309,7 +310,7 @@ public interface Plugin {
      * @return plugins directory.
      */
     @NotNull
-    File pluginsDirectory();
+    Path pluginsDirectory();
 
     /**
      * registers a new plugin loader.
@@ -338,7 +339,7 @@ public interface Plugin {
      * the data folder.
      */
     @NotNull
-    private final File dataFolder;
+    private final Path dataFolder;
 
     /**
      * the description.

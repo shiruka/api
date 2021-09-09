@@ -10,6 +10,7 @@ import io.github.shiruka.api.event.events.server.ServerExceptionEvent;
 import io.github.shiruka.api.exception.ServerPluginEnableDisableException;
 import io.github.shiruka.api.scheduler.Scheduler;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -58,7 +59,7 @@ public final class PluginManager implements Plugin.Manager {
    */
   @NotNull
   @Getter
-  private final File pluginsDirectory;
+  private final Path pluginsDirectory;
 
   /**
    * the dependency graph.

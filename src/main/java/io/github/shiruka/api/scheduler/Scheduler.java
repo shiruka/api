@@ -30,18 +30,18 @@ public interface Scheduler {
   }
 
   /**
+   * cancels the the task of the id.
+   *
+   * @param taskId the task id to cancel.
+   */
+  void cancelTask(int taskId);
+
+  /**
    * cancels all the task of the plugin.
    *
    * @param plugin the plugin to cancel.
    */
   void cancelTasks(@NotNull Plugin.Container plugin);
-
-  /**
-   * cancels the the task of the id.
-   *
-   * @param taskId the task id to cancel.
-   */
-  void cancelTasks(int taskId);
 
   /**
    * executes the given task.
@@ -61,6 +61,20 @@ public interface Scheduler {
   void heartbeat(int currentTick);
 
   /**
+   * checks if the scheduler is async.
+   *
+   * @return {@code true } if the scheduler is async.
+   */
+  boolean isAsync();
+
+  /**
+   * checks if the scheduler is sync.
+   *
+   * @return {@code true } if the scheduler is sync.
+   */
+  boolean isSync();
+
+  /**
    * creates a task builder.
    *
    * @return a newly created task builder.
@@ -75,6 +89,15 @@ public interface Scheduler {
    */
   interface Async extends Scheduler {
 
+    @Override
+    default boolean isAsync() {
+      return true;
+    }
+
+    @Override
+    default boolean isSync() {
+      return false;
+    }
   }
 
   /**
@@ -82,5 +105,14 @@ public interface Scheduler {
    */
   interface Sync extends Scheduler {
 
+    @Override
+    default boolean isAsync() {
+      return false;
+    }
+
+    @Override
+    default boolean isSync() {
+      return true;
+    }
   }
 }

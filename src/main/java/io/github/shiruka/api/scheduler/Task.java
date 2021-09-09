@@ -65,7 +65,7 @@ public interface Task {
    * @return {@code true } if the task is async.
    */
   default boolean isAsync() {
-    return this.scheduler() instanceof Scheduler.Async;
+    return this.scheduler().isAsync();
   }
 
   /**
@@ -74,7 +74,7 @@ public interface Task {
    * @return {@code true } if the task is sync.
    */
   default boolean isSync() {
-    return this.scheduler() instanceof Scheduler.Sync;
+    return this.scheduler().isSync();
   }
 
   /**
@@ -352,5 +352,20 @@ public interface Task {
       this.job = builder.job();
       this.name = builder.name();
     }
+  }
+
+  /**
+   * a record class that represents task workers.
+   *
+   * @param taskId the task id.
+   * @param plugin the plugin.
+   * @param thread the thread.
+   */
+  record Worker(
+    int taskId,
+    @NotNull Plugin.Container plugin,
+    @NotNull Thread thread
+  ) {
+
   }
 }

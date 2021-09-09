@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.security.CodeSource;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -86,7 +87,7 @@ public final class PluginClassLoader extends URLClassLoader {
    * @throws IOException if an I/O error has occurred.
    */
   PluginClassLoader(@NotNull final JavaPluginLoader loader, @Nullable final ClassLoader parent,
-                    @NotNull final Plugin.Description description, @NotNull final File dataFolder,
+                    @NotNull final Plugin.Description description, @NotNull final Path dataFolder,
                     @NotNull final File pluginFile) throws InvalidPluginException, IOException {
     super(pluginFile.getName(), new URL[]{pluginFile.toURI().toURL()}, parent);
     this.loader = loader;

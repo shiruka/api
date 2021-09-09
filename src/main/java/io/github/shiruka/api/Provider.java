@@ -54,8 +54,11 @@ public interface Provider {
    * registers the object.
    *
    * @param object the object to register.
+   *
+   * @return {@code this} for builder chain.
    */
-  void register(@NotNull Object object);
+  @NotNull
+  Provider register(@NotNull Object object);
 
   /**
    * a simple implementation for {@link Provider}.
@@ -77,9 +80,11 @@ public interface Provider {
         .map(o -> (T) o);
     }
 
+    @NotNull
     @Override
-    public void register(@NotNull final Object object) {
+    public Provider register(@NotNull final Object object) {
       this.implementations.put(object.getClass(), object);
+      return this;
     }
   }
 }
