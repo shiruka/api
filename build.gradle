@@ -57,7 +57,7 @@ repositories {
 dependencies {
   // Implementation
   compileOnly "com.lmax:disruptor:3.4.4"
-  compileOnly "it.unimi.dsi:fastutil:8.5.5"
+  compileOnly "it.unimi.dsi:fastutil:8.5.6"
   compileOnly "com.google.inject:guice:5.0.1"
   compileOnly "it.unimi.dsi:fastutil-core:8.5.5"
   compileOnly "org.jetbrains:annotations:22.0.0"
