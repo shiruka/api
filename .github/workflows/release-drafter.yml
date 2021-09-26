@@ -1,13 +1,46 @@
-name: Release Drafter
+name: Snapshot
 
 on:
   push:
     branches: [ master ]
 
 jobs:
-  update_release_draft:
+  snapshot:
+    name: Upload snapshot
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
+      - uses: DeLaGuardo/setup-graalvm@4.0
+        with:
+          graalvm: 21.2.0
+          java: java16
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-cache-${{ hashFiles('**/*.gradle') }}-${{ hashFiles('**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradlew') }}
+          restore-keys: |
+            ${{ runner.os }}-gradlew-
+
+      - uses: crazy-max/ghaction-import-gpg@v3.2.0
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
       - uses: release-drafter/release-drafter@master
+        id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: |
+          [[ "${{ steps.release.tag_name }}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
+          chmod +x gradlew
+          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository -Pversion="${{ steps.release.tag_name }}-SNAPSHOT" -Psigning.gnupg.keyName="${{ secrets.GPG_SECRET_KEY_ID }}" -Psigning.gnupg.passphrase="${{ secrets.GPG_PASSPHRASE }}" -PsonatypeUsername="${{ secrets.SONATYPE_USERNAME }}" -PsonatypePassword="${{ secrets.SONATYPE_PASSWORD }}"
