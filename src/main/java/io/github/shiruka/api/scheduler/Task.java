@@ -1,13 +1,17 @@
 package io.github.shiruka.api.scheduler;
 
 import io.github.shiruka.api.plugin.Plugin;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Consumer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.With;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 /**
@@ -225,6 +229,7 @@ public interface Task {
      */
     @Accessors(fluent = true)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
     final class Impl implements Builder {
 
       /**
@@ -252,7 +257,8 @@ public interface Task {
       @With
       @Getter
       @NotNull
-      private Consumer<ScheduledTask> job;
+      private Consumer<ScheduledTask> job = scheduledTask -> {
+      };
 
       /**
        * the name.
@@ -260,24 +266,14 @@ public interface Task {
       @With
       @Getter
       @NotNull
-      private String name;
+      private String name = UUID.randomUUID().toString();
 
       /**
        * the plugin.
        */
       @With
-      @Getter
-      @NotNull
+      @Nullable
       private Plugin.Container plugin;
-
-      /**
-       * ctor.
-       *
-       * @param scheduler the scheduler.
-       */
-      Impl(@NotNull final Scheduler scheduler) {
-        this.scheduler = scheduler;
-      }
 
       @NotNull
       @Override
@@ -287,16 +283,20 @@ public interface Task {
 
       @NotNull
       @Override
+      public Plugin.Container plugin() {
+        return Objects.requireNonNull(this.plugin, "plugin");
+      }
+
+      @NotNull
+      @Override
       public Builder withDelay(@Range(from = 0, to = Long.MAX_VALUE) final long delay) {
-        this.delay = delay;
-        return this;
+        return new Impl(this.scheduler, delay, this.interval, this.job, this.name, this.plugin);
       }
 
       @NotNull
       @Override
       public Builder withInterval(@Range(from = 0, to = Long.MAX_VALUE) final long interval) {
-        this.interval = interval;
-        return this;
+        return new Impl(this.scheduler, this.delay, interval, this.job, this.name, this.plugin);
       }
     }
   }
@@ -304,46 +304,41 @@ public interface Task {
   /**
    * an implementation for task.
    */
+  @Getter
   @Accessors(fluent = true)
   final class Impl implements Task {
 
     /**
      * the delay.
      */
-    @Getter
     private final long delay;
 
     /**
      * the interval.
      */
-    @Getter
     private final long interval;
 
     /**
      * the job.
      */
-    @Getter
     @NotNull
     private final Consumer<ScheduledTask> job;
 
     /**
      * the name.
      */
-    @Getter
     @NotNull
     private final String name;
 
     /**
      * the plugin.
      */
-    @Getter
     @NotNull
     private final Plugin.Container plugin;
 
     /**
      * the scheduler.
      */
-    @Getter
     @NotNull
     private final Scheduler scheduler;
 
