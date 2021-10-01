@@ -63,7 +63,7 @@ dependencies {
   compileOnly "org.apache.logging.log4j:log4j-core:2.14.1"
   compileOnly "com.github.Infumia.InfumiaLib:InfumiaCommon:2.4.4"
   compileOnly "com.fasterxml.jackson.core:jackson-databind:2.13.0"
-  compileOnly "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5"
+  compileOnly "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0"
 
   // Processor
   annotationProcessor "org.jetbrains:annotations:22.0.0"
