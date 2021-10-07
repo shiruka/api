@@ -58,7 +58,7 @@ dependencies {
   compileOnly "com.google.inject:guice:5.0.1"
   compileOnly "it.unimi.dsi:fastutil-core:8.5.6"
   compileOnly "org.jetbrains:annotations:22.0.0"
-  compileOnly "org.projectlombok:lombok:1.18.20"
+  compileOnly "org.projectlombok:lombok:1.18.22"
   compileOnly "com.google.guava:guava:31.0.1-jre"
   compileOnly "org.apache.logging.log4j:log4j-core:2.14.1"
   compileOnly "com.github.Infumia.InfumiaLib:InfumiaCommon:2.4.4"
