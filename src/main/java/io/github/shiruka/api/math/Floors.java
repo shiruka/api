@@ -19,11 +19,11 @@ public final class Floors {
    * @return the closest long.
    */
   public static int ceil(final double value) {
-    var possible_result = (int) value;
-    if (value - possible_result > 0) {
-      possible_result++;
+    var possibleResult = (int) value;
+    if (value - possibleResult > 0) {
+      possibleResult++;
     }
-    return possible_result;
+    return possibleResult;
   }
 
   /**
@@ -34,11 +34,11 @@ public final class Floors {
    * @return the closest long.
    */
   public static int ceil(final float value) {
-    var possible_result = (int) value;
-    if (value - possible_result > 0) {
-      possible_result++;
+    var possibleResult = (int) value;
+    if (value - possibleResult > 0) {
+      possibleResult++;
     }
-    return possible_result;
+    return possibleResult;
   }
 
   /**
@@ -49,11 +49,11 @@ public final class Floors {
    * @return the closest long.
    */
   public static long ceil64(final double value) {
-    var possible_result = (long) value;
-    if (value - possible_result > 0) {
-      possible_result++;
+    var possibleResult = (long) value;
+    if (value - possibleResult > 0) {
+      possibleResult++;
     }
-    return possible_result;
+    return possibleResult;
   }
 
   /**
@@ -64,11 +64,11 @@ public final class Floors {
    * @return the closest long.
    */
   public static long ceil64(final float value) {
-    var possible_result = (long) value;
-    if (value - possible_result > 0) {
-      possible_result++;
+    var possibleResult = (long) value;
+    if (value - possibleResult > 0) {
+      possibleResult++;
     }
-    return possible_result;
+    return possibleResult;
   }
 
   /**
