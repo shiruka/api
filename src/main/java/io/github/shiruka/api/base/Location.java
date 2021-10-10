@@ -1,7 +1,7 @@
 package io.github.shiruka.api.base;
 
 import io.github.shiruka.api.block.Block;
-import io.github.shiruka.api.math.Vector3D;
+import io.github.shiruka.api.math.vectors.Vector3d;
 import io.github.shiruka.api.world.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public record Location(
   @NotNull World world,
-  @NotNull Vector3D position,
+  @NotNull Vector3d position,
   float yaw,
   float pitch
 ) {
@@ -31,7 +31,7 @@ public record Location(
    * @return a newly created location.
    */
   @NotNull
-  public static Location of(@NotNull final World world, @NotNull final Vector3D position, final float yaw,
+  public static Location of(@NotNull final World world, @NotNull final Vector3d position, final float yaw,
                             final float pitch) {
     return new Location(world, position, yaw, pitch);
   }
@@ -66,7 +66,7 @@ public record Location(
    * @return a newly created location with the new position value.
    */
   @NotNull
-  public Location position(@NotNull final Vector3D position) {
+  public Location position(@NotNull final Vector3d position) {
     return Location.of(this.world, position, this.yaw, this.pitch);
   }
 
@@ -81,7 +81,7 @@ public record Location(
    */
   @NotNull
   public Location position(final double x, final double y, final double z) {
-    return this.position(Vector3D.of(x, y, z));
+    return this.position(Vector3d.of(x, y, z));
   }
 
   /**

@@ -1,5 +1,8 @@
 package io.github.shiruka.api.math;
 
+import io.github.shiruka.api.math.vectors.Vector3d;
+import io.github.shiruka.api.math.vectors.Vector3f;
+import io.github.shiruka.api.math.vectors.Vector3i;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -32,18 +35,6 @@ public record BlockPosition(
   @NotNull
   public static BlockPosition of(final int x, final int y, final int z) {
     return new BlockPosition(x, y, z);
-  }
-
-  /**
-   * creates a block position.
-   *
-   * @param vector the vector to create.
-   *
-   * @return a newly created block position.
-   */
-  @NotNull
-  public static BlockPosition of(@NotNull final Vector3D vector) {
-    return BlockPosition.of((int) vector.x(), (int) vector.y(), (int) vector.z());
   }
 
   /**
@@ -80,6 +71,36 @@ public record BlockPosition(
   @NotNull
   public BlockPosition add(@NotNull final BlockPosition position) {
     return this.add(position.x(), position.y(), position.z());
+  }
+
+  /**
+   * obtains the position as vector 3d.
+   *
+   * @return position as vector 3d.
+   */
+  @NotNull
+  public Vector3d asVector3d() {
+    return Vector3d.of(this.x, this.y, this.z);
+  }
+
+  /**
+   * obtains the position as vector 3f.
+   *
+   * @return position as vector 3f.
+   */
+  @NotNull
+  public Vector3f asVector3f() {
+    return Vector3f.of(this.x, this.y, this.z);
+  }
+
+  /**
+   * obtains the position as vector 3i.
+   *
+   * @return position as vector 3i.
+   */
+  @NotNull
+  public Vector3i asVector3i() {
+    return Vector3i.of(this.x, this.y, this.z);
   }
 
   /**
