@@ -3,7 +3,7 @@ package io.github.shiruka.api.world;
 import io.github.shiruka.api.base.Location;
 import io.github.shiruka.api.block.Block;
 import io.github.shiruka.api.math.BlockPosition;
-import io.github.shiruka.api.math.Vector3D;
+import io.github.shiruka.api.math.vectors.Vector3d;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Optional;
@@ -23,7 +23,7 @@ public interface World {
    * @return block at the position.
    */
   @NotNull
-  default Block block(@NotNull final Vector3D vector) {
+  default Block block(@NotNull final Vector3d vector) {
     return this.block(vector.asPosition());
   }
 
