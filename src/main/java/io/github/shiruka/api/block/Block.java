@@ -1,7 +1,7 @@
 package io.github.shiruka.api.block;
 
 import io.github.shiruka.api.base.Location;
-import io.github.shiruka.api.math.BlockPosition;
+import io.github.shiruka.api.math.vectors.Vector3i;
 import io.github.shiruka.api.world.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ public interface Block {
    * @return position.
    */
   @NotNull
-  BlockPosition position();
+  Vector3i position();
 
   /**
    * the obtains the world.
