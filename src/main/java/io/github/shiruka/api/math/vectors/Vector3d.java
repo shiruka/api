@@ -1,6 +1,5 @@
 package io.github.shiruka.api.math.vectors;
 
-import io.github.shiruka.api.math.BlockPosition;
 import io.github.shiruka.api.math.Floors;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,13 +72,13 @@ public final record Vector3d(
   }
 
   /**
-   * gets the vector as position.
+   * obtains {@code this} as {@link Vector3i}.
    *
-   * @return vector as position.
+   * @return vector 3i
    */
   @NotNull
-  public BlockPosition asPosition() {
-    return BlockPosition.of(this.floorX(), this.floorY(), this.floorZ());
+  public Vector3i asVector3i() {
+    return Vector3i.of(this.floorX(), this.floorY(), this.floorZ());
   }
 
   /**

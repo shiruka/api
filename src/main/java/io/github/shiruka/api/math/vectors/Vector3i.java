@@ -1,6 +1,5 @@
 package io.github.shiruka.api.math.vectors;
 
-import io.github.shiruka.api.math.BlockPosition;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -69,16 +68,6 @@ public final record Vector3i(
   @NotNull
   public Vector3i add(@NotNull final Vector3i vector) {
     return this.add(vector.x(), vector.y(), vector.z());
-  }
-
-  /**
-   * gets the vector as position.
-   *
-   * @return vector as position.
-   */
-  @NotNull
-  public BlockPosition asPosition() {
-    return BlockPosition.of(this.x, this.y, this.z);
   }
 
   /**

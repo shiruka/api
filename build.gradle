@@ -1,5 +1,6 @@
 plugins {
   id "java"
+  id "java-library"
   id "checkstyle"
   id "maven-publish"
   id "signing"
@@ -53,17 +54,18 @@ repositories {
 
 dependencies {
   // Implementation
-  compileOnly "com.lmax:disruptor:3.4.4"
-  compileOnly "it.unimi.dsi:fastutil:8.5.6"
-  compileOnly "com.google.inject:guice:5.0.1"
-  compileOnly "it.unimi.dsi:fastutil-core:8.5.6"
-  compileOnly "org.jetbrains:annotations:22.0.0"
-  compileOnly "org.projectlombok:lombok:1.18.22"
-  compileOnly "com.google.guava:guava:31.0.1-jre"
-  compileOnly "org.apache.logging.log4j:log4j-core:2.14.1"
-  compileOnly "com.github.Infumia.InfumiaLib:InfumiaCommon:2.4.4"
-  compileOnly "com.fasterxml.jackson.core:jackson-databind:2.13.0"
-  compileOnly "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0"
+  compileOnlyApi "com.lmax:disruptor:3.4.4"
+  compileOnlyApi "it.unimi.dsi:fastutil:8.5.6"
+  compileOnlyApi "com.google.inject:guice:5.0.1"
+  compileOnlyApi "it.unimi.dsi:fastutil-core:8.5.6"
+  compileOnlyApi "org.jetbrains:annotations:22.0.0"
+  compileOnlyApi "org.projectlombok:lombok:1.18.22"
+  compileOnlyApi "com.google.guava:guava:31.0.1-jre"
+  compileOnlyApi "org.apache.commons:commons-lang3:3.12.0"
+  compileOnlyApi "org.apache.logging.log4j:log4j-core:2.14.1"
+  compileOnlyApi "com.github.Infumia.InfumiaLib:InfumiaCommon:2.4.4"
+  compileOnlyApi "com.fasterxml.jackson.core:jackson-databind:2.13.0"
+  compileOnlyApi "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0"
 
   // Processor
   annotationProcessor "org.jetbrains:annotations:22.0.0"
@@ -75,11 +77,6 @@ dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter:5.8.1"
 
   testImplementation "org.cactoos:cactoos:0.50"
-  testImplementation "org.jetbrains:annotations:22.0.0"
-  testImplementation "org.projectlombok:lombok:1.18.20"
-  testImplementation "com.google.guava:guava:31.0.1-jre"
-  testImplementation "org.apache.logging.log4j:log4j-core:2.14.1"
-  testImplementation "org.projectlombok:lombok:1.18.20"
   testImplementation "org.mockito:mockito-core:4.0.0"
 }
 
