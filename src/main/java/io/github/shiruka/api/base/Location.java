@@ -1,7 +1,7 @@
 package io.github.shiruka.api.base;
 
 import io.github.shiruka.api.block.Block;
-import io.github.shiruka.api.math.vectors.Vector3d;
+import io.github.shiruka.api.common.vectors.Vector3d;
 import io.github.shiruka.api.world.World;
 import org.jetbrains.annotations.NotNull;
 

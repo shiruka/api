@@ -1,35 +1,37 @@
-package io.github.shiruka.api.math.vectors;
+package io.github.shiruka.api.common.vectors;
 
-import io.github.shiruka.api.math.Floors;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents two dimensional vectors.
+ * a class that represents three dimensional vectors.
  *
  * @param x the x.
  * @param y the y.
+ * @param z the z.
  */
-public final record Vector2i(
+public final record Vector3i(
   int x,
-  int y
+  int y,
+  int z
 ) {
 
   /**
    * the zero vector.
    */
-  public static final Vector2i ZERO = Vector2i.zero();
+  public static final Vector3i ZERO = Vector3i.zero();
 
   /**
    * creates a vector.
    *
    * @param x the x to create.
    * @param y the y to create.
+   * @param z the z to create.
    *
    * @return a newly created vector.
    */
   @NotNull
-  public static Vector2i of(final int x, final int y) {
-    return new Vector2i(x, y);
+  public static Vector3i of(final int x, final int y, final int z) {
+    return new Vector3i(x, y, z);
   }
 
   /**
@@ -38,8 +40,8 @@ public final record Vector2i(
    * @return zero vector.
    */
   @NotNull
-  public static Vector2i zero() {
-    return Vector2i.of(0, 0);
+  public static Vector3i zero() {
+    return Vector3i.of(0, 0, 0);
   }
 
   /**
@@ -47,12 +49,13 @@ public final record Vector2i(
    *
    * @param x the x to add.
    * @param y the y to add.
+   * @param z the z to add.
    *
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2i add(final int x, final int y) {
-    return Vector2i.of(this.x + x, this.y + y);
+  public Vector3i add(final int x, final int y, final int z) {
+    return Vector3i.of(this.x + x, this.y + y, this.z + z);
   }
 
   /**
@@ -63,8 +66,8 @@ public final record Vector2i(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2i add(@NotNull final Vector2i vector) {
-    return this.add(vector.x(), vector.y());
+  public Vector3i add(@NotNull final Vector3i vector) {
+    return this.add(vector.x(), vector.y(), vector.z());
   }
 
   /**
@@ -72,12 +75,13 @@ public final record Vector2i(
    *
    * @param x the x to divide.
    * @param y the y to divide.
+   * @param z the z to divide.
    *
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2i divide(final int x, final int y) {
-    return Vector2i.of(this.x / x, this.y / y);
+  public Vector3i divide(final int x, final int y, final int z) {
+    return Vector3i.of(this.x / x, this.y / y, this.z / z);
   }
 
   /**
@@ -88,26 +92,8 @@ public final record Vector2i(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2i divide(@NotNull final Vector2i vector) {
-    return this.add(vector.x(), vector.y());
-  }
-
-  /**
-   * floors the x.
-   *
-   * @return floored x.
-   */
-  public int floorX() {
-    return Floors.floor(this.x);
-  }
-
-  /**
-   * floors the y.
-   *
-   * @return floored y.
-   */
-  public int floorY() {
-    return Floors.floor(this.y);
+  public Vector3i divide(@NotNull final Vector3i vector) {
+    return this.add(vector.x(), vector.y(), vector.z());
   }
 
   /**
@@ -115,12 +101,13 @@ public final record Vector2i(
    *
    * @param x the x to multiply.
    * @param y the y to multiply.
+   * @param z the z to multiply.
    *
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2i multiply(final int x, final int y) {
-    return Vector2i.of(this.x * x, this.y * y);
+  public Vector3i multiply(final int x, final int y, final int z) {
+    return Vector3i.of(this.x * x, this.y * y, this.z * z);
   }
 
   /**
@@ -131,8 +118,8 @@ public final record Vector2i(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2i multiply(@NotNull final Vector2i vector) {
-    return this.add(vector.x(), vector.y());
+  public Vector3i multiply(@NotNull final Vector3i vector) {
+    return this.add(vector.x(), vector.y(), vector.z());
   }
 
   /**
@@ -140,12 +127,13 @@ public final record Vector2i(
    *
    * @param x the x to subtract.
    * @param y the y to subtract.
+   * @param z the z to subtract.
    *
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2i subtract(final int x, final int y) {
-    return Vector2i.of(this.x - x, this.y - y);
+  public Vector3i subtract(final int x, final int y, final int z) {
+    return Vector3i.of(this.x - x, this.y - y, this.z - z);
   }
 
   /**
@@ -156,8 +144,8 @@ public final record Vector2i(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2i subtract(@NotNull final Vector2i vector) {
-    return this.add(vector.x(), vector.y());
+  public Vector3i subtract(@NotNull final Vector3i vector) {
+    return this.add(vector.x(), vector.y(), vector.z());
   }
 
   /**
@@ -168,8 +156,8 @@ public final record Vector2i(
    * @return a newly created vector with the new x value.
    */
   @NotNull
-  public Vector2i x(final int x) {
-    return Vector2i.of(x, this.y);
+  public Vector3i x(final int x) {
+    return Vector3i.of(x, this.y, this.z);
   }
 
   /**
@@ -180,7 +168,19 @@ public final record Vector2i(
    * @return a newly created vector with the new y value.
    */
   @NotNull
-  public Vector2i y(final int y) {
-    return Vector2i.of(this.x, y);
+  public Vector3i y(final int y) {
+    return Vector3i.of(this.x, y, this.z);
+  }
+
+  /**
+   * sets the z.
+   *
+   * @param z the z to set.
+   *
+   * @return a newly created vector with the new z value.
+   */
+  @NotNull
+  public Vector3i z(final int z) {
+    return Vector3i.of(this.x, this.y, z);
   }
 }
