@@ -375,7 +375,19 @@ public interface Tag {
    */
   @NotNull
   static ShortTag createShort() {
-    return Tag.createShort((short) 0);
+    return Tag.createShort(0);
+  }
+
+  /**
+   * creates an instance of {@link ShortTag}.
+   *
+   * @param original the original short.
+   *
+   * @return an instance of {@link ShortTag}.
+   */
+  @NotNull
+  static ShortTag createShort(final int original) {
+    return Tag.createShort((short) original);
   }
 
   /**
