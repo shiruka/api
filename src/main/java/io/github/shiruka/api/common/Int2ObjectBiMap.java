@@ -142,7 +142,6 @@ public final class Int2ObjectBiMap<T> {
    *
    * @return value at the key.
    */
-  @NotNull
   public T get(final int key) {
     T value = this.forwards.get(key);
     if (value == null) {
