@@ -357,6 +357,18 @@ public interface Tag {
   }
 
   /**
+   * creates a nbt reader from the {@link ByteBufOutputStream}.
+   *
+   * @param buffer the buffer to create.
+   *
+   * @return a new instance of {@link NBTInputStream} with {@link LittleEndianByteBufInputStream}.
+   */
+  @NotNull
+  static NBTInputStream createReaderLE(@NotNull final ByteBuf buffer) {
+    return new NBTInputStream(new LittleEndianByteBufInputStream(buffer));
+  }
+
+  /**
    * creates an instance of {@link ShortTag}.
    *
    * @return an instance of {@link ShortTag}.
@@ -410,18 +422,6 @@ public interface Tag {
   @NotNull
   static NBTOutputStream createWriter(@NotNull final OutputStream stream) {
     return new NBTOutputStream(new DataOutputStream(stream));
-  }
-
-  /**
-   * creates a nbt reader from the {@link ByteBufOutputStream}.
-   *
-   * @param buffer the buffer to create.
-   *
-   * @return a new instance of {@link NBTInputStream} with {@link LittleEndianByteBufInputStream}.
-   */
-  @NotNull
-  static NBTOutputStream createWriterLE(@NotNull final ByteBuf buffer) {
-    return new NBTOutputStream(new LittleEndianByteBufInputStream(buffer));
   }
 
   /**
