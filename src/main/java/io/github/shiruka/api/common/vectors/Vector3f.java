@@ -1,6 +1,6 @@
-package io.github.shiruka.api.math.vectors;
+package io.github.shiruka.api.common.vectors;
 
-import io.github.shiruka.api.math.Floors;
+import io.github.shiruka.api.common.Floors;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -10,16 +10,16 @@ import org.jetbrains.annotations.NotNull;
  * @param y the y.
  * @param z the z.
  */
-public final record Vector3d(
-  double x,
-  double y,
-  double z
+public final record Vector3f(
+  float x,
+  float y,
+  float z
 ) {
 
   /**
    * the zero vector.
    */
-  public static final Vector3d ZERO = Vector3d.zero();
+  public static final Vector3f ZERO = Vector3f.zero();
 
   /**
    * creates a vector.
@@ -31,8 +31,8 @@ public final record Vector3d(
    * @return a newly created vector.
    */
   @NotNull
-  public static Vector3d of(final double x, final double y, final double z) {
-    return new Vector3d(x, y, z);
+  public static Vector3f of(final float x, final float y, final float z) {
+    return new Vector3f(x, y, z);
   }
 
   /**
@@ -41,8 +41,8 @@ public final record Vector3d(
    * @return zero vector.
    */
   @NotNull
-  public static Vector3d zero() {
-    return Vector3d.of(0.0d, 0.0d, 0.0d);
+  public static Vector3f zero() {
+    return Vector3f.of(0.0f, 0.0f, 0.0f);
   }
 
   /**
@@ -55,8 +55,8 @@ public final record Vector3d(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector3d add(final double x, final double y, final double z) {
-    return Vector3d.of(this.x + x, this.y + y, this.z + z);
+  public Vector3f add(final float x, final float y, final float z) {
+    return Vector3f.of(this.x + x, this.y + y, this.z + z);
   }
 
   /**
@@ -67,18 +67,8 @@ public final record Vector3d(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector3d add(@NotNull final Vector3d vector) {
+  public Vector3f add(@NotNull final Vector3f vector) {
     return this.add(vector.x(), vector.y(), vector.z());
-  }
-
-  /**
-   * obtains {@code this} as {@link Vector3i}.
-   *
-   * @return vector 3i
-   */
-  @NotNull
-  public Vector3i asVector3i() {
-    return Vector3i.of(this.floorX(), this.floorY(), this.floorZ());
   }
 
   /**
@@ -91,8 +81,8 @@ public final record Vector3d(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector3d divide(final double x, final double y, final double z) {
-    return Vector3d.of(this.x / x, this.y / y, this.z / z);
+  public Vector3f divide(final float x, final float y, final float z) {
+    return Vector3f.of(this.x / x, this.y / y, this.z / z);
   }
 
   /**
@@ -103,7 +93,7 @@ public final record Vector3d(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector3d divide(@NotNull final Vector3d vector) {
+  public Vector3f divide(@NotNull final Vector3f vector) {
     return this.add(vector.x(), vector.y(), vector.z());
   }
 
@@ -144,8 +134,8 @@ public final record Vector3d(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector3d multiply(final double x, final double y, final double z) {
-    return Vector3d.of(this.x * x, this.y * y, this.z * z);
+  public Vector3f multiply(final float x, final float y, final float z) {
+    return Vector3f.of(this.x * x, this.y * y, this.z * z);
   }
 
   /**
@@ -156,7 +146,7 @@ public final record Vector3d(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector3d multiply(@NotNull final Vector3d vector) {
+  public Vector3f multiply(@NotNull final Vector3f vector) {
     return this.add(vector.x(), vector.y(), vector.z());
   }
 
@@ -170,8 +160,8 @@ public final record Vector3d(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector3d subtract(final double x, final double y, final double z) {
-    return Vector3d.of(this.x - x, this.y - y, this.z - z);
+  public Vector3f subtract(final float x, final float y, final float z) {
+    return Vector3f.of(this.x - x, this.y - y, this.z - z);
   }
 
   /**
@@ -182,7 +172,7 @@ public final record Vector3d(
    * @return a newly created vector.
    */
   @NotNull
-  public Vector3d subtract(@NotNull final Vector3d vector) {
+  public Vector3f subtract(@NotNull final Vector3f vector) {
     return this.add(vector.x(), vector.y(), vector.z());
   }
 
@@ -194,8 +184,8 @@ public final record Vector3d(
    * @return a newly created vector with the new x value.
    */
   @NotNull
-  public Vector3d x(final double x) {
-    return Vector3d.of(x, this.y, this.z);
+  public Vector3f x(final float x) {
+    return Vector3f.of(x, this.y, this.z);
   }
 
   /**
@@ -206,8 +196,8 @@ public final record Vector3d(
    * @return a newly created vector with the new y value.
    */
   @NotNull
-  public Vector3d y(final double y) {
-    return Vector3d.of(this.x, y, this.z);
+  public Vector3f y(final float y) {
+    return Vector3f.of(this.x, y, this.z);
   }
 
   /**
@@ -218,7 +208,7 @@ public final record Vector3d(
    * @return a newly created vector with the new z value.
    */
   @NotNull
-  public Vector3d z(final double z) {
-    return Vector3d.of(this.x, this.y, z);
+  public Vector3f z(final float z) {
+    return Vector3f.of(this.x, this.y, z);
   }
 }

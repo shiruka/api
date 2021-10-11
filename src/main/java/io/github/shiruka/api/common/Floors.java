@@ -1,4 +1,4 @@
-package io.github.shiruka.api.math;
+package io.github.shiruka.api.common;
 
 /**
  * a class that contains utility methods for flooring.
