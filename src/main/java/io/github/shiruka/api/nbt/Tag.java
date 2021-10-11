@@ -1,7 +1,5 @@
 package io.github.shiruka.api.nbt;
 
-import com.google.common.io.LittleEndianDataInputStream;
-import com.google.common.io.LittleEndianDataOutputStream;
 import io.github.shiruka.api.nbt.array.ByteArrayTag;
 import io.github.shiruka.api.nbt.array.IntArrayTag;
 import io.github.shiruka.api.nbt.array.LongArrayTag;
@@ -15,10 +13,16 @@ import io.github.shiruka.api.nbt.primitive.IntTag;
 import io.github.shiruka.api.nbt.primitive.LongTag;
 import io.github.shiruka.api.nbt.primitive.ShortTag;
 import io.github.shiruka.api.nbt.primitive.StringTag;
+import io.github.shiruka.api.nbt.stream.LittleEndianByteBufInputStream;
+import io.github.shiruka.api.nbt.stream.LittleEndianByteBufOutputStream;
+import io.github.shiruka.api.nbt.stream.LittleEndianDataInputStream;
+import io.github.shiruka.api.nbt.stream.LittleEndianDataOutputStream;
 import io.github.shiruka.api.nbt.stream.NBTInputStream;
 import io.github.shiruka.api.nbt.stream.NBTOutputStream;
 import io.github.shiruka.api.nbt.stream.NetworkDataInputStream;
 import io.github.shiruka.api.nbt.stream.NetworkDataOutputStream;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufOutputStream;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -409,6 +413,18 @@ public interface Tag {
   }
 
   /**
+   * creates a nbt reader from the {@link ByteBufOutputStream}.
+   *
+   * @param buffer the buffer to create.
+   *
+   * @return a new instance of {@link NBTInputStream} with {@link LittleEndianByteBufInputStream}.
+   */
+  @NotNull
+  static NBTOutputStream createWriterLE(@NotNull final ByteBuf buffer) {
+    return new NBTOutputStream(new LittleEndianByteBufInputStream(buffer));
+  }
+
+  /**
    * creates a nbt writer from the {@link OutputStream}.
    *
    * @param stream the stream to create.
@@ -418,6 +434,18 @@ public interface Tag {
   @NotNull
   static NBTOutputStream createWriterLE(@NotNull final OutputStream stream) {
     return new NBTOutputStream(new LittleEndianDataOutputStream(stream));
+  }
+
+  /**
+   * creates a nbt writer from the {@link ByteBufOutputStream}.
+   *
+   * @param buffer the buffer to create.
+   *
+   * @return a new instance of {@link NBTOutputStream} with {@link LittleEndianByteBufOutputStream}.
+   */
+  @NotNull
+  static NBTOutputStream createWriterLE(@NotNull final ByteBuf buffer) {
+    return new NBTOutputStream(new LittleEndianByteBufOutputStream(buffer));
   }
 
   /**
