@@ -18,11 +18,15 @@ import io.github.shiruka.api.nbt.primitive.StringTag;
 import java.io.Closeable;
 import java.io.DataOutput;
 import java.io.IOException;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an output stream to write named binary tags.
  */
+@Getter
+@Accessors(fluent = true)
 public final class NBTOutputStream implements Closeable {
 
   /**

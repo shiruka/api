@@ -19,16 +19,21 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.io.Closeable;
 import java.io.DataInput;
 import java.io.IOException;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an input stream to read named binary tags.
  */
+@Getter
+@Accessors(fluent = true)
 public final class NBTInputStream implements Closeable {
 
   /**
    * the input.
    */
+  @NotNull
   private final DataInput input;
 
   /**
