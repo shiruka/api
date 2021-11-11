@@ -59,7 +59,7 @@ dependencies {
   compileOnlyApi "com.google.inject:guice:5.0.1"
   compileOnlyApi "io.netty:netty-all:4.1.70.Final"
   compileOnlyApi "it.unimi.dsi:fastutil-core:8.5.6"
-  compileOnlyApi "org.jetbrains:annotations:22.0.0"
+  compileOnlyApi "org.jetbrains:annotations:23.0.0"
   compileOnlyApi "org.projectlombok:lombok:1.18.22"
   compileOnlyApi "com.google.guava:guava:31.0.1-jre"
   compileOnlyApi "org.apache.commons:commons-lang3:3.12.0"
