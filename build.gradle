@@ -75,7 +75,7 @@ dependencies {
   // Test
   testImplementation "org.hamcrest:hamcrest-library:2.2"
   testImplementation "org.llorllale:cactoos-matchers:0.25"
-  testImplementation "org.junit.jupiter:junit-jupiter:5.8.1"
+  testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
 
   testImplementation "org.cactoos:cactoos:0.50"
   testImplementation "org.mockito:mockito-core:4.1.0"
