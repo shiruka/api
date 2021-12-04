@@ -9,45 +9,69 @@ import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an enum class that contains world difficulties.
+ * an interface to determine difficulty.
+ *
+ * every world has a difficulty level.
+ * this difficulty level affects some events in the world.
  */
-@Getter
-@Accessors(fluent = true)
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public enum Difficulty {
-  /**
-   * the peaceful.
-   */
-  PEACEFUL(0),
-  /**
-   * the easy.
-   */
-  EASY(1),
-  /**
-   * the normal.
-   */
-  NORMAL(2),
-  /**
-   * the hard.
-   */
-  HARD(3);
+public interface Difficulty {
 
   /**
-   * the id.
+   * events in the world work according to these rules.
    */
-  private final int id;
+  DifficultyRules rules();
 
   /**
-   * gets difficulty by id.
-   *
-   * @param id the id to get.
-   *
-   * @return difficulty.
+   * peaceful, easy, normal, hard or custom.
    */
-  @NotNull
-  public static Optional<Difficulty> byId(final int id) {
-    return Arrays.stream(Difficulty.values())
-      .filter(difficulty -> difficulty.id() == id)
-      .findFirst();
+  DifficultyLevel level();
+
+  /**
+   * an enum class that contains world difficulties.
+   */
+  @Getter
+  @Accessors(fluent = true)
+  @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+  enum DifficultyLevel {
+    /**
+     * the peaceful.
+     */
+    PEACEFUL(0),
+    /**
+     * the easy.
+     */
+    EASY(1),
+    /**
+     * the normal.
+     */
+    NORMAL(2),
+    /**
+     * the hard.
+     */
+    HARD(3),
+
+    /**
+     * the custom.
+     */
+    CUSTOM(4);
+
+    /**
+     * the id.
+     */
+    private final int id;
+
+    /**
+     * gets difficulty by id.
+     *
+     * @param id the id to get.
+     *
+     * @return difficulty.
+     */
+    @NotNull
+    public static Optional<DifficultyLevel> byId(final int id) {
+      return Arrays.stream(DifficultyLevel.values())
+        .filter(difficulty -> difficulty.id() == id)
+        .findFirst();
+    }
   }
 }
