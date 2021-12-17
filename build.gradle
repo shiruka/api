@@ -78,7 +78,7 @@ dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
 
   testImplementation "org.cactoos:cactoos:0.50"
-  testImplementation "org.mockito:mockito-core:4.1.0"
+  testImplementation "org.mockito:mockito-core:4.2.0"
 }
 
 publishing {
