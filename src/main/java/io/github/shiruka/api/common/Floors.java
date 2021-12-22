@@ -1,15 +1,12 @@
 package io.github.shiruka.api.common;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * a class that contains utility methods for flooring.
  */
-public final class Floors {
-
-  /**
-   * ctor.
-   */
-  private Floors() {
-  }
+@UtilityClass
+public class Floors {
 
   /**
    * rounds the value up to the closest integer.
@@ -18,7 +15,7 @@ public final class Floors {
    *
    * @return the closest long.
    */
-  public static int ceil(final double value) {
+  public int ceil(final double value) {
     var possibleResult = (int) value;
     if (value - possibleResult > 0) {
       possibleResult++;
@@ -33,7 +30,7 @@ public final class Floors {
    *
    * @return the closest long.
    */
-  public static int ceil(final float value) {
+  public int ceil(final float value) {
     var possibleResult = (int) value;
     if (value - possibleResult > 0) {
       possibleResult++;
@@ -48,7 +45,7 @@ public final class Floors {
    *
    * @return the closest long.
    */
-  public static long ceil64(final double value) {
+  public long ceil64(final double value) {
     var possibleResult = (long) value;
     if (value - possibleResult > 0) {
       possibleResult++;
@@ -63,7 +60,7 @@ public final class Floors {
    *
    * @return the closest long.
    */
-  public static long ceil64(final float value) {
+  public long ceil64(final float value) {
     var possibleResult = (long) value;
     if (value - possibleResult > 0) {
       possibleResult++;
@@ -78,7 +75,7 @@ public final class Floors {
    *
    * @return the closest integer.
    */
-  public static int floor(final float value) {
+  public int floor(final float value) {
     final var y = (int) value;
     return value < y ? y - 1 : y;
   }
@@ -90,7 +87,7 @@ public final class Floors {
    *
    * @return the closest integer.
    */
-  public static int floor(final double value) {
+  public int floor(final double value) {
     final var y = (int) value;
     return value < y ? y - 1 : y;
   }
@@ -102,7 +99,7 @@ public final class Floors {
    *
    * @return the closest long.
    */
-  public static long floor64(final double value) {
+  public long floor64(final double value) {
     final var y = (long) value;
     return value < y ? y - 1 : y;
   }
@@ -114,7 +111,7 @@ public final class Floors {
    *
    * @return the closest long.
    */
-  public static long floor64(final float value) {
+  public long floor64(final float value) {
     final var y = (long) value;
     return value < y ? y - 1 : y;
   }
