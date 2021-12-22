@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * @param y the y.
  * @param z the z.
  */
-public final record Vector3d(
+public record Vector3d(
   double x,
   double y,
   double z

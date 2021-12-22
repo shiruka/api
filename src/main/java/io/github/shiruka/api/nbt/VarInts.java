@@ -3,18 +3,14 @@ package io.github.shiruka.api.nbt;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an utility class to write/read {@link DataInput} and {@link DataOutput}.
+ * a class that contains utility methods for {@link DataInput} and {@link DataOutput} classes.
  */
-public final class VarInts {
-
-  /**
-   * ctor.
-   */
-  private VarInts() {
-  }
+@UtilityClass
+public class VarInts {
 
   /**
    * reads the integer from the given input.
@@ -25,7 +21,7 @@ public final class VarInts {
    *
    * @throws IOException if something went wrong when reading to the input.
    */
-  public static int readInt(@NotNull final DataInput input) throws IOException {
+  public int readInt(@NotNull final DataInput input) throws IOException {
     final var n = (int) VarInts.decodeUnsigned(input);
     return n >>> 1 ^ -(n & 1);
   }
@@ -39,7 +35,7 @@ public final class VarInts {
    *
    * @throws IOException if something went wrong when reading the input.
    */
-  public static long readLong(@NotNull final DataInput input) throws IOException {
+  public long readLong(@NotNull final DataInput input) throws IOException {
     final var n = VarInts.decodeUnsigned(input);
     return n >>> 1 ^ -(n & 1);
   }
@@ -53,7 +49,7 @@ public final class VarInts {
    *
    * @throws IOException if something went wrong when reading the input.
    */
-  public static int readUnsignedInt(@NotNull final DataInput input) throws IOException {
+  public int readUnsignedInt(@NotNull final DataInput input) throws IOException {
     return (int) VarInts.decodeUnsigned(input);
   }
 
@@ -65,7 +61,7 @@ public final class VarInts {
    *
    * @throws IOException if something went wrong when writing to the output..
    */
-  public static void writeInt(@NotNull final DataOutput output, final int integer) throws IOException {
+  public void writeInt(@NotNull final DataOutput output, final int integer) throws IOException {
     VarInts.encodeUnsigned(output, (long) integer << 1 ^ integer >> 31);
   }
 
@@ -77,7 +73,7 @@ public final class VarInts {
    *
    * @throws IOException if something went wrong when writing to the output.
    */
-  public static void writeLong(@NotNull final DataOutput output, final long longInteger) throws IOException {
+  public void writeLong(@NotNull final DataOutput output, final long longInteger) throws IOException {
     VarInts.encodeUnsigned(output, longInteger << 1 ^ longInteger >> 63);
   }
 
@@ -89,7 +85,7 @@ public final class VarInts {
    *
    * @throws IOException if something went wrong when writing to the output.
    */
-  public static void writeUnsignedInt(@NotNull final DataOutput output, final long integer) throws IOException {
+  public void writeUnsignedInt(@NotNull final DataOutput output, final long integer) throws IOException {
     VarInts.encodeUnsigned(output, integer);
   }
 
@@ -102,7 +98,7 @@ public final class VarInts {
    *
    * @throws IOException if something went wrong when decoding the given input.
    */
-  private static long decodeUnsigned(@NotNull final DataInput input) throws IOException {
+  private long decodeUnsigned(@NotNull final DataInput input) throws IOException {
     var result = 0;
     for (var shift = 0; shift < 64; shift += 7) {
       final var b = input.readByte();
@@ -122,7 +118,7 @@ public final class VarInts {
    *
    * @throws IOException if something went wrong when encoding to the output.
    */
-  private static void encodeUnsigned(@NotNull final DataOutput output, final long value) throws IOException {
+  private void encodeUnsigned(@NotNull final DataOutput output, final long value) throws IOException {
     var tempValue = value;
     while (true) {
       if ((tempValue & ~0x7FL) == 0) {

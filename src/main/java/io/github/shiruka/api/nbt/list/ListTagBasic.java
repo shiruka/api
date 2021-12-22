@@ -43,8 +43,9 @@ public final class ListTagBasic implements ListTag {
     this.listType = listType;
   }
 
+  @NotNull
   @Override
-  public void add(@NotNull final Tag tag) {
+  public ListTag add(@NotNull final Tag tag) {
     this.edit(tags -> {
       final var endType = TagTypes.END;
       Preconditions.checkArgument(tag.getType() != endType,
@@ -55,6 +56,7 @@ public final class ListTagBasic implements ListTag {
       }
       tags.add(tag);
     }, tag.getType());
+    return this;
   }
 
   @NotNull
@@ -86,14 +88,18 @@ public final class ListTagBasic implements ListTag {
     return Optional.ofNullable(this.original.get(key));
   }
 
+  @NotNull
   @Override
-  public void remove(final int key) {
+  public ListTag remove(final int key) {
     this.edit(tags -> tags.remove(key), TagTypes.NONE);
+    return this;
   }
 
+  @NotNull
   @Override
-  public void set(final int key, @NotNull final Tag tag) {
+  public ListTag set(final int key, @NotNull final Tag tag) {
     this.edit(tags -> tags.set(key, tag), tag.getType());
+    return this;
   }
 
   @Override

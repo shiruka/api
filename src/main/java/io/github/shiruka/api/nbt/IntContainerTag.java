@@ -7,25 +7,27 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine primitive int stored tags.
+ * an interface to determine primitive int container tags.
+ *
+ * @param <S> type of the implementation.
  */
-public interface IntStoredTag {
+public interface IntContainerTag<S extends IntContainerTag<S>> extends Tag {
 
   /**
-   * checks if the stored tag has the given tag.
+   * checks if the container tag has the given tag.
    *
    * @param tag the tag to check.
    *
-   * @return {@code true} if the stored tag has the given tag.
+   * @return {@code true} if the container tag has the given tag.
    */
   boolean contains(@NotNull Tag tag);
 
   /**
-   * checks if the stored tag has the given key.
+   * checks if the container tag has the given key.
    *
    * @param key the key to check.
    *
-   * @return {@code true} if the stored tag has the given key.
+   * @return {@code true} if the container tag has the given key.
    */
   default boolean containsKey(final int key) {
     return this.contains(Tag.createInt(key));
@@ -42,11 +44,11 @@ public interface IntStoredTag {
   Optional<Tag> get(int key);
 
   /**
-   * gets the byte from the tag store.
+   * gets the byte from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a byte instance from the tag store.
+   * @return a byte instance from the tag container.
    */
   @NotNull
   default Optional<Byte> getByte(final int key) {
@@ -57,11 +59,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the byte array from the tag store.
+   * gets the byte array from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a byte array instance from the tag store.
+   * @return a byte array instance from the tag container.
    */
   @NotNull
   default Optional<Byte[]> getByteArray(final int key) {
@@ -72,11 +74,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the compound tag from the tag store.
+   * gets the compound tag from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a compound tag instance from the tag store.
+   * @return a compound tag instance from the tag container.
    */
   @NotNull
   default Optional<CompoundTag> getCompoundTag(final int key) {
@@ -86,11 +88,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the double from the tag store.
+   * gets the double from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a double instance from the tag store.
+   * @return a double instance from the tag container.
    */
   @NotNull
   default Optional<Double> getDouble(final int key) {
@@ -101,11 +103,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the float from the tag store.
+   * gets the float from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a float instance from the tag store.
+   * @return a float instance from the tag container.
    */
   @NotNull
   default Optional<Float> getFloat(final int key) {
@@ -116,11 +118,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the int array from the tag store.
+   * gets the int array from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a int array instance from the tag store.
+   * @return a int array instance from the tag container.
    */
   @NotNull
   default Optional<Integer[]> getIntArray(final int key) {
@@ -131,11 +133,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the integer from the tag store.
+   * gets the integer from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a integer instance from the tag store.
+   * @return a integer instance from the tag container.
    */
   @NotNull
   default Optional<Integer> getInteger(final int key) {
@@ -146,11 +148,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the list from the tag store.
+   * gets the list from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a list instance from the tag store.
+   * @return a list instance from the tag container.
    */
   @NotNull
   default Optional<List<Tag>> getList(final int key) {
@@ -159,12 +161,12 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the list from the tag store.
+   * gets the list from the tag container.
    *
    * @param key the key to get.
    * @param listType the list type to get.
    *
-   * @return a list instance from the tag store.
+   * @return a list instance from the tag container.
    */
   @NotNull
   default Optional<List<Tag>> getList(final int key, @NotNull final TagTypes listType) {
@@ -173,11 +175,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the list tag from the tag store.
+   * gets the list tag from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a list tag instance from the tag store.
+   * @return a list tag instance from the tag container.
    */
   @NotNull
   default Optional<ListTag> getListTag(final int key) {
@@ -187,12 +189,12 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the list tag from the tag store.
+   * gets the list tag from the tag container.
    *
    * @param key the key to get.
    * @param listType the list type to get.
    *
-   * @return a list tag instance from the tag store.
+   * @return a list tag instance from the tag container.
    */
   @NotNull
   default Optional<ListTag> getListTag(final int key, @NotNull final TagTypes listType) {
@@ -203,11 +205,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the long from the tag store.
+   * gets the long from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a long instance from the tag store.
+   * @return a long instance from the tag container.
    */
   @NotNull
   default Optional<Long> getLong(final int key) {
@@ -218,11 +220,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the long array from the tag store.
+   * gets the long array from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a long array instance from the tag store.
+   * @return a long array instance from the tag container.
    */
   @NotNull
   default Optional<Long[]> getLongArray(final int key) {
@@ -233,11 +235,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the map from the tag store.
+   * gets the map from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a map instance from the tag store.
+   * @return a map instance from the tag container.
    */
   @NotNull
   default Optional<Map<String, Tag>> getMap(final int key) {
@@ -246,11 +248,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the primitive byte array from the tag store.
+   * gets the primitive byte array from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a primitive byte array instance from the tag store.
+   * @return a primitive byte array instance from the tag container.
    */
   @NotNull
   default Optional<byte[]> getPrimitiveByteArray(final int key) {
@@ -261,11 +263,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the short from the tag store.
+   * gets the short from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a short instance from the tag store.
+   * @return a short instance from the tag container.
    */
   @NotNull
   default Optional<Short> getShort(final int key) {
@@ -276,11 +278,11 @@ public interface IntStoredTag {
   }
 
   /**
-   * gets the string from the tag store.
+   * gets the string from the tag container.
    *
    * @param key the key to get.
    *
-   * @return a string instance from the tag store.
+   * @return a string instance from the tag container.
    */
   @NotNull
   default Optional<String> getString(final int key) {
@@ -291,9 +293,9 @@ public interface IntStoredTag {
   }
 
   /**
-   * checks if the stored tag has not any element in it.
+   * checks if the container tag has not any element in it.
    *
-   * @return {@code true} if the stored tag has not any element in it.
+   * @return {@code true} if the container tag has not any element in it.
    */
   boolean isEmpty();
 
@@ -301,135 +303,177 @@ public interface IntStoredTag {
    * removes the tag at the given key.
    *
    * @param key the key to remove.
+   *
+   * @return {@code this} for the chain.
    */
-  void remove(int key);
+  @NotNull
+  S remove(int key);
 
   /**
    * sets the given tag into the given key.
    *
    * @param key the key to set.
    * @param tag the tag to set.
+   *
+   * @return {@code this} for the chain.
    */
-  void set(int key, @NotNull Tag tag);
+  @NotNull
+  S set(int key, @NotNull Tag tag);
 
   /**
-   * sets the byte to the tag store.
+   * sets the byte to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setByte(final int key, @NotNull final Byte value) {
-    this.set(key, Tag.createByte(value));
+  @NotNull
+  default S setByte(final int key, @NotNull final Byte value) {
+    return this.set(key, Tag.createByte(value));
   }
 
   /**
-   * sets the byte array to the tag store.
+   * sets the byte array to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setByteArray(final int key, final byte... value) {
-    this.set(key, Tag.createByteArray(value));
+  @NotNull
+  default S setByteArray(final int key, final byte... value) {
+    return this.set(key, Tag.createByteArray(value));
   }
 
   /**
-   * sets the double to the tag store.
+   * sets the double to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setDouble(final int key, @NotNull final Double value) {
-    this.set(key, Tag.createDouble(value));
+  @NotNull
+  default S setDouble(final int key, @NotNull final Double value) {
+    return this.set(key, Tag.createDouble(value));
   }
 
   /**
-   * sets the float to the tag store.
+   * sets the float to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setFloat(final int key, @NotNull final Float value) {
-    this.set(key, Tag.createFloat(value));
+  @NotNull
+  default S setFloat(final int key, @NotNull final Float value) {
+    return this.set(key, Tag.createFloat(value));
   }
 
   /**
-   * sets the int array to the tag store.
+   * sets the int array to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setIntArray(final int key, final int... value) {
-    this.set(key, Tag.createIntArray(value));
+  @NotNull
+  default S setIntArray(final int key, final int... value) {
+    return this.set(key, Tag.createIntArray(value));
   }
 
   /**
-   * sets the integer to the tag store.
+   * sets the integer to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setInteger(final int key, @NotNull final Integer value) {
-    this.set(key, Tag.createInt(value));
+  @NotNull
+  default S setInteger(final int key, @NotNull final Integer value) {
+    return this.set(key, Tag.createInt(value));
   }
 
   /**
-   * sets the list to the tag store.
+   * sets the list to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setList(final int key, @NotNull final List<Tag> value) {
-    this.set(key, Tag.createList(value));
+  @NotNull
+  default S setList(final int key, @NotNull final List<Tag> value) {
+    return this.set(key, Tag.createList(value));
   }
 
   /**
-   * sets the long to the tag store.
+   * sets the long to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setLong(final int key, @NotNull final Long value) {
-    this.set(key, Tag.createLong(value));
+  @NotNull
+  default S setLong(final int key, @NotNull final Long value) {
+    return this.set(key, Tag.createLong(value));
   }
 
   /**
-   * sets the long array to the tag store.
+   * sets the long array to the tag container.
    *
    * @param key the key to set.
    * @param value the value set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setLongArray(final int key, final long @NotNull [] value) {
-    this.set(key, Tag.createLongArray(value));
+  @NotNull
+  default S setLongArray(final int key, final long @NotNull [] value) {
+    return this.set(key, Tag.createLongArray(value));
   }
 
   /**
-   * sets the map to the tag store.
+   * sets the map to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setMap(final int key, @NotNull final Map<String, Tag> value) {
-    this.set(key, Tag.createCompound(value));
+  @NotNull
+  default S setMap(final int key, @NotNull final Map<String, Tag> value) {
+    return this.set(key, Tag.createCompound(value));
   }
 
   /**
-   * sets the short to the tag store.
+   * sets the short to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setShort(final int key, @NotNull final Short value) {
-    this.set(key, Tag.createShort(value));
+  @NotNull
+  default S setShort(final int key, @NotNull final Short value) {
+    return this.set(key, Tag.createShort(value));
   }
 
   /**
-   * sets the string to the tag store.
+   * sets the string to the tag container.
    *
    * @param key the key to set.
    * @param value the value to set.
+   *
+   * @return {@code this} for the chain.
    */
-  default void setString(final int key, @NotNull final String value) {
-    this.set(key, Tag.createString(value));
+  @NotNull
+  default S setString(final int key, @NotNull final String value) {
+    return this.set(key, Tag.createString(value));
   }
 
   /**

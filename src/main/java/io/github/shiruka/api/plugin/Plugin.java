@@ -441,8 +441,7 @@ public interface Plugin {
    * @see <a href="https://semver.org/">version syntax</a>
    */
   @Log4j2
-  @NotNull
-  final record Description(
+  @NotNull record Description(
     @NotNull String name,
     @NotNull String main,
     @NotNull Version version,
