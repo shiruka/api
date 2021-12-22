@@ -322,7 +322,7 @@ public interface Plugin {
   }
 
   /**
-   * a record class that represents plugin containers to store date of plugins.
+   * a class that represents plugin containers to store date of plugins.
    */
   @Getter
   @Accessors(fluent = true)
@@ -398,29 +398,39 @@ public interface Plugin {
    * a simple record class that represents description file of plugins.
    * <p>
    * example to show scheme of the plugin file:
-   * <pre>
-   *   # Required
-   *   name: Test Plugin
-   *   main: io.github.shiruka.test.TestPlugin
+   * <pre>{@code
+   *   // Required
+   *   name: 'Test Plugin'
+   *   main: 'io.github.shiruka.test.TestPlugin'
    *
-   *   # Optional
-   *   version: "1.0.0-SNAPSHOT" # default is 1.0.0
-   *   description: "A simple plugin to show developers how to create a plugin." # default is empty
-   *   load: startup # default is post-world
-   *   authors: # default is empty
-   *     - "Shiru ka"
-   *   contributors: # default is empty
-   *     - "portlek"
-   *   website: https://shiruka.github.io
+   *   // Optional
+   *   // default is 1.0.0
+   *   version: '1.0.0-SNAPSHOT'
+   *   // default is empty
+   *   description: 'A simple plugin to show developers how to create a plugin.'
+   *   // default is post-world
+   *   load: 'startup'
+   *   // default is empty
+   *   authors:
+   *     - 'Shiru ka'
+   *   // default is empty
+   *   contributors:
+   *     - 'portlek'
+   *   website: 'https://shiruka.github.io'
    *   provides:
-   *     - "test-provide"
-   *   depends: # default is empty
-   *     - "test-depend"
-   *   soft-depends: # default is empty
-   *     - "test-soft-depend"
-   *   load-before: # default is empty
-   *     - "test-load-before"
-   *   prefix: "Test Plugin" # default is name
+   *     - 'test-provide'
+   *   // default is empty
+   *   depends:
+   *     - 'test-depend'
+   *   // default is empty
+   *   soft-depends:
+   *     - 'test-soft-depend'
+   *   // default is empty
+   *   load-before:
+   *     - 'test-load-before'
+   *   // default is name
+   *   prefix: 'Test Plugin'
+   * }
    * </pre>
    *
    * @param name name of the plugin.
@@ -441,8 +451,7 @@ public interface Plugin {
    * @see <a href="https://semver.org/">version syntax</a>
    */
   @Log4j2
-  @NotNull
-  final record Description(
+  record Description(
     @NotNull String name,
     @NotNull String main,
     @NotNull Version version,

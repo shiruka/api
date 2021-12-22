@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param original the original.
  */
-public final record StringTag(
+public record StringTag(
   @NotNull String original
 ) implements PrimitiveTag<String> {
 

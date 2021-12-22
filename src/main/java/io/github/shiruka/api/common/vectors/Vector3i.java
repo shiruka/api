@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * @param y the y.
  * @param z the z.
  */
-public final record Vector3i(
+public record Vector3i(
   int x,
   int y,
   int z

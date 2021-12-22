@@ -7,14 +7,17 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine list tags which contain list of {@link Tag}.
  */
-public interface ListTag extends Tag, IntStoredTag, Iterable<Tag> {
+public interface ListTag extends Tag, IntContainerTag<ListTag>, Iterable<Tag> {
 
   /**
    * adds the given tag.
    *
    * @param tag the tag to add.
+   *
+   * @return {@code this} for the chain.
    */
-  void add(@NotNull Tag tag);
+  @NotNull
+  ListTag add(@NotNull Tag tag);
 
   /**
    * obtains list tag's list as unmodifiable..

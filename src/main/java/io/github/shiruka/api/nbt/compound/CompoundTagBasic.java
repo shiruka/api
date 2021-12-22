@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param original the original.
  */
-public final record CompoundTagBasic(
+public record CompoundTagBasic(
   @NotNull Map<String, Tag> original
 ) implements CompoundTag {
 
@@ -46,14 +46,18 @@ public final record CompoundTagBasic(
     return Optional.ofNullable(this.original.get(key));
   }
 
+  @NotNull
   @Override
-  public void remove(@NotNull final String key) {
+  public CompoundTag remove(@NotNull final String key) {
     this.original.remove(key);
+    return this;
   }
 
+  @NotNull
   @Override
-  public void set(@NotNull final String key, @NotNull final Tag tag) {
+  public CompoundTag set(@NotNull final String key, @NotNull final Tag tag) {
     this.original.put(key, tag);
+    return this;
   }
 
   @Override

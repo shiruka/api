@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * @param x the x.
  * @param y the y.
  */
-public final record Vector2f(
+public record Vector2f(
   float x,
   float y
 ) {

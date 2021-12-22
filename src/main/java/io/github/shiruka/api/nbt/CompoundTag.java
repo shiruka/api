@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine compound tags which contain map of {@link Tag}.
  */
-public interface CompoundTag extends Tag, StoredTag<String> {
+public interface CompoundTag extends Tag, ContainerTag<String, CompoundTag> {
 
   /**
    * checks if the given {@code type} is a number.
