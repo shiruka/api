@@ -13,8 +13,8 @@ jobs:
 
       - uses: DeLaGuardo/setup-graalvm@4.0
         with:
-          graalvm: 21.2.0
-          java: java16
+          graalvm: 21.3.0
+          java: java17
 
       - uses: actions/cache@v2
         with:
