@@ -64,13 +64,13 @@ dependencies {
   compileOnlyApi "com.google.guava:guava:31.0.1-jre"
   compileOnlyApi "org.apache.commons:commons-lang3:3.12.0"
   compileOnlyApi "org.apache.logging.log4j:log4j-core:2.17.0"
-  compileOnlyApi "com.github.Infumia.InfumiaLib:InfumiaCommon:2.4.5"
+  compileOnlyApi "tr.com.infumia:InfumiaCommon:3.0.10"
   compileOnlyApi "com.fasterxml.jackson.core:jackson-databind:2.13.1"
   compileOnlyApi "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.1"
 
   // Processor
   annotationProcessor "org.jetbrains:annotations:22.0.0"
-  annotationProcessor "org.projectlombok:lombok:1.18.20"
+  annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
   // Test
   testImplementation "org.hamcrest:hamcrest-library:2.2"
