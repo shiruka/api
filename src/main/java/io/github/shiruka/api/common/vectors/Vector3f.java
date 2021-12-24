@@ -177,6 +177,16 @@ public record Vector3f(
   }
 
   /**
+   * converts {@code this} to {@link Vector3i}.
+   *
+   * @return vector 3i.
+   */
+  @NotNull
+  public Vector3i toInt() {
+    return Vector3i.of(this.x, this.y, this.z);
+  }
+
+  /**
    * sets the x.
    *
    * @param x the x to set.

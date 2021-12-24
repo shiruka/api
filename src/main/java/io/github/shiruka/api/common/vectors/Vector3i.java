@@ -1,5 +1,6 @@
 package io.github.shiruka.api.common.vectors;
 
+import io.github.shiruka.api.common.Floors;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -32,6 +33,20 @@ public record Vector3i(
   @NotNull
   public static Vector3i of(final int x, final int y, final int z) {
     return new Vector3i(x, y, z);
+  }
+
+  /**
+   * creates a vector.
+   *
+   * @param x the x to create.
+   * @param y the y to create.
+   * @param z the z to create.
+   *
+   * @return a newly created vector.
+   */
+  @NotNull
+  public static Vector3i of(final double x, final double y, final double z) {
+    return Vector3i.of(Floors.floor(x), Floors.floor(y), Floors.floor(z));
   }
 
   /**
