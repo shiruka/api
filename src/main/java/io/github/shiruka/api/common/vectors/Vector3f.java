@@ -4,7 +4,7 @@ import io.github.shiruka.api.common.Floors;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents three dimensional vectors.
+ * a class that represents three-dimensional vectors.
  *
  * @param x the x.
  * @param y the y.
@@ -32,7 +32,7 @@ public record Vector3f(
    */
   @NotNull
   public static Vector3f of(final float x, final float y, final float z) {
-    return new Vector3f(x, y, z);
+    return x == 0 && y == 0 && z == 0 ? Vector3f.ZERO : new Vector3f(x, y, z);
   }
 
   /**

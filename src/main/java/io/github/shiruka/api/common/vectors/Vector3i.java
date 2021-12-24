@@ -164,6 +164,16 @@ public record Vector3i(
   }
 
   /**
+   * converts {@code this} to {@link Vector3f}.
+   *
+   * @return vector 3f.
+   */
+  @NotNull
+  public Vector3f toFloat() {
+    return Vector3f.of(this.x, this.y, this.z);
+  }
+
+  /**
    * sets the x.
    *
    * @param x the x to set.
