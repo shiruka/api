@@ -42,7 +42,7 @@ public record Vector3f(
    */
   @NotNull
   public static Vector3f zero() {
-    return Vector3f.of(0.0f, 0.0f, 0.0f);
+    return new Vector3f(0.0f, 0.0f, 0.0f);
   }
 
   /**
