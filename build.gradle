@@ -63,7 +63,7 @@ dependencies {
 
   compileOnlyApi "com.lmax:disruptor:3.4.4"
   compileOnlyApi "it.unimi.dsi:fastutil:8.5.6"
-  compileOnlyApi "com.google.inject:guice:5.0.1"
+  compileOnlyApi "com.google.inject:guice:5.1.0"
   compileOnlyApi "io.netty:netty-all:4.1.73.Final"
   compileOnlyApi "it.unimi.dsi:fastutil-core:8.5.6"
   compileOnlyApi "com.google.guava:guava:31.0.1-jre"
