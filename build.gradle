@@ -77,7 +77,7 @@ dependencies {
   testImplementation "org.llorllale:cactoos-matchers:0.25"
   testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
   testImplementation "org.cactoos:cactoos:0.50"
-  testImplementation "org.mockito:mockito-core:4.3.0"
+  testImplementation "org.mockito:mockito-core:4.3.1"
 }
 
 publishing {
