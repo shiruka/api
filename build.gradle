@@ -62,7 +62,7 @@ dependencies {
   compileOnlyApi "tr.com.infumia:InfumiaCommon:3.0.10"
 
   compileOnlyApi "com.lmax:disruptor:3.4.4"
-  compileOnlyApi "it.unimi.dsi:fastutil:8.5.6"
+  compileOnlyApi "it.unimi.dsi:fastutil:8.5.7"
   compileOnlyApi "com.google.inject:guice:5.1.0"
   compileOnlyApi "io.netty:netty-all:4.1.74.Final"
   compileOnlyApi "it.unimi.dsi:fastutil-core:8.5.7"
