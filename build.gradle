@@ -64,13 +64,8 @@ dependencies {
   compileOnlyApi "it.unimi.dsi:fastutil:${fastutil}"
   compileOnlyApi "it.unimi.dsi:fastutil-core:${fastutil}"
   compileOnlyApi "tr.com.infumia:InfumiaShared:${infumia}"
-  compileOnlyApi "org.reflections:reflections:${reflections}"
   compileOnlyApi "org.apache.logging.log4j:log4j-api:${log4j}"
-  compileOnlyApi "com.nimbusds:nimbus-jose-jwt:${nimbusjosejwt}"
   compileOnlyApi "org.apache.commons:commons-lang3:${commonslang3}"
-  compileOnlyApi "org.apache.commons:commons-math3:${commonsmath3}"
-  compileOnlyApi "org.apache.logging.log4j:log4j-iostreams:${log4j}"
-  compileOnlyApi "org.apache.logging.log4j:log4j-slf4j-impl:${log4j}"
   compileOnlyApi "com.fasterxml.jackson.core:jackson-databind:${jacksondatabind}"
   compileOnlyApi "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksondatabind}"
 
