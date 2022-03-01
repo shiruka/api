@@ -3,8 +3,10 @@ package io.github.shiruka.api.common;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntCollection;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectCollection;
 import java.util.Objects;
 import java.util.function.ObjIntConsumer;
 import org.jetbrains.annotations.NotNull;
@@ -174,6 +176,16 @@ public final class Int2ObjectBiMap<T> {
   }
 
   /**
+   * obtains the keys.
+   *
+   * @return keys
+   */
+  @NotNull
+  public IntCollection keys() {
+    return this.backwards.values();
+  }
+
+  /**
    * puts the value.
    *
    * @param key the ket to put.
@@ -222,5 +234,15 @@ public final class Int2ObjectBiMap<T> {
     this.backwards.removeInt(oldValue);
     this.forwards.remove(oldValue);
     return true;
+  }
+
+  /**
+   * obtains the values.
+   *
+   * @return values.
+   */
+  @NotNull
+  public ObjectCollection<T> values() {
+    return this.forwards.values();
   }
 }

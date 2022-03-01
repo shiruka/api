@@ -1,44 +1,44 @@
 plugins {
-  id "java"
-  id "java-library"
-  id "checkstyle"
-  id "maven-publish"
-  id "signing"
-  id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
+  id 'java'
+  id 'java-library'
+  id 'checkstyle'
+  id 'maven-publish'
+  id 'signing'
+  id 'io.github.gradle-nexus.publish-plugin' version '1.1.0'
 }
 
-group "io.github.shiruka"
+group 'io.github.shiruka'
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 compileJava {
-  options.encoding = "UTF-8"
+  options.encoding = 'UTF-8'
 }
 
 javadoc {
-  exclude "io/github/shiruka/api/base/Colors.java"
+  exclude 'io/github/shiruka/api/base/Colors.java'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-  classifier "sources"
+  classifier 'sources'
   from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-  javadoc.options.tags = ["todo"]
-  javadoc.options.addBooleanOption("html5", true)
-  classifier "javadoc"
+  javadoc.options.tags = ['todo']
+  javadoc.options.addBooleanOption('html5', true)
+  classifier 'javadoc'
   from javadoc.destinationDir
 }
 
 checkstyle {
-  configFile = file("checkstyle.xml")
+  configFile = file('checkstyle.xml')
   checkstyleTest.enabled = false
 }
 
 checkstyleMain
-  .exclude("io/github/shiruka/api/base/Colors.java")
+  .exclude('io/github/shiruka/api/base/Colors.java')
 
 test {
   useJUnitPlatform()
@@ -46,38 +46,37 @@ test {
 
 repositories {
   mavenCentral()
-  maven {
-    url "https://jitpack.io"
-  }
+  maven { url 'https://jitpack.io' }
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
   mavenLocal()
 }
 
 dependencies {
-  compileOnlyApi "org.jetbrains:annotations:23.0.0"
-  annotationProcessor "org.jetbrains:annotations:23.0.0"
+  compileOnlyApi "org.jetbrains:annotations:${annotations}"
+  annotationProcessor "org.jetbrains:annotations:${annotations}"
 
-  compileOnlyApi "org.projectlombok:lombok:1.18.22"
-  annotationProcessor "org.projectlombok:lombok:1.18.22"
+  compileOnlyApi "org.projectlombok:lombok:${lombok}"
+  annotationProcessor "org.projectlombok:lombok:${lombok}"
 
-  compileOnlyApi "tr.com.infumia:InfumiaCommon:3.0.10"
+  compileOnlyApi "io.github.shiruka:api:${api}"
+  compileOnlyApi "io.github.shiruka:network:${network}"
 
-  compileOnlyApi "com.lmax:disruptor:3.4.4"
-  compileOnlyApi "it.unimi.dsi:fastutil:8.5.8"
-  compileOnlyApi "com.google.inject:guice:5.1.0"
-  compileOnlyApi "io.netty:netty-all:4.1.74.Final"
-  compileOnlyApi "it.unimi.dsi:fastutil-core:8.5.8"
-  compileOnlyApi "com.google.guava:guava:31.1-jre"
-  compileOnlyApi "org.apache.commons:commons-lang3:3.12.0"
-  compileOnlyApi "org.apache.logging.log4j:log4j-core:2.17.2"
-  compileOnlyApi "com.fasterxml.jackson.core:jackson-databind:2.13.1"
-  compileOnlyApi "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.1"
+  compileOnlyApi "tr.com.infumia:InfumiaShared:${infumia}"
+  compileOnlyApi "it.unimi.dsi:fastutil:${fastutil}"
+  compileOnlyApi "it.unimi.dsi:fastutil-core:${fastutil}"
+  compileOnlyApi "io.netty:netty-all:${nettyall}"
+  compileOnlyApi "com.nimbusds:nimbus-jose-jwt:${nimbusjosejwt}"
+  compileOnlyApi "com.google.guava:guava:${guava}"
+  compileOnlyApi "org.apache.commons:commons-math3:${commonsmath3}"
+  compileOnlyApi "org.apache.logging.log4j:log4j-api:${log4j}"
+  compileOnlyApi "org.apache.logging.log4j:log4j-iostreams:${log4j}"
+  compileOnlyApi "org.apache.logging.log4j:log4j-slf4j-impl:${log4j}"
+  compileOnlyApi "com.fasterxml.jackson.core:jackson-databind:${jacksondatabind}"
+  compileOnlyApi "org.reflections:reflections:${reflections}"
 
-  // Test
-  testImplementation "org.hamcrest:hamcrest-library:2.2"
-  testImplementation "org.llorllale:cactoos-matchers:0.25"
-  testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
-  testImplementation "org.cactoos:cactoos:0.50"
-  testImplementation "org.mockito:mockito-core:4.3.1"
+  testAnnotationProcessor "org.jetbrains:annotations:${annotations}"
+  testAnnotationProcessor "org.projectlombok:lombok:${lombok}"
+  testImplementation "org.junit.jupiter:junit-jupiter:${junitjupiter}"
 }
 
 publishing {
@@ -91,26 +90,26 @@ publishing {
       artifact tasks.sourcesJar
       artifact tasks.javadocJar
       pom {
-        name = "Shiru ka Api"
-        description = "An Api project that helps developers to create unique plugins for Shiru ka."
-        url = "https://shiruka.github.io/"
+        name = 'Shiru ka Api'
+        description = 'An Api project that helps developers to create unique plugins for Shiru ka.'
+        url = 'https://shiruka.github.io/'
         licenses {
           license {
-            name = "MIT License"
-            url = "https://mit-license.org/license.txt"
+            name = 'MIT License'
+            url = 'https://mit-license.org/license.txt'
           }
         }
         developers {
           developer {
-            id = "portlek"
-            name = "Hasan Demirtaş"
-            email = "utsukushihito@outlook.com"
+            id = 'portlek'
+            name = 'Hasan Demirtaş'
+            email = 'utsukushihito@outlook.com'
           }
         }
         scm {
-          connection = "scm:git:git://github.com/shiruka/api.git"
-          developerConnection = "scm:git:ssh://github.com/shiruka/api.git"
-          url = "https://github.com/shiruka/api"
+          connection = 'scm:git:git://github.com/shiruka/api.git'
+          developerConnection = 'scm:git:ssh://github.com/shiruka/api.git'
+          url = 'https://github.com/shiruka/api'
         }
       }
     }
