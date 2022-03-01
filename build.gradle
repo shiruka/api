@@ -66,7 +66,7 @@ dependencies {
   compileOnlyApi "com.google.inject:guice:5.1.0"
   compileOnlyApi "io.netty:netty-all:4.1.74.Final"
   compileOnlyApi "it.unimi.dsi:fastutil-core:8.5.8"
-  compileOnlyApi "com.google.guava:guava:31.0.1-jre"
+  compileOnlyApi "com.google.guava:guava:31.1-jre"
   compileOnlyApi "org.apache.commons:commons-lang3:3.12.0"
   compileOnlyApi "org.apache.logging.log4j:log4j-core:2.17.2"
   compileOnlyApi "com.fasterxml.jackson.core:jackson-databind:2.13.1"
