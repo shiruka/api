@@ -33,7 +33,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tr.com.infumia.infumialib.maps.MutableMap;
+import tr.com.infumia.infumialib.misc.MutableMap;
 
 /**
  * an interface to determine plugins.

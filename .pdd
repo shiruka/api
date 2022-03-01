@@ -3,3 +3,4 @@
 --exclude target/**/*
 --exclude build/**/*
 --exclude .idea/**/*
+--exclude gradlew
