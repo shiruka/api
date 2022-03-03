@@ -1,6 +1,14 @@
 {
-  "labels": ["dependencies"],
   "extends": [
     "config:base"
+  ],
+  "labels": ["dependencies"],
+  "schedule": [
+    "on monday after 9am"
+  ],
+  "packageRules": [
+    {
+      "automerge": true
+    }
   ]
 }
