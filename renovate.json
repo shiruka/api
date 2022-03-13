@@ -2,7 +2,7 @@
   "extends": [
     "config:base"
   ],
-  "labels": ["dependencies"],
+  "labels": ["dependencies", "automerge"],
   "schedule": [
     "on monday after 9am"
   ],
