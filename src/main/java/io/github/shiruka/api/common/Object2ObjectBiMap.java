@@ -1,35 +1,36 @@
 package io.github.shiruka.api.common;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntCollection;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectCollection;
-import java.util.Objects;
-import java.util.function.ObjIntConsumer;
+import java.util.function.BiConsumer;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents int to object bi map.
+ * a class that represents object to object bi map.
  *
- * @param <T> type of the object.
+ * @param <K> type of the key.
+ * @param <V> type of the value.
  */
-public final class Int2ObjectBiMap<T> {
+@ToString(doNotUseGetters = true)
+@EqualsAndHashCode(doNotUseGetters = true)
+public final class Object2ObjectBiMap<K, V> {
 
   /**
    * the backwards.
    */
   @NotNull
-  private final Object2IntMap<T> backwards;
+  private final Object2ObjectMap<V, K> backwards;
 
   /**
    * the forwards.
    */
   @NotNull
-  private final Int2ObjectMap<T> forwards;
+  private final Object2ObjectMap<K, V> forwards;
 
   /**
    * ctor.
@@ -39,10 +40,10 @@ public final class Int2ObjectBiMap<T> {
    * @param defaultKey the default key.
    * @param defaultValue the default value.
    */
-  public Int2ObjectBiMap(final int initialCapacity, final float loadFactor, final int defaultKey,
-                         @Nullable final T defaultValue) {
-    this.forwards = new Int2ObjectOpenHashMap<>(initialCapacity, loadFactor);
-    this.backwards = new Object2IntOpenHashMap<>(initialCapacity, loadFactor);
+  public Object2ObjectBiMap(final int initialCapacity, final float loadFactor, @Nullable final K defaultKey,
+                            @Nullable final V defaultValue) {
+    this.forwards = new Object2ObjectOpenHashMap<>(initialCapacity, loadFactor);
+    this.backwards = new Object2ObjectOpenHashMap<>(initialCapacity, loadFactor);
     this.forwards.defaultReturnValue(defaultValue);
     this.backwards.defaultReturnValue(defaultKey);
   }
@@ -54,7 +55,7 @@ public final class Int2ObjectBiMap<T> {
    * @param loadFactor the load factor.
    * @param defaultKey the default key.
    */
-  public Int2ObjectBiMap(final int initialCapacity, final float loadFactor, final int defaultKey) {
+  public Object2ObjectBiMap(final int initialCapacity, final float loadFactor, @Nullable final K defaultKey) {
     this(initialCapacity, loadFactor, defaultKey, null);
   }
 
@@ -64,8 +65,8 @@ public final class Int2ObjectBiMap<T> {
    * @param initialCapacity the initial capacity.
    * @param loadFactor the load factor.
    */
-  public Int2ObjectBiMap(final int initialCapacity, final float loadFactor) {
-    this(initialCapacity, loadFactor, -1);
+  public Object2ObjectBiMap(final int initialCapacity, final float loadFactor) {
+    this(initialCapacity, loadFactor, null);
   }
 
   /**
@@ -73,8 +74,8 @@ public final class Int2ObjectBiMap<T> {
    *
    * @param defaultValue the default value.
    */
-  public Int2ObjectBiMap(final T defaultValue) {
-    this(2, 0.5F, -1, defaultValue);
+  public Object2ObjectBiMap(@Nullable final V defaultValue) {
+    this(2, 0.5F, null, defaultValue);
   }
 
   /**
@@ -82,14 +83,14 @@ public final class Int2ObjectBiMap<T> {
    *
    * @param initialCapacity the initial capacity.
    */
-  public Int2ObjectBiMap(final int initialCapacity) {
+  public Object2ObjectBiMap(final int initialCapacity) {
     this(initialCapacity, 0.5F);
   }
 
   /**
    * ctor.
    */
-  public Int2ObjectBiMap() {
+  public Object2ObjectBiMap() {
     this(2);
   }
 
@@ -100,7 +101,7 @@ public final class Int2ObjectBiMap<T> {
    *
    * @return {@code true} if the key contains.
    */
-  public boolean containsKey(final int key) {
+  public boolean containsKey(@NotNull final K key) {
     return this.forwards.containsKey(key);
   }
 
@@ -111,7 +112,7 @@ public final class Int2ObjectBiMap<T> {
    *
    * @return {@code true} if the value contains.
    */
-  public boolean containsValue(@NotNull final T value) {
+  public boolean containsValue(@NotNull final V value) {
     return this.forwards.containsValue(value);
   }
 
@@ -120,9 +121,9 @@ public final class Int2ObjectBiMap<T> {
    *
    * @param consumer the consumer to run.
    */
-  public void forEach(@NotNull final ObjIntConsumer<T> consumer) {
-    for (final var entry : Int2ObjectMaps.fastIterable(this.forwards)) {
-      consumer.accept(entry.getValue(), entry.getIntKey());
+  public void forEach(@NotNull final BiConsumer<K, V> consumer) {
+    for (final var entry : Object2ObjectMaps.fastIterable(this.forwards)) {
+      consumer.accept(entry.getKey(), entry.getValue());
     }
   }
 
@@ -133,8 +134,9 @@ public final class Int2ObjectBiMap<T> {
    *
    * @return key at the value.
    */
-  public int get(@NotNull final T value) {
-    return this.backwards.getInt(value);
+  @Nullable
+  public K getKey(@NotNull final V value) {
+    return this.backwards.get(value);
   }
 
   /**
@@ -144,35 +146,13 @@ public final class Int2ObjectBiMap<T> {
    *
    * @return value at the key.
    */
-  public T get(final int key) {
-    T value = this.forwards.get(key);
+  @Nullable
+  public V getValue(@NotNull final K key) {
+    var value = this.forwards.get(key);
     if (value == null) {
       value = this.forwards.defaultReturnValue();
     }
     return value;
-  }
-
-  @Override
-  public int hashCode() {
-    return this.forwards.hashCode();
-  }
-
-  @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || this.getClass() != obj.getClass()) {
-      return false;
-    }
-    final var that = (Int2ObjectBiMap<?>) obj;
-    return Objects.equals(this.forwards, that.forwards) &&
-      Objects.equals(this.backwards, that.backwards);
-  }
-
-  @Override
-  public String toString() {
-    return this.forwards.toString();
   }
 
   /**
@@ -181,7 +161,7 @@ public final class Int2ObjectBiMap<T> {
    * @return keys
    */
   @NotNull
-  public IntCollection keys() {
+  public ObjectCollection<K> keys() {
     return this.backwards.values();
   }
 
@@ -191,7 +171,7 @@ public final class Int2ObjectBiMap<T> {
    * @param key the ket to put.
    * @param value the value to put.
    */
-  public void put(final int key, @NotNull final T value) {
+  public void put(@NotNull final K key, @NotNull final V value) {
     this.forwards.put(key, value);
     this.backwards.put(value, key);
   }
@@ -203,7 +183,7 @@ public final class Int2ObjectBiMap<T> {
    *
    * @return {@code true} if the value removed successfully.
    */
-  public boolean remove(final int key) {
+  public boolean removeKey(@NotNull final K key) {
     if (!this.forwards.containsKey(key)) {
       return false;
     }
@@ -212,7 +192,7 @@ public final class Int2ObjectBiMap<T> {
       return false;
     }
     this.forwards.remove(key);
-    this.backwards.removeInt(value);
+    this.backwards.remove(value);
     return true;
   }
 
@@ -223,15 +203,15 @@ public final class Int2ObjectBiMap<T> {
    *
    * @return {@code true} if the value removed successfully.
    */
-  public boolean remove(@NotNull final T value) {
+  public boolean removeValue(@NotNull final V value) {
     if (!this.backwards.containsKey(value)) {
       return false;
     }
-    final var oldValue = this.backwards.getInt(value);
+    final var oldValue = this.backwards.get(value);
     if (!this.forwards.containsKey(oldValue)) {
       return false;
     }
-    this.backwards.removeInt(value);
+    this.backwards.remove(value);
     this.forwards.remove(oldValue);
     return true;
   }
@@ -242,7 +222,7 @@ public final class Int2ObjectBiMap<T> {
    * @return values.
    */
   @NotNull
-  public ObjectCollection<T> values() {
+  public ObjectCollection<V> values() {
     return this.forwards.values();
   }
 }
