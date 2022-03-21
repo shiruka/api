@@ -16,14 +16,14 @@ jobs:
           graalvm: 21.3.0
           java: java17
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-cache-${{ hashFiles('**/*.gradle') }}-${{ hashFiles('**/gradle.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradlew') }}
