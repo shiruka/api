@@ -63,7 +63,7 @@ dependencies {
   compileOnlyApi "com.google.inject:guice:${guice}"
   compileOnlyApi "it.unimi.dsi:fastutil:${fastutil}"
   compileOnlyApi "it.unimi.dsi:fastutil-core:${fastutil}"
-  compileOnlyApi "tr.com.infumia:InfumiaShared:${infumia}"
+  compileOnlyApi "tr.com.infumia:InfumiaLibShared:${infumia}"
   compileOnlyApi "org.apache.logging.log4j:log4j-api:${log4j}"
   compileOnlyApi "org.apache.commons:commons-lang3:${commonslang3}"
   compileOnlyApi "com.fasterxml.jackson.core:jackson-databind:${jackson}"
