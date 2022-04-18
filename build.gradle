@@ -67,7 +67,7 @@ dependencies {
   compileOnlyApi "org.apache.logging.log4j:log4j-api:${log4j}"
   compileOnlyApi "org.apache.commons:commons-lang3:${commonslang3}"
   compileOnlyApi "com.fasterxml.jackson.core:jackson-databind:${jackson}"
-  compileOnlyApi "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson}"
+  compileOnlyApi "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonyaml}"
 
   testAnnotationProcessor "org.projectlombok:lombok:${lombok}"
   testAnnotationProcessor "org.jetbrains:annotations:${annotations}"
