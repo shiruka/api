@@ -1,4 +1,4 @@
-package io.github.shiruka.api.event.events;
+package io.github.shiruka.api.event;
 
 import io.github.shiruka.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;

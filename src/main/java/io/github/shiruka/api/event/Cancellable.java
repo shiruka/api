@@ -1,4 +1,4 @@
-package io.github.shiruka.api.event.events;
+package io.github.shiruka.api.event;
 
 /**
  * represents an event that can be cancelled and thus cause the dispatcher to take a different course of action than

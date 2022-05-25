@@ -1,6 +1,6 @@
-package io.github.shiruka.api.event.events.server;
+package io.github.shiruka.api.event.server;
 
-import io.github.shiruka.api.event.events.Event;
+import io.github.shiruka.api.event.Event;
 import io.github.shiruka.api.exception.ServerException;
 import org.jetbrains.annotations.NotNull;
 

@@ -30,3 +30,6 @@ const val log4jVersion = "2.17.2"
 
 // renovate: datasource=maven dep=com.google.inject:guice
 const val guiceVersion = "5.1.0"
+
+// renovate: datasource=maven dep=org.greenrobot:eventbus-java
+const val eventbusVersion = "3.3.1"

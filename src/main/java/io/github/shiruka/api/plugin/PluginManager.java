@@ -6,7 +6,7 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.events.server.ServerExceptionEvent;
+import io.github.shiruka.api.event.server.ServerExceptionEvent;
 import io.github.shiruka.api.exception.ServerPluginEnableDisableException;
 import io.github.shiruka.api.scheduler.Scheduler;
 import java.io.File;

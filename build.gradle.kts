@@ -67,6 +67,7 @@ dependencies {
   compileOnly(jacksonDataformatYamlLibrary)
   compileOnly(log4jLibrary)
   compileOnly(guiceLibrary)
+  compileOnly(eventbusLibrary)
 
   annotationProcessor(lombokLibrary)
   annotationProcessor(annotationsLibrary)

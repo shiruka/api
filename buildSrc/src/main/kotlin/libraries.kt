@@ -19,3 +19,5 @@ const val jacksonDataformatYamlLibrary = "com.fasterxml.jackson.dataformat:jacks
 const val log4jLibrary = "org.apache.logging.log4j:log4j-core:$log4jVersion"
 
 const val guiceLibrary = "com.google.inject:guice:$guiceVersion"
+
+const val eventbusLibrary = "org.greenrobot:eventbus-java:$eventbusVersion"

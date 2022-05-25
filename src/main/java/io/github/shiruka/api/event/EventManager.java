@@ -1,6 +1,8 @@
 package io.github.shiruka.api.event;
 
-import io.github.shiruka.api.event.events.Event;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,11 +10,21 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface EventManager {
   /**
-   * calls the given event.
+   * creates a simple event manager.
    *
-   * @param event the event to call.
+   * @return event manager.
    */
-  void call(@NotNull Event event);
+  @NotNull
+  static EventManager simple() {
+    return new Impl();
+  }
+
+  /**
+   * posts the given event.
+   *
+   * @param event the event to post.
+   */
+  void post(@NotNull Event event);
 
   /**
    * registers the given listener.
@@ -27,4 +39,31 @@ public interface EventManager {
    * @param listener the listener to unregister.
    */
   void unregister(@NotNull Object listener);
+
+  /**
+   * a simple implementation of {@link EventManager}.
+   */
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  final class Impl implements EventManager {
+
+    /**
+     * the event bus.
+     */
+    private final EventBus eventBus = EventBus.builder().build();
+
+    @Override
+    public void post(@NotNull final Event event) {
+      this.eventBus.post(event);
+    }
+
+    @Override
+    public void register(@NotNull final Object listener) {
+      this.eventBus.register(listener);
+    }
+
+    @Override
+    public void unregister(@NotNull final Object listener) {
+      this.eventBus.unregister(listener);
+    }
+  }
 }
