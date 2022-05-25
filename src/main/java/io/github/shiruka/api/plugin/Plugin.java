@@ -33,30 +33,25 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tr.com.infumia.infumialib.misc.MutableMap;
 
 /**
  * an interface to determine plugins.
  */
 public interface Plugin {
-
   /**
    * runs after the plugin disable.
    */
-  default void onDisable() {
-  }
+  default void onDisable() {}
 
   /**
    * runs after the plugin enable.
    */
-  default void onEnable() {
-  }
+  default void onEnable() {}
 
   /**
    * runs after the plugin load.
    */
-  default void onLoad() {
-  }
+  default void onLoad() {}
 
   /**
    * an interface to determine load order for plugins.
@@ -97,7 +92,8 @@ public interface Plugin {
     @NotNull
     public static Optional<LoadOrder> byType(@NotNull final String type) {
       final var lowerCase = type.toLowerCase(Locale.ROOT);
-      return Arrays.stream(LoadOrder.values())
+      return Arrays
+        .stream(LoadOrder.values())
         .filter(loadOrder -> loadOrder.is(lowerCase))
         .findFirst();
     }
@@ -118,7 +114,6 @@ public interface Plugin {
    * an interface to determine plugin loaders.
    */
   interface Loader {
-
     /**
      * disables the plugin.
      *
@@ -153,7 +148,8 @@ public interface Plugin {
      * @throws InvalidDescriptionException if something goes wrong when parsing the description.
      */
     @NotNull
-    Description loadDescription(@NotNull File file) throws InvalidDescriptionException;
+    Description loadDescription(@NotNull File file)
+      throws InvalidDescriptionException;
 
     /**
      * loads the plugin from the file.
@@ -166,14 +162,14 @@ public interface Plugin {
      * @throws UnknownDependencyException if a required dependency could not be found.
      */
     @NotNull
-    Plugin.Container loadPlugin(@NotNull File file) throws InvalidPluginException, UnknownDependencyException;
+    Plugin.Container loadPlugin(@NotNull File file)
+      throws InvalidPluginException, UnknownDependencyException;
   }
 
   /**
    * an interface to determine plugin managers.
    */
   interface Manager {
-
     /**
      * clears all the plugins.
      */
@@ -229,9 +225,7 @@ public interface Plugin {
      * @return {@code true} if the plugin enabled.
      */
     default boolean isPluginEnabled(@NotNull final String plugin) {
-      return this.plugin(plugin)
-        .map(this::isPluginEnabled)
-        .orElse(false);
+      return this.plugin(plugin).map(this::isPluginEnabled).orElse(false);
     }
 
     /**
@@ -251,7 +245,10 @@ public interface Plugin {
      *
      * @return {@code true} if the plugin transitive depend.
      */
-    boolean isTransitiveDepend(@NotNull Container plugin, @NotNull Container depend);
+    boolean isTransitiveDepend(
+      @NotNull Container plugin,
+      @NotNull Container depend
+    );
 
     /**
      * loads the plugin from the given.
@@ -265,8 +262,8 @@ public interface Plugin {
      * @throws UnknownDependencyException if a required dependency could not be resolved.
      */
     @Nullable
-    Container loadPlugin(@NotNull File file) throws InvalidPluginException, InvalidDescriptionException,
-      UnknownDependencyException;
+    Container loadPlugin(@NotNull File file)
+      throws InvalidPluginException, InvalidDescriptionException, UnknownDependencyException;
 
     /**
      * loads the plugin in the folder.
@@ -466,7 +463,6 @@ public interface Plugin {
     @NotNull Collection<String> loadBefore,
     @NotNull String website
   ) {
-
     /**
      * the mapper.
      */
@@ -477,13 +473,15 @@ public interface Plugin {
     /**
      * the map type.
      */
-    private static final MapType MAP_TYPE = Description.MAPPER.getTypeFactory()
+    private static final MapType MAP_TYPE = Description.MAPPER
+      .getTypeFactory()
       .constructMapType(HashMap.class, String.class, Object.class);
 
     /**
      * the pattern for validate plugin names.
      */
-    private static final Predicate<String> VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$")
+    private static final Predicate<String> VALID_NAME = Pattern
+      .compile("^[A-Za-z0-9 _.-]+$")
       .asMatchPredicate();
 
     /**
@@ -497,8 +495,14 @@ public interface Plugin {
      * @throws InvalidDescriptionException if something goes wrong when parsing the map.
      */
     @NotNull
-    public static Description of(@NotNull final InputStream stream) throws IOException, InvalidDescriptionException {
-      return Description.of(Description.MAPPER.<Map<String, Object>>readValue(stream, Description.MAP_TYPE));
+    public static Description of(@NotNull final InputStream stream)
+      throws IOException, InvalidDescriptionException {
+      return Description.of(
+        Description.MAPPER.<Map<String, Object>>readValue(
+          stream,
+          Description.MAP_TYPE
+        )
+      );
     }
 
     /**
@@ -511,33 +515,90 @@ public interface Plugin {
      * @throws InvalidDescriptionException if something goes wrong when parsing the map.
      */
     @NotNull
-    public static Description of(@NotNull final Map<String, Object> map) throws InvalidDescriptionException {
-      final var name = Description.essential(map, "name", String.class).replace(' ', '_');
+    public static Description of(@NotNull final Map<String, Object> map)
+      throws InvalidDescriptionException {
+      final var name = Description
+        .essential(map, "name", String.class)
+        .replace(' ', '_');
       Description.validateName(name);
       final var main = Description.essential(map, "main", String.class);
       final var defaultVersion = Version.of(1);
-      final var version = Description.optional(map, "version", String.class, defaultVersion, s -> {
-        try {
-          Version.of(s);
-        } catch (final ParseException e) {
-          Description.log.error("Couldn't parse the version %s".formatted(s), e);
-          Description.log.info("Using default version(1.0.0) instead");
+      final var version = Description.optional(
+        map,
+        "version",
+        String.class,
+        defaultVersion,
+        s -> {
+          try {
+            Version.of(s);
+          } catch (final ParseException e) {
+            Description.log.error(
+              "Couldn't parse the version %s".formatted(s),
+              e
+            );
+            Description.log.info("Using default version(1.0.0) instead");
+          }
+          return defaultVersion;
         }
-        return defaultVersion;
-      });
-      final var description = Description.optional(map, "description", String.class, "");
-      final var loadOrder = Description.optional(map, "load", String.class, LoadOrder.POST_WORLD, s ->
-        LoadOrder.byType(s).orElse(null));
+      );
+      final var description = Description.optional(
+        map,
+        "description",
+        String.class,
+        ""
+      );
+      final var loadOrder = Description.optional(
+        map,
+        "load",
+        String.class,
+        LoadOrder.POST_WORLD,
+        s -> LoadOrder.byType(s).orElse(null)
+      );
       final var authors = Description.optionalStringCollection(map, "authors");
-      final var contributors = Description.optionalStringCollection(map, "contributors");
-      final var prefix = Description.optional(map, "prefix", String.class, name);
+      final var contributors = Description.optionalStringCollection(
+        map,
+        "contributors"
+      );
+      final var prefix = Description.optional(
+        map,
+        "prefix",
+        String.class,
+        name
+      );
       final var depends = Description.optionalStringCollection(map, "depends");
-      final var provides = Description.optionalStringCollection(map, "provides");
-      final var softDepends = Description.optionalStringCollection(map, "soft-depends");
-      final var loadBefore = Description.optionalStringCollection(map, "load-before");
-      final var website = Description.optional(map, "website", String.class, "");
-      return new Description(name, main, version, description, loadOrder, authors, contributors, prefix, depends,
-        provides, softDepends, loadBefore, website);
+      final var provides = Description.optionalStringCollection(
+        map,
+        "provides"
+      );
+      final var softDepends = Description.optionalStringCollection(
+        map,
+        "soft-depends"
+      );
+      final var loadBefore = Description.optionalStringCollection(
+        map,
+        "load-before"
+      );
+      final var website = Description.optional(
+        map,
+        "website",
+        String.class,
+        ""
+      );
+      return new Description(
+        name,
+        main,
+        version,
+        description,
+        loadOrder,
+        authors,
+        contributors,
+        prefix,
+        depends,
+        provides,
+        softDepends,
+        loadBefore,
+        website
+      );
     }
 
     /**
@@ -553,17 +614,24 @@ public interface Plugin {
      * @throws InvalidDescriptionException if something goes wrong when parsing the map.
      */
     @NotNull
-    private static <T> T essential(@NotNull final Map<String, Object> map, @NotNull final String key,
-                                   @NotNull final Class<T> type)
-      throws InvalidDescriptionException {
+    private static <T> T essential(
+      @NotNull final Map<String, Object> map,
+      @NotNull final String key,
+      @NotNull final Class<T> type
+    ) throws InvalidDescriptionException {
       try {
         return Objects.requireNonNull(type.cast(map.get(key)));
       } catch (final NullPointerException e) {
-        throw new InvalidDescriptionException("The key called %s not found in the plugin file!",
-          key);
+        throw new InvalidDescriptionException(
+          "The key called %s not found in the plugin file!",
+          key
+        );
       } catch (final ClassCastException e) {
-        throw new InvalidDescriptionException("Invalid type for %s key, found %s!",
-          key, map.get(key).getClass());
+        throw new InvalidDescriptionException(
+          "Invalid type for %s key, found %s!",
+          key,
+          map.get(key).getClass()
+        );
       }
     }
 
@@ -581,10 +649,19 @@ public interface Plugin {
      * @throws InvalidDescriptionException if something goes wrong when parsing the map.
      */
     @NotNull
-    private static <T> T optional(@NotNull final Map<String, Object> map, @NotNull final String key,
-                                  @NotNull final Class<T> type, @NotNull final T defaultValue)
-      throws InvalidDescriptionException {
-      return Description.optional(map, key, type, defaultValue, UnaryOperator.identity());
+    private static <T> T optional(
+      @NotNull final Map<String, Object> map,
+      @NotNull final String key,
+      @NotNull final Class<T> type,
+      @NotNull final T defaultValue
+    ) throws InvalidDescriptionException {
+      return Description.optional(
+        map,
+        key,
+        type,
+        defaultValue,
+        UnaryOperator.identity()
+      );
     }
 
     /**
@@ -603,10 +680,13 @@ public interface Plugin {
      * @throws InvalidDescriptionException if something goes wrong when parsing the map.
      */
     @NotNull
-    private static <T, Y> Y optional(@NotNull final Map<String, Object> map, @NotNull final String key,
-                                     @NotNull final Class<T> type, @NotNull final Y defaultValue,
-                                     @NotNull final Function<@NotNull T, @Nullable Y> mappingFunction)
-      throws InvalidDescriptionException {
+    private static <T, Y> Y optional(
+      @NotNull final Map<String, Object> map,
+      @NotNull final String key,
+      @NotNull final Class<T> type,
+      @NotNull final Y defaultValue,
+      @NotNull final Function<@NotNull T, @Nullable Y> mappingFunction
+    ) throws InvalidDescriptionException {
       final var value = map.get(key);
       if (value == null) {
         return defaultValue;
@@ -618,11 +698,16 @@ public interface Plugin {
         }
         return mapped;
       } catch (final NullPointerException e) {
-        throw new InvalidDescriptionException("The key called %s not found in the plugin file!",
-          key);
+        throw new InvalidDescriptionException(
+          "The key called %s not found in the plugin file!",
+          key
+        );
       } catch (final ClassCastException e) {
-        throw new InvalidDescriptionException("Invalid type for %s key, found %s!",
-          key, value.getClass());
+        throw new InvalidDescriptionException(
+          "Invalid type for %s key, found %s!",
+          key,
+          value.getClass()
+        );
       }
     }
 
@@ -637,13 +722,20 @@ public interface Plugin {
      * @throws InvalidDescriptionException if something goes wrong when parsing the map.
      */
     @NotNull
-    private static Collection<String> optionalStringCollection(@NotNull final Map<String, Object> map,
-                                                               @NotNull final String key)
-      throws InvalidDescriptionException {
-      return Description.optional(map, key, Collection.class, Collections.emptySet(), collection ->
-        ((Collection<?>) collection).stream()
-          .map(Object::toString)
-          .collect(Collectors.toSet()));
+    private static Collection<String> optionalStringCollection(
+      @NotNull final Map<String, Object> map,
+      @NotNull final String key
+    ) throws InvalidDescriptionException {
+      return Description.optional(
+        map,
+        key,
+        Collection.class,
+        Collections.emptySet(),
+        collection ->
+          ((Collection<?>) collection).stream()
+            .map(Object::toString)
+            .collect(Collectors.toSet())
+      );
     }
 
     /**
@@ -654,10 +746,13 @@ public interface Plugin {
      * @throws InvalidDescriptionException if the name has invalid characters.
      * @see #VALID_NAME
      */
-    private static void validateName(@NotNull final String name) throws InvalidDescriptionException {
+    private static void validateName(@NotNull final String name)
+      throws InvalidDescriptionException {
       if (!Description.VALID_NAME.test(name)) {
-        throw new InvalidDescriptionException("The name %s contains invalid characters!",
-          name);
+        throw new InvalidDescriptionException(
+          "The name %s contains invalid characters!",
+          name
+        );
       }
     }
 
@@ -678,20 +773,21 @@ public interface Plugin {
      */
     @NotNull
     public Map<String, Object> serialize() {
-      return MutableMap.<String, Object>of()
-        .with("name", this.name)
-        .with("main", this.main)
-        .with("version", this.version.toString())
-        .with("description", this.description)
-        .with("load", this.loadOrder.name().toLowerCase(Locale.ROOT))
-        .with("authors", this.authors)
-        .with("contributors", this.contributors)
-        .with("prefix", this.prefix)
-        .with("depends", this.depends)
-        .with("soft-depends", this.softDepends)
-        .with("load-before", this.loadBefore)
-        .with("website", this.website)
-        .with("provides", this.provides);
+      final var map = new HashMap<String, Object>();
+      map.put("name", this.name);
+      map.put("main", this.main);
+      map.put("version", this.version.toString());
+      map.put("description", this.description);
+      map.put("load", this.loadOrder.name().toLowerCase(Locale.ROOT));
+      map.put("authors", this.authors);
+      map.put("contributors", this.contributors);
+      map.put("prefix", this.prefix);
+      map.put("depends", this.depends);
+      map.put("soft-depends", this.softDepends);
+      map.put("load-before", this.loadBefore);
+      map.put("website", this.website);
+      map.put("provides", this.provides);
+      return map;
     }
   }
 }

@@ -13,7 +13,10 @@ public final class InvalidDescriptionException extends Exception {
    * @param message the message.
    * @param args the args.
    */
-  public InvalidDescriptionException(@NotNull final String message, @NotNull final Object... args) {
+  public InvalidDescriptionException(
+    @NotNull final String message,
+    @NotNull final Object... args
+  ) {
     super(message.formatted(args));
   }
 
@@ -32,7 +35,10 @@ public final class InvalidDescriptionException extends Exception {
    * @param message the message.
    * @param cause the throwable.
    */
-  public InvalidDescriptionException(@NotNull final String message, @NotNull final Throwable cause) {
+  public InvalidDescriptionException(
+    @NotNull final String message,
+    @NotNull final Throwable cause
+  ) {
     super(message, cause);
   }
 }

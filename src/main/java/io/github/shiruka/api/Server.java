@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine Shiru ka servers.
  */
 public interface Server {
-
   /**
    * obtains the logger.
    *

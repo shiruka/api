@@ -2,7 +2,6 @@ package io.github.shiruka.api.event.method;
 
 import io.github.shiruka.api.event.DispatchOrder;
 import io.github.shiruka.api.event.EventHandler;
-import io.github.shiruka.api.event.Listener;
 import java.lang.reflect.Method;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
  * and what properties they should have.
  */
 public interface MethodScanner {
-
   /**
    * default method scanner's instance.
    *
@@ -19,8 +17,7 @@ public interface MethodScanner {
    */
   @NotNull
   static MethodScanner createDefault() {
-    return new MethodScanner() {
-    };
+    return new MethodScanner() {};
   }
 
   /**
@@ -31,9 +28,14 @@ public interface MethodScanner {
    *
    * @return if cancelled events should be posted.
    */
-  default boolean consumeCancelledEvents(@NotNull final Listener listener, @NotNull final Method method) {
-    return method.isAnnotationPresent(EventHandler.class) &&
-      method.getAnnotation(EventHandler.class).acceptsCancelled();
+  default boolean consumeCancelledEvents(
+    @NotNull final Object listener,
+    @NotNull final Method method
+  ) {
+    return (
+      method.isAnnotationPresent(EventHandler.class) &&
+      method.getAnnotation(EventHandler.class).acceptsCancelled()
+    );
   }
 
   /**
@@ -46,7 +48,10 @@ public interface MethodScanner {
    *
    * @see DispatchOrder
    */
-  default int dispatchOrder(@NotNull final Listener listener, @NotNull final Method method) {
+  default int dispatchOrder(
+    @NotNull final Object listener,
+    @NotNull final Method method
+  ) {
     return method.isAnnotationPresent(EventHandler.class)
       ? method.getAnnotation(EventHandler.class).priority()
       : DispatchOrder.MIDDLE;
@@ -60,7 +65,10 @@ public interface MethodScanner {
    *
    * @return if a subscriber should be registered.
    */
-  default boolean shouldRegister(@NotNull final Listener listener, @NotNull final Method method) {
+  default boolean shouldRegister(
+    @NotNull final Object listener,
+    @NotNull final Method method
+  ) {
     return method.getAnnotation(EventHandler.class) != null;
   }
 }

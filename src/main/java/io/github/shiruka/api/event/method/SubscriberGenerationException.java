@@ -24,7 +24,10 @@ final class SubscriberGenerationException extends RuntimeException {
    * @param message the message.
    * @param cause the cause.
    */
-  SubscriberGenerationException(@NotNull final String message, @NotNull final Throwable cause) {
+  SubscriberGenerationException(
+    @NotNull final String message,
+    @NotNull final Throwable cause
+  ) {
     super(message, cause);
   }
 }

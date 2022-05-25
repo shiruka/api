@@ -5,7 +5,6 @@ package io.github.shiruka.api.event;
  * respective listeners.
  */
 public interface DispatchOrder {
-
   /**
    * a listener marked with this order will be invoked sometime after the first listeners and the middle listeners.
    */

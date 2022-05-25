@@ -9,11 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * @param x the x.
  * @param y the y.
  */
-public record Vector2d(
-  double x,
-  double y
-) {
-
+public record Vector2d(double x, double y) {
   /**
    * the zero vector.
    */

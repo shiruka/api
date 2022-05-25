@@ -59,8 +59,13 @@ public final class Version implements Comparable<Version> {
    * @return a newly created version instance.
    */
   @NotNull
-  public static Version of(final int major, final int minor, final int patch,
-                           @NotNull final List<String> buildMeta, @NotNull final List<String> preRelease) {
+  public static Version of(
+    final int major,
+    final int minor,
+    final int patch,
+    @NotNull final List<String> buildMeta,
+    @NotNull final List<String> preRelease
+  ) {
     return new Version(buildMeta, major, minor, patch, preRelease);
   }
 
@@ -75,7 +80,13 @@ public final class Version implements Comparable<Version> {
    */
   @NotNull
   public static Version of(final int major, final int minor, final int patch) {
-    return Version.of(major, minor, patch, Collections.emptyList(), Collections.emptyList());
+    return Version.of(
+      major,
+      minor,
+      patch,
+      Collections.emptyList(),
+      Collections.emptyList()
+    );
   }
 
   /**
@@ -123,7 +134,8 @@ public final class Version implements Comparable<Version> {
    * @throws ParseException if the version string does not conform to the semver specs.
    */
   @NotNull
-  public static Version of(@NotNull final String versionString) throws ParseException {
+  public static Version of(@NotNull final String versionString)
+    throws ParseException {
     return new Parser(versionString).parse();
   }
 
@@ -196,7 +208,11 @@ public final class Version implements Comparable<Version> {
    * @return {@code true} if this version is newer and both have the same major version.
    */
   public boolean isCompatibleUpdateFor(@NotNull final Version version) {
-    return this.isUpdateFor(version) && this.major == version.major && this.major != 0;
+    return (
+      this.isUpdateFor(version) &&
+      this.major == version.major &&
+      this.major != 0
+    );
   }
 
   /**
@@ -259,19 +275,20 @@ public final class Version implements Comparable<Version> {
    *
    * @return comparing result.
    */
-  private int comparePreReleaseTag(final int position, @NotNull final Version comparing) {
+  private int comparePreReleaseTag(
+    final int position,
+    @NotNull final Version comparing
+  ) {
     Integer here = null;
     Integer there = null;
     final var thisPreRelease = this.preRelease.get(position);
     final var comparingPreRelease = comparing.preRelease.get(position);
     try {
       here = Integer.parseInt(thisPreRelease, 10);
-    } catch (final NumberFormatException ignored) {
-    }
+    } catch (final NumberFormatException ignored) {}
     try {
       there = Integer.parseInt(comparingPreRelease, 10);
-    } catch (final NumberFormatException ignored) {
-    }
+    } catch (final NumberFormatException ignored) {}
     if (here != null && there == null) {
       return -1;
     }
@@ -350,7 +367,8 @@ public final class Version implements Comparable<Version> {
         this.versionParts[1],
         this.versionParts[2],
         this.preReleaseParts,
-        this.metaParts);
+        this.metaParts
+      );
     }
 
     /**
@@ -360,7 +378,11 @@ public final class Version implements Comparable<Version> {
      */
     private boolean stateMajor() {
       var pos = 0;
-      while (pos < this.input.length && this.input[pos] >= '0' && this.input[pos] <= '9') {
+      while (
+        pos < this.input.length &&
+        this.input[pos] >= '0' &&
+        this.input[pos] <= '9'
+      ) {
         pos++;
       }
       if (pos == 0) {
@@ -369,7 +391,8 @@ public final class Version implements Comparable<Version> {
       if (this.input[0] == '0' && pos > 1) {
         return false;
       }
-      this.versionParts[0] = Integer.parseInt(new String(this.input, 0, pos), 10);
+      this.versionParts[0] =
+        Integer.parseInt(new String(this.input, 0, pos), 10);
       if (this.input[pos] == '.') {
         return this.stateMinor(pos + 1);
       }
@@ -385,10 +408,18 @@ public final class Version implements Comparable<Version> {
      */
     private boolean stateMeta(final int index) {
       var pos = index;
-      while (pos < this.input.length
-        && (this.input[pos] >= '0' && this.input[pos] <= '9'
-        || this.input[pos] >= 'a' && this.input[pos] <= 'z'
-        || this.input[pos] >= 'A' && this.input[pos] <= 'Z' || this.input[pos] == '-')) {
+      while (
+        pos < this.input.length &&
+        (
+          this.input[pos] >= '0' &&
+          this.input[pos] <= '9' ||
+          this.input[pos] >= 'a' &&
+          this.input[pos] <= 'z' ||
+          this.input[pos] >= 'A' &&
+          this.input[pos] <= 'Z' ||
+          this.input[pos] == '-'
+        )
+      ) {
         pos++; // match [0..9a-zA-Z-]+
       }
       if (pos == index) {
@@ -415,7 +446,11 @@ public final class Version implements Comparable<Version> {
      */
     private boolean stateMinor(final int index) {
       var pos = index;
-      while (pos < this.input.length && this.input[pos] >= '0' && this.input[pos] <= '9') {
+      while (
+        pos < this.input.length &&
+        this.input[pos] >= '0' &&
+        this.input[pos] <= '9'
+      ) {
         pos++;
       }
       if (pos == index) {
@@ -426,7 +461,8 @@ public final class Version implements Comparable<Version> {
         this.errorPosition = index;
         return false;
       }
-      this.versionParts[1] = Integer.parseInt(new String(this.input, index, pos - index), 10);
+      this.versionParts[1] =
+        Integer.parseInt(new String(this.input, index, pos - index), 10);
       if (this.input[pos] == '.') {
         return this.statePatch(pos + 1);
       }
@@ -443,7 +479,11 @@ public final class Version implements Comparable<Version> {
      */
     private boolean statePatch(final int index) {
       var pos = index;
-      while (pos < this.input.length && this.input[pos] >= '0' && this.input[pos] <= '9') {
+      while (
+        pos < this.input.length &&
+        this.input[pos] >= '0' &&
+        this.input[pos] <= '9'
+      ) {
         pos++;
       }
       if (pos == index) {
@@ -454,7 +494,8 @@ public final class Version implements Comparable<Version> {
         this.errorPosition = index;
         return false;
       }
-      this.versionParts[2] = Integer.parseInt(new String(this.input, index, pos - index), 10);
+      this.versionParts[2] =
+        Integer.parseInt(new String(this.input, index, pos - index), 10);
       if (pos == this.input.length) {
         return true;
       }
@@ -477,10 +518,18 @@ public final class Version implements Comparable<Version> {
      */
     private boolean stateRelease(final int index) {
       var pos = index;
-      while (pos < this.input.length
-        && (this.input[pos] >= '0' && this.input[pos] <= '9'
-        || this.input[pos] >= 'a' && this.input[pos] <= 'z'
-        || this.input[pos] >= 'A' && this.input[pos] <= 'Z' || this.input[pos] == '-')) {
+      while (
+        pos < this.input.length &&
+        (
+          this.input[pos] >= '0' &&
+          this.input[pos] <= '9' ||
+          this.input[pos] >= 'a' &&
+          this.input[pos] <= 'z' ||
+          this.input[pos] >= 'A' &&
+          this.input[pos] <= 'Z' ||
+          this.input[pos] == '-'
+        )
+      ) {
         pos++;
       }
       if (pos == index) {

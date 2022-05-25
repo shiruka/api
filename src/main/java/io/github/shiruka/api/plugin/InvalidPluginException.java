@@ -22,7 +22,10 @@ public final class InvalidPluginException extends Exception {
    * @param message the message.
    * @param args the args.
    */
-  public InvalidPluginException(@NotNull final String message, @NotNull final Object... args) {
+  public InvalidPluginException(
+    @NotNull final String message,
+    @NotNull final Object... args
+  ) {
     super(message.formatted(args));
   }
 
@@ -33,8 +36,11 @@ public final class InvalidPluginException extends Exception {
    * @param cause the cause.
    * @param args the args.
    */
-  public InvalidPluginException(@NotNull final String message, @NotNull final Throwable cause,
-                                @NotNull final Object... args) {
+  public InvalidPluginException(
+    @NotNull final String message,
+    @NotNull final Throwable cause,
+    @NotNull final Object... args
+  ) {
     super(message.formatted(args), cause);
   }
 }

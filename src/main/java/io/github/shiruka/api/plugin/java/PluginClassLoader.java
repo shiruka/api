@@ -86,12 +86,26 @@ public final class PluginClassLoader extends URLClassLoader {
    * @throws InvalidPluginException if something goes wrong when creating the plugin's instance.
    * @throws IOException if an I/O error has occurred.
    */
-  PluginClassLoader(@NotNull final JavaPluginLoader loader, @Nullable final ClassLoader parent,
-                    @NotNull final Plugin.Description description, @NotNull final Path dataFolder,
-                    @NotNull final File pluginFile) throws InvalidPluginException, IOException {
-    super(pluginFile.getName(), new URL[]{pluginFile.toURI().toURL()}, parent);
+  PluginClassLoader(
+    @NotNull final JavaPluginLoader loader,
+    @Nullable final ClassLoader parent,
+    @NotNull final Plugin.Description description,
+    @NotNull final Path dataFolder,
+    @NotNull final File pluginFile
+  ) throws InvalidPluginException, IOException {
+    super(
+      pluginFile.getName(),
+      new URL[] { pluginFile.toURI().toURL() },
+      parent
+    );
     this.loader = loader;
-    this.jar = new JarFile(pluginFile, true, ZipFile.OPEN_READ, JarFile.runtimeVersion());
+    this.jar =
+      new JarFile(
+        pluginFile,
+        true,
+        ZipFile.OPEN_READ,
+        JarFile.runtimeVersion()
+      );
     this.manifest = this.jar.getManifest();
     this.url = pluginFile.toURI().toURL();
     final var logger = LogManager.getLogger(description.prefix());
@@ -100,24 +114,42 @@ public final class PluginClassLoader extends URLClassLoader {
     try {
       mainClass = Class.forName(mainClassPath, true, this);
     } catch (final ClassNotFoundException ex) {
-      throw new InvalidPluginException("Cannot find main class `%s'", ex, mainClassPath);
+      throw new InvalidPluginException(
+        "Cannot find main class `%s'",
+        ex,
+        mainClassPath
+      );
     }
     final Class<? extends Plugin> pluginClass;
     try {
       pluginClass = mainClass.asSubclass(Plugin.class);
     } catch (final ClassCastException e) {
-      throw new InvalidPluginException("Main class `%s' does not implement Plugin", e,
-        mainClassPath);
+      throw new InvalidPluginException(
+        "Main class `%s' does not implement Plugin",
+        e,
+        mainClassPath
+      );
     }
-    this.pluginContainer = new Plugin.Container(
-      this,
-      dataFolder,
-      description,
-      this.loader,
-      logger,
-      Guice.createInjector(new JavaPluginModule(dataFolder, description, logger, pluginFile, this))
-        .getInstance(pluginClass),
-      pluginFile);
+    this.pluginContainer =
+      new Plugin.Container(
+        this,
+        dataFolder,
+        description,
+        this.loader,
+        logger,
+        Guice
+          .createInjector(
+            new JavaPluginModule(
+              dataFolder,
+              description,
+              logger,
+              pluginFile,
+              this
+            )
+          )
+          .getInstance(pluginClass),
+        pluginFile
+      );
   }
 
   @Override
@@ -135,7 +167,8 @@ public final class PluginClassLoader extends URLClassLoader {
   }
 
   @Override
-  protected Class<?> findClass(@NotNull final String name) throws ClassNotFoundException {
+  protected Class<?> findClass(@NotNull final String name)
+    throws ClassNotFoundException {
     if (name.startsWith("io.github.shiruka.")) {
       throw new ClassNotFoundException(name);
     }
@@ -163,17 +196,22 @@ public final class PluginClassLoader extends URLClassLoader {
         try {
           this.definePackage(packageName, this.manifest, this.url);
         } catch (final IllegalArgumentException ex) {
-          Preconditions.checkState(this.getDefinedPackage(packageName) != null, "Cannot find package %s",
-            packageName);
+          Preconditions.checkState(
+            this.getDefinedPackage(packageName) != null,
+            "Cannot find package %s",
+            packageName
+          );
         }
       }
     }
-    result = this.defineClass(
-      name,
-      classBytes,
-      0,
-      classBytes.length,
-      new CodeSource(this.url, entry.getCodeSigners()));
+    result =
+      this.defineClass(
+          name,
+          classBytes,
+          0,
+          classBytes.length,
+          new CodeSource(this.url, entry.getCodeSigners())
+        );
     if (result == null) {
       result = super.findClass(name);
     }
@@ -182,7 +220,8 @@ public final class PluginClassLoader extends URLClassLoader {
   }
 
   @Override
-  protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
+  protected Class<?> loadClass(final String name, final boolean resolve)
+    throws ClassNotFoundException {
     return this.loadClass0(name, resolve, true);
   }
 
@@ -192,7 +231,8 @@ public final class PluginClassLoader extends URLClassLoader {
   }
 
   @Override
-  public Enumeration<URL> getResources(@NotNull final String name) throws IOException {
+  public Enumeration<URL> getResources(@NotNull final String name)
+    throws IOException {
     return this.findResources(name);
   }
 
@@ -208,29 +248,49 @@ public final class PluginClassLoader extends URLClassLoader {
    * @throws ClassNotFoundException if the class not found.
    */
   @NotNull
-  Class<?> loadClass0(@NotNull final String classPath, final boolean resolve, final boolean checkGlobal)
-    throws ClassNotFoundException {
+  Class<?> loadClass0(
+    @NotNull final String classPath,
+    final boolean resolve,
+    final boolean checkGlobal
+  ) throws ClassNotFoundException {
     try {
       return super.loadClass(classPath, resolve);
-    } catch (final ClassNotFoundException ignored) {
-    }
+    } catch (final ClassNotFoundException ignored) {}
     if (!checkGlobal) {
       throw new ClassNotFoundException(classPath);
     }
-    final var result = Optional.ofNullable(this.loader.getClassByName(classPath, resolve, this.pluginContainer, this))
+    final var result = Optional
+      .ofNullable(
+        this.loader.getClassByName(
+            classPath,
+            resolve,
+            this.pluginContainer,
+            this
+          )
+      )
       .orElseThrow(() -> new ClassNotFoundException(classPath));
-    if (!(result.getClassLoader() instanceof PluginClassLoader pluginClassLoader)) {
+    if (
+      !(result.getClassLoader() instanceof PluginClassLoader pluginClassLoader)
+    ) {
       return result;
     }
     final var provider = pluginClassLoader.pluginContainer();
     final var description = provider.description();
     final var name = description.name();
-    if (provider != this.pluginContainer &&
+    if (
+      provider != this.pluginContainer &&
       !this.seenIllegalAccess.contains(name) &&
-      !Shiruka.pluginManager().isTransitiveDepend(this.pluginContainer, provider)) {
+      !Shiruka
+        .pluginManager()
+        .isTransitiveDepend(this.pluginContainer, provider)
+    ) {
       this.seenIllegalAccess.add(name);
-      this.pluginContainer.logger().warn("Loaded class {} from {} which is not a depend, soft-depend or load-before of this plugin.",
-        classPath, description.fullName());
+      this.pluginContainer.logger()
+        .warn(
+          "Loaded class {} from {} which is not a depend, soft-depend or load-before of this plugin.",
+          classPath,
+          description.fullName()
+        );
     }
     return result;
   }

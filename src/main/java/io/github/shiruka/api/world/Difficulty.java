@@ -46,7 +46,8 @@ public enum Difficulty {
    */
   @NotNull
   public static Optional<Difficulty> byId(final int id) {
-    return Arrays.stream(Difficulty.values())
+    return Arrays
+      .stream(Difficulty.values())
       .filter(difficulty -> difficulty.id() == id)
       .findFirst();
   }

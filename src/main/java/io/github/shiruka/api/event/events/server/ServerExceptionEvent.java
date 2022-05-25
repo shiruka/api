@@ -9,8 +9,5 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param exception the exception.
  */
-public record ServerExceptionEvent(
-  @NotNull ServerException exception
-) implements Event {
-
-}
+public record ServerExceptionEvent(@NotNull ServerException exception)
+  implements Event {}

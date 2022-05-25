@@ -19,7 +19,6 @@ public record Location(
   float yaw,
   float pitch
 ) {
-
   /**
    * creates a location.
    *
@@ -31,8 +30,12 @@ public record Location(
    * @return a newly created location.
    */
   @NotNull
-  public static Location of(@NotNull final World world, @NotNull final Vector3d position, final float yaw,
-                            final float pitch) {
+  public static Location of(
+    @NotNull final World world,
+    @NotNull final Vector3d position,
+    final float yaw,
+    final float pitch
+  ) {
     return new Location(world, position, yaw, pitch);
   }
 

@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Range;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventHandler {
-
   /**
    * should receive events even if they have been {@link Cancellable#cancelled()}.
    *

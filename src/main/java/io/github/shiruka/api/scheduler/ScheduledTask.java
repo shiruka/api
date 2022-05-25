@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine scheduled tasks.
  */
 public interface ScheduledTask {
-
   /**
    * cancels the task.
    */

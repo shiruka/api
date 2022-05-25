@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine event factory that helps to create and call events.
  */
 public interface EventManager {
-
   /**
    * calls the given event.
    *
@@ -20,12 +19,12 @@ public interface EventManager {
    *
    * @param listener the listener to register.
    */
-  void register(@NotNull Listener listener);
+  void register(@NotNull Object listener);
 
   /**
    * unregisters the given listener.
    *
    * @param listener the listener to unregister.
    */
-  void unregister(@NotNull Listener listener);
+  void unregister(@NotNull Object listener);
 }

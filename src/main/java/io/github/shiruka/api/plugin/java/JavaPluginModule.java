@@ -24,14 +24,20 @@ public record JavaPluginModule(
   @NotNull Logger logger,
   @NotNull File pluginFile,
   @NotNull PluginClassLoader pluginClassLoader
-) implements Module {
-
+)
+  implements Module {
   @Override
   public void configure(final Binder binder) {
     binder.bind(Logger.class).toInstance(this.logger);
     binder.bind(Plugin.Description.class).toInstance(this.description);
-    binder.bind(Path.class).annotatedWith(Names.named("dataFolder")).toInstance(this.dataFolder);
-    binder.bind(File.class).annotatedWith(Names.named("pluginFile")).toInstance(this.pluginFile);
+    binder
+      .bind(Path.class)
+      .annotatedWith(Names.named("dataFolder"))
+      .toInstance(this.dataFolder);
+    binder
+      .bind(File.class)
+      .annotatedWith(Names.named("pluginFile"))
+      .toInstance(this.pluginFile);
     binder.bind(ClassLoader.class).toInstance(this.pluginClassLoader);
   }
 }

@@ -42,7 +42,10 @@ public final class JavaPluginLoader implements Plugin.Loader {
   private final List<PluginClassLoader> loaders = new CopyOnWriteArrayList<>();
 
   @Override
-  public void disablePlugin(@NotNull final Plugin.Container plugin, final boolean closeClassLoaders) {
+  public void disablePlugin(
+    @NotNull final Plugin.Container plugin,
+    final boolean closeClassLoaders
+  ) {
     if (!plugin.enabled()) {
       return;
     }
@@ -53,21 +56,28 @@ public final class JavaPluginLoader implements Plugin.Loader {
     try {
       plugin.enabled(false);
     } catch (final Throwable e) {
-      Shiruka.logger().fatal("Error occurred while disabling %s (Is it up to date?)".formatted(
-        fullName), e);
+      Shiruka
+        .logger()
+        .fatal(
+          "Error occurred while disabling %s (Is it up to date?)".formatted(
+              fullName
+            ),
+          e
+        );
     }
     if (plugin.classLoader() instanceof PluginClassLoader loader) {
       this.loaders.remove(loader);
       try {
         loader.close();
-      } catch (final IOException ignored) {
-      }
+      } catch (final IOException ignored) {}
       try {
         if (closeClassLoaders) {
           loader.close();
         }
       } catch (final IOException e) {
-        Shiruka.logger().warn("Error closing the Plugin Class Loader for {}", fullName);
+        Shiruka
+          .logger()
+          .warn("Error closing the Plugin Class Loader for {}", fullName);
         e.printStackTrace();
       }
     }
@@ -84,13 +94,24 @@ public final class JavaPluginLoader implements Plugin.Loader {
     final var pluginLoader = (PluginClassLoader) plugin.classLoader();
     if (!this.loaders.contains(pluginLoader)) {
       this.loaders.add(pluginLoader);
-      Shiruka.logger().warn("Enabled plugin with unregistered PluginClassLoader {}", fullName);
+      Shiruka
+        .logger()
+        .warn(
+          "Enabled plugin with unregistered PluginClassLoader {}",
+          fullName
+        );
     }
     try {
       plugin.enabled(true);
     } catch (final Throwable e) {
-      Shiruka.logger().fatal("Error occurred while enabling %s (Is it up to date?)".formatted(
-        fullName), e);
+      Shiruka
+        .logger()
+        .fatal(
+          "Error occurred while enabling %s (Is it up to date?)".formatted(
+              fullName
+            ),
+          e
+        );
       Shiruka.pluginManager().disablePlugin(plugin, true);
       return;
     }
@@ -99,11 +120,14 @@ public final class JavaPluginLoader implements Plugin.Loader {
 
   @NotNull
   @Override
-  public Plugin.Description loadDescription(@NotNull final File file) throws InvalidDescriptionException {
+  public Plugin.Description loadDescription(@NotNull final File file)
+    throws InvalidDescriptionException {
     try (final var jar = new JarFile(file)) {
       final var entry = jar.getJarEntry("plugin.yml");
       if (entry == null) {
-        throw new InvalidDescriptionException(new FileNotFoundException("Jar does not contain plugin.yml file!"));
+        throw new InvalidDescriptionException(
+          new FileNotFoundException("Jar does not contain plugin.yml file!")
+        );
       }
       return Plugin.Description.of(jar.getInputStream(entry));
     } catch (final IOException e) {
@@ -113,10 +137,12 @@ public final class JavaPluginLoader implements Plugin.Loader {
 
   @NotNull
   @Override
-  public Plugin.Container loadPlugin(@NotNull final File file) throws InvalidPluginException,
-    UnknownDependencyException {
+  public Plugin.Container loadPlugin(@NotNull final File file)
+    throws InvalidPluginException, UnknownDependencyException {
     if (Files.notExists(file.toPath())) {
-      throw new InvalidPluginException(new FileNotFoundException("%s does not exist".formatted(file.getPath())));
+      throw new InvalidPluginException(
+        new FileNotFoundException("%s does not exist".formatted(file.getPath()))
+      );
     }
     final Plugin.Description description;
     try {
@@ -124,24 +150,43 @@ public final class JavaPluginLoader implements Plugin.Loader {
     } catch (final InvalidDescriptionException ex) {
       throw new InvalidPluginException(ex);
     }
-    final var dataFolder = Shiruka.pluginManager().pluginsDirectory().resolve(description.name());
+    final var dataFolder = Shiruka
+      .pluginManager()
+      .pluginsDirectory()
+      .resolve(description.name());
     if (Files.exists(dataFolder) && !Files.isDirectory(dataFolder)) {
-      throw new InvalidPluginException("Projected data folder: `%s' for %s (%s) exists and is not a directory",
-        dataFolder, description.fullName(), file);
+      throw new InvalidPluginException(
+        "Projected data folder: `%s' for %s (%s) exists and is not a directory",
+        dataFolder,
+        description.fullName(),
+        file
+      );
     }
-    final var missingHardDependencies = new HashSet<>(description.depends().size());
+    final var missingHardDependencies = new HashSet<>(
+      description.depends().size()
+    );
     for (final var pluginName : description.depends()) {
       if (Shiruka.pluginManager().plugin(pluginName).isEmpty()) {
         missingHardDependencies.add(pluginName);
       }
     }
     if (!missingHardDependencies.isEmpty()) {
-      throw new UnknownDependencyException("Unknown/missing dependency plugins: [%s]. Please download and install these plugins to run '%s'.",
-        missingHardDependencies, description.fullName());
+      throw new UnknownDependencyException(
+        "Unknown/missing dependency plugins: [%s]. Please download and install these plugins to run '%s'.",
+        missingHardDependencies,
+        description.fullName()
+      );
     }
     final PluginClassLoader loader;
     try {
-      loader = new PluginClassLoader(this, this.getClass().getClassLoader(), description, dataFolder, file);
+      loader =
+        new PluginClassLoader(
+          this,
+          this.getClass().getClassLoader(),
+          description,
+          dataFolder,
+          file
+        );
     } catch (final InvalidPluginException ex) {
       throw ex;
     } catch (final Throwable ex) {
@@ -162,12 +207,23 @@ public final class JavaPluginLoader implements Plugin.Loader {
    * @return class by name.
    */
   @Nullable
-  Class<?> getClassByName(@NotNull final String name, final boolean resolve, @NotNull final Plugin.Container container,
-                          @NotNull final PluginClassLoader requester) {
+  Class<?> getClassByName(
+    @NotNull final String name,
+    final boolean resolve,
+    @NotNull final Plugin.Container container,
+    @NotNull final PluginClassLoader requester
+  ) {
     final ReentrantReadWriteLock lock;
     synchronized (this.classLoadLock) {
-      lock = this.classLoadLock.computeIfAbsent(name, x -> new ReentrantReadWriteLock());
-      this.classLoadLockCount.compute(name, (x, prev) -> prev != null ? prev + 1 : 1);
+      lock =
+        this.classLoadLock.computeIfAbsent(
+            name,
+            x -> new ReentrantReadWriteLock()
+          );
+      this.classLoadLockCount.compute(
+          name,
+          (x, prev) -> prev != null ? prev + 1 : 1
+        );
     }
     lock.writeLock().lock();
     try {
@@ -176,17 +232,23 @@ public final class JavaPluginLoader implements Plugin.Loader {
         return requester.loadClass0(
           name,
           false,
-          pluginManager.isTransitiveDepend(container, requester.pluginContainer()));
-      } catch (final ClassNotFoundException ignored) {
-      }
+          pluginManager.isTransitiveDepend(
+            container,
+            requester.pluginContainer()
+          )
+        );
+      } catch (final ClassNotFoundException ignored) {}
       for (final var loader : this.loaders) {
         try {
           return loader.loadClass0(
             name,
             resolve,
-            pluginManager.isTransitiveDepend(container, loader.pluginContainer()));
-        } catch (final ClassNotFoundException ignored) {
-        }
+            pluginManager.isTransitiveDepend(
+              container,
+              loader.pluginContainer()
+            )
+          );
+        } catch (final ClassNotFoundException ignored) {}
       }
     } finally {
       synchronized (this.classLoadLock) {
@@ -195,7 +257,10 @@ public final class JavaPluginLoader implements Plugin.Loader {
           this.classLoadLock.remove(name);
           this.classLoadLockCount.remove(name);
         } else {
-          this.classLoadLockCount.compute(name, (x, prev) -> prev == null ? null : prev - 1);
+          this.classLoadLockCount.compute(
+              name,
+              (x, prev) -> prev == null ? null : prev - 1
+            );
         }
       }
     }

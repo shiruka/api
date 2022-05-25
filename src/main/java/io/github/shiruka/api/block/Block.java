@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine blocks.
  */
 public interface Block {
-
   /**
    * the obtains the location.
    *

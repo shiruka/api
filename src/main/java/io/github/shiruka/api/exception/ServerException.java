@@ -29,7 +29,10 @@ public class ServerException extends Exception {
    * @param message the message.
    * @param cause the cause.
    */
-  public ServerException(@NotNull final String message, @NotNull final Throwable cause) {
+  public ServerException(
+    @NotNull final String message,
+    @NotNull final Throwable cause
+  ) {
     super(message, cause);
   }
 
@@ -50,8 +53,12 @@ public class ServerException extends Exception {
    * @param enableSuppression the enable suppression.
    * @param writableStackTrace the writable stack trace.
    */
-  public ServerException(@NotNull final String message, @NotNull final Throwable cause, final boolean enableSuppression,
-                         final boolean writableStackTrace) {
+  public ServerException(
+    @NotNull final String message,
+    @NotNull final Throwable cause,
+    final boolean enableSuppression,
+    final boolean writableStackTrace
+  ) {
     super(message, cause, enableSuppression, writableStackTrace);
   }
 }

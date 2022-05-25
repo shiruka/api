@@ -39,8 +39,12 @@ public final class Int2ObjectBiMap<T> {
    * @param defaultKey the default key.
    * @param defaultValue the default value.
    */
-  public Int2ObjectBiMap(final int initialCapacity, final float loadFactor, final int defaultKey,
-                         @Nullable final T defaultValue) {
+  public Int2ObjectBiMap(
+    final int initialCapacity,
+    final float loadFactor,
+    final int defaultKey,
+    @Nullable final T defaultValue
+  ) {
     this.forwards = new Int2ObjectOpenHashMap<>(initialCapacity, loadFactor);
     this.backwards = new Object2IntOpenHashMap<>(initialCapacity, loadFactor);
     this.forwards.defaultReturnValue(defaultValue);
@@ -54,7 +58,11 @@ public final class Int2ObjectBiMap<T> {
    * @param loadFactor the load factor.
    * @param defaultKey the default key.
    */
-  public Int2ObjectBiMap(final int initialCapacity, final float loadFactor, final int defaultKey) {
+  public Int2ObjectBiMap(
+    final int initialCapacity,
+    final float loadFactor,
+    final int defaultKey
+  ) {
     this(initialCapacity, loadFactor, defaultKey, null);
   }
 
@@ -166,8 +174,10 @@ public final class Int2ObjectBiMap<T> {
       return false;
     }
     final var that = (Int2ObjectBiMap<?>) obj;
-    return Objects.equals(this.forwards, that.forwards) &&
-      Objects.equals(this.backwards, that.backwards);
+    return (
+      Objects.equals(this.forwards, that.forwards) &&
+      Objects.equals(this.backwards, that.backwards)
+    );
   }
 
   @Override

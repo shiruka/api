@@ -17,7 +17,6 @@ public record GameRule<T>(
   @NotNull String nbtName,
   @NotNull Class<? extends T> type
 ) {
-
   /**
    * the game rule map by nbt name.
    */
@@ -44,8 +43,11 @@ public record GameRule<T>(
    * @return game rule by nbt name.
    */
   @NotNull
-  public static <T> Optional<GameRule<T>> byNbtNameUnchecked(@NotNull final String nbtName) {
-    return Optional.ofNullable(GameRule.BY_NBT_NAME.get(nbtName))
+  public static <T> Optional<GameRule<T>> byNbtNameUnchecked(
+    @NotNull final String nbtName
+  ) {
+    return Optional
+      .ofNullable(GameRule.BY_NBT_NAME.get(nbtName))
       .map(gameRule -> (GameRule<T>) gameRule);
   }
 }

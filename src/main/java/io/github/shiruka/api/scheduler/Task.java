@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Range;
  * an interface to determine tasks.
  */
 public interface Task {
-
   /**
    * creates an async task builder.
    *
@@ -117,7 +116,6 @@ public interface Task {
    * an interface to determine builders for {@link Task}.
    */
   interface Builder {
-
     /**
      * builds the task.
      *
@@ -257,8 +255,7 @@ public interface Task {
       @With
       @Getter
       @NotNull
-      private Consumer<ScheduledTask> job = scheduledTask -> {
-      };
+      private Consumer<ScheduledTask> job = scheduledTask -> {};
 
       /**
        * the name.
@@ -289,14 +286,32 @@ public interface Task {
 
       @NotNull
       @Override
-      public Builder withDelay(@Range(from = 0, to = Long.MAX_VALUE) final long delay) {
-        return new Impl(this.scheduler, delay, this.interval, this.job, this.name, this.plugin);
+      public Builder withDelay(
+        @Range(from = 0, to = Long.MAX_VALUE) final long delay
+      ) {
+        return new Impl(
+          this.scheduler,
+          delay,
+          this.interval,
+          this.job,
+          this.name,
+          this.plugin
+        );
       }
 
       @NotNull
       @Override
-      public Builder withInterval(@Range(from = 0, to = Long.MAX_VALUE) final long interval) {
-        return new Impl(this.scheduler, this.delay, interval, this.job, this.name, this.plugin);
+      public Builder withInterval(
+        @Range(from = 0, to = Long.MAX_VALUE) final long interval
+      ) {
+        return new Impl(
+          this.scheduler,
+          this.delay,
+          interval,
+          this.job,
+          this.name,
+          this.plugin
+        );
       }
     }
   }
@@ -368,7 +383,5 @@ public interface Task {
     int taskId,
     @NotNull Plugin.Container plugin,
     @NotNull Thread thread
-  ) {
-
-  }
+  ) {}
 }

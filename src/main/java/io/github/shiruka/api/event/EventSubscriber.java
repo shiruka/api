@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
  */
 @FunctionalInterface
 public interface EventSubscriber {
-
   /**
    * gets if cancelled events should be posted to this subscriber.
    *

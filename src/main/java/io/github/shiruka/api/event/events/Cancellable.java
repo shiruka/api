@@ -5,7 +5,6 @@ package io.github.shiruka.api.event.events;
  * was initially planned.
  */
 public interface Cancellable extends Event {
-
   /**
    * calls the event itself.
    *
