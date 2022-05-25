@@ -10,12 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * @param y the y.
  * @param z the z.
  */
-public record Vector3d(
-  double x,
-  double y,
-  double z
-) {
-
+public record Vector3d(double x, double y, double z) {
   /**
    * the zero vector.
    */

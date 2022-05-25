@@ -6,7 +6,6 @@ import io.github.shiruka.api.Shiruka;
  * an interface to determine events.
  */
 public interface Event {
-
   /**
    * checks if the event is async.
    *

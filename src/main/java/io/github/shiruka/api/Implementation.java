@@ -25,8 +25,10 @@ class Implementation {
    */
   @NotNull
   Server server() {
-    return Objects.requireNonNull(Implementation.server,
-      "The server not set yet!");
+    return Objects.requireNonNull(
+      Implementation.server,
+      "The server not set yet!"
+    );
   }
 
   /**
@@ -37,8 +39,11 @@ class Implementation {
    * @throws IllegalStateException if the server is already set.
    */
   void server(@NotNull final Server server) {
-    Preconditions.checkState(Implementation.server == null,
-      "The server has been set already!", Implementation.server);
+    Preconditions.checkState(
+      Implementation.server == null,
+      "The server has been set already!",
+      Implementation.server
+    );
     Implementation.server = server;
   }
 }

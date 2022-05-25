@@ -37,15 +37,19 @@ public final class SimpleEventController implements EventController {
    *
    * @return true if the event should be posted.
    */
-  private static boolean shouldPost(@NotNull final Event event, @NotNull final EventSubscriber subscriber) {
-    if (!subscriber.acceptsCancelled() &&
+  private static boolean shouldPost(
+    @NotNull final Event event,
+    @NotNull final EventSubscriber subscriber
+  ) {
+    if (
+      !subscriber.acceptsCancelled() &&
       event instanceof Cancellable cancellable &&
-      cancellable.cancelled()) {
+      cancellable.cancelled()
+    ) {
       return false;
     }
     final var type = subscriber.type();
-    return type != null &&
-      type.isAssignableFrom(event.getClass());
+    return type != null && type.isAssignableFrom(event.getClass());
   }
 
   @NotNull
@@ -72,7 +76,10 @@ public final class SimpleEventController implements EventController {
   }
 
   @Override
-  public void register(@NotNull final Class<? extends Event> eventClass, @NotNull final EventSubscriber subscriber) {
+  public void register(
+    @NotNull final Class<? extends Event> eventClass,
+    @NotNull final EventSubscriber subscriber
+  ) {
     this.registry.register(eventClass, subscriber);
   }
 
@@ -94,10 +101,15 @@ public final class SimpleEventController implements EventController {
     /**
      * a cache of class --> a set of interfaces and classes that the class is or is a subtype of.
      */
-    @SuppressWarnings({"unchecked", "UnstableApiUsage"})
-    private static final LoadingCache<Class<?>, Set<Class<?>>> CLASS_HIERARCHY = CacheBuilder.newBuilder()
+    @SuppressWarnings({ "unchecked", "UnstableApiUsage" })
+    private static final LoadingCache<Class<?>, Set<Class<?>>> CLASS_HIERARCHY = CacheBuilder
+      .newBuilder()
       .weakKeys()
-      .build(CacheLoader.from(key -> (Set<Class<?>>) TypeToken.of(key).getTypes().rawTypes()));
+      .build(
+        CacheLoader.from(key ->
+          (Set<Class<?>>) TypeToken.of(key).getTypes().rawTypes()
+        )
+      );
 
     /**
      * the lock.
@@ -113,19 +125,22 @@ public final class SimpleEventController implements EventController {
      * a cache containing a link between an event class, and the event subscribers which should be passed the
      * given type of event.
      */
-    private final LoadingCache<Class<? extends Event>, List<EventSubscriber>> cache = CacheBuilder.newBuilder()
+    private final LoadingCache<Class<? extends Event>, List<EventSubscriber>> cache = CacheBuilder
+      .newBuilder()
       .initialCapacity(85)
-      .build(CacheLoader.from(eventClass -> {
-        final var list = new ObjectArrayList<EventSubscriber>();
-        final var types = Objects.requireNonNull(Registry.CLASS_HIERARCHY.getUnchecked(eventClass));
-        synchronized (this.lock) {
-          types.stream()
-            .map(this.subscribers::get)
-            .forEach(list::addAll);
-        }
-        list.sort(Comparator.comparingInt(EventSubscriber::dispatchOrder));
-        return list;
-      }));
+      .build(
+        CacheLoader.from(eventClass -> {
+          final var list = new ObjectArrayList<EventSubscriber>();
+          final var types = Objects.requireNonNull(
+            Registry.CLASS_HIERARCHY.getUnchecked(eventClass)
+          );
+          synchronized (this.lock) {
+            types.stream().map(this.subscribers::get).forEach(list::addAll);
+          }
+          list.sort(Comparator.comparingInt(EventSubscriber::dispatchOrder));
+          return list;
+        })
+      );
 
     /**
      * registers the given event with the given subscriber.
@@ -134,7 +149,10 @@ public final class SimpleEventController implements EventController {
      * @param subscriber the subscriber to register.
      */
     @Synchronized("lock")
-    private void register(@NotNull final Class<? extends Event> eventClass, @NotNull final EventSubscriber subscriber) {
+    private void register(
+      @NotNull final Class<? extends Event> eventClass,
+      @NotNull final EventSubscriber subscriber
+    ) {
       this.subscribers.put(eventClass, subscriber);
       this.cache.invalidateAll();
     }
@@ -147,7 +165,9 @@ public final class SimpleEventController implements EventController {
      * @return a list of subscribers.
      */
     @NotNull
-    private List<EventSubscriber> subscribers(@NotNull final Class<? extends Event> eventClass) {
+    private List<EventSubscriber> subscribers(
+      @NotNull final Class<? extends Event> eventClass
+    ) {
       return this.cache.getUnchecked(eventClass);
     }
 
@@ -166,7 +186,9 @@ public final class SimpleEventController implements EventController {
      * @param predicate the predicate to test subscribers for removal.
      */
     @Synchronized("lock")
-    private void unregisterMatching(@NotNull final Predicate<EventSubscriber> predicate) {
+    private void unregisterMatching(
+      @NotNull final Predicate<EventSubscriber> predicate
+    ) {
       if (this.subscribers.values().removeIf(predicate)) {
         this.cache.invalidateAll();
       }

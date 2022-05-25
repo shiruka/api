@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine schedulers.
  */
 public interface Scheduler {
-
   /**
    * gets the implementation of async Scheduler.
    *
@@ -88,7 +87,6 @@ public interface Scheduler {
    * a marker interface to determine async schedulers.
    */
   interface Async extends Scheduler {
-
     @Override
     default boolean isAsync() {
       return true;
@@ -104,7 +102,6 @@ public interface Scheduler {
    * a marker interface to determine sync schedulers.
    */
   interface Sync extends Scheduler {
-
     @Override
     default boolean isAsync() {
       return false;

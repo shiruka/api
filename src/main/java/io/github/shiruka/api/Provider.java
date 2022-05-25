@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine interface providers.
  */
 public interface Provider {
-
   /**
    * creates a simple provider.
    *
@@ -31,7 +30,8 @@ public interface Provider {
    *
    * @return provided implementation.
    */
-  @NotNull <T> Optional<T> provide(@NotNull Class<? extends T> cls);
+  @NotNull
+  <T> Optional<T> provide(@NotNull Class<? extends T> cls);
 
   /**
    * provides the given class's implementation.
@@ -45,9 +45,12 @@ public interface Provider {
    */
   @NotNull
   default <T> T provideOrThrow(@NotNull final Class<? extends T> cls) {
-    return this.provide(cls).orElseThrow(() ->
-      new IllegalStateException("Provider for %s not found!"
-        .formatted(cls.toString())));
+    return this.provide(cls)
+      .orElseThrow(() ->
+        new IllegalStateException(
+          "Provider for %s not found!".formatted(cls.toString())
+        )
+      );
   }
 
   /**
@@ -76,8 +79,7 @@ public interface Provider {
     @NotNull
     @Override
     public <T> Optional<T> provide(@NotNull final Class<? extends T> cls) {
-      return Optional.ofNullable(this.implementations.get(cls))
-        .map(o -> (T) o);
+      return Optional.ofNullable(this.implementations.get(cls)).map(o -> (T) o);
     }
 
     @NotNull

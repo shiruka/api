@@ -40,10 +40,15 @@ public final class Object2ObjectBiMap<K, V> {
    * @param defaultKey the default key.
    * @param defaultValue the default value.
    */
-  public Object2ObjectBiMap(final int initialCapacity, final float loadFactor, @Nullable final K defaultKey,
-                            @Nullable final V defaultValue) {
+  public Object2ObjectBiMap(
+    final int initialCapacity,
+    final float loadFactor,
+    @Nullable final K defaultKey,
+    @Nullable final V defaultValue
+  ) {
     this.forwards = new Object2ObjectOpenHashMap<>(initialCapacity, loadFactor);
-    this.backwards = new Object2ObjectOpenHashMap<>(initialCapacity, loadFactor);
+    this.backwards =
+      new Object2ObjectOpenHashMap<>(initialCapacity, loadFactor);
     this.forwards.defaultReturnValue(defaultValue);
     this.backwards.defaultReturnValue(defaultKey);
   }
@@ -55,7 +60,11 @@ public final class Object2ObjectBiMap<K, V> {
    * @param loadFactor the load factor.
    * @param defaultKey the default key.
    */
-  public Object2ObjectBiMap(final int initialCapacity, final float loadFactor, @Nullable final K defaultKey) {
+  public Object2ObjectBiMap(
+    final int initialCapacity,
+    final float loadFactor,
+    @Nullable final K defaultKey
+  ) {
     this(initialCapacity, loadFactor, defaultKey, null);
   }
 

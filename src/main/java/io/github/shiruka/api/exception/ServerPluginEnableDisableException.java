@@ -6,7 +6,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an exception class that represents server plugin enable disable exception.
  */
-public final class ServerPluginEnableDisableException extends ServerPluginException {
+public final class ServerPluginEnableDisableException
+  extends ServerPluginException {
 
   /**
    * ctor.
@@ -15,8 +16,11 @@ public final class ServerPluginEnableDisableException extends ServerPluginExcept
    * @param cause the cause.
    * @param plugin the plugin.
    */
-  public ServerPluginEnableDisableException(@NotNull final String message, @NotNull final Throwable cause,
-                                            @NotNull final Plugin.Container plugin) {
+  public ServerPluginEnableDisableException(
+    @NotNull final String message,
+    @NotNull final Throwable cause,
+    @NotNull final Plugin.Container plugin
+  ) {
     super(message, cause, plugin);
   }
 
@@ -26,7 +30,10 @@ public final class ServerPluginEnableDisableException extends ServerPluginExcept
    * @param cause the cause.
    * @param plugin the plugin.
    */
-  public ServerPluginEnableDisableException(@NotNull final Throwable cause, @NotNull final Plugin.Container plugin) {
+  public ServerPluginEnableDisableException(
+    @NotNull final Throwable cause,
+    @NotNull final Plugin.Container plugin
+  ) {
     super(cause, plugin);
   }
 
@@ -39,9 +46,13 @@ public final class ServerPluginEnableDisableException extends ServerPluginExcept
    * @param writableStackTrace the writable stack trace.
    * @param plugin the plugin.
    */
-  public ServerPluginEnableDisableException(@NotNull final String message, @NotNull final Throwable cause,
-                                            final boolean enableSuppression, final boolean writableStackTrace,
-                                            @NotNull final Plugin.Container plugin) {
+  public ServerPluginEnableDisableException(
+    @NotNull final String message,
+    @NotNull final Throwable cause,
+    final boolean enableSuppression,
+    final boolean writableStackTrace,
+    @NotNull final Plugin.Container plugin
+  ) {
     super(message, cause, enableSuppression, writableStackTrace, plugin);
   }
 }

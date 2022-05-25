@@ -2,7 +2,6 @@ package io.github.shiruka.api.event.method;
 
 import io.github.shiruka.api.event.EventExecutor;
 import io.github.shiruka.api.event.EventSubscriber;
-import io.github.shiruka.api.event.Listener;
 import io.github.shiruka.api.event.events.Event;
 import java.lang.reflect.Method;
 import lombok.AccessLevel;
@@ -50,7 +49,7 @@ public final class MethodEventSubscriber implements EventSubscriber {
    */
   @NotNull
   @Getter(AccessLevel.PACKAGE)
-  private final Listener listener;
+  private final Object listener;
 
   /**
    * the generic.
@@ -69,9 +68,14 @@ public final class MethodEventSubscriber implements EventSubscriber {
    * @param dispatchOrder the dispatch order.
    * @param ignoreCancelled the include cancelled.
    */
-  MethodEventSubscriber(@NotNull final Class<? extends Event> eventClass, @NotNull final Method method,
-                        @NotNull final EventExecutor executor, @NotNull final Listener listener,
-                        final int dispatchOrder, final boolean ignoreCancelled) {
+  MethodEventSubscriber(
+    @NotNull final Class<? extends Event> eventClass,
+    @NotNull final Method method,
+    @NotNull final EventExecutor executor,
+    @NotNull final Object listener,
+    final int dispatchOrder,
+    final boolean ignoreCancelled
+  ) {
     this.eventClass = eventClass;
     this.type = method.getParameterTypes()[0];
     this.executor = executor;

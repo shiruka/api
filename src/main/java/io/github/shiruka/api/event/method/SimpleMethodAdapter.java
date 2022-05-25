@@ -3,7 +3,6 @@ package io.github.shiruka.api.event.method;
 import io.github.shiruka.api.event.EventController;
 import io.github.shiruka.api.event.EventExecutor;
 import io.github.shiruka.api.event.EventSubscriber;
-import io.github.shiruka.api.event.Listener;
 import io.github.shiruka.api.event.SimpleEventController;
 import io.github.shiruka.api.event.events.Event;
 import java.util.Arrays;
@@ -41,7 +40,10 @@ public final class SimpleMethodAdapter implements MethodAdapter {
    * @param controller the event controller.
    * @param factory the factory.
    */
-  public SimpleMethodAdapter(@NotNull final EventController controller, @NotNull final EventExecutor.Factory factory) {
+  public SimpleMethodAdapter(
+    @NotNull final EventController controller,
+    @NotNull final EventExecutor.Factory factory
+  ) {
     this(controller, factory, MethodScanner.createDefault());
   }
 
@@ -67,15 +69,16 @@ public final class SimpleMethodAdapter implements MethodAdapter {
   }
 
   @Override
-  public void register(@NotNull final Listener listener) {
+  public void register(@NotNull final Object listener) {
     this.findSubscribers(listener, this.controller::register);
   }
 
   @Override
-  public void unregister(@NotNull final Listener listener) {
+  public void unregister(@NotNull final Object listener) {
     this.controller.unregister(event ->
-      event instanceof MethodEventSubscriber subscriber &&
-        subscriber.listener() == listener);
+        event instanceof MethodEventSubscriber subscriber &&
+        subscriber.listener() == listener
+      );
   }
 
   /**
@@ -85,37 +88,57 @@ public final class SimpleMethodAdapter implements MethodAdapter {
    * @param consumer the consumer to run when a subscriber is found.
    */
   @SuppressWarnings("unchecked")
-  private void findSubscribers(@NotNull final Listener listener,
-                               @NotNull final BiConsumer<Class<? extends Event>, EventSubscriber> consumer) {
-    Arrays.stream(listener.getClass().getDeclaredMethods())
+  private void findSubscribers(
+    @NotNull final Object listener,
+    @NotNull final BiConsumer<Class<? extends Event>, EventSubscriber> consumer
+  ) {
+    Arrays
+      .stream(listener.getClass().getDeclaredMethods())
       .filter(method -> this.methodScanner.shouldRegister(listener, method))
       .filter(method -> {
         if (method.getParameterCount() != 1) {
-          throw new SubscriberGenerationException(String.format(
-            "Unable to create an event subscriber for method '%s'. Method must have only one parameter.",
-            method));
+          throw new SubscriberGenerationException(
+            String.format(
+              "Unable to create an event subscriber for method '%s'. Method must have only one parameter.",
+              method
+            )
+          );
         }
         return true;
       })
       .forEach(method -> {
         final var methodParameterType = method.getParameterTypes()[0];
         if (!Event.class.isAssignableFrom(methodParameterType)) {
-          throw new SubscriberGenerationException(String.format(
-            "Unable to create an event subscriber for method '%s'. " +
+          throw new SubscriberGenerationException(
+            String.format(
+              "Unable to create an event subscriber for method '%s'. " +
               "Method parameter type '%s' does not extend event type '%s",
-            method, methodParameterType, Event.class));
+              method,
+              methodParameterType,
+              Event.class
+            )
+          );
         }
         try {
           final var executor = this.factory.create(listener, method);
           final var eventClass = (Class<? extends Event>) methodParameterType;
-          final var subscriber = new MethodEventSubscriber(eventClass, method, executor, listener,
+          final var subscriber = new MethodEventSubscriber(
+            eventClass,
+            method,
+            executor,
+            listener,
             this.methodScanner.dispatchOrder(listener, method),
-            this.methodScanner.consumeCancelledEvents(listener, method));
+            this.methodScanner.consumeCancelledEvents(listener, method)
+          );
           consumer.accept(eventClass, subscriber);
         } catch (final Exception e) {
-          throw new SubscriberGenerationException(String.format(
-            "Encountered an exception while creating an event subscriber for method '%s'",
-            method), e);
+          throw new SubscriberGenerationException(
+            String.format(
+              "Encountered an exception while creating an event subscriber for method '%s'",
+              method
+            ),
+            e
+          );
         }
       });
   }

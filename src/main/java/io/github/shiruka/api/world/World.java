@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine Minecraft worlds.
  */
 public interface World {
-
   /**
    * gets the block at the position.
    *
@@ -96,7 +95,8 @@ public interface World {
    *
    * @return game rule's value.
    */
-  @NotNull <T> T gameRule(@NotNull GameRule<T> gameRule);
+  @NotNull
+  <T> T gameRule(@NotNull GameRule<T> gameRule);
 
   /**
    * sets the game rule's value.

@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine plugin events.
  */
 public interface PluginEvent extends Event {
-
   /**
    * obtains the plugin.
    *

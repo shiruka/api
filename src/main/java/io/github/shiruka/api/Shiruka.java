@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
  * a core interface for Shiru ka.
  */
 public interface Shiruka {
-
   /**
    * gets the implementation of async Scheduler.
    *

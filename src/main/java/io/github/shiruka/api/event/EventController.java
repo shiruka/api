@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
  * an event controller manages and handles dispatched events and their corresponding listeners.
  */
 public interface EventController {
-
   /**
    * calls the event to the event listener/handlers that are registered under the event controller.
    *
@@ -25,7 +24,10 @@ public interface EventController {
    * @param eventClass the event class to register.
    * @param subscriber the subscriber to register.
    */
-  void register(@NotNull Class<? extends Event> eventClass, @NotNull EventSubscriber subscriber);
+  void register(
+    @NotNull Class<? extends Event> eventClass,
+    @NotNull EventSubscriber subscriber
+  );
 
   /**
    * unregisters a previously registered {@code subscriber}.

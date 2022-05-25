@@ -11,84 +11,95 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents colors.
+ * an interface that represents colors.
  */
-public final class Color {
-
+public interface Color {
   /**
    * the color char.
    */
-  private static final String COLOR_CHAR = "§";
+  String COLOR_CHAR = "§";
 
   /**
    * the color char unique.
    */
-  private static final char COLOR_CHAR_UNIQUE = 'x';
+  char COLOR_CHAR_UNIQUE = 'x';
 
   /**
    * the color name -> hex code.
    */
-  private static final Map<String, String> COLOR_TO_HEX = Maps.newConcurrentMap();
+  Map<String, String> COLOR_TO_HEX = Maps.newConcurrentMap();
 
   /**
    * the de colorize pattern.
    */
-  private static final Pattern DE_COLORIZE_PATTERN =
-    Pattern.compile(Color.COLOR_CHAR + Color.COLOR_CHAR_UNIQUE + "(" + Color.COLOR_CHAR + "[0-9a-fA-F]){6}");
+  Pattern DE_COLORIZE_PATTERN = Pattern.compile(
+    Color.COLOR_CHAR +
+    Color.COLOR_CHAR_UNIQUE +
+    "(" +
+    Color.COLOR_CHAR +
+    "[\\da-fA-F]){6}"
+  );
 
   /**
    * the hex color char.
    */
-  private static final char HEX_COLOR_CHAR = '#';
+  char HEX_COLOR_CHAR = '#';
 
   /**
    * the hex color end.
    */
-  private static final char HEX_COLOR_END = '}';
+  char HEX_COLOR_END = '}';
 
   /**
    * the hex color start.
    */
-  private static final char HEX_COLOR_START = '{';
+  char HEX_COLOR_START = '{';
 
   /**
    * the color pattern.
    */
-  private static final Pattern HEX_COLORIZE_PATTERN =
-    Pattern.compile("\\" + Color.HEX_COLOR_START + Color.HEX_COLOR_CHAR + "([0-9a-fA-F]){6}" + Color.HEX_COLOR_END);
+  Pattern HEX_COLORIZE_PATTERN = Pattern.compile(
+    "\\" +
+    Color.HEX_COLOR_START +
+    Color.HEX_COLOR_CHAR +
+    "([\\da-fA-F]){6}" +
+    Color.HEX_COLOR_END
+  );
 
   /**
    * the hex code -> color name.
    */
-  private static final Map<String, String> HEX_TO_COLOR = Maps.newConcurrentMap();
+  Map<String, String> HEX_TO_COLOR = Maps.newConcurrentMap();
 
   /**
    * the legacy color char.
    */
-  private static final char LEGACY_COLOR_CHAR = '&';
+  char LEGACY_COLOR_CHAR = '&';
 
   /**
    * the legacy color pattern.
    */
-  private static final Pattern LEGACY_COLORIZE_PATTERN =
-    Pattern.compile(Color.LEGACY_COLOR_CHAR + "[0-9a-fk-orA-FK-OR]");
+  Pattern LEGACY_COLORIZE_PATTERN = Pattern.compile(
+    Color.LEGACY_COLOR_CHAR + "[\\da-fk-orA-FK-OR]"
+  );
 
   /**
    * the legacy de color pattern.
    */
-  private static final Pattern LEGACY_DE_COLORIZE_PATTERN = Pattern.compile(Color.COLOR_CHAR + "[0-9a-fk-orA-FK-OR]");
+  Pattern LEGACY_DE_COLORIZE_PATTERN = Pattern.compile(
+    Color.COLOR_CHAR + "[\\da-fk-orA-FK-OR]"
+  );
 
   /**
    * the color pattern.
    */
-  private static final Pattern NAMED_COLORIZE_PATTERN =
-    Pattern.compile("\\" + Color.HEX_COLOR_START + Color.HEX_COLOR_CHAR + "([a-zA-Z-]){3,}" + Color.HEX_COLOR_END);
-
-  /**
-   * the ctor.
-   */
-  private Color() {
-  }
+  Pattern NAMED_COLORIZE_PATTERN = Pattern.compile(
+    "\\" +
+    Color.HEX_COLOR_START +
+    Color.HEX_COLOR_CHAR +
+    "([a-zA-Z-]){3,}" +
+    Color.HEX_COLOR_END
+  );
 
   /**
    * adds the color name with the hex code.
@@ -96,7 +107,10 @@ public final class Color {
    * @param colorName the color name to add.
    * @param hexCode the hex code to add.
    */
-  public static void addColor(@NotNull final String colorName, @NotNull final String hexCode) {
+  static void addColor(
+    @NotNull final String colorName,
+    @NotNull final String hexCode
+  ) {
     Color.COLOR_TO_HEX.put(colorName, hexCode);
     Color.HEX_TO_COLOR.put(hexCode, colorName);
   }
@@ -109,7 +123,7 @@ public final class Color {
    * @return colorized text.
    */
   @NotNull
-  public static String colorize(@NotNull final String text) {
+  static String colorize(@NotNull final String text) {
     return Color.colorize(text, true);
   }
 
@@ -122,7 +136,7 @@ public final class Color {
    * @return colorized text.
    */
   @NotNull
-  public static String colorize(@NotNull final String text, final boolean named) {
+  static String colorize(@NotNull final String text, final boolean named) {
     return Color.colorize(text, named, true);
   }
 
@@ -136,7 +150,11 @@ public final class Color {
    * @return colorized text.
    */
   @NotNull
-  public static String colorize(@NotNull final String text, final boolean named, final boolean hex) {
+  static String colorize(
+    @NotNull final String text,
+    final boolean named,
+    final boolean hex
+  ) {
     var replaced = text;
     if (named) {
       replaced = Color.colorizeNamed(replaced);
@@ -155,13 +173,17 @@ public final class Color {
    * @return colorized text.
    */
   @NotNull
-  public static String colorizeHex(@NotNull final String text) {
+  static String colorizeHex(@NotNull final String text) {
     var replaced = text;
     final var matcher = Color.HEX_COLORIZE_PATTERN.matcher(replaced);
     while (matcher.find()) {
       final var group = matcher.group();
-      final var builder = new StringBuilder(Color.COLOR_CHAR + Color.COLOR_CHAR_UNIQUE);
-      final var charArray = group.substring(2, group.length() - 1).toCharArray();
+      final var builder = new StringBuilder(
+        Color.COLOR_CHAR + Color.COLOR_CHAR_UNIQUE
+      );
+      final var charArray = group
+        .substring(2, group.length() - 1)
+        .toCharArray();
       for (final var ch : charArray) {
         builder.append(Color.COLOR_CHAR).append(ch);
         if (group.substring(2, group.length() - 1).length() == 3) {
@@ -181,12 +203,17 @@ public final class Color {
    * @return colorized text.
    */
   @NotNull
-  public static String colorizeLegacy(@NotNull final String text) {
+  static String colorizeLegacy(@NotNull final String text) {
     var replaced = text;
     final var matcher = Color.LEGACY_COLORIZE_PATTERN.matcher(replaced);
     while (matcher.find()) {
       final var group = matcher.group();
-      replaced = replaced.replace(group, Color.COLOR_CHAR + group.replace(String.valueOf(Color.LEGACY_COLOR_CHAR), ""));
+      replaced =
+        replaced.replace(
+          group,
+          Color.COLOR_CHAR +
+          group.replace(String.valueOf(Color.LEGACY_COLOR_CHAR), "")
+        );
     }
     return replaced;
   }
@@ -199,13 +226,16 @@ public final class Color {
    * @return colorized text.
    */
   @NotNull
-  public static String colorizeNamed(@NotNull final String text) {
+  static String colorizeNamed(@NotNull final String text) {
     final var replaced = new AtomicReference<>(text);
     final var matcher = Color.NAMED_COLORIZE_PATTERN.matcher(replaced.get());
     while (matcher.find()) {
       final var group = matcher.group();
-      Color.getHexByColor(group.substring(2, group.length() - 1).toLowerCase(Locale.ROOT)).ifPresent(s ->
-        replaced.set(replaced.get().replace(group, s)));
+      Color
+        .getHexByColor(
+          group.substring(2, group.length() - 1).toLowerCase(Locale.ROOT)
+        )
+        .ifPresent(s -> replaced.set(replaced.get().replace(group, s)));
     }
     return replaced.get();
   }
@@ -218,7 +248,7 @@ public final class Color {
    * @return de colorized text.
    */
   @NotNull
-  public static String deColorize(@NotNull final String text) {
+  static String deColorize(@NotNull final String text) {
     return Color.deColorize(text, true);
   }
 
@@ -231,7 +261,7 @@ public final class Color {
    * @return de colorized text.
    */
   @NotNull
-  public static String deColorize(@NotNull final String text, final boolean named) {
+  static String deColorize(@NotNull final String text, final boolean named) {
     return Color.deColorize(text, named, true);
   }
 
@@ -245,7 +275,11 @@ public final class Color {
    * @return de colorized text.
    */
   @NotNull
-  public static String deColorize(@NotNull final String text, final boolean named, final boolean hex) {
+  static String deColorize(
+    @NotNull final String text,
+    final boolean named,
+    final boolean hex
+  ) {
     var replaced = text;
     if (named) {
       replaced = Color.deColorizeNamed(replaced);
@@ -264,12 +298,14 @@ public final class Color {
    * @return de colorized text.
    */
   @NotNull
-  public static String deColorizeHex(@NotNull final String text) {
+  static String deColorizeHex(@NotNull final String text) {
     var replaced = text;
     final var matcher = Color.DE_COLORIZE_PATTERN.matcher(replaced);
     while (matcher.find()) {
       final var group = matcher.group();
-      final var hexColor = Color.HEX_COLOR_START + Color.HEX_COLOR_CHAR +
+      final var hexColor =
+        Color.HEX_COLOR_START +
+        Color.HEX_COLOR_CHAR +
         group.substring(2).replace(Color.COLOR_CHAR, "") +
         Color.HEX_COLOR_END;
       replaced = replaced.replace(group, hexColor);
@@ -285,12 +321,13 @@ public final class Color {
    * @return de colorized text.
    */
   @NotNull
-  public static String deColorizeLegacy(@NotNull final String text) {
+  static String deColorizeLegacy(@NotNull final String text) {
     var replaced = text;
     final var matcher = Color.LEGACY_DE_COLORIZE_PATTERN.matcher(replaced);
     while (matcher.find()) {
       final var group = matcher.group();
-      final var color = Color.LEGACY_COLOR_CHAR + group.replace(Color.COLOR_CHAR, "");
+      final var color =
+        Color.LEGACY_COLOR_CHAR + group.replace(Color.COLOR_CHAR, "");
       replaced = replaced.replace(group, color);
     }
     return replaced;
@@ -304,8 +341,11 @@ public final class Color {
    * @return de colorized text.
    */
   @NotNull
-  public static String deColorizeNamed(@NotNull final String text) {
-    return Color.stripColorNamed(text, hexCode -> Color.getColorByHex(hexCode).orElse(null));
+  static String deColorizeNamed(@NotNull final String text) {
+    return Color.stripColorNamed(
+      text,
+      hexCode -> Color.getColorByHex(hexCode).orElse(null)
+    );
   }
 
   /**
@@ -316,7 +356,7 @@ public final class Color {
    * @return color name by hex code
    */
   @NotNull
-  public static Optional<String> getColorByHex(@NotNull final String hexCode) {
+  static Optional<String> getColorByHex(@NotNull final String hexCode) {
     return Optional.ofNullable(Color.HEX_TO_COLOR.get(hexCode));
   }
 
@@ -328,7 +368,7 @@ public final class Color {
    * @return hex code of the color.
    */
   @NotNull
-  public static Optional<String> getHexByColor(@NotNull final String colorName) {
+  static Optional<String> getHexByColor(@NotNull final String colorName) {
     return Optional.ofNullable(Color.COLOR_TO_HEX.get(colorName));
   }
 
@@ -337,7 +377,7 @@ public final class Color {
    *
    * @param colorName the color name to add.
    */
-  public static void removeColor(@NotNull final String colorName) {
+  static void removeColor(@NotNull final String colorName) {
     final var hex = Color.COLOR_TO_HEX.remove(colorName);
     if (hex != null) {
       Color.HEX_TO_COLOR.remove(hex);
@@ -352,7 +392,7 @@ public final class Color {
    * @return striped text.
    */
   @NotNull
-  public static String stripColor(@NotNull final String text) {
+  static String stripColor(@NotNull final String text) {
     return Color.stripColor(text, true);
   }
 
@@ -365,7 +405,7 @@ public final class Color {
    * @return striped text.
    */
   @NotNull
-  public static String stripColor(@NotNull final String text, final boolean named) {
+  static String stripColor(@NotNull final String text, final boolean named) {
     return Color.stripColor(text, named, true);
   }
 
@@ -379,7 +419,11 @@ public final class Color {
    * @return striped text.
    */
   @NotNull
-  public static String stripColor(@NotNull final String text, final boolean named, final boolean hex) {
+  static String stripColor(
+    @NotNull final String text,
+    final boolean named,
+    final boolean hex
+  ) {
     var replaced = text;
     if (named) {
       replaced = Color.stripColorNamed(replaced);
@@ -398,7 +442,7 @@ public final class Color {
    * @return striped text.
    */
   @NotNull
-  public static String stripColorHex(@NotNull final String text) {
+  static String stripColorHex(@NotNull final String text) {
     return Color.DE_COLORIZE_PATTERN.matcher(text).replaceAll("");
   }
 
@@ -410,7 +454,7 @@ public final class Color {
    * @return striped text.
    */
   @NotNull
-  public static String stripColorLegacy(@NotNull final String text) {
+  static String stripColorLegacy(@NotNull final String text) {
     return Color.LEGACY_DE_COLORIZE_PATTERN.matcher(text).replaceAll("");
   }
 
@@ -422,7 +466,7 @@ public final class Color {
    * @return striped text.
    */
   @NotNull
-  public static String stripColorNamed(@NotNull final String text) {
+  static String stripColorNamed(@NotNull final String text) {
     return Color.stripColorNamed(text, hexCode -> "");
   }
 
@@ -435,8 +479,10 @@ public final class Color {
    * @return striped text.
    */
   @NotNull
-  public static String stripColorNamed(@NotNull final String text,
-                                       @NotNull final Function<@NotNull String, @Nullable String> replace) {
+  static String stripColorNamed(
+    @NotNull final String text,
+    @NotNull final Function<@NotNull String, @Nullable String> replace
+  ) {
     final var replaced = new AtomicReference<>(text);
     final var matcher = Color.DE_COLORIZE_PATTERN.matcher(replaced.get());
     while (matcher.find()) {

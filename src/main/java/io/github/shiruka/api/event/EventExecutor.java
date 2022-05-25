@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
  */
 @FunctionalInterface
 public interface EventExecutor {
-
   /**
    * creates an implementation for {@link Factory} using methods.
    *
@@ -19,7 +18,8 @@ public interface EventExecutor {
   @NotNull
   static Factory createFactory() {
     return (object, method) -> {
-      final var handle = MethodHandles.publicLookup()
+      final var handle = MethodHandles
+        .publicLookup()
         .unreflect(method)
         .bindTo(object);
       return (listener, event) -> handle.invoke(event);
@@ -34,14 +34,13 @@ public interface EventExecutor {
    *
    * @throws Throwable if an exception occurred.
    */
-  void invoke(@NotNull Listener listener, @NotNull Event event) throws Throwable;
+  void invoke(@NotNull Object listener, @NotNull Event event) throws Throwable;
 
   /**
    * factory for {@link EventExecutor}s.
    */
   @FunctionalInterface
   interface Factory {
-
     /**
      * creates an event executor.
      *
@@ -53,6 +52,7 @@ public interface EventExecutor {
      * @throws Exception if an exception occurred while creating an executor.
      */
     @NotNull
-    EventExecutor create(@NotNull Object object, @NotNull Method method) throws Exception;
+    EventExecutor create(@NotNull Object object, @NotNull Method method)
+      throws Exception;
   }
 }

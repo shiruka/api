@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface ot determine post results of {@link EventController#call(Event)} call.
  */
 public interface PostResult {
-
   /**
    * marks that exceptions were thrown by subscribers.
    *
@@ -23,7 +22,9 @@ public interface PostResult {
    * @return a {@code this} indicating failure.
    */
   @NotNull
-  static PostResult failure(@NotNull final Map<EventSubscriber, Throwable> exceptions) {
+  static PostResult failure(
+    @NotNull final Map<EventSubscriber, Throwable> exceptions
+  ) {
     Preconditions.checkState(!exceptions.isEmpty(), "no exceptions present");
     return new PostResult.Failure(exceptions);
   }
@@ -84,7 +85,7 @@ public interface PostResult {
     }
 
     /**
-     * prints all of the stack traces involved in the composite exception.
+     * prints all the stack traces involved in the composite exception.
      *
      * @see Exception#printStackTrace()
      */
@@ -143,8 +144,7 @@ public interface PostResult {
     }
 
     @Override
-    public void raise() {
-    }
+    public void raise() {}
 
     @Override
     public boolean wasSuccessful() {

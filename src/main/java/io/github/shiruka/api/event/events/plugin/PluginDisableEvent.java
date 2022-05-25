@@ -9,8 +9,5 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param plugin the plugin.
  */
-public record PluginDisableEvent(
-  @NotNull Plugin.Container plugin
-) implements PluginEvent {
-
-}
+public record PluginDisableEvent(@NotNull Plugin.Container plugin)
+  implements PluginEvent {}

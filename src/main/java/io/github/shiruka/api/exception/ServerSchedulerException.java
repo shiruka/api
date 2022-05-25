@@ -26,9 +26,16 @@ public final class ServerSchedulerException extends ServerPluginException {
    * @param cause the cause.
    * @param task the task.
    */
-  public ServerSchedulerException(@NotNull final String message, @NotNull final Throwable cause,
-                                  @NotNull final ScheduledTask task) {
-    super(message, cause, Objects.requireNonNull(task.task().plugin(), "plugin"));
+  public ServerSchedulerException(
+    @NotNull final String message,
+    @NotNull final Throwable cause,
+    @NotNull final ScheduledTask task
+  ) {
+    super(
+      message,
+      cause,
+      Objects.requireNonNull(task.task().plugin(), "plugin")
+    );
     this.task = task;
   }
 
@@ -38,7 +45,10 @@ public final class ServerSchedulerException extends ServerPluginException {
    * @param cause the cause.
    * @param task the task.
    */
-  public ServerSchedulerException(final Throwable cause, final ScheduledTask task) {
+  public ServerSchedulerException(
+    final Throwable cause,
+    final ScheduledTask task
+  ) {
     super(cause, Objects.requireNonNull(task.task().plugin(), "plugin"));
     this.task = task;
   }
@@ -52,9 +62,20 @@ public final class ServerSchedulerException extends ServerPluginException {
    * @param writableStackTrace the writable stack trace.
    * @param task the task.
    */
-  public ServerSchedulerException(final String message, final Throwable cause, final boolean enableSuppression,
-                                  final boolean writableStackTrace, final ScheduledTask task) {
-    super(message, cause, enableSuppression, writableStackTrace, Objects.requireNonNull(task.task().plugin(), "plugin"));
+  public ServerSchedulerException(
+    final String message,
+    final Throwable cause,
+    final boolean enableSuppression,
+    final boolean writableStackTrace,
+    final ScheduledTask task
+  ) {
+    super(
+      message,
+      cause,
+      enableSuppression,
+      writableStackTrace,
+      Objects.requireNonNull(task.task().plugin(), "plugin")
+    );
     this.task = task;
   }
 }

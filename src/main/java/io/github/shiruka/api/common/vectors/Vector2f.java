@@ -9,11 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * @param x the x.
  * @param y the y.
  */
-public record Vector2f(
-  float x,
-  float y
-) {
-
+public record Vector2f(float x, float y) {
   /**
    * the zero vector.
    */

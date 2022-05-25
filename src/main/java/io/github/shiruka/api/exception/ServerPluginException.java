@@ -25,8 +25,11 @@ public class ServerPluginException extends ServerException {
    * @param cause the cause.
    * @param plugin the plugin.
    */
-  public ServerPluginException(@NotNull final String message, @NotNull final Throwable cause,
-                               @NotNull final Plugin.Container plugin) {
+  public ServerPluginException(
+    @NotNull final String message,
+    @NotNull final Throwable cause,
+    @NotNull final Plugin.Container plugin
+  ) {
     super(message, cause);
     this.plugin = plugin;
   }
@@ -37,7 +40,10 @@ public class ServerPluginException extends ServerException {
    * @param cause the cause.
    * @param plugin the plugin.
    */
-  public ServerPluginException(@NotNull final Throwable cause, @NotNull final Plugin.Container plugin) {
+  public ServerPluginException(
+    @NotNull final Throwable cause,
+    @NotNull final Plugin.Container plugin
+  ) {
     super(cause);
     this.plugin = plugin;
   }
@@ -51,9 +57,13 @@ public class ServerPluginException extends ServerException {
    * @param writableStackTrace the writable stack trace.
    * @param plugin the plugin.
    */
-  public ServerPluginException(@NotNull final String message, @NotNull final Throwable cause,
-                               final boolean enableSuppression, final boolean writableStackTrace,
-                               @NotNull final Plugin.Container plugin) {
+  public ServerPluginException(
+    @NotNull final String message,
+    @NotNull final Throwable cause,
+    final boolean enableSuppression,
+    final boolean writableStackTrace,
+    @NotNull final Plugin.Container plugin
+  ) {
     super(message, cause, enableSuppression, writableStackTrace);
     this.plugin = plugin;
   }
