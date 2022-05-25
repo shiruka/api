@@ -50,18 +50,17 @@ public final class JavaPluginLoader implements Plugin.Loader {
       return;
     }
     final var fullName = plugin.description().fullName();
-    final var message = "Disabling %s".formatted(fullName);
-    plugin.logger().info(message);
+    plugin.logger().info("Disabling {}", fullName);
     new PluginDisableEvent(plugin).callEvent();
     try {
       plugin.enabled(false);
     } catch (final Throwable e) {
-      Shiruka
+      plugin
         .logger()
         .fatal(
           "Error occurred while disabling %s (Is it up to date?)".formatted(
-              fullName
-            ),
+            fullName
+          ),
           e
         );
     }
@@ -69,13 +68,14 @@ public final class JavaPluginLoader implements Plugin.Loader {
       this.loaders.remove(loader);
       try {
         loader.close();
-      } catch (final IOException ignored) {}
+      } catch (final IOException ignored) {
+      }
       try {
         if (closeClassLoaders) {
           loader.close();
         }
       } catch (final IOException e) {
-        Shiruka
+        plugin
           .logger()
           .warn("Error closing the Plugin Class Loader for {}", fullName);
         e.printStackTrace();
@@ -94,7 +94,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
     final var pluginLoader = (PluginClassLoader) plugin.classLoader();
     if (!this.loaders.contains(pluginLoader)) {
       this.loaders.add(pluginLoader);
-      Shiruka
+      plugin
         .logger()
         .warn(
           "Enabled plugin with unregistered PluginClassLoader {}",
@@ -104,12 +104,12 @@ public final class JavaPluginLoader implements Plugin.Loader {
     try {
       plugin.enabled(true);
     } catch (final Throwable e) {
-      Shiruka
+      plugin
         .logger()
         .fatal(
           "Error occurred while enabling %s (Is it up to date?)".formatted(
-              fullName
-            ),
+            fullName
+          ),
           e
         );
       Shiruka.pluginManager().disablePlugin(plugin, true);
@@ -217,13 +217,13 @@ public final class JavaPluginLoader implements Plugin.Loader {
     synchronized (this.classLoadLock) {
       lock =
         this.classLoadLock.computeIfAbsent(
-            name,
-            x -> new ReentrantReadWriteLock()
-          );
-      this.classLoadLockCount.compute(
           name,
-          (x, prev) -> prev != null ? prev + 1 : 1
+          x -> new ReentrantReadWriteLock()
         );
+      this.classLoadLockCount.compute(
+        name,
+        (x, prev) -> prev != null ? prev + 1 : 1
+      );
     }
     lock.writeLock().lock();
     try {
@@ -237,7 +237,8 @@ public final class JavaPluginLoader implements Plugin.Loader {
             requester.pluginContainer()
           )
         );
-      } catch (final ClassNotFoundException ignored) {}
+      } catch (final ClassNotFoundException ignored) {
+      }
       for (final var loader : this.loaders) {
         try {
           return loader.loadClass0(
@@ -248,7 +249,8 @@ public final class JavaPluginLoader implements Plugin.Loader {
               loader.pluginContainer()
             )
           );
-        } catch (final ClassNotFoundException ignored) {}
+        } catch (final ClassNotFoundException ignored) {
+        }
       }
     } finally {
       synchronized (this.classLoadLock) {
@@ -258,9 +260,9 @@ public final class JavaPluginLoader implements Plugin.Loader {
           this.classLoadLockCount.remove(name);
         } else {
           this.classLoadLockCount.compute(
-              name,
-              (x, prev) -> prev == null ? null : prev - 1
-            );
+            name,
+            (x, prev) -> prev == null ? null : prev - 1
+          );
         }
       }
     }
