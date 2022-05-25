@@ -85,7 +85,7 @@ public interface PostResult {
     }
 
     /**
-     * prints all of the stack traces involved in the composite exception.
+     * prints all the stack traces involved in the composite exception.
      *
      * @see Exception#printStackTrace()
      */
