@@ -1,3 +1,6 @@
+// renovate: datasource=maven dep=io.github.shiruka:nbt
+const val nbtVersion = "3.0.0"
+
 // renovate: datasource=maven dep=org.projectlombok:lombok
 const val lombokVersion = "1.18.24"
 

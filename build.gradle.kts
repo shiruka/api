@@ -2,6 +2,7 @@ import com.diffplug.spotless.LineEnding
 
 plugins {
   java
+  `java-library`
   `maven-publish`
   signing
   id("checkstyle")
@@ -54,6 +55,8 @@ repositories {
 }
 
 dependencies {
+  compileOnlyApi(nbtLibrary)
+
   compileOnly(lombokLibrary)
   compileOnly(annotationsLibrary)
   compileOnly(fastutilLibrary)
