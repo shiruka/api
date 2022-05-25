@@ -2,7 +2,7 @@ name: Release
 
 on:
   release:
-    types: [ published ]
+    types: [ released ]
 
 jobs:
   build:
@@ -11,22 +11,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: DeLaGuardo/setup-graalvm@5.0
+      - uses: actions/setup-java@v3
         with:
-          graalvm: 21.3.0
-          java: java17
+          distribution: 'adopt'
+          java-version: '17'
+
+      - uses: arduino/setup-protoc@v1
 
       - uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-cache-${{ hashFiles('**/*.gradle') }}-${{ hashFiles('**/gradle.properties') }}
+          key: ${{ runner.os }}-gradle-cache-${{ hashFiles('**/*.gradle.kts') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
       - uses: actions/cache@v3
         with:
           path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradlew') }}
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradlew-
 
