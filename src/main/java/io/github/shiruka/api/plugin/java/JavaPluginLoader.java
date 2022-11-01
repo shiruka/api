@@ -59,8 +59,8 @@ public final class JavaPluginLoader implements Plugin.Loader {
         .logger()
         .fatal(
           "Error occurred while disabling %s (Is it up to date?)".formatted(
-            fullName
-          ),
+              fullName
+            ),
           e
         );
     }
@@ -68,8 +68,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
       this.loaders.remove(loader);
       try {
         loader.close();
-      } catch (final IOException ignored) {
-      }
+      } catch (final IOException ignored) {}
       try {
         if (closeClassLoaders) {
           loader.close();
@@ -108,8 +107,8 @@ public final class JavaPluginLoader implements Plugin.Loader {
         .logger()
         .fatal(
           "Error occurred while enabling %s (Is it up to date?)".formatted(
-            fullName
-          ),
+              fullName
+            ),
           e
         );
       Shiruka.pluginManager().disablePlugin(plugin, true);
@@ -217,13 +216,13 @@ public final class JavaPluginLoader implements Plugin.Loader {
     synchronized (this.classLoadLock) {
       lock =
         this.classLoadLock.computeIfAbsent(
-          name,
-          x -> new ReentrantReadWriteLock()
-        );
+            name,
+            x -> new ReentrantReadWriteLock()
+          );
       this.classLoadLockCount.compute(
-        name,
-        (x, prev) -> prev != null ? prev + 1 : 1
-      );
+          name,
+          (x, prev) -> prev != null ? prev + 1 : 1
+        );
     }
     lock.writeLock().lock();
     try {
@@ -237,8 +236,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
             requester.pluginContainer()
           )
         );
-      } catch (final ClassNotFoundException ignored) {
-      }
+      } catch (final ClassNotFoundException ignored) {}
       for (final var loader : this.loaders) {
         try {
           return loader.loadClass0(
@@ -249,8 +247,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
               loader.pluginContainer()
             )
           );
-        } catch (final ClassNotFoundException ignored) {
-        }
+        } catch (final ClassNotFoundException ignored) {}
       }
     } finally {
       synchronized (this.classLoadLock) {
@@ -260,9 +257,9 @@ public final class JavaPluginLoader implements Plugin.Loader {
           this.classLoadLockCount.remove(name);
         } else {
           this.classLoadLockCount.compute(
-            name,
-            (x, prev) -> prev == null ? null : prev - 1
-          );
+              name,
+              (x, prev) -> prev == null ? null : prev - 1
+            );
         }
       }
     }

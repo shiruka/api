@@ -106,7 +106,6 @@ val signRequired = !rootProject.property("dev").toString().toBoolean()
 if (spotlessApply) {
   spotless {
     lineEndings = LineEnding.UNIX
-    isEnforceCheck = false
 
     format("encoding") {
       target("*.*")
