@@ -6,7 +6,7 @@ import com.google.common.collect.Sets;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Guice;
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.plugin.InvalidPluginException;
+import io.github.shiruka.api.exception.InvalidPluginException;
 import io.github.shiruka.api.plugin.Plugin;
 import java.io.File;
 import java.io.IOException;
@@ -115,9 +115,7 @@ public final class PluginClassLoader extends URLClassLoader {
       mainClass = Class.forName(mainClassPath, true, this);
     } catch (final ClassNotFoundException ex) {
       throw new InvalidPluginException(
-        "Cannot find main class `%s'",
-        ex,
-        mainClassPath
+        "Cannot find main class `%s'".formatted(ex, mainClassPath)
       );
     }
     final Class<? extends Plugin> pluginClass;
@@ -125,9 +123,7 @@ public final class PluginClassLoader extends URLClassLoader {
       pluginClass = mainClass.asSubclass(Plugin.class);
     } catch (final ClassCastException e) {
       throw new InvalidPluginException(
-        "Main class `%s' does not implement Plugin",
-        e,
-        mainClassPath
+        "Main class `%s' does not implement Plugin".formatted(e, mainClassPath)
       );
     }
     this.pluginContainer =

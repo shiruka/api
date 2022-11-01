@@ -36,23 +36,4 @@ public final class ServerPluginEnableDisableException
   ) {
     super(cause, plugin);
   }
-
-  /**
-   * ctor.
-   *
-   * @param message the message.
-   * @param cause the cause.
-   * @param enableSuppression the enable suppression.
-   * @param writableStackTrace the writable stack trace.
-   * @param plugin the plugin.
-   */
-  public ServerPluginEnableDisableException(
-    @NotNull final String message,
-    @NotNull final Throwable cause,
-    final boolean enableSuppression,
-    final boolean writableStackTrace,
-    @NotNull final Plugin.Container plugin
-  ) {
-    super(message, cause, enableSuppression, writableStackTrace, plugin);
-  }
 }

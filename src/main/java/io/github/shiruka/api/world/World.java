@@ -1,9 +1,9 @@
 package io.github.shiruka.api.world;
 
 import io.github.shiruka.api.base.Location;
+import io.github.shiruka.api.base.Vector3d;
+import io.github.shiruka.api.base.Vector3i;
 import io.github.shiruka.api.block.Block;
-import io.github.shiruka.api.common.vectors.Vector3d;
-import io.github.shiruka.api.common.vectors.Vector3i;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Optional;

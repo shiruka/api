@@ -6,8 +6,11 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import io.github.shiruka.api.Shiruka;
-import io.github.shiruka.api.event.events.server.ServerExceptionEvent;
+import io.github.shiruka.api.event.server.ServerExceptionEvent;
+import io.github.shiruka.api.exception.InvalidDescriptionException;
+import io.github.shiruka.api.exception.InvalidPluginException;
 import io.github.shiruka.api.exception.ServerPluginEnableDisableException;
+import io.github.shiruka.api.exception.UnknownDependencyException;
 import io.github.shiruka.api.scheduler.Scheduler;
 import java.io.File;
 import java.nio.file.Path;
@@ -85,7 +88,7 @@ public final class PluginManager implements Plugin.Manager {
     new ServerExceptionEvent(
       new ServerPluginEnableDisableException(message, throwable, plugin)
     )
-      .callEvent();
+      .postEvent();
   }
 
   @Override
@@ -383,9 +386,10 @@ public final class PluginManager implements Plugin.Manager {
               next.getValue().getPath(),
               next.getValue().getParentFile().getPath(),
               new UnknownDependencyException(
-                "Unknown/missing dependency plugins: [%s]. Please download and install these plugins to run '%s'.",
-                String.join(", ", missingHardDependencies),
-                plugin
+                "Unknown/missing dependency plugins: [%s]. Please download and install these plugins to run '%s'.".formatted(
+                    String.join(", ", missingHardDependencies),
+                    plugin
+                  )
               )
             );
           }
