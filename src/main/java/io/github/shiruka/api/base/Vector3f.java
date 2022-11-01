@@ -1,4 +1,4 @@
-package io.github.shiruka.api.common.vectors;
+package io.github.shiruka.api.base;
 
 import io.github.shiruka.api.common.Floors;
 import org.jetbrains.annotations.NotNull;

@@ -1,19 +1,19 @@
-package io.github.shiruka.api.common.vectors;
+package io.github.shiruka.api.base;
 
 import io.github.shiruka.api.common.Floors;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents two dimensional vectors.
+ * a class that represents two-dimensional vectors.
  *
  * @param x the x.
  * @param y the y.
  */
-public record Vector2f(float x, float y) {
+public record Vector2i(int x, int y) {
   /**
    * the zero vector.
    */
-  public static final Vector2f ZERO = Vector2f.zero();
+  public static final Vector2i ZERO = Vector2i.zero();
 
   /**
    * creates a vector.
@@ -24,8 +24,8 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector.
    */
   @NotNull
-  public static Vector2f of(final float x, final float y) {
-    return new Vector2f(x, y);
+  public static Vector2i of(final int x, final int y) {
+    return new Vector2i(x, y);
   }
 
   /**
@@ -34,8 +34,8 @@ public record Vector2f(float x, float y) {
    * @return zero vector.
    */
   @NotNull
-  public static Vector2f zero() {
-    return Vector2f.of(0.0f, 0.0f);
+  public static Vector2i zero() {
+    return Vector2i.of(0, 0);
   }
 
   /**
@@ -47,8 +47,8 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2f add(final float x, final float y) {
-    return Vector2f.of(this.x + x, this.y + y);
+  public Vector2i add(final int x, final int y) {
+    return Vector2i.of(this.x + x, this.y + y);
   }
 
   /**
@@ -59,7 +59,7 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2f add(@NotNull final Vector2f vector) {
+  public Vector2i add(@NotNull final Vector2i vector) {
     return this.add(vector.x(), vector.y());
   }
 
@@ -72,8 +72,8 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2f divide(final float x, final float y) {
-    return Vector2f.of(this.x / x, this.y / y);
+  public Vector2i divide(final int x, final int y) {
+    return Vector2i.of(this.x / x, this.y / y);
   }
 
   /**
@@ -84,7 +84,7 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2f divide(@NotNull final Vector2f vector) {
+  public Vector2i divide(@NotNull final Vector2i vector) {
     return this.add(vector.x(), vector.y());
   }
 
@@ -115,8 +115,8 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2f multiply(final float x, final float y) {
-    return Vector2f.of(this.x * x, this.y * y);
+  public Vector2i multiply(final int x, final int y) {
+    return Vector2i.of(this.x * x, this.y * y);
   }
 
   /**
@@ -127,7 +127,7 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2f multiply(@NotNull final Vector2f vector) {
+  public Vector2i multiply(@NotNull final Vector2i vector) {
     return this.add(vector.x(), vector.y());
   }
 
@@ -140,8 +140,8 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2f subtract(final float x, final float y) {
-    return Vector2f.of(this.x - x, this.y - y);
+  public Vector2i subtract(final int x, final int y) {
+    return Vector2i.of(this.x - x, this.y - y);
   }
 
   /**
@@ -152,7 +152,7 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector.
    */
   @NotNull
-  public Vector2f subtract(@NotNull final Vector2f vector) {
+  public Vector2i subtract(@NotNull final Vector2i vector) {
     return this.add(vector.x(), vector.y());
   }
 
@@ -164,8 +164,8 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector with the new x value.
    */
   @NotNull
-  public Vector2f x(final float x) {
-    return Vector2f.of(x, this.y);
+  public Vector2i x(final int x) {
+    return Vector2i.of(x, this.y);
   }
 
   /**
@@ -176,7 +176,7 @@ public record Vector2f(float x, float y) {
    * @return a newly created vector with the new y value.
    */
   @NotNull
-  public Vector2f y(final float y) {
-    return Vector2f.of(this.x, y);
+  public Vector2i y(final int y) {
+    return Vector2i.of(this.x, y);
   }
 }

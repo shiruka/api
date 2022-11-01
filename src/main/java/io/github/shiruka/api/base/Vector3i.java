@@ -1,10 +1,10 @@
-package io.github.shiruka.api.common.vectors;
+package io.github.shiruka.api.base;
 
 import io.github.shiruka.api.common.Floors;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents three dimensional vectors.
+ * a class that represents three-dimensional vectors.
  *
  * @param x the x.
  * @param y the y.
