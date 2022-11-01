@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine event factory that helps to create and call events.
  */
 public interface EventManager {
-
   /**
    * creates a simple event manager.
    *
@@ -47,15 +46,12 @@ public interface EventManager {
   final class Impl implements EventManager {
 
     @Override
-    public void post(@NotNull final Event event) {
-    }
+    public void post(@NotNull final Event event) {}
 
     @Override
-    public void register(@NotNull final Object subscriber) {
-    }
+    public void register(@NotNull final Object subscriber) {}
 
     @Override
-    public void unregister(@NotNull final Object subscriber) {
-    }
+    public void unregister(@NotNull final Object subscriber) {}
   }
 }
