@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import io.github.shiruka.api.exception.InvalidDescriptionException;
+import io.github.shiruka.api.exception.InvalidPluginException;
+import io.github.shiruka.api.exception.UnknownDependencyException;
 import io.github.shiruka.api.version.Version;
 import java.io.File;
 import java.io.IOException;
@@ -623,14 +626,14 @@ public interface Plugin {
         return Objects.requireNonNull(type.cast(map.get(key)));
       } catch (final NullPointerException e) {
         throw new InvalidDescriptionException(
-          "The key called %s not found in the plugin file!",
-          key
+          "The key called %s not found in the plugin file!".formatted(key)
         );
       } catch (final ClassCastException e) {
         throw new InvalidDescriptionException(
-          "Invalid type for %s key, found %s!",
-          key,
-          map.get(key).getClass()
+          "Invalid type for %s key, found %s!".formatted(
+              key,
+              map.get(key).getClass()
+            )
         );
       }
     }
@@ -699,14 +702,11 @@ public interface Plugin {
         return mapped;
       } catch (final NullPointerException e) {
         throw new InvalidDescriptionException(
-          "The key called %s not found in the plugin file!",
-          key
+          "The key called %s not found in the plugin file!".formatted(key)
         );
       } catch (final ClassCastException e) {
         throw new InvalidDescriptionException(
-          "Invalid type for %s key, found %s!",
-          key,
-          value.getClass()
+          "Invalid type for %s key, found %s!".formatted(key, value.getClass())
         );
       }
     }
@@ -750,8 +750,7 @@ public interface Plugin {
       throws InvalidDescriptionException {
       if (!Description.VALID_NAME.test(name)) {
         throw new InvalidDescriptionException(
-          "The name %s contains invalid characters!",
-          name
+          "The name %s contains invalid characters!".formatted(name)
         );
       }
     }

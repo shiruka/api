@@ -52,30 +52,4 @@ public final class ServerSchedulerException extends ServerPluginException {
     super(cause, Objects.requireNonNull(task.task().plugin(), "plugin"));
     this.task = task;
   }
-
-  /**
-   * ctor.
-   *
-   * @param message the message.
-   * @param cause the cause.
-   * @param enableSuppression the enable suppression.
-   * @param writableStackTrace the writable stack trace.
-   * @param task the task.
-   */
-  public ServerSchedulerException(
-    final String message,
-    final Throwable cause,
-    final boolean enableSuppression,
-    final boolean writableStackTrace,
-    final ScheduledTask task
-  ) {
-    super(
-      message,
-      cause,
-      enableSuppression,
-      writableStackTrace,
-      Objects.requireNonNull(task.task().plugin(), "plugin")
-    );
-    this.task = task;
-  }
 }

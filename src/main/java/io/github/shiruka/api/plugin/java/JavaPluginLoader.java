@@ -3,10 +3,10 @@ package io.github.shiruka.api.plugin.java;
 import io.github.shiruka.api.Shiruka;
 import io.github.shiruka.api.event.plugin.PluginDisableEvent;
 import io.github.shiruka.api.event.plugin.PluginEnableEvent;
-import io.github.shiruka.api.plugin.InvalidDescriptionException;
-import io.github.shiruka.api.plugin.InvalidPluginException;
+import io.github.shiruka.api.exception.InvalidDescriptionException;
+import io.github.shiruka.api.exception.InvalidPluginException;
+import io.github.shiruka.api.exception.UnknownDependencyException;
 import io.github.shiruka.api.plugin.Plugin;
-import io.github.shiruka.api.plugin.UnknownDependencyException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -155,10 +155,11 @@ public final class JavaPluginLoader implements Plugin.Loader {
       .resolve(description.name());
     if (Files.exists(dataFolder) && !Files.isDirectory(dataFolder)) {
       throw new InvalidPluginException(
-        "Projected data folder: `%s' for %s (%s) exists and is not a directory",
-        dataFolder,
-        description.fullName(),
-        file
+        "Projected data folder: `%s' for %s (%s) exists and is not a directory".formatted(
+            dataFolder,
+            description.fullName(),
+            file
+          )
       );
     }
     final var missingHardDependencies = new HashSet<>(
@@ -171,9 +172,10 @@ public final class JavaPluginLoader implements Plugin.Loader {
     }
     if (!missingHardDependencies.isEmpty()) {
       throw new UnknownDependencyException(
-        "Unknown/missing dependency plugins: [%s]. Please download and install these plugins to run '%s'.",
-        missingHardDependencies,
-        description.fullName()
+        "Unknown/missing dependency plugins: [%s]. Please download and install these plugins to run '%s'.".formatted(
+            missingHardDependencies,
+            description.fullName()
+          )
       );
     }
     final PluginClassLoader loader;
