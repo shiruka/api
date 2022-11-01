@@ -35,7 +35,6 @@ dependencies {
   compileOnly(libs.jackson.yaml)
   compileOnly(libs.log4j)
   compileOnly(libs.guice)
-  compileOnly(libs.eventbus)
 
   annotationProcessor(libs.lombok)
   annotationProcessor(libs.annotations)

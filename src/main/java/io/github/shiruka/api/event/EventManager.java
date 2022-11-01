@@ -2,13 +2,13 @@ package io.github.shiruka.api.event;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine event factory that helps to create and call events.
  */
 public interface EventManager {
+
   /**
    * creates a simple event manager.
    *
@@ -27,18 +27,18 @@ public interface EventManager {
   void post(@NotNull Event event);
 
   /**
-   * registers the given listener.
+   * registers the given subscriber.
    *
-   * @param listener the listener to register.
+   * @param subscriber the subscriber to register.
    */
-  void register(@NotNull Object listener);
+  void register(@NotNull Object subscriber);
 
   /**
-   * unregisters the given listener.
+   * unregisters the given subscriber.
    *
-   * @param listener the listener to unregister.
+   * @param subscriber the subscriber to unregister.
    */
-  void unregister(@NotNull Object listener);
+  void unregister(@NotNull Object subscriber);
 
   /**
    * a simple implementation of {@link EventManager}.
@@ -46,24 +46,16 @@ public interface EventManager {
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
   final class Impl implements EventManager {
 
-    /**
-     * the event bus.
-     */
-    private final EventBus eventBus = EventBus.builder().build();
-
     @Override
     public void post(@NotNull final Event event) {
-      this.eventBus.post(event);
     }
 
     @Override
-    public void register(@NotNull final Object listener) {
-      this.eventBus.register(listener);
+    public void register(@NotNull final Object subscriber) {
     }
 
     @Override
-    public void unregister(@NotNull final Object listener) {
-      this.eventBus.unregister(listener);
+    public void unregister(@NotNull final Object subscriber) {
     }
   }
 }
