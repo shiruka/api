@@ -124,7 +124,7 @@ public interface EventManager {
    * @param listener the listener to unregister.
    */
   default void unregister(
-    @NotNull final EventListener<? super Event> listener
+    @NotNull final EventListener<? extends Event> listener
   ) {
     this.unregisterIf(subscriber -> subscriber.equals(listener));
   }
