@@ -51,7 +51,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
     }
     final var fullName = plugin.description().fullName();
     plugin.logger().info("Disabling {}", fullName);
-    new PluginDisableEvent(plugin).callEvent();
+    new PluginDisableEvent(plugin).postEvent();
     try {
       plugin.enabled(false);
     } catch (final Throwable e) {
@@ -114,7 +114,7 @@ public final class JavaPluginLoader implements Plugin.Loader {
       Shiruka.pluginManager().disablePlugin(plugin, true);
       return;
     }
-    new PluginEnableEvent(plugin).callEvent();
+    new PluginEnableEvent(plugin).postEvent();
   }
 
   @NotNull

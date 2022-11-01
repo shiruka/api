@@ -1,18 +1,22 @@
 package io.github.shiruka.api.event;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import io.github.shiruka.api.Shiruka;
+import net.kyori.event.Cancellable;
 
 /**
  * an interface to determine events.
+ *
+ * @see Cancellable
  */
 public interface Event {
   /**
-   * calls the event itself.
+   * posts the event.
    *
-   * @return {@code true}.
+   * @return {@code true} if the event IS NOT cancelled.
    */
-  default boolean callEvent() {
-    Shiruka.eventManager().post(this);
-    return true;
+  @CanIgnoreReturnValue
+  default boolean postEvent() {
+    return Shiruka.eventManager().post(this);
   }
 }

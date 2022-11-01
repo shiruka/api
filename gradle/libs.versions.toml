@@ -3,13 +3,13 @@ lombok = { module = "org.projectlombok:lombok", version = "1.18.24" }
 annotations = { module = "org.jetbrains:annotations", version = "23.0.0" }
 fastutil = { module = "it.unimi.dsi:fastutil", version = "8.5.9" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
-netty = { module = "io.netty:netty-all", version = "4.1.84.Final" }
 commonslang = { module = "org.apache.commons:commons-lang3", version = "3.12.0" }
 guice = { module = "com.google.inject:guice", version = "5.1.0" }
 log4j = { module = "org.apache.logging.log4j:log4j-core", version = "2.17.2" }
 jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version = "2.13.3" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.13.3" }
 nbt = { module = "io.github.shiruka:nbt", version = "2.0.1-SNAPSHOT" }
+event = { module = "net.kyori:event-api", version = "5.0.0-SNAPSHOT" }
 junit = { module = "org.junit.jupiter:junit-jupiter", version = "5.9.1" }
 
 [plugins]

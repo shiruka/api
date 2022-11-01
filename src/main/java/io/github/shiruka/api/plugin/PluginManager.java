@@ -88,7 +88,7 @@ public final class PluginManager implements Plugin.Manager {
     new ServerExceptionEvent(
       new ServerPluginEnableDisableException(message, throwable, plugin)
     )
-      .callEvent();
+      .postEvent();
   }
 
   @Override

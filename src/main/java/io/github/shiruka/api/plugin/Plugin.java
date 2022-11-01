@@ -531,17 +531,17 @@ public interface Plugin {
         "version",
         String.class,
         defaultVersion,
-        s -> {
+        versionString -> {
           try {
-            Version.of(s);
+            return Version.of(versionString);
           } catch (final ParseException e) {
             Description.log.error(
-              "Couldn't parse the version %s".formatted(s),
+              "Couldn't parse the version %s".formatted(versionString),
               e
             );
             Description.log.info("Using default version(1.0.0) instead");
           }
-          return defaultVersion;
+          return null;
         }
       );
       final var description = Description.optional(

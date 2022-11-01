@@ -24,17 +24,17 @@ repositories {
 
 dependencies {
   compileOnlyApi(libs.nbt)
+  compileOnlyApi(libs.fastutil)
+  compileOnlyApi(libs.guava)
+  compileOnlyApi(libs.commonslang)
+  compileOnlyApi(libs.jackson.databind)
+  compileOnlyApi(libs.jackson.yaml)
+  compileOnlyApi(libs.log4j)
+  compileOnlyApi(libs.guice)
+  compileOnlyApi(libs.event)
 
   compileOnly(libs.lombok)
   compileOnly(libs.annotations)
-  compileOnly(libs.fastutil)
-  compileOnly(libs.guava)
-  compileOnly(libs.commonslang)
-  compileOnly(libs.netty)
-  compileOnly(libs.jackson.databind)
-  compileOnly(libs.jackson.yaml)
-  compileOnly(libs.log4j)
-  compileOnly(libs.guice)
 
   annotationProcessor(libs.lombok)
   annotationProcessor(libs.annotations)

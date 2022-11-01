@@ -1,7 +1,14 @@
 package io.github.shiruka.api.event;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.function.Predicate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.kyori.event.Cancellable;
+import net.kyori.event.EventBus;
+import net.kyori.event.EventSubscriber;
+import net.kyori.event.PostOrders;
+import org.apache.commons.lang3.function.FailableConsumer;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -22,22 +29,114 @@ public interface EventManager {
    * posts the given event.
    *
    * @param event the event to post.
+   *
+   * @return {@code true} if the event IS NOT cancelled.
    */
-  void post(@NotNull Event event);
+  @CanIgnoreReturnValue
+  boolean post(@NotNull Event event);
 
   /**
-   * registers the given subscriber.
+   * registers the event.
    *
-   * @param subscriber the subscriber to register.
+   * @param eventClass the event class to register.
+   * @param run the run to register.
+   * @param <E> type of the event class.
+   *
+   * @return listener.
+   *
+   * @see PostOrders#NORMAL
    */
-  void register(@NotNull Object subscriber);
+  @NotNull
+  default <E extends Event> EventListener<E> register(
+    @NotNull final Class<E> eventClass,
+    @NotNull final FailableConsumer<E, Throwable> run
+  ) {
+    return this.register(eventClass, PostOrders.NORMAL, run);
+  }
 
   /**
-   * unregisters the given subscriber.
+   * registers the event.
    *
-   * @param subscriber the subscriber to unregister.
+   * @param eventClass the event class to register.
+   * @param postOrder the post order to register.
+   * @param run the run to register.
+   * @param <E> type of the event class.
+   *
+   * @return listener.
+   *
+   * @see PostOrders
    */
-  void unregister(@NotNull Object subscriber);
+  @NotNull
+  default <E extends Event> EventListener<E> register(
+    @NotNull final Class<E> eventClass,
+    final int postOrder,
+    @NotNull final FailableConsumer<E, Throwable> run
+  ) {
+    return this.register(eventClass, postOrder, true, run);
+  }
+
+  /**
+   * registers the event.
+   *
+   * @param eventClass the event class to register.
+   * @param postOrder the post order to register.
+   * @param acceptsCancelled the accepts cancelled to register.
+   * @param run the run to register.
+   * @param <E> type of the event class.
+   *
+   * @return listener.
+   *
+   * @see PostOrders
+   */
+  @NotNull
+  default <E extends Event> EventListener<E> register(
+    @NotNull final Class<E> eventClass,
+    final int postOrder,
+    final boolean acceptsCancelled,
+    @NotNull final FailableConsumer<E, Throwable> run
+  ) {
+    return this.register(
+        eventClass,
+        new EventListener<>(run, postOrder, acceptsCancelled)
+      );
+  }
+
+  /**
+   * registers the event.
+   *
+   * @param eventClass the event class to register.
+   * @param listener the listener to register.
+   * @param <E> type of the event class.
+   *
+   * @return listener.
+   *
+   * @see PostOrders
+   */
+  @NotNull
+  <E extends Event> EventListener<E> register(
+    @NotNull Class<E> eventClass,
+    @NotNull EventListener<E> listener
+  );
+
+  /**
+   * unregisters the listener.
+   *
+   * @param listener the listener to unregister.
+   */
+  default void unregister(
+    @NotNull final EventListener<? super Event> listener
+  ) {
+    this.unregisterIf(subscriber -> subscriber.equals(listener));
+  }
+
+  /**
+   * unregisters if the predicate returns {@code true}.
+   *
+   * @param predicate the predicate to unregister.
+   */
+  void unregisterIf(
+    @NotNull Predicate<EventSubscriber<? super Event>> predicate
+  );
 
   /**
    * a simple implementation of {@link EventManager}.
@@ -45,13 +144,36 @@ public interface EventManager {
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
   final class Impl implements EventManager {
 
-    @Override
-    public void post(@NotNull final Event event) {}
+    /**
+     * the event bus.
+     */
+    private final EventBus<Event> eventBus = EventBus.create(Event.class);
 
     @Override
-    public void register(@NotNull final Object subscriber) {}
+    public boolean post(@NotNull final Event event) {
+      try {
+        this.eventBus.post(event).raise();
+      } catch (final Exception e) {
+        e.printStackTrace();
+      }
+      return !(event instanceof Cancellable c) || !c.cancelled();
+    }
+
+    @NotNull
+    @Override
+    public <E extends Event> EventListener<E> register(
+      @NotNull final Class<E> eventClass,
+      @NotNull final EventListener<E> listener
+    ) {
+      this.eventBus.subscribe(eventClass, listener);
+      return listener;
+    }
 
     @Override
-    public void unregister(@NotNull final Object subscriber) {}
+    public void unregisterIf(
+      @NotNull final Predicate<EventSubscriber<? super Event>> predicate
+    ) {
+      this.eventBus.unsubscribeIf(predicate);
+    }
   }
 }
