@@ -1,49 +1,13 @@
 package io.github.shiruka.api.exception;
 
+import lombok.experimental.StandardException;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an exception class that represents wrapper for server exceptions.
  */
+@StandardException
 public class ServerException extends Exception {
-
-  /**
-   * ctor.
-   */
-  public ServerException() {
-    super();
-  }
-
-  /**
-   * ctor.
-   *
-   * @param message the message.
-   */
-  public ServerException(@NotNull final String message) {
-    super(message);
-  }
-
-  /**
-   * ctor.
-   *
-   * @param message the message.
-   * @param cause the cause.
-   */
-  public ServerException(
-    @NotNull final String message,
-    @NotNull final Throwable cause
-  ) {
-    super(message, cause);
-  }
-
-  /**
-   * ctor.
-   *
-   * @param cause the cause.
-   */
-  public ServerException(@NotNull final Throwable cause) {
-    super(cause);
-  }
 
   /**
    * ctor.
