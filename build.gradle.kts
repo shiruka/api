@@ -60,7 +60,6 @@ tasks {
   javadoc {
     options.encoding = Charsets.UTF_8.name()
     (options as StandardJavadocDocletOptions).tags("todo")
-    exclude("io/github/shiruka/api/base/Colors.java")
   }
 
   val javadocJar by creating(Jar::class) {
@@ -92,10 +91,6 @@ tasks {
 
   checkstyleTest {
     isEnabled = false
-  }
-
-  checkstyleMain {
-    exclude("io/github/shiruka/api/base/Colors.java")
   }
 }
 
