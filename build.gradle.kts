@@ -12,6 +12,8 @@ plugins {
 
 group = "io.github.shiruka"
 
+configurations.testImplementation.get().extendsFrom(configurations.compileOnlyApi.get())
+
 checkstyle {
   configFile = file("checkstyle.xml")
 }
