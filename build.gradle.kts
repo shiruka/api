@@ -29,8 +29,6 @@ dependencies {
   compileOnlyApi(libs.log4j)
   compileOnlyApi(libs.guice)
   compileOnlyApi(libs.event)
-  compileOnlyApi(libs.lombok)
-  compileOnlyApi(libs.annotations)
 
   annotationProcessor(libs.lombok)
   annotationProcessor(libs.annotations)
