@@ -142,7 +142,7 @@ publishing {
       pom {
         name.set("Api")
         description.set("An Api project that helps developers to create unique plugins for Shiru ka.")
-        url.set("https://shiruka.github.io/api")
+        url.set("https://shiruka.github.io/")
         licenses {
           license {
             name.set("MIT License")
