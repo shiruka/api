@@ -24,9 +24,6 @@ repositories {
 
 dependencies {
   compileOnlyApi(libs.nbt)
-  compileOnlyApi(libs.fastutil)
-  compileOnlyApi(libs.guava)
-  compileOnlyApi(libs.commonslang)
   compileOnlyApi(libs.jackson.databind)
   compileOnlyApi(libs.jackson.yaml)
   compileOnlyApi(libs.log4j)
