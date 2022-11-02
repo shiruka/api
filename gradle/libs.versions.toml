@@ -1,6 +1,7 @@
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version = "1.18.24" }
 annotations = { module = "org.jetbrains:annotations", version = "23.0.0" }
+guice = { module = "com.google.inject:guice", version = "5.1.0" }
 log4j = { module = "org.apache.logging.log4j:log4j-core", version = "2.19.0" }
 jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version = "2.13.4" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.13.4.2" }
